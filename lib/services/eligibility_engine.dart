@@ -3,11 +3,10 @@ import 'dart:math';
 import 'package:sahay/models/eligibility_model.dart';
 import 'package:sahay/models/scheme_model.dart';
 
-/// A deterministic rule-based eligibility evaluation engine for government schemes.
 class EligibilityEngine {
   const EligibilityEngine();
 
-  /// Evaluate a single scheme against user answers.
+  // Evaluate single
   EligibilityModel evaluateScheme(
     SchemeModel scheme,
     Map<String, dynamic> userAnswers,
@@ -58,12 +57,7 @@ class EligibilityEngine {
     );
   }
 
-  /// Evaluate all schemes and return sorted results.
-  ///
-  /// Sorting order:
-  /// 1. [EligibilityResult.mayQualify] (sorted by popularity rank & passed count)
-  /// 2. [EligibilityResult.needsMoreInformation] (sorted by least missing info)
-  /// 3. [EligibilityResult.doesNotQualify]
+  // Evaluate all
   List<EligibilityModel> evaluateAllSchemes(
     List<SchemeModel> schemes,
     Map<String, dynamic> userAnswers,
@@ -81,7 +75,6 @@ class EligibilityEngine {
         return rankA.compareTo(rankB);
       }
 
-      // If both may qualify, order by scheme popularity & count of passed conditions
       if (a.result == EligibilityResult.mayQualify) {
         final schemeA = schemeMap[a.schemeId];
         final schemeB = schemeMap[b.schemeId];
@@ -107,7 +100,6 @@ class EligibilityEngine {
         return passedB.compareTo(passedA);
       }
 
-      // If both need more information, place schemes with fewer missing fields first
       if (a.result == EligibilityResult.needsMoreInformation) {
         return a.missingInformation.length
             .compareTo(b.missingInformation.length);
@@ -119,7 +111,7 @@ class EligibilityEngine {
     return evaluations;
   }
 
-  /// Check a single rule against user data.
+  // Evaluate rule
   EligibilityConditionResult _evaluateRule(
     EligibilityRule rule,
     Map<String, dynamic> userAnswers,
@@ -166,7 +158,7 @@ class EligibilityEngine {
     );
   }
 
-  /// Evaluate the operator logic with type coercion.
+  // Operators
   bool _evaluateOperator({
     required EligibilityOperator operator,
     required dynamic userValue,
@@ -217,7 +209,7 @@ class EligibilityEngine {
     }
   }
 
-  /// Generate plain-language explanation of assessment results.
+  // Explanation
   String _generateExplanation(
     List<EligibilityConditionResult> results,
     String schemeName,
@@ -255,7 +247,7 @@ class EligibilityEngine {
     return 'Congratulations! You appear to satisfy all mandatory eligibility criteria for $schemeName.';
   }
 
-  /// Detect borderline conditions (within 10% of limits).
+  // Borderline
   List<String> _detectBorderlineConditions(
     List<EligibilityConditionResult> results,
     Map<String, dynamic> userAnswers,
@@ -299,7 +291,6 @@ class EligibilityEngine {
     return warnings;
   }
 
-  /// Public accessor for borderline detection on an existing [EligibilityModel].
   List<String> detectBorderlineConditions(
     EligibilityModel model,
     Map<String, dynamic> userAnswers,
@@ -307,8 +298,7 @@ class EligibilityEngine {
     return _detectBorderlineConditions(model.conditionResults, userAnswers);
   }
 
-  // --- Helper Methods ---
-
+  // Helpers
   int _resultRank(EligibilityResult result) {
     switch (result) {
       case EligibilityResult.mayQualify:
@@ -324,19 +314,16 @@ class EligibilityEngine {
     if (a == null && b == null) return true;
     if (a == null || b == null) return false;
 
-    // Number equality
     final aNum = _parseNum(a);
     final bNum = _parseNum(b);
     if (aNum != null && bNum != null) {
       return (aNum - bNum).abs() < 0.000001;
     }
 
-    // Boolean equality
     if (a is bool || b is bool) {
       return _isTruthy(a) == _isTruthy(b);
     }
 
-    // String normalized equality
     return a.toString().trim().toLowerCase() ==
         b.toString().trim().toLowerCase();
   }
@@ -382,14 +369,12 @@ class EligibilityEngine {
     return num.tryParse(v.toString().trim());
   }
 
-  /// Cryptographically secure RFC 4122 Version 4 UUID generator.
+  // UUID generator
   String _generateUuid() {
     final random = Random.secure();
     final bytes = List<int>.generate(16, (_) => random.nextInt(256));
 
-    // Set version to 0100 (v4)
     bytes[6] = (bytes[6] & 0x0f) | 0x40;
-    // Set variant to 10xxxxxx (RFC 4122)
     bytes[8] = (bytes[8] & 0x3f) | 0x80;
 
     final hex = bytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join();

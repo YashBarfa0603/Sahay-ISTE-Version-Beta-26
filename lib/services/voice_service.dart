@@ -3,8 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
-/// Voice service wrapping speech-to-text (STT) and text-to-speech (TTS)
-/// with support for 8 major Indian languages.
 class VoiceService {
   final stt.SpeechToText _speechToText = stt.SpeechToText();
   final FlutterTts _flutterTts = FlutterTts();
@@ -13,7 +11,7 @@ class VoiceService {
   bool _isListening = false;
   bool _isInitialized = false;
 
-  /// Mapping from standard ISO language codes to Indian speech locales
+  // Locales
   static const Map<String, String> _localeMap = {
     'en': 'en-IN',
     'hi': 'hi-IN',
@@ -25,26 +23,22 @@ class VoiceService {
     'or': 'or-IN',
   };
 
-  /// Check whether Speech-To-Text hardware/service is initialized and available
   bool get isAvailable => _isAvailable;
-
-  /// Check whether currently actively listening to audio input
   bool get isListening => _isListening;
 
-  /// Convert standard 2-letter language code to speech locale tag
   String mapLocale(String locale) {
     final clean = locale.toLowerCase().split('-').first.split('_').first;
     return _localeMap[clean] ?? _localeMap['en']!;
   }
 
-  /// Initialize both STT and TTS engines
+  // Init
   Future<void> initialize() async {
     if (_isInitialized) return;
 
     try {
       _isAvailable = await _speechToText.initialize(
         onError: (val) {
-          debugPrint('VoiceService STT Error: ${val.errorMsg} (permanent: ${val.permanent})');
+          debugPrint('VoiceService STT Error: ${val.errorMsg}');
           _isListening = false;
         },
         onStatus: (val) {
@@ -55,7 +49,6 @@ class VoiceService {
         },
       );
 
-      // Configure default TTS settings for clear Indian English/Hindi vocalization
       await _flutterTts.setSpeechRate(0.5);
       await _flutterTts.setVolume(1.0);
       await _flutterTts.setPitch(1.0);
@@ -63,13 +56,12 @@ class VoiceService {
       _isInitialized = true;
       debugPrint('VoiceService initialized successfully. STT Available: $_isAvailable');
     } catch (e, stackTrace) {
-      debugPrint('VoiceService initialization failed: $e\n$stackTrace');
+      debugPrint('VoiceService error: $e\n$stackTrace');
       _isAvailable = false;
     }
   }
 
-  /// Start listening for voice input in the specified locale.
-  /// Calls [onResult] with the latest recognized text.
+  // Listen
   Future<void> startListening({
     required String locale,
     required Function(String) onResult,
@@ -79,7 +71,7 @@ class VoiceService {
     }
 
     if (!_isAvailable) {
-      debugPrint('VoiceService: STT is not available on this device.');
+      debugPrint('VoiceService: STT unavailable');
       return;
     }
 
@@ -106,7 +98,7 @@ class VoiceService {
     }
   }
 
-  /// Stop listening for voice input
+  // Stop listening
   Future<void> stopListening() async {
     try {
       if (_isListening) {
@@ -119,7 +111,7 @@ class VoiceService {
     }
   }
 
-  /// Speak text aloud in the given locale
+  // Speak
   Future<void> speak(String text, {String locale = 'en'}) async {
     if (text.trim().isEmpty) return;
 
@@ -132,7 +124,7 @@ class VoiceService {
     }
   }
 
-  /// Stop speech output
+  // Stop speaking
   Future<void> stopSpeaking() async {
     try {
       await _flutterTts.stop();
@@ -141,7 +133,7 @@ class VoiceService {
     }
   }
 
-  /// Release resources and stop any active audio operations
+  // Dispose
   void dispose() {
     stopListening();
     stopSpeaking();

@@ -5,11 +5,10 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:sahay/models/eligibility_model.dart';
 import 'package:sahay/models/scheme_model.dart';
 
-/// Service to generate downloadable, printable document checklist PDFs for eligible schemes.
 class PdfService {
   const PdfService();
 
-  // SAHAY Palette Constants
+  // Colors
   static const PdfColor colorWarmIvory = PdfColor.fromInt(0xFFF7F5EF);
   static const PdfColor colorDeepNavy = PdfColor.fromInt(0xFF19344D);
   static const PdfColor colorIndianTeal = PdfColor.fromInt(0xFF258C83);
@@ -21,7 +20,7 @@ class PdfService {
   static const PdfColor colorMutedCoral = PdfColor.fromInt(0xFFB84C4C);
   static const PdfColor colorBorderGray = PdfColor.fromInt(0xFFD6D1C5);
 
-  /// Generate a document checklist PDF for eligible schemes.
+  // Generate
   Future<Uint8List> generateChecklist({
     required String userName,
     required List<SchemeModel> schemes,
@@ -33,14 +32,14 @@ class PdfService {
       author: 'SAHAY Eligibility Engine',
     );
 
-    // Filter qualifying schemes (mayQualify or needsMoreInformation)
+    // Filter
     final qualifyingSchemes = schemes.where((s) {
       final res = results[s.schemeId];
       return res == EligibilityResult.mayQualify ||
           res == EligibilityResult.needsMoreInformation;
     }).toList();
 
-    // Sort: mayQualify first, then needsMoreInformation
+    // Sort
     qualifyingSchemes.sort((a, b) {
       final resA = results[a.schemeId] ?? EligibilityResult.needsMoreInformation;
       final resB = results[b.schemeId] ?? EligibilityResult.needsMoreInformation;

@@ -2,18 +2,15 @@ import 'dart:async';
 
 import 'package:sahay/models/scheme_model.dart';
 
-/// Service responsible for loading and querying curated government schemes.
-/// Currently returns comprehensive, verified in-memory dataset,
-/// with modular architecture ready for remote FastAPI integration.
 class SchemeDataService {
   const SchemeDataService();
 
-  /// Retrieve all curated schemes in the SAHAY registry.
+  // All schemes
   Future<List<SchemeModel>> getAllSchemes() async {
     return List<SchemeModel>.unmodifiable(_curatedSchemes);
   }
 
-  /// Retrieve schemes belonging to a specific category.
+  // By category
   Future<List<SchemeModel>> getSchemesByCategory(String category) async {
     final cleanCategory = category.trim().toLowerCase();
     return _curatedSchemes
@@ -21,7 +18,7 @@ class SchemeDataService {
         .toList();
   }
 
-  /// Retrieve a single scheme by its unique identifier.
+  // By ID
   Future<SchemeModel?> getSchemeById(String schemeId) async {
     try {
       return _curatedSchemes.firstWhere(
@@ -32,7 +29,7 @@ class SchemeDataService {
     }
   }
 
-  /// Search schemes by keyword matching title, description, ministry, or benefits.
+  // Search
   Future<List<SchemeModel>> searchSchemes(String query) async {
     final cleanQuery = query.trim().toLowerCase();
     if (cleanQuery.isEmpty) {
@@ -69,12 +66,9 @@ class SchemeDataService {
     }).toList();
   }
 
-  // --- Curated Schemes Dataset with Accurate Rules ---
-
+  // Schemes
   static final List<SchemeModel> _curatedSchemes = [
-    // -------------------------------------------------------------
-    // 1. PM-KISAN (Pradhan Mantri Kisan Samman Nidhi)
-    // -------------------------------------------------------------
+    // PM-KISAN
     SchemeModel(
       schemeId: 'pm-kisan',
       name: 'PM Kisan Samman Nidhi',
@@ -143,9 +137,7 @@ class SchemeDataService {
       updatedAt: DateTime(2026, 10, 20),
     ),
 
-    // -------------------------------------------------------------
-    // 2. Ayushman Bharat (PM-JAY)
-    // -------------------------------------------------------------
+    // Ayushman Bharat
     SchemeModel(
       schemeId: 'pm-jay',
       name: 'Ayushman Bharat - Pradhan Mantri Jan Arogya Yojana (PM-JAY)',
@@ -206,9 +198,7 @@ class SchemeDataService {
       updatedAt: DateTime(2026, 10, 22),
     ),
 
-    // -------------------------------------------------------------
-    // 3. PM Awas Yojana - Gramin (PMAY-G)
-    // -------------------------------------------------------------
+    // PM Awas Yojana
     SchemeModel(
       schemeId: 'pmay-g',
       name: 'Pradhan Mantri Awas Yojana - Gramin (PMAY-G)',
@@ -278,9 +268,7 @@ class SchemeDataService {
       updatedAt: DateTime(2026, 10, 18),
     ),
 
-    // -------------------------------------------------------------
-    // 4. Pradhan Mantri Ujjwala Yojana 2.0 (PMUY 2.0)
-    // -------------------------------------------------------------
+    // Ujjwala Yojana
     SchemeModel(
       schemeId: 'ujjwala-2',
       name: 'Pradhan Mantri Ujjwala Yojana 2.0',
@@ -356,9 +344,7 @@ class SchemeDataService {
       updatedAt: DateTime(2026, 10, 24),
     ),
 
-    // -------------------------------------------------------------
-    // 5. Prime Minister's Scholarship Scheme (PMSS)
-    // -------------------------------------------------------------
+    // PM Scholarship
     SchemeModel(
       schemeId: 'pm-scholarship',
       name: 'Prime Minister\'s Scholarship Scheme (PMSS)',
@@ -427,9 +413,7 @@ class SchemeDataService {
       updatedAt: DateTime(2026, 10, 12),
     ),
 
-    // -------------------------------------------------------------
-    // 6. Mukhyamantri Ladli Behna Yojana (Madhya Pradesh)
-    // -------------------------------------------------------------
+    // Ladli Behna
     SchemeModel(
       schemeId: 'ladli-behna-mp',
       name: 'Mukhyamantri Ladli Behna Yojana',

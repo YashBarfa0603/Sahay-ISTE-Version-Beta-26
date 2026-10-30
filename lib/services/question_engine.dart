@@ -2,7 +2,6 @@ import 'package:sahay/models/eligibility_model.dart';
 import 'package:sahay/models/scheme_model.dart';
 import 'package:sahay/services/eligibility_engine.dart';
 
-/// Item representing an assessment question.
 class QuestionItem {
   final String id;
   final String type; // 'single_choice', 'number', 'text', 'boolean'
@@ -59,14 +58,13 @@ class QuestionItem {
   }
 }
 
-/// Smart adaptive question engine to dynamically ask the most impactful questions first.
 class QuestionEngine {
   final EligibilityEngine _eligibilityEngine;
 
   const QuestionEngine({EligibilityEngine? eligibilityEngine})
       : _eligibilityEngine = eligibilityEngine ?? const EligibilityEngine();
 
-  /// Indian states and Union Territories list.
+  // States
   static const List<String> indianStatesAndUTs = [
     'Andhra Pradesh',
     'Arunachal Pradesh',
@@ -106,7 +104,7 @@ class QuestionEngine {
     'Puducherry',
   ];
 
-  /// All possible questions in order of baseline elimination power.
+  // Questions
   List<QuestionItem> get allQuestions => const [
         // 1. Gender
         QuestionItem(
@@ -285,15 +283,12 @@ class QuestionEngine {
         ),
       ];
 
-  /// Get the next question based on current answers and remaining schemes.
-  ///
-  /// Returns null if all relevant schemes have been fully evaluated,
-  /// or if no remaining unanswered question can eliminate any scheme.
+  // Next question
   QuestionItem? getNextQuestion(
     Map<String, dynamic> currentAnswers,
     List<SchemeModel> schemes,
   ) {
-    // 1. Identify active schemes that are not disqualified yet
+    // Active schemes
     final activeSchemes = schemes.where((scheme) {
       final evaluation = _eligibilityEngine.evaluateScheme(scheme, currentAnswers);
       return evaluation.result != EligibilityResult.doesNotQualify;
@@ -303,7 +298,7 @@ class QuestionEngine {
       return null;
     }
 
-    // 2. Identify candidate questions that are unanswered and whose dependencies are met
+    // Candidate questions
     final candidateQuestions = allQuestions.where((q) {
       if (currentAnswers.containsKey(q.id) && currentAnswers[q.id] != null) {
         return false;
@@ -315,13 +310,13 @@ class QuestionEngine {
       return null;
     }
 
-    // 3. Calculate elimination power for candidate questions against active schemes
+    // Elimination power
     final eliminationPowers = _calculateEliminationPower(
       currentAnswers,
       activeSchemes,
     );
 
-    // Filter out questions that have 0 elimination power (cannot affect any remaining scheme)
+    // Filter
     final impactfulQuestions = candidateQuestions.where((q) {
       final power = eliminationPowers[q.id] ?? 0;
       return power > 0;
@@ -331,7 +326,7 @@ class QuestionEngine {
       return null;
     }
 
-    // Sort by highest elimination power, preserving original order as tie-breaker
+    // Sort
     impactfulQuestions.sort((a, b) {
       final powerA = eliminationPowers[a.id] ?? 0;
       final powerB = eliminationPowers[b.id] ?? 0;
@@ -344,7 +339,7 @@ class QuestionEngine {
     return impactfulQuestions.first;
   }
 
-  /// Check if we have enough answers to produce definitive results.
+  // Completion check
   bool hasEnoughAnswers(
     Map<String, dynamic> currentAnswers,
     List<SchemeModel> schemes,
@@ -352,7 +347,7 @@ class QuestionEngine {
     return getNextQuestion(currentAnswers, schemes) == null;
   }
 
-  /// Calculate how many active schemes each unanswered question could eliminate.
+  // Calculate power
   Map<String, int> _calculateEliminationPower(
     Map<String, dynamic> currentAnswers,
     List<SchemeModel> schemes,
@@ -401,7 +396,7 @@ class QuestionEngine {
     return powers;
   }
 
-  /// Check if a question's conditional prerequisites are satisfied.
+  // Prerequisites
   bool _isQuestionEligible(
     QuestionItem question,
     Map<String, dynamic> currentAnswers,

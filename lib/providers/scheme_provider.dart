@@ -1,0 +1,144 @@
+import 'package:flutter/foundation.dart';
+import 'package:sahay/models/scheme_model.dart';
+import 'package:sahay/services/scheme_data_service.dart';
+
+class SchemeProvider extends ChangeNotifier {
+  List<SchemeModel> _schemes = [];
+  List<SchemeModel> _filteredSchemes = [];
+  bool _isLoading = false;
+  String? _error;
+  String _searchQuery = '';
+  String? _categoryFilter;
+  GovernmentLevel? _levelFilter;
+
+  // Getters
+  List<SchemeModel> get schemes => List.unmodifiable(_schemes);
+  List<SchemeModel> get filteredSchemes => List.unmodifiable(_filteredSchemes);
+  bool get isLoading => _isLoading;
+  String? get error => _error;
+  String get searchQuery => _searchQuery;
+  String? get categoryFilter => _categoryFilter;
+  GovernmentLevel? get levelFilter => _levelFilter;
+  int get totalSchemesCount => _schemes.length;
+  int get filteredSchemesCount => _filteredSchemes.length;
+
+  List<SchemeModel> get popularSchemes =>
+      _schemes.where((scheme) => scheme.isPopular).toList();
+
+  // Load
+  Future<void> loadSchemes(SchemeDataService dataService) async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+
+    try {
+      _schemes = await dataService.getAllSchemes();
+      _applyFilters();
+    } catch (e, stackTrace) {
+      debugPrint('SchemeProvider error: $e\n$stackTrace');
+      _error = e.toString();
+      _filteredSchemes = [];
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  // Search
+  void searchSchemes(String query) {
+    if (_searchQuery != query) {
+      _searchQuery = query;
+      _applyFilters();
+      notifyListeners();
+    }
+  }
+
+  // Filter
+  void filterByCategory(String? category) {
+    final normalized = (category == null || category.trim().isEmpty || category.toLowerCase() == 'all')
+        ? null
+        : category.trim();
+
+    if (_categoryFilter != normalized) {
+      _categoryFilter = normalized;
+      _applyFilters();
+      notifyListeners();
+    }
+  }
+
+  void filterByLevel(GovernmentLevel? level) {
+    if (_levelFilter != level) {
+      _levelFilter = level;
+      _applyFilters();
+      notifyListeners();
+    }
+  }
+
+  // Reset
+  void clearFilters() {
+    bool hasActiveFilter = _searchQuery.isNotEmpty ||
+        _categoryFilter != null ||
+        _levelFilter != null;
+
+    if (hasActiveFilter) {
+      _searchQuery = '';
+      _categoryFilter = null;
+      _levelFilter = null;
+      _applyFilters();
+      notifyListeners();
+    }
+  }
+
+  // Lookup
+  SchemeModel? getSchemeById(String id) {
+    try {
+      return _schemes.firstWhere((scheme) => scheme.schemeId == id);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  // Filter logic
+  void _applyFilters() {
+    List<SchemeModel> result = List.of(_schemes);
+
+    if (_levelFilter != null) {
+      result = result
+          .where((scheme) => scheme.governmentLevel == _levelFilter)
+          .toList();
+    }
+
+    if (_categoryFilter != null && _categoryFilter!.isNotEmpty) {
+      final categoryLower = _categoryFilter!.toLowerCase();
+      result = result
+          .where((scheme) => scheme.category.toLowerCase() == categoryLower)
+          .toList();
+    }
+
+    final query = _searchQuery.trim().toLowerCase();
+    if (query.isNotEmpty) {
+      result = result.where((scheme) {
+        final matchesName = scheme.name.toLowerCase().contains(query);
+        final matchesHindiName =
+            scheme.nameHindi?.toLowerCase().contains(query) ?? false;
+        final matchesDescription =
+            scheme.description.toLowerCase().contains(query);
+        final matchesCategory =
+            scheme.category.toLowerCase().contains(query);
+        final matchesMinistry =
+            scheme.ministry.toLowerCase().contains(query);
+        final matchesBenefits =
+            scheme.benefits.toLowerCase().contains(query);
+
+        return matchesName ||
+            matchesHindiName ||
+            matchesDescription ||
+            matchesCategory ||
+            matchesMinistry ||
+            matchesBenefits;
+      }).toList();
+    }
+
+    _filteredSchemes = result;
+  }
+}
