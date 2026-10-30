@@ -1,0 +1,67 @@
+{
+  "schemeId": "MISSION_SHAKTI_001",
+  "name": "Mission Shakti",
+  "nameHindi": "मिशन शक्ति",
+  "description": "Mission Shakti is an integrated women empowerment umbrella programme aimed at strengthening interventions for women safety, security, and socio-economic empowerment.",
+  "descriptionHindi": "महिलाओं की सुरक्षा, संरक्षण और सामाजिक-आर्थिक सशक्तिकरण के लिए एकीकृत राष्ट्रीय कार्यक्रम (संबल और समर्थ उप-योजनाएं)।",
+  "category": "women-child",
+  "tags": [
+    "women"
+  ],
+  "ministry": "Ministry of Women and Child Development",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Integrated support through One Stop Centres (OSC), Women Helplines (181), Beti Bachao Beti Padhao, Working Women Hostels, and National Creche Scheme.",
+  "benefitsHindi": "वन स्टॉप सेंटर, महिला हेल्पलाइन (181), कामकाजी महिला छात्रावास और पालना गृहों के माध्यम से व्यापक सहायता।",
+  "eligibilityText": "All women and adolescent girls facing distress, violence, or seeking socio-economic empowerment across India.",
+  "eligibilityTextHindi": "संकटग्रस्त, कामकाजी अथवा सामाजिक-आर्थिक रूप से सहायता चाहने वाली सभी महिलाएं व किशोरियां।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://wcd.nic.in",
+  "officialSourceUrl": "https://wcd.nic.in",
+  "sourceName": "Ministry of Women and Child Development",
+  "sourceUrls": [
+    "https://wcd.nic.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "shakti",
+    "mission",
+    "women",
+    "safety",
+    "empowerment",
+    "sambal",
+    "samarth"
+  ],
+  "nameLower": "mission shakti",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

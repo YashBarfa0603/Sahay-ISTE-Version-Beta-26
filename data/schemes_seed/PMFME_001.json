@@ -1,0 +1,68 @@
+{
+  "schemeId": "PMFME_001",
+  "name": "PM Formalisation of Micro Food Processing Enterprises Scheme (PMFME)",
+  "nameHindi": "पीएम सूक्ष्म खाद्य प्रसंस्करण उद्यम योजना",
+  "description": "PMFME provides financial, technical, and business support for the upgradation and formalization of existing micro food processing enterprises.",
+  "descriptionHindi": "सूक्ष्म खाद्य प्रसंस्करण इकाइयों को वित्तीय, तकनीकी और विपणन सहायता देकर औपचारिक अर्थव्यवस्था से जोड़ने की योजना।",
+  "category": "business",
+  "tags": [
+    "entrepreneurs",
+    "rural"
+  ],
+  "ministry": "Ministry of Food Processing Industries",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Credit-linked capital subsidy of 35% of eligible project cost with a maximum ceiling of ₹10 lakh per unit, and seed capital of ₹40,000 per SHG member.",
+  "benefitsHindi": "परियोजना लागत का 35% (अधिकतम ₹10 लाख) क्रेडिट-लिंक्ड पूंजीगत अनुदान तथा स्वयं सहायता समूह सदस्यों को ₹40,000 कार्यशील पूंजी।",
+  "eligibilityText": "Existing individual micro food processing units, FPOs, Self Help Groups, and producer cooperatives.",
+  "eligibilityTextHindi": "व्यक्तिगत सूक्ष्म खाद्य प्रसंस्करण इकाइयां, स्वयं सहायता समूह (SHG) और किसान उत्पादक संगठन (FPO)।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://pmfme.mofpi.gov.in",
+  "officialSourceUrl": "https://pmfme.mofpi.gov.in",
+  "sourceName": "Ministry of Food Processing Industries",
+  "sourceUrls": [
+    "https://pmfme.mofpi.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "pmfme",
+    "food",
+    "processing",
+    "micro",
+    "enterprises",
+    "subsidy",
+    "odop"
+  ],
+  "nameLower": "pm formalisation of micro food processing enterprises scheme (pmfme)",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

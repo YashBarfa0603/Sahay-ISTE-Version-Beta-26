@@ -1,0 +1,68 @@
+{
+  "schemeId": "MP_YUVA_INTERNSHIP_001",
+  "name": "Mukhyamantri Yuva Internship Yojana",
+  "nameHindi": "मुख्यमंत्री युवा इंटर्नशिप योजना",
+  "description": "Engages educated youth as Jan Seva Mitras in grassroots administration to take government welfare schemes to citizens across all blocks of Madhya Pradesh.",
+  "descriptionHindi": "प्रदेश के युवाओं को जन सेवा मित्र के रूप में शासन की जनकल्याणकारी योजनाओं को घर-घर पहुंचाने और प्रशासनिक अनुभव देने की योजना।",
+  "category": "employment-skills",
+  "tags": [
+    "youth",
+    "employment"
+  ],
+  "ministry": "Madhya Pradesh State Skill Development & Employment Generation Board",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "MP"
+  ],
+  "benefits": "Monthly internship stipend of ₹8,000 for 6 months along with a government experience certificate in field governance and community mobilization.",
+  "benefitsHindi": "₹8,000 प्रति माह का मानदेय, प्रशासनिक कार्य का व्यावहारिक अनुभव तथा शासन द्वारा अनुभव प्रमाण पत्र।",
+  "eligibilityText": "Postgraduates or graduates of MP aged between 18 and 29 years who passed out within the last two years.",
+  "eligibilityTextHindi": "18 से 29 वर्ष के स्नातक अथवा स्नातकोत्तर उत्तीर्ण युवा।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://services.mp.gov.in",
+  "officialSourceUrl": "https://services.mp.gov.in",
+  "sourceName": "MP e-Services Portal",
+  "sourceUrls": [
+    "https://services.mp.gov.in",
+    "https://mp.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "yuvainternship",
+    "internship",
+    "jansevamitra",
+    "youth",
+    "stipend",
+    "8000",
+    "mp"
+  ],
+  "nameLower": "mukhyamantri yuva internship yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

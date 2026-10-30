@@ -1,0 +1,69 @@
+{
+  "schemeId": "PM_KISAN_MAANDHAN_001",
+  "name": "Pradhan Mantri Kisan Maandhan Yojana",
+  "nameHindi": "प्रधानमंत्री किसान मानधन योजना",
+  "description": "PM-KMY is an old-age social security pension scheme for Small and Marginal Farmers (SMFs) providing assured monthly pension in their twilight years.",
+  "descriptionHindi": "छोटे और सीमांत किसानों के वृद्धावस्था संरक्षण हेतु 60 वर्ष की आयु के बाद निश्चित मासिक पेंशन प्रदान करने वाली योजना।",
+  "category": "social-security",
+  "tags": [
+    "farmers",
+    "pension",
+    "senior-citizens"
+  ],
+  "ministry": "Ministry of Agriculture and Farmers Welfare",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Assured minimum monthly pension of ₹3,000 on attaining 60 years of age, with 50% family pension to the spouse upon beneficiary demise.",
+  "benefitsHindi": "60 वर्ष की आयु पूर्ण होने पर ₹3,000 प्रति माह की निश्चित पेंशन और लाभार्थी की मृत्यु पर पति/पत्नी को 50% पारिवारिक पेंशन।",
+  "eligibilityText": "Small and marginal farmers aged between 18 and 40 years possessing cultivable land up to 2 hectares as per land records.",
+  "eligibilityTextHindi": "18 से 40 वर्ष के छोटे एवं सीमांत किसान जिनके पास 2 हेक्टेयर तक कृषि योग्य भूमि है।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://myscheme.gov.in/schemes/pm-kmy",
+  "officialSourceUrl": "https://myscheme.gov.in",
+  "sourceName": "Ministry of Agriculture and Farmers Welfare",
+  "sourceUrls": [
+    "https://myscheme.gov.in",
+    "https://pmkisan.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "pmkmy",
+    "pm-kmy",
+    "kisan",
+    "maandhan",
+    "pension",
+    "farmers",
+    "3000"
+  ],
+  "nameLower": "pradhan mantri kisan maandhan yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

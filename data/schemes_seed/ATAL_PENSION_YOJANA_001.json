@@ -1,0 +1,112 @@
+{
+  "schemeId": "ATAL_PENSION_YOJANA_001",
+  "name": "Atal Pension Yojana",
+  "nameHindi": "अटल पेंशन योजना",
+  "description": "Atal Pension Yojana (APY) is a government-guaranteed pension scheme primarily targeting unorganized sector workers to provide guaranteed monthly income after attaining the age of 60.",
+  "descriptionHindi": "अटल पेंशन योजना असंगठित क्षेत्र के कामगारों के लिए एक सरकारी गारंटीकृत पेंशन योजना है, जिसके अंतर्गत 60 वर्ष की आयु के बाद निश्चित मासिक पेंशन मिलती है।",
+  "category": "social-security",
+  "tags": [
+    "pension",
+    "senior-citizens",
+    "workers"
+  ],
+  "ministry": "Ministry of Finance",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Guaranteed minimum monthly pension of ₹1,000, ₹2,000, ₹3,000, ₹4,000, or ₹5,000 from age 60 for life. Same pension to spouse upon subscriber's death, and return of full accumulated corpus to the nominee thereafter.",
+  "benefitsHindi": "60 वर्ष की आयु से ₹1,000 से लेकर ₹5,000 प्रति माह की निश्चित पेंशन जीवनभर। मृत्यु के बाद पति/पत्नी को समान पेंशन तथा दोनों के बाद नॉमिनी को संपूर्ण जमा राशि वापसी।",
+  "eligibilityText": "Any Indian citizen between 18 and 40 years of age having a savings bank account. Note: Individuals who are or have been income tax payers are excluded from enrolling in APY (effective October 1, 2022).",
+  "eligibilityTextHindi": "18 से 40 वर्ष की आयु का कोई भी भारतीय नागरिक जिसका बैंक खाता हो। 1 अक्टूबर 2022 से आयकरदाता इस योजना के पात्र नहीं हैं।",
+  "eligibilityRules": [
+    {
+      "field": "age",
+      "operator": "greaterThanOrEqual",
+      "value": 18,
+      "isMandatory": true,
+      "description": "Subscriber must be at least 18 years old.",
+      "descriptionHindi": "ग्राहक की आयु कम से कम 18 वर्ष होनी चाहिए।",
+      "sourceUrl": "https://jansuraksha.gov.in",
+      "sourceQuote": "The minimum age to join the scheme is 18 years, and the maximum age is 40 years."
+    },
+    {
+      "field": "age",
+      "operator": "lessThanOrEqual",
+      "value": 40,
+      "isMandatory": true,
+      "description": "Subscriber must not exceed 40 years of age at the time of enrollment.",
+      "descriptionHindi": "जुड़ते समय ग्राहक की आयु 40 वर्ष से अधिक नहीं होनी चाहिए।",
+      "sourceUrl": "https://jansuraksha.gov.in",
+      "sourceQuote": "The minimum age to join the scheme is 18 years, and the maximum age is 40 years."
+    },
+    {
+      "field": "isTaxpayer",
+      "operator": "isFalse",
+      "value": null,
+      "isMandatory": true,
+      "description": "Income tax payers are barred from enrolling in APY.",
+      "descriptionHindi": "आयकरदाता अटल पेंशन योजना के पात्र नहीं हैं।",
+      "sourceUrl": "https://jansuraksha.gov.in",
+      "sourceQuote": "any citizen who is or has been an income-tax payer is not eligible to join the APY scheme"
+    }
+  ],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [
+    "Aadhaar Card",
+    "Savings Bank Account Passbook",
+    "Active Mobile Number",
+    "Nominee Details"
+  ],
+  "requiredDocumentsHindi": [
+    "आधार कार्ड",
+    "बचत बैंक खाता पासबुक",
+    "सक्रिय मोबाइल नंबर",
+    "नामांकित व्यक्ति (नॉमिनी) का विवरण"
+  ],
+  "applicationProcess": "1. Approach your bank branch or access net banking/mobile banking. 2. Fill the APY registration form with personal and nominee details. 3. Select the desired pension amount (₹1,000 to ₹5,000) and contribution frequency. 4. Authorize auto-debit from your savings account. 5. Receive your PRAN card.",
+  "applicationProcessHindi": "1. अपनी बैंक शाखा या नेट बैंकिंग से संपर्क करें। 2. एपीवाई पंजीकरण फॉर्म भरें। 3. पेंशन राशि (₹1,000 से ₹5,000) चुनें। 4. ऑटो-डेबिट की अनुमति दें। 5. प्रान (PRAN) कार्ड प्राप्त करें।",
+  "applicationUrl": "https://jansuraksha.gov.in",
+  "officialSourceUrl": "https://jansuraksha.gov.in",
+  "sourceName": "Pension Fund Regulatory and Development Authority (PFRDA)",
+  "sourceUrls": [
+    "https://jansuraksha.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": true,
+  "popularityRank": 7,
+  "searchKeywords": [
+    "apy",
+    "atal",
+    "pension",
+    "yojana",
+    "retirement",
+    "pfrda",
+    "unorganized",
+    "5000",
+    "अटल",
+    "पेंशन"
+  ],
+  "nameLower": "atal pension yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": true,
+    "hasRules": true,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "partial_rules_coverage"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

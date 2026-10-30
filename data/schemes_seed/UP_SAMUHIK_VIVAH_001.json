@@ -1,0 +1,67 @@
+{
+  "schemeId": "UP_SAMUHIK_VIVAH_001",
+  "name": "Mukhyamantri Samuhik Vivah Yojana",
+  "nameHindi": "मुख्यमंत्री सामूहिक विवाह योजना",
+  "description": "Supports daughters, widows, and divorcees from economically vulnerable families in UP by organizing dignified mass marriages with financial grants.",
+  "descriptionHindi": "निर्धन एवं असहाय परिवारों की कन्याओं और विधवाओं के सम्मानजनक सामूहिक विवाह समारोह तथा आर्थिक अनुदान योजना।",
+  "category": "women-child",
+  "tags": [
+    "women",
+    "bpl"
+  ],
+  "ministry": "Social Welfare Department, Government of Uttar Pradesh",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "UP"
+  ],
+  "benefits": "Financial assistance of ₹51,000 per couple (including ₹35,000 in bride's account, ₹10,000 for wedding items/gifts, and ₹6,000 for event organization).",
+  "benefitsHindi": "प्रति जोड़ा कुल ₹51,000 की सहायता (₹35,000 कन्या के खाते में, ₹10,000 वैवाहिक सामग्री और ₹6,000 समारोह खर्च)।",
+  "eligibilityText": "Families domiciled in Uttar Pradesh with annual income up to ₹2.00 lakh, bride aged 18+ and groom aged 21+ marrying in mass marriage events.",
+  "eligibilityTextHindi": "उत्तर प्रदेश के निवासी परिवार जिनकी वार्षिक आय ₹2 लाख तक हो तथा कानूनी विवाह योग्य आयु पूर्ण हो।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://shadianudan.upsdc.gov.in",
+  "officialSourceUrl": "https://shadianudan.upsdc.gov.in",
+  "sourceName": "Social Welfare Department UP",
+  "sourceUrls": [
+    "https://shadianudan.upsdc.gov.in",
+    "https://up.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "samuhikvivah",
+    "marriage",
+    "vivah",
+    "51000",
+    "up",
+    "uttarpradesh"
+  ],
+  "nameLower": "mukhyamantri samuhik vivah yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

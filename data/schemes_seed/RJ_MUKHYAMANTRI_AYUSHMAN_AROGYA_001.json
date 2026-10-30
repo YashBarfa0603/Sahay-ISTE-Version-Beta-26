@@ -1,0 +1,68 @@
+{
+  "schemeId": "RJ_MUKHYAMANTRI_AYUSHMAN_AROGYA_001",
+  "name": "Mukhyamantri Ayushman Arogya Yojana",
+  "nameHindi": "मुख्यमंत्री आयुष्मान आरोग्य योजना",
+  "description": "Universal health insurance scheme by Government of Rajasthan (formerly Chiranjeevi) delivering cashless medical treatment across empanelled hospitals.",
+  "descriptionHindi": "राजस्थान सरकार की सार्वभौमिक स्वास्थ्य बीमा योजना (पूर्ववर्ती चिरंजीवी), जिसके तहत कैशलेस अस्पताल उपचार प्रदान किया जाता है।",
+  "category": "health",
+  "tags": [
+    "health",
+    "insurance"
+  ],
+  "ministry": "Medical and Health Department, Government of Rajasthan",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "RJ"
+  ],
+  "benefits": "Cashless indoor hospitalization treatment coverage up to ₹25 lakh per family per year in empanelled public and private hospitals across Rajasthan.",
+  "benefitsHindi": "संबद्ध अस्पतालों में प्रति परिवार प्रति वर्ष ₹25 लाख तक का कैशलेस इंडोर उपचार कवर।",
+  "eligibilityText": "All resident families of Rajasthan possessing Jan Aadhaar cards. Free for NFSA, SECC, small/marginal farmers, and contract workers; subsidized premium for others.",
+  "eligibilityTextHindi": "राजस्थान के जन आधार कार्ड धारक परिवार। खाद्य सुरक्षा व लघु किसानों हेतु पूर्णतः निःशुल्क।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://maayojana.rajasthan.gov.in",
+  "officialSourceUrl": "https://maayojana.rajasthan.gov.in",
+  "sourceName": "Government of Rajasthan",
+  "sourceUrls": [
+    "https://maayojana.rajasthan.gov.in",
+    "https://rajasthan.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "chiranjeevi",
+    "maa",
+    "ayushman",
+    "arogya",
+    "rajasthan",
+    "janaadhaar",
+    "healthinsurance"
+  ],
+  "nameLower": "mukhyamantri ayushman arogya yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

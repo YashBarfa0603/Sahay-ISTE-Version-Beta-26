@@ -1,0 +1,69 @@
+{
+  "schemeId": "AICTE_SAKSHAM_001",
+  "name": "AICTE Saksham Scholarship",
+  "nameHindi": "एआईसीटीई सक्षम छात्रवृत्ति",
+  "description": "AICTE Saksham Scholarship encourages differently-abled students to pursue technical degree and diploma programs in AICTE-approved institutions.",
+  "descriptionHindi": "दिव्यांग विद्यार्थियों को इंजीनियरिंग एवं तकनीकी शिक्षा जारी रखने हेतु प्रोत्साहित करने वाली छात्रवृत्ति योजना।",
+  "category": "education",
+  "tags": [
+    "scholarship",
+    "students",
+    "disabled"
+  ],
+  "ministry": "Ministry of Education",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "₹50,000 per annum for the duration of the technical course to cover tuition fees, books, equipment, and assistive software/devices.",
+  "benefitsHindi": "तकनीकी पाठ्यक्रम की अवधि के दौरान प्रति वर्ष ₹50,000 की छात्रवृत्ति सहायता।",
+  "eligibilityText": "Differently-abled students with not less than 40% benchmark disability admitted to AICTE-approved technical degree/diploma courses with family income up to ₹8.00 lakh.",
+  "eligibilityTextHindi": "40% या अधिक दिव्यांगता वाले छात्र जो तकनीकी पाठ्यक्रम में अध्ययनरत हों तथा पारिवारिक आय ₹8 लाख तक हो।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://scholarships.gov.in",
+  "officialSourceUrl": "https://aicte.gov.in",
+  "sourceName": "All India Council for Technical Education",
+  "sourceUrls": [
+    "https://aicte.gov.in",
+    "https://scholarships.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "saksham",
+    "aicte",
+    "disabled",
+    "divyang",
+    "technical",
+    "scholarship",
+    "50000"
+  ],
+  "nameLower": "aicte saksham scholarship",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

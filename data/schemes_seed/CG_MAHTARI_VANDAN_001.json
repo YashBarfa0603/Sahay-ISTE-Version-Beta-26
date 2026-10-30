@@ -1,0 +1,67 @@
+{
+  "schemeId": "CG_MAHTARI_VANDAN_001",
+  "name": "Mahtari Vandan Yojana",
+  "nameHindi": "महतारी वंदन योजना",
+  "description": "Financial empowerment programme by Government of Chhattisgarh providing monthly financial assistance to married women for nutrition and health security.",
+  "descriptionHindi": "छत्तीसगढ़ सरकार द्वारा विवाहित महिलाओं के स्वास्थ्य, पोषण और आर्थिक स्वावलंबन हेतु मासिक सहायता योजना।",
+  "category": "women-child",
+  "tags": [
+    "women"
+  ],
+  "ministry": "Women and Child Development Department, Chhattisgarh",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "CG"
+  ],
+  "benefits": "Monthly financial aid of ₹1,000 (total ₹12,000 annually) transferred directly to the married woman's Aadhaar-linked bank account.",
+  "benefitsHindi": "प्रति माह ₹1,000 (वार्षिक ₹12,000) की वित्तीय सहायता सीधे महिला के आधार लिंक बैंक खाते में।",
+  "eligibilityText": "Married women (including widows, divorcees, abandoned) domiciled in Chhattisgarh who are 21 years of age or above as of January 1 of the application year.",
+  "eligibilityTextHindi": "छत्तीसगढ़ की मूल निवासी 21 वर्ष या उससे अधिक आयु की विवाहित, विधवा या परित्यक्ता महिलाएं।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://mahtarivandan.cgstate.gov.in",
+  "officialSourceUrl": "https://mahtarivandan.cgstate.gov.in",
+  "sourceName": "Mahtari Vandan Portal, Government of Chhattisgarh",
+  "sourceUrls": [
+    "https://mahtarivandan.cgstate.gov.in",
+    "https://cgstate.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "mahtarivandan",
+    "mahtari",
+    "vandan",
+    "chhattisgarh",
+    "women",
+    "1000",
+    "12000"
+  ],
+  "nameLower": "mahtari vandan yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

@@ -1,0 +1,69 @@
+{
+  "schemeId": "RASHTRIYA_VAYOSHRI_YOJANA_001",
+  "name": "Rashtriya Vayoshri Yojana",
+  "nameHindi": "राष्ट्रीय वयोश्री योजना",
+  "description": "Rashtriya Vayoshri Yojana provides physical aids and assisted-living devices for senior citizens belonging to BPL category suffering from age-related disabilities or infirmities.",
+  "descriptionHindi": "गरीबी रेखा से नीचे के वरिष्ठ नागरिकों को उम्र संबंधित दिव्यांगताओं से निपटने हेतु निःशुल्क सहायक उपकरण और व्हीलचेयर प्रदान किए जाते हैं।",
+  "category": "social-security",
+  "tags": [
+    "senior-citizens",
+    "disabled",
+    "bpl"
+  ],
+  "ministry": "Ministry of Social Justice and Empowerment",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Free-of-cost distribution of assisted-living devices including hearing aids, wheelchairs, walkers, crutches, walking sticks, and artificial dentures.",
+  "benefitsHindi": "श्रवण यंत्र, व्हीलचेयर, वॉकर, बैसाखी, चश्मे और कृत्रिम दांत जैसे सहायक उपकरणों का पूर्णतः निःशुल्क वितरण।",
+  "eligibilityText": "Senior citizens aged 60 years and above belonging to BPL category or with family income not exceeding state BPL norms.",
+  "eligibilityTextHindi": "60 वर्ष या उससे अधिक आयु के वरिष्ठ नागरिक जो बीपीएल श्रेणी से संबंधित हों।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://socialjustice.gov.in",
+  "officialSourceUrl": "https://socialjustice.gov.in",
+  "sourceName": "Ministry of Social Justice and Empowerment",
+  "sourceUrls": [
+    "https://socialjustice.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "rvy",
+    "vayoshri",
+    "senior",
+    "citizens",
+    "elderly",
+    "hearingaid",
+    "wheelchair"
+  ],
+  "nameLower": "rashtriya vayoshri yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

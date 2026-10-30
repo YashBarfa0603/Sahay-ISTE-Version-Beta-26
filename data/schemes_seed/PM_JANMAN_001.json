@@ -1,0 +1,69 @@
+{
+  "schemeId": "PM_JANMAN_001",
+  "name": "Pradhan Mantri Janjati Adivasi Nyaya Maha Abhiyan (PM-JANMAN)",
+  "nameHindi": "प्रधानमंत्री जनजाति आदिवासी न्याय महाअभियान (पीएम-जनमन)",
+  "description": "PM-JANMAN aims to improve the socio-economic conditions of Particularly Vulnerable Tribal Groups (PVTGs) by saturating PVTG households and habitations with basic facilities.",
+  "descriptionHindi": "विशेष रूप से कमजोर जनजातीय समूहों (PVTG) के बस्तियों और परिवारों को पक्के आवास, पेयजल, बिजली और सड़क जैसी मूलभूत सुविधाओं से संतृप्त करने का महाभियान।",
+  "category": "tribal-welfare",
+  "tags": [
+    "st",
+    "rural",
+    "housing"
+  ],
+  "ministry": "Ministry of Tribal Affairs",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Convergence of 11 critical interventions including pucca housing under PMAY-G, tap water supply, solar off-grid electrification, all-weather roads, and multi-purpose community centers.",
+  "benefitsHindi": "पीवीटीजी परिवारों को पक्का मकान, सुरक्षित पेयजल, सौर ऊर्जा बिजली, बारहमासी सड़कें और सामुदायिक केंद्रों की समग्र सुविधा।",
+  "eligibilityText": "Households and habitations belonging to 75 Particularly Vulnerable Tribal Groups (PVTGs) across 18 states and union territories.",
+  "eligibilityTextHindi": "18 राज्यों व केंद्र शासित प्रदेशों में फैले 75 विशेष रूप से कमजोर जनजातीय समूहों (PVTG) के परिवार।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://tribal.nic.in",
+  "officialSourceUrl": "https://tribal.nic.in",
+  "sourceName": "Ministry of Tribal Affairs",
+  "sourceUrls": [
+    "https://tribal.nic.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "pmjanman",
+    "pm-janman",
+    "pvtg",
+    "tribal",
+    "adivasi",
+    "housing",
+    "welfare"
+  ],
+  "nameLower": "pradhan mantri janjati adivasi nyaya maha abhiyan (pm-janman)",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

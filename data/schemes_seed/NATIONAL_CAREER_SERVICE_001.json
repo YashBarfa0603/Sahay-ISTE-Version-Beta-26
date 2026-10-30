@@ -1,0 +1,67 @@
+{
+  "schemeId": "NATIONAL_CAREER_SERVICE_001",
+  "name": "National Career Service",
+  "nameHindi": "राष्ट्रीय करियर सेवा",
+  "description": "NCS is a digital portal connecting jobseekers with employers, offering career counselling, vocational guidance, skill course information, and job fair updates.",
+  "descriptionHindi": "नौकरी चाहने वालों और नियोक्ताओं को जोड़ने, करियर काउंसलिंग और रोजगार मेले आयोजित करने का राष्ट्रीय डिजिटल मंच।",
+  "category": "employment-skills",
+  "tags": [
+    "employment",
+    "youth"
+  ],
+  "ministry": "Ministry of Labour and Employment",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Free job search and placement portal, free career counselling sessions, skills assessment tools, and access to national job fairs.",
+  "benefitsHindi": "निःशुल्क नौकरी खोज, रोजगार मेले, करियर काउंसलिंग और कौशल मूल्यांकन की ऑनलाइन सुविधा।",
+  "eligibilityText": "All Indian citizens seeking employment, career guidance, apprenticeships, or internship opportunities.",
+  "eligibilityTextHindi": "रोजगार अथवा करियर मार्गदर्शन की तलाश करने वाले सभी भारतीय नागरिक।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://www.ncs.gov.in",
+  "officialSourceUrl": "https://www.ncs.gov.in",
+  "sourceName": "Ministry of Labour and Employment",
+  "sourceUrls": [
+    "https://www.ncs.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "ncs",
+    "career",
+    "jobs",
+    "employment",
+    "counselling",
+    "jobfair",
+    "labour"
+  ],
+  "nameLower": "national career service",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

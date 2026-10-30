@@ -1,0 +1,71 @@
+{
+  "schemeId": "NATIONAL_HEALTH_MISSION_001",
+  "name": "National Health Mission",
+  "nameHindi": "राष्ट्रीय स्वास्थ्य मिशन",
+  "description": "National Health Mission (NHM) provides universal access to equitable, affordable, and quality health care services with a focus on maternal, reproductive, and child health.",
+  "descriptionHindi": "सुलभ, किफायती और गुणवत्तापूर्ण स्वास्थ्य सेवाएं, विशेषकर मातृ एवं बाल स्वास्थ्य, टीकाकरण और संचारी रोगों की रोकथाम हेतु।",
+  "category": "health",
+  "tags": [
+    "health",
+    "rural",
+    "urban",
+    "women",
+    "pregnant-women"
+  ],
+  "ministry": "Ministry of Health and Family Welfare",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Free antenatal care, institutional delivery incentives under JSY, free newborn care, and free essential diagnostics and medicines in public health facilities.",
+  "benefitsHindi": "गर्भवती महिलाओं को मुफ्त जांच, जेएसवाई के तहत संस्थागत प्रसव प्रोत्साहन तथा सरकारी अस्पतालों में मुफ्त दवाएं व जांच।",
+  "eligibilityText": "All citizens, particularly pregnant women, lactating mothers, neonates, and infants utilizing public health institutions.",
+  "eligibilityTextHindi": "सभी नागरिक, विशेषकर गर्भवती महिलाएं, धात्री माताएं और नवजात शिशु।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://nhm.gov.in",
+  "officialSourceUrl": "https://nhm.gov.in",
+  "sourceName": "National Health Mission Portal",
+  "sourceUrls": [
+    "https://nhm.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "nhm",
+    "health",
+    "mission",
+    "maternal",
+    "delivery",
+    "jsy",
+    "asha"
+  ],
+  "nameLower": "national health mission",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

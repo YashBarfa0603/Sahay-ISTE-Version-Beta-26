@@ -1,0 +1,67 @@
+{
+  "schemeId": "BR_STUDENT_CREDIT_CARD_001",
+  "name": "Bihar Student Credit Card Scheme",
+  "nameHindi": "बिहार स्टूडेंट क्रेडिट कार्ड योजना",
+  "description": "Part of Bihar's Saat Nishchay programme providing education loans up to ₹4 lakh at nominal interest to students pursuing higher technical and professional studies.",
+  "descriptionHindi": "12वीं के बाद उच्च, तकनीकी एवं व्यावसायिक शिक्षा प्राप्त करने हेतु ₹4 लाख तक का रियायती शिक्षा ऋण।",
+  "category": "education",
+  "tags": [
+    "students",
+    "loan"
+  ],
+  "ministry": "Education Department, Government of Bihar",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "BR"
+  ],
+  "benefits": "Education loan up to ₹4 lakh with interest rate of 4% for male students and 1% for female, transgender, and differently-abled students, with moratorium until course completion.",
+  "benefitsHindi": "छात्रों को 4% तथा छात्राओं व दिव्यांगों को मात्र 1% ब्याज दर पर ₹4 लाख तक का शिक्षा ऋण।",
+  "eligibilityText": "Permanent residents of Bihar aged below 25 years who have passed Class 12 and gained admission in recognized higher education courses.",
+  "eligibilityTextHindi": "25 वर्ष से कम आयु के बिहार के निवासी जिन्होंने 12वीं उत्तीर्ण कर मान्यता प्राप्त कॉलेज में दाखिला लिया हो।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://www.7nishchay-yuvaupmission.bihar.gov.in",
+  "officialSourceUrl": "https://www.7nishchay-yuvaupmission.bihar.gov.in",
+  "sourceName": "MNSSBY Portal, Government of Bihar",
+  "sourceUrls": [
+    "https://www.7nishchay-yuvaupmission.bihar.gov.in",
+    "https://bihar.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "studentcreditcard",
+    "educationloan",
+    "bihar",
+    "4lakh",
+    "7nishchay",
+    "highereducation"
+  ],
+  "nameLower": "bihar student credit card scheme",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

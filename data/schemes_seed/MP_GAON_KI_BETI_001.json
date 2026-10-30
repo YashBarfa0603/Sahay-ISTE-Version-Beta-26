@@ -1,0 +1,71 @@
+{
+  "schemeId": "MP_GAON_KI_BETI_001",
+  "name": "Gaon Ki Beti Yojana",
+  "nameHindi": "गाँव की बेटी योजना",
+  "description": "Encourages talented rural girl students in Madhya Pradesh to pursue college education after completing Class 12.",
+  "descriptionHindi": "ग्रामीण क्षेत्र की प्रतिभावान बालिकाओं को 12वीं के बाद उच्च शिक्षा प्राप्त करने हेतु वित्तीय प्रोत्साहन छात्रवृत्ति।",
+  "category": "education",
+  "tags": [
+    "scholarship",
+    "students",
+    "women",
+    "rural"
+  ],
+  "ministry": "Higher Education Department, Government of Madhya Pradesh",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "MP"
+  ],
+  "benefits": "Scholarship grant of ₹5,000 per academic year (₹500 per month for 10 months) for undergraduate study in general colleges, and up to ₹7,500 for technical/medical studies.",
+  "benefitsHindi": "सामान्य स्नातक पाठ्यक्रमों हेतु ₹5,000 वार्षिक तथा तकनीकी व मेडिकल पाठ्यक्रमों हेतु ₹7,500 प्रति वर्ष की छात्रवृत्ति।",
+  "eligibilityText": "Girl students who are permanent residents of a village in MP who passed Class 12 with at least 60% marks and are enrolled in higher education.",
+  "eligibilityTextHindi": "मध्य प्रदेश के गांव की निवासी छात्राएं जिन्होंने 12वीं में प्रथम श्रेणी (60% अंक) प्राप्त कर कॉलेज में प्रवेश लिया हो।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://scholarshipportal.mp.nic.in",
+  "officialSourceUrl": "https://scholarshipportal.mp.nic.in",
+  "sourceName": "MP State Scholarship Portal",
+  "sourceUrls": [
+    "https://scholarshipportal.mp.nic.in",
+    "https://mp.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "gaonkibeti",
+    "gaon",
+    "beti",
+    "rural",
+    "girl",
+    "scholarship",
+    "mp",
+    "5000"
+  ],
+  "nameLower": "gaon ki beti yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

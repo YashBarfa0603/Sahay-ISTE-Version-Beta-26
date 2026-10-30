@@ -1,0 +1,113 @@
+{
+  "schemeId": "PMAY_001",
+  "name": "Pradhan Mantri Awas Yojana – Gramin",
+  "nameHindi": "प्रधानमंत्री आवास योजना – ग्रामीण",
+  "description": "Pradhan Mantri Awas Yojana - Gramin (PMAY-G) provides financial assistance to houseless rural families and those living in kutcha or dilapidated houses to construct a durable, hygienic pucca home.",
+  "descriptionHindi": "प्रधानमंत्री आवास योजना (ग्रामीण) के तहत बेघर और कच्चे मकानों में रहने वाले ग्रामीण परिवारों को पक्का मकान बनाने हेतु आर्थिक सहायता दी जाती है।",
+  "category": "housing",
+  "tags": [
+    "housing",
+    "rural",
+    "bpl"
+  ],
+  "ministry": "Ministry of Rural Development",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Financial assistance of ₹1.20 lakh in plain areas and ₹1.30 lakh in hilly/difficult/North-Eastern states, plus 90-95 days of unskilled labor wages under MGNREGA and ₹12,000 for toilet construction.",
+  "benefitsHindi": "समतल क्षेत्रों में ₹1,20,000 तथा दुर्गम व पहाड़ी क्षेत्रों में ₹1,30,000 की सहायता, साथ ही मनरेगा से मजदूरी और शौचालय निर्माण के लिए ₹12,000 अतिरिक्त।",
+  "eligibilityText": "Houseless rural families or households living in zero, one, or two-room houses with kutcha walls and roof as identified through SECC and AwaasPlus surveys. Excludes households with motorized vehicles, government employees, or income tax payers.",
+  "eligibilityTextHindi": "कच्चे मकानों अथवा बिना छत वाले ग्रामीण परिवार। सरकारी कर्मचारी, चार पहिया वाहन स्वामी एवं आयकरदाता परिवार योजना से बाहर हैं।",
+  "eligibilityRules": [
+    {
+      "field": "residenceType",
+      "operator": "equals",
+      "value": "rural",
+      "isMandatory": true,
+      "description": "Applicant must reside in a rural area.",
+      "descriptionHindi": "आवेदक का ग्रामीण क्षेत्र में निवास होना अनिवार्य है।",
+      "sourceUrl": "https://pmayg.nic.in",
+      "sourceQuote": "Aimed at addressing rural housing shortages and providing a pucca house with basic amenities."
+    },
+    {
+      "field": "isTaxpayer",
+      "operator": "isFalse",
+      "value": null,
+      "isMandatory": true,
+      "description": "Household members must not be income tax payers.",
+      "descriptionHindi": "परिवार का कोई सदस्य आयकरदाता नहीं होना चाहिए।",
+      "sourceUrl": "https://pmayg.nic.in",
+      "sourceQuote": "government employees, income tax payers, and households with refrigerators or landline phones are generally excluded."
+    },
+    {
+      "field": "isGovtEmployee",
+      "operator": "isFalse",
+      "value": null,
+      "isMandatory": true,
+      "description": "No family member should be a government employee.",
+      "descriptionHindi": "परिवार का कोई सदस्य सरकारी कर्मचारी नहीं होना चाहिए।",
+      "sourceUrl": "https://pmayg.nic.in",
+      "sourceQuote": "government employees, income tax payers, and households with refrigerators or landline phones are generally excluded."
+    }
+  ],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [
+    "Aadhaar Card",
+    "Bank Account Passbook (Aadhaar linked)",
+    "MGNREGA Job Card Number",
+    "Consent for Aadhaar Usage"
+  ],
+  "requiredDocumentsHindi": [
+    "आधार कार्ड",
+    "आधार लिंक बैंक पासबुक",
+    "मनरेगा जॉब कार्ड संख्या",
+    "आधार प्रमाणीकरण सहमति"
+  ],
+  "applicationProcess": "1. Beneficiaries are identified by Gram Panchayats based on AwaasPlus database. 2. Gram Sabha verifies and prepares priority lists. 3. Physical inspection and geotagging of existing kutcha site by local officials. 4. Administrative sanction and direct transfer of funds in instalments linked to construction stages.",
+  "applicationProcessHindi": "1. आवास प्लस सर्वे के आधार पर ग्राम पंचायत द्वारा चयन। 2. ग्राम सभा द्वारा सत्यापन। 3. पुराने मकान की जियो-टैगिंग। 4. निर्माण स्तर के अनुसार सीधे बैंक खाते में किस्तों का अंतरण।",
+  "applicationUrl": "https://pmayg.nic.in",
+  "officialSourceUrl": "https://pmayg.nic.in",
+  "sourceName": "Ministry of Rural Development",
+  "sourceUrls": [
+    "https://pmayg.nic.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": true,
+  "popularityRank": 4,
+  "searchKeywords": [
+    "pmayg",
+    "pmay-g",
+    "housing",
+    "gramin",
+    "awaas",
+    "rural",
+    "pucca",
+    "120000",
+    "आवास",
+    "ग्रामीण",
+    "मकान"
+  ],
+  "nameLower": "pradhan mantri awas yojana – gramin",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": true,
+    "hasRules": true,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "partial_rules_coverage"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

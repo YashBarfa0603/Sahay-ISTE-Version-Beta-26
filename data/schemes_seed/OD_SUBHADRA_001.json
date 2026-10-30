@@ -1,0 +1,67 @@
+{
+  "schemeId": "OD_SUBHADRA_001",
+  "name": "Subhadra Yojana",
+  "nameHindi": "सुभद्रा योजना",
+  "description": "Transformational women empowerment initiative by Government of Odisha providing substantial annual financial vouchers to over 1 crore women.",
+  "descriptionHindi": "ओडिशा सरकार द्वारा 1 करोड़ से अधिक महिलाओं को आर्थिक रूप से सशक्त बनाने हेतु ₹10,000 वार्षिक सहायता योजना।",
+  "category": "women-child",
+  "tags": [
+    "women"
+  ],
+  "ministry": "Women and Child Development Department, Government of Odisha",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "OD"
+  ],
+  "benefits": "Financial assistance of ₹10,000 per year paid in two installments of ₹5,000 each (on Rakhi Purnima and International Women's Day) for 5 years (total ₹50,000).",
+  "benefitsHindi": "प्रति वर्ष ₹10,000 (₹5,000 की दो किस्तों में) 5 वर्षों के लिए कुल ₹50,000 सीधे आधार लिंक डीबीटी खाते में।",
+  "eligibilityText": "Women residents of Odisha aged between 21 and 60 years covered under NFSA/SFSS or from economically disadvantaged families.",
+  "eligibilityTextHindi": "ओडिशा की 21 से 60 वर्ष की महिलाएं जिनका परिवार राशन कार्ड धारक हो तथा जो आयकरदाता न हों।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://subhadra.odisha.gov.in",
+  "officialSourceUrl": "https://subhadra.odisha.gov.in",
+  "sourceName": "Subhadra Portal, Government of Odisha",
+  "sourceUrls": [
+    "https://subhadra.odisha.gov.in",
+    "https://odisha.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "subhadra",
+    "odisha",
+    "women",
+    "50000",
+    "10000",
+    "wcd",
+    "rakhi"
+  ],
+  "nameLower": "subhadra yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

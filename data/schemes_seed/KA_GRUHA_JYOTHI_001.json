@@ -1,0 +1,69 @@
+{
+  "schemeId": "KA_GRUHA_JYOTHI_001",
+  "name": "Gruha Jyothi Scheme",
+  "nameHindi": "गृह ज्योति योजना",
+  "description": "Provides up to 200 units of free electricity per month to all domestic residential consumers across Karnataka.",
+  "descriptionHindi": "कर्नाटक के सभी घरेलू उपभोक्ताओं को प्रति माह 200 यूनिट तक मुफ्त बिजली प्रदान करने की गारंटी योजना।",
+  "category": "utilities",
+  "tags": [
+    "housing",
+    "rural",
+    "urban"
+  ],
+  "ministry": "Energy Department, Government of Karnataka",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "KA"
+  ],
+  "benefits": "Zero electricity bill for residential households whose average monthly power consumption is within 200 units (calculated on annual average plus 10%).",
+  "benefitsHindi": "200 यूनिट तक मासिक खपत वाले घरेलू बिजली उपभोक्ताओं का बिजली बिल शून्य (मुफ्त)।",
+  "eligibilityText": "All domestic household electricity consumers in Karnataka (owners and tenants) with valid consumer account IDs.",
+  "eligibilityTextHindi": "कर्नाटक के सभी घरेलू बिजली कनेक्शन धारक (मकान मालिक एवं किरायेदार)।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://sevasindhugs.karnataka.gov.in",
+  "officialSourceUrl": "https://sevasindhugs.karnataka.gov.in",
+  "sourceName": "Energy Department Karnataka",
+  "sourceUrls": [
+    "https://sevasindhugs.karnataka.gov.in",
+    "https://karnataka.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "gruhajyothi",
+    "gruha",
+    "jyothi",
+    "electricity",
+    "power",
+    "200units",
+    "karnataka"
+  ],
+  "nameLower": "gruha jyothi scheme",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

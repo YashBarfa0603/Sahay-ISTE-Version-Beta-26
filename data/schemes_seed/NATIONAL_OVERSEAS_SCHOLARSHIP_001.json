@@ -1,0 +1,70 @@
+{
+  "schemeId": "NATIONAL_OVERSEAS_SCHOLARSHIP_001",
+  "name": "National Overseas Scholarship",
+  "nameHindi": "राष्ट्रीय प्रवासी छात्रवृत्ति योजना",
+  "description": "Facilitates low-income students belonging to SC, de-notified nomadic tribes, and traditional artisan families to pursue Master's and Ph.D. degrees in premier universities abroad.",
+  "descriptionHindi": "अनुसूचित जाति, घुमंतू जनजातियों और पारंपरिक कारीगर परिवारों के विद्यार्थियों को विदेश के शीर्ष विश्वविद्यालयों में स्नातकोत्तर एवं पीएचडी हेतु छात्रवृत्ति।",
+  "category": "education",
+  "tags": [
+    "scholarship",
+    "students",
+    "sc",
+    "st"
+  ],
+  "ministry": "Ministry of Social Justice and Empowerment",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Full tuition fees, annual maintenance allowance, contingency allowance, visa fees, and return economy airfare for studying in top 500 QS world-ranked universities.",
+  "benefitsHindi": "विदेश में पढ़ाई हेतु पूर्ण शिक्षण शुल्क, रहने का वार्षिक भत्ता, हवाई यात्रा किराया तथा वीजा शुल्क।",
+  "eligibilityText": "SC and allied category students with at least 60% marks in qualifying degree, admitted to top 500 ranked overseas universities, with family income under ₹8.00 lakh.",
+  "eligibilityTextHindi": "योग्य डिग्री में न्यूनतम 60% अंक, शीर्ष 500 विदेशी विश्वविद्यालयों में प्रवेश तथा पारिवारिक आय ₹8 लाख से कम।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://nosmsje.gov.in",
+  "officialSourceUrl": "https://nosmsje.gov.in",
+  "sourceName": "Ministry of Social Justice and Empowerment",
+  "sourceUrls": [
+    "https://nosmsje.gov.in",
+    "https://socialjustice.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "nos",
+    "overseas",
+    "foreign",
+    "phd",
+    "masters",
+    "sc",
+    "scholarship"
+  ],
+  "nameLower": "national overseas scholarship",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

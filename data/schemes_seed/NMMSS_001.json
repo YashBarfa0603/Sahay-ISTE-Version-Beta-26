@@ -1,0 +1,68 @@
+{
+  "schemeId": "NMMSS_001",
+  "name": "National Means-cum-Merit Scholarship Scheme",
+  "nameHindi": "राष्ट्रीय साधन-सह-योग्यता छात्रवृत्ति योजना",
+  "description": "NMMSS awards scholarships to meritorious students of economically weaker sections to reduce drop-out rates at class VIII and encourage them to continue secondary education.",
+  "descriptionHindi": "आर्थिक रूप से कमजोर वर्गों के मेधावी विद्यार्थियों को कक्षा 8 के बाद पढ़ाई छोड़ने से रोकने और 12वीं तक शिक्षा जारी रखने हेतु छात्रवृत्ति।",
+  "category": "education",
+  "tags": [
+    "scholarship",
+    "students"
+  ],
+  "ministry": "Ministry of Education",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Scholarship amount of ₹12,000 per annum (₹1,000 per month) from Class IX to Class XII in State Government, Government-aided, and local body schools.",
+  "benefitsHindi": "कक्षा 9 से 12वीं तक की पढ़ाई के दौरान ₹12,000 प्रति वर्ष (₹1,000 प्रति माह) की छात्रवृत्ति।",
+  "eligibilityText": "Students studying in class VIII who secured at least 55% marks (50% for SC/ST) in class VII and whose parental annual income does not exceed ₹3.50 lakh.",
+  "eligibilityTextHindi": "कक्षा 7 में न्यूनतम 55% अंक प्राप्त विद्यार्थी, जिनके परिवार की वार्षिक आय ₹3.50 लाख से कम हो तथा राज्य स्तरीय परीक्षा उत्तीर्ण की हो।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://scholarships.gov.in",
+  "officialSourceUrl": "https://scholarships.gov.in",
+  "sourceName": "National Scholarship Portal",
+  "sourceUrls": [
+    "https://scholarships.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "nmmss",
+    "scholarship",
+    "merit",
+    "means",
+    "students",
+    "education",
+    "12000"
+  ],
+  "nameLower": "national means-cum-merit scholarship scheme",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

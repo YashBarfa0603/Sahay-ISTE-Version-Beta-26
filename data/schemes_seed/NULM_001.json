@@ -1,0 +1,68 @@
+{
+  "schemeId": "NULM_001",
+  "name": "National Urban Livelihoods Mission",
+  "nameHindi": "दीनदयाल अंत्योदय योजना - राष्ट्रीय शहरी आजीविका मिशन",
+  "description": "DAY-NULM reduces poverty and vulnerability of urban poor households by enabling them to access gainful self-employment and skilled wage employment opportunities.",
+  "descriptionHindi": "शहरी गरीबों को कौशल प्रशिक्षण, स्वरोजगार ऋण और आश्रय सुविधाएं देकर शहरी गरीबी कम करने का राष्ट्रीय मिशन।",
+  "category": "rural-development",
+  "tags": [
+    "urban",
+    "bpl",
+    "skill-training"
+  ],
+  "ministry": "Ministry of Housing and Urban Affairs",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Subsidized bank loans for individual micro-enterprises up to ₹2 lakh and group enterprises up to ₹10 lakh with 7% interest subvention.",
+  "benefitsHindi": "व्यक्तिगत सूक्ष्म उद्यम हेतु ₹2 लाख तथा समूह उद्यम हेतु ₹10 लाख तक के ऋण पर 7% ब्याज अनुदान।",
+  "eligibilityText": "Urban poor, street vendors, ragpickers, and homeless persons residing in statutory towns.",
+  "eligibilityTextHindi": "शहरी गरीब, बेघर, कचरा बीनने वाले और रेहड़ी-पटरी वाले।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://nulm.gov.in",
+  "officialSourceUrl": "https://nulm.gov.in",
+  "sourceName": "Ministry of Housing and Urban Affairs",
+  "sourceUrls": [
+    "https://nulm.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "nulm",
+    "urban",
+    "livelihoods",
+    "selfemployment",
+    "shg",
+    "poverty"
+  ],
+  "nameLower": "national urban livelihoods mission",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

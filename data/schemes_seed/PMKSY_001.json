@@ -1,0 +1,68 @@
+{
+  "schemeId": "PMKSY_001",
+  "name": "Pradhan Mantri Krishi Sinchayee Yojana",
+  "nameHindi": "प्रधानमंत्री कृषि सिंचाई योजना",
+  "description": "PMKSY aims to enhance physical access of water on farm and expand cultivable area under assured irrigation, promoting precision water conservation under Per Drop More Crop.",
+  "descriptionHindi": "खेतों तक पानी की पहुंच सुनिश्चित करने और 'प्रति बूंद अधिक फसल' के तहत सूक्ष्म सिंचाई (ड्रिप व स्प्रिंकलर) को बढ़ावा देने की योजना।",
+  "category": "agriculture",
+  "tags": [
+    "farmers",
+    "rural"
+  ],
+  "ministry": "Ministry of Agriculture and Farmers Welfare",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Subsidies ranging from 45% to 55% for installing precision micro-irrigation systems (drip and sprinkler) and farm-level water harvesting infrastructure.",
+  "benefitsHindi": "ड्रिप एवं स्प्रिंकलर सिंचाई प्रणालियों की स्थापना हेतु 45% से 55% तक की सरकारी सब्सिडी।",
+  "eligibilityText": "All farmers cultivating agricultural land in areas identified for micro-irrigation coverage.",
+  "eligibilityTextHindi": "कृषि योग्य भूमि रखने वाले सभी किसान सूक्ष्म सिंचाई अनुदान हेतु पात्र हैं।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://pmksy.gov.in",
+  "officialSourceUrl": "https://pmksy.gov.in",
+  "sourceName": "PMKSY Official Portal",
+  "sourceUrls": [
+    "https://pmksy.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "pmksy",
+    "irrigation",
+    "sinchayee",
+    "drip",
+    "sprinkler",
+    "water",
+    "farmers"
+  ],
+  "nameLower": "pradhan mantri krishi sinchayee yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

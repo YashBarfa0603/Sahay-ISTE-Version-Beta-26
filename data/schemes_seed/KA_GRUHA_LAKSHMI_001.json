@@ -1,0 +1,67 @@
+{
+  "schemeId": "KA_GRUHA_LAKSHMI_001",
+  "name": "Gruha Lakshmi Scheme",
+  "nameHindi": "गृह लक्ष्मी योजना",
+  "description": "Flagship guarantee scheme by Government of Karnataka providing monthly financial assistance to female heads of eligible households.",
+  "descriptionHindi": "कर्नाटक सरकार द्वारा परिवार की महिला मुखिया को आर्थिक सशक्तिकरण हेतु मासिक वित्तीय सहायता।",
+  "category": "women-child",
+  "tags": [
+    "women"
+  ],
+  "ministry": "Department of Women and Child Development, Government of Karnataka",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "KA"
+  ],
+  "benefits": "Monthly financial assistance of ₹2,000 deposited directly into the bank account of the designated female head of the family.",
+  "benefitsHindi": "परिवार की महिला मुखिया के बैंक खाते में प्रति माह ₹2,000 की वित्तीय सहायता।",
+  "eligibilityText": "Women registered as head of family in Antyodaya, BPL, or APL ration cards in Karnataka. Woman or her husband must not be income tax or GST payers.",
+  "eligibilityTextHindi": "कर्नाटक की राशन कार्ड में दर्ज महिला मुखिया, स्वयं या पति आयकरदाता या जीएसटी दाता न हों।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://sevasindhuservices.karnataka.gov.in",
+  "officialSourceUrl": "https://sevasindhuservices.karnataka.gov.in",
+  "sourceName": "Seva Sindhu Portal, Government of Karnataka",
+  "sourceUrls": [
+    "https://sevasindhuservices.karnataka.gov.in",
+    "https://karnataka.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "gruhalakshmi",
+    "gruha",
+    "lakshmi",
+    "karnataka",
+    "women",
+    "2000",
+    "sevasindhu"
+  ],
+  "nameLower": "gruha lakshmi scheme",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

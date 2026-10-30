@@ -1,0 +1,68 @@
+{
+  "schemeId": "KA_YUVA_NIDHI_001",
+  "name": "Yuva Nidhi Scheme",
+  "nameHindi": "युवा निधि योजना",
+  "description": "Provides unemployment financial assistance to educated youth in Karnataka who graduated or completed diplomas and remain unemployed.",
+  "descriptionHindi": "कर्नाटक के बेरोजगार स्नातक एवं डिप्लोमा धारक युवाओं को मासिक वित्तीय संबल प्रदान करने वाली योजना।",
+  "category": "employment-skills",
+  "tags": [
+    "youth",
+    "employment"
+  ],
+  "ministry": "Department of Skill Development, Entrepreneurship and Livelihood, KA",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "KA"
+  ],
+  "benefits": "Monthly allowance of ₹3,000 for degree holders and ₹1,500 for diploma holders for up to 2 years or until employment/self-employment is secured.",
+  "benefitsHindi": "बेरोजगार स्नातकों को ₹3,000 तथा डिप्लोमा धारकों को ₹1,500 प्रति माह 2 वर्ष की अवधि तक।",
+  "eligibilityText": "Domiciles of Karnataka who graduated or passed diplomas in eligible academic years and have remained unemployed for at least 180 days.",
+  "eligibilityTextHindi": "कर्नाटक के निवासी युवा जो डिग्री या डिप्लोमा के बाद न्यूनतम 180 दिनों से बेरोजगार हों।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://sevasindhugs.karnataka.gov.in",
+  "officialSourceUrl": "https://sevasindhugs.karnataka.gov.in",
+  "sourceName": "Skill Development Department Karnataka",
+  "sourceUrls": [
+    "https://sevasindhugs.karnataka.gov.in",
+    "https://karnataka.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "yuvanidhi",
+    "yuva",
+    "nidhi",
+    "unemployment",
+    "graduates",
+    "stipend",
+    "karnataka"
+  ],
+  "nameLower": "yuva nidhi scheme",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

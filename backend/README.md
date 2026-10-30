@@ -111,3 +111,20 @@ Interactive API documentation available at: `http://localhost:8000/docs`.
 | `GET` | `/api/schemes/categories/all` | List 8 standard welfare categories |
 | `POST` | `/api/schemes/search` | Hybrid search (catalogue -> Tavily -> Qwen2.5 -> Verifier) |
 
+---
+
+## 📦 Cloud Firestore Data Layer & Seeding Tools (Schema v2)
+
+The scheme catalogue is curated and seeded into Cloud Firestore (`schemes/{schemeId}`, `categories/{categoryId}`, `appConfig/profileFields`, `appConfig/catalogue`).
+
+### Key Scripts:
+- **`backend/scripts/validate_catalogue.py`**: Validates schemes against Schema v2, 21 profile fields, 13 categories, and official domain whitelist.
+- **`backend/scripts/seed_firestore.py`**: Idempotent Firestore seeder (`--emulator`, `--dry-run`, `--project`).
+- **`backend/scripts/test_queries.py`**: Section 8 query verification test harness.
+- **`backend/scripts/audit_requirements.py`**: 30-point compliance audit against Firestore and requirements.
+
+### Full Documentation:
+- [`docs/FIRESTORE_SCHEMA.md`](../docs/FIRESTORE_SCHEMA.md): Complete data model, composite indexing, and Flutter Dart mapping.
+- [`docs/SEED_REPORT.md`](../docs/SEED_REPORT.md): 100-scheme audit table, data quality flags, and pre-eligibility review checklist.
+
+

@@ -1,0 +1,68 @@
+{
+  "schemeId": "MP_MEDHAVI_VIDYARTHI_001",
+  "name": "Mukhyamantri Medhavi Vidyarthi Yojana",
+  "nameHindi": "मुख्यमंत्री मेधावी विद्यार्थी योजना",
+  "description": "MMVY bears the complete academic tuition fees of meritorious students of MP pursuing higher education in medical, engineering, law, and graduation courses.",
+  "descriptionHindi": "मध्य प्रदेश के मेधावी विद्यार्थियों को मेडिकल, इंजीनियरिंग, विधि और उच्च शिक्षा पाठ्यक्रमों की पूरी फीस सरकार द्वारा वहन की जाती है।",
+  "category": "education",
+  "tags": [
+    "scholarship",
+    "students"
+  ],
+  "ministry": "Higher Education Department, Government of Madhya Pradesh",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "MP"
+  ],
+  "benefits": "Complete tuition and institution fee waiver/reimbursement for recognized degree, engineering (IIT/NIT/JEE), MBBS, and NLU law courses.",
+  "benefitsHindi": "इंजीनियरिंग, मेडिकल, लॉ तथा स्नातक पाठ्यक्रमों की पूरी फीस राज्य शासन द्वारा वहन की जाती है।",
+  "eligibilityText": "MP residents securing 70% or more in MP Board (or 85% in CBSE/ICSE) in Class 12 with family annual income not exceeding ₹6.00 lakh.",
+  "eligibilityTextHindi": "12वीं में एमपी बोर्ड से 70% या सीबीएसई से 85% अंक प्राप्त विद्यार्थी, पारिवारिक वार्षिक आय ₹6 लाख तक।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://scholarshipportal.mp.nic.in",
+  "officialSourceUrl": "https://scholarshipportal.mp.nic.in",
+  "sourceName": "MP Scholarship Portal 2.0",
+  "sourceUrls": [
+    "https://scholarshipportal.mp.nic.in",
+    "https://mp.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "mmvy",
+    "medhavi",
+    "vidyarthi",
+    "scholarship",
+    "highereducation",
+    "mp",
+    "tuitionfees"
+  ],
+  "nameLower": "mukhyamantri medhavi vidyarthi yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

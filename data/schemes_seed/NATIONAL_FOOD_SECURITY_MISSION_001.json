@@ -1,0 +1,69 @@
+{
+  "schemeId": "NATIONAL_FOOD_SECURITY_MISSION_001",
+  "name": "National Food Security Mission",
+  "nameHindi": "राष्ट्रीय खाद्य सुरक्षा मिशन",
+  "description": "NFSM increases production of rice, wheat, pulses, coarse cereals, and nutri-cereals through area expansion and productivity enhancement in targeted districts.",
+  "descriptionHindi": "चावल, गेहूं, दलहन और मोटे अनाजों के उत्पादन एवं उत्पादकता में वृद्धि हेतु तकनीकी प्रदर्शन और उन्नत बीज सहायता।",
+  "category": "agriculture",
+  "tags": [
+    "farmers",
+    "rural"
+  ],
+  "ministry": "Ministry of Agriculture and Farmers Welfare",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Subsidies for certified seeds, cluster demonstrations, farm machineries, plant protection chemicals, and soil ameliorants.",
+  "benefitsHindi": "प्रमाणित बीज वितरण, उन्नत कृषि उपकरण, पोषक तत्व प्रबंधन एवं क्लस्टर प्रदर्शन हेतु वित्तीय सहायता।",
+  "eligibilityText": "Farmers growing targeted crops in designated NFSM districts across participating states.",
+  "eligibilityTextHindi": "अधिसूचित एनएफएसएम जिलों में लक्षित फसलों की खेती करने वाले किसान।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://nfsm.gov.in",
+  "officialSourceUrl": "https://nfsm.gov.in",
+  "sourceName": "NFSM Portal",
+  "sourceUrls": [
+    "https://nfsm.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "nfsm",
+    "food",
+    "security",
+    "mission",
+    "crops",
+    "pulses",
+    "wheat",
+    "rice"
+  ],
+  "nameLower": "national food security mission",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

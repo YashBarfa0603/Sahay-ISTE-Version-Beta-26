@@ -1,0 +1,69 @@
+{
+  "schemeId": "MP_KANYA_VIVAH_NIKAH_001",
+  "name": "Mukhyamantri Kanya Vivah/Nikah Yojana",
+  "nameHindi": "मुख्यमंत्री कन्या विवाह / निकाह योजना",
+  "description": "Provides financial grant assistance for the marriage of poor, destitute, or widowed daughters in Madhya Pradesh solemnized through mass marriage ceremonies.",
+  "descriptionHindi": "निर्धन, निराश्रित परिवारों की बेटियों, विधवाओं और परित्यक्ताओं के सामूहिक विवाह समारोह हेतु आर्थिक सहायता।",
+  "category": "women-child",
+  "tags": [
+    "women",
+    "girl-child",
+    "bpl"
+  ],
+  "ministry": "Social Justice and Disabled Persons Empowerment Department, MP",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "MP"
+  ],
+  "benefits": "Total financial assistance of ₹55,000 per beneficiary couple (including ₹49,000 transferred to bride's account and ₹6,000 for event organization).",
+  "benefitsHindi": "प्रति नवदंपती कुल ₹55,000 की सहायता राशि (जिसमें ₹49,000 सीधे कन्या के बैंक खाते में जमा किए जाते हैं)।",
+  "eligibilityText": "Resident families of Madhya Pradesh whose daughters have completed 18 years of age (groom completed 21) solemnized in mass marriages.",
+  "eligibilityTextHindi": "मध्य प्रदेश के मूल निवासी निर्धन परिवार, कन्या की आयु 18 वर्ष व वर की आयु 21 वर्ष पूर्ण हो।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://socialjustice.mp.gov.in",
+  "officialSourceUrl": "https://socialjustice.mp.gov.in",
+  "sourceName": "Social Justice Department MP",
+  "sourceUrls": [
+    "https://socialjustice.mp.gov.in",
+    "https://mp.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "kanyavivah",
+    "nikah",
+    "marriage",
+    "samuhik",
+    "vivah",
+    "55000",
+    "mp"
+  ],
+  "nameLower": "mukhyamantri kanya vivah/nikah yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

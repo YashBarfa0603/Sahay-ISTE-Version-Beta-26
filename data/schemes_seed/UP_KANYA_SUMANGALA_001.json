@@ -1,0 +1,67 @@
+{
+  "schemeId": "UP_KANYA_SUMANGALA_001",
+  "name": "Mukhyamantri Kanya Sumangala Yojana",
+  "nameHindi": "मुख्यमंत्री कन्या सुमंगला योजना",
+  "description": "Provides phased conditional financial assistance to girl children in Uttar Pradesh from birth through undergraduate higher education across 6 stages.",
+  "descriptionHindi": "उत्तर प्रदेश में बालिकाओं को जन्म, टीकाकरण, स्कूल दाखिले और स्नातक की पढ़ाई तक 6 चरणों में वित्तीय सहायता प्रदान करने वाली योजना।",
+  "category": "women-child",
+  "tags": [
+    "women",
+    "girl-child"
+  ],
+  "ministry": "Women and Child Development Department, Uttar Pradesh",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "UP"
+  ],
+  "benefits": "Total financial grant enhanced up to ₹25,000 released across birth, full immunization, Class 1 admission, Class 6, Class 9, and degree/diploma entry.",
+  "benefitsHindi": "जन्म से लेकर उच्च शिक्षा तक 6 चरणों में कुल ₹25,000 की वित्तीय सहायता सीधे बैंक खाते में।",
+  "eligibilityText": "Permanent residents of UP with up to two girl children per family and total annual family income not exceeding ₹3.00 lakh.",
+  "eligibilityTextHindi": "उत्तर प्रदेश के मूल निवासी परिवार, अधिकतम दो बालिकाओं के लिए, पारिवारिक वार्षिक आय ₹3 लाख तक।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://mksy.up.gov.in",
+  "officialSourceUrl": "https://mksy.up.gov.in",
+  "sourceName": "Women and Child Welfare Department UP",
+  "sourceUrls": [
+    "https://mksy.up.gov.in",
+    "https://up.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "kanyasumangala",
+    "sumangala",
+    "girlchild",
+    "25000",
+    "up",
+    "uttarpradesh"
+  ],
+  "nameLower": "mukhyamantri kanya sumangala yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

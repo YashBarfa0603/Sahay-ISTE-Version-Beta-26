@@ -1,0 +1,68 @@
+{
+  "schemeId": "JAL_JEEVAN_MISSION_001",
+  "name": "Jal Jeevan Mission",
+  "nameHindi": "जल जीवन मिशन",
+  "description": "Jal Jeevan Mission (Har Ghar Jal) aims to provide safe and adequate drinking water through individual Functional Household Tap Connections (FHTC) to every rural household in India.",
+  "descriptionHindi": "देश के प्रत्येक ग्रामीण परिवार को व्यक्तिगत नल कनेक्शन के माध्यम से सुरक्षित और पर्याप्त पेयजल की नियमित आपूर्ति।",
+  "category": "utilities",
+  "tags": [
+    "rural",
+    "housing"
+  ],
+  "ministry": "Ministry of Jal Shakti",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Provision of potable tap water supply of 55 liters per capita per day to every rural home, schools, anganwadis, and community health centers.",
+  "benefitsHindi": "प्रत्येक ग्रामीण घर में 55 लीटर प्रति व्यक्ति प्रतिदिन के हिसाब से स्वच्छ पेयजल की नल से आपूर्ति।",
+  "eligibilityText": "All rural households, village institutions, schools, and anganwadi centers across all states and union territories.",
+  "eligibilityTextHindi": "देश के सभी ग्रामीण परिवार एवं गांव के सार्वजनिक संस्थान।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://jaljeevanmission.gov.in",
+  "officialSourceUrl": "https://jaljeevanmission.gov.in",
+  "sourceName": "Department of Drinking Water and Sanitation",
+  "sourceUrls": [
+    "https://jaljeevanmission.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "jjm",
+    "jal",
+    "jeevan",
+    "water",
+    "tap",
+    "hargharjal",
+    "rural"
+  ],
+  "nameLower": "jal jeevan mission",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

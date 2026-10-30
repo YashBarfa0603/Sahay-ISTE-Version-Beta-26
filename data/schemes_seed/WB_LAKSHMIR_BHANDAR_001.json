@@ -1,0 +1,67 @@
+{
+  "schemeId": "WB_LAKSHMIR_BHANDAR_001",
+  "name": "Lakshmir Bhandar",
+  "nameHindi": "लक्ष्मी भंडार योजना",
+  "description": "Flagship direct basic income support scheme for female heads of households in West Bengal to foster women's economic independence.",
+  "descriptionHindi": "पश्चिम बंगाल की महिला मुखियाओं को बुनियादी आय सहायता और आर्थिक स्वावलंबन प्रदान करने वाली योजना।",
+  "category": "women-child",
+  "tags": [
+    "women"
+  ],
+  "ministry": "Department of Women & Child Development and Social Welfare, West Bengal",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "WB"
+  ],
+  "benefits": "Monthly financial grant of ₹1,200 for SC and ST women, and ₹1,000 per month for women belonging to general and other categories.",
+  "benefitsHindi": "अनुसूचित जाति/जनजाति की महिलाओं को ₹1,200 प्रति माह तथा सामान्य वर्ग की महिलाओं को ₹1,000 प्रति माह की आर्थिक सहायता।",
+  "eligibilityText": "Women residents of West Bengal aged 25 to 60 years enrolled in the Swasthya Sathi database who are not permanent government employees.",
+  "eligibilityTextHindi": "पश्चिम बंगाल की 25 से 60 वर्ष की महिलाएं जिनका स्वास्थ्य साथी कार्ड बना हो तथा जो नियमित सरकारी सेवा में न हों।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://wb.gov.in",
+  "officialSourceUrl": "https://wb.gov.in",
+  "sourceName": "Government of West Bengal",
+  "sourceUrls": [
+    "https://wb.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "lakshmirbhandar",
+    "lakshmi",
+    "bhandar",
+    "westbengal",
+    "women",
+    "1200",
+    "1000"
+  ],
+  "nameLower": "lakshmir bhandar",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

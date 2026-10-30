@@ -1,0 +1,68 @@
+{
+  "schemeId": "POST_MATRIC_SCHOLARSHIP_ST_001",
+  "name": "Post-Matric Scholarship for ST Students",
+  "nameHindi": "अनुसूचित जनजाति के छात्रों के लिए पोस्ट-मैट्रिक छात्रवृत्ति",
+  "description": "Provides financial assistance to Scheduled Tribe students pursuing recognized post-secondary studies to reduce dropouts and promote higher education.",
+  "descriptionHindi": "दसवीं कक्षा के बाद आगे की पढ़ाई पूरी करने हेतु अनुसूचित जनजाति (एसटी) के विद्यार्थियों को वित्तीय एवं शैक्षणिक सहायता।",
+  "category": "education",
+  "tags": [
+    "scholarship",
+    "students",
+    "st"
+  ],
+  "ministry": "Ministry of Tribal Affairs",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Full non-refundable tuition fee coverage and monthly maintenance allowances according to course groups (medical, engineering, general degrees).",
+  "benefitsHindi": "अनिवार्य कॉलेज फीस की प्रतिपूर्ति एवं पाठ्यक्रम समूह के अनुसार मासिक निर्वाह भत्ता।",
+  "eligibilityText": "Scheduled Tribe students pursuing recognized post-matriculation courses whose parents' annual income does not exceed ₹2.50 lakh.",
+  "eligibilityTextHindi": "मान्यता प्राप्त उच्च शिक्षण पाठ्यक्रमों में अध्ययनरत एसटी छात्र जिनकी पारिवारिक आय ₹2.50 लाख तक हो।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://scholarships.gov.in",
+  "officialSourceUrl": "https://tribal.nic.in",
+  "sourceName": "Ministry of Tribal Affairs",
+  "sourceUrls": [
+    "https://tribal.nic.in",
+    "https://scholarships.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "postmatric",
+    "st",
+    "tribal",
+    "scholarship",
+    "fees",
+    "students"
+  ],
+  "nameLower": "post-matric scholarship for st students",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

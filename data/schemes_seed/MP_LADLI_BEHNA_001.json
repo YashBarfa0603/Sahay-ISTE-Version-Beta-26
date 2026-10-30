@@ -1,0 +1,153 @@
+{
+  "schemeId": "MP_LADLI_BEHNA_001",
+  "name": "Mukhyamantri Ladli Behna Yojana",
+  "nameHindi": "मुख्यमंत्री लाड़ली बहना योजना",
+  "description": "Mukhyamantri Ladli Behna Yojana empowers women in Madhya Pradesh by enhancing their economic self-reliance, health, and family-level decision-making power through regular direct financial transfers.",
+  "descriptionHindi": "मध्य प्रदेश की महिलाओं के आर्थिक स्वावलंबन, स्वास्थ्य और पोषण स्तर में सुधार तथा परिवार में उनकी निर्णय क्षमता बढ़ाने हेतु मासिक वित्तीय सहायता योजना।",
+  "category": "women-child",
+  "tags": [
+    "women",
+    "bpl"
+  ],
+  "ministry": "Women and Child Development Department, Government of Madhya Pradesh",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "MP"
+  ],
+  "benefits": "Monthly financial assistance of ₹1,250 (progressively enhanced up to ₹1,500) transferred directly via Aadhaar-linked DBT into the woman's bank account on the 10th of every month.",
+  "benefitsHindi": "प्रति माह ₹1,250 (क्रमशः ₹1,500 तक) की आर्थिक सहायता प्रत्येक माह की 10 तारीख को सीधे आधार लिंक डीबीटी खाते में अंतरित।",
+  "eligibilityText": "Resident married women (including widows, divorcees, deserted) of Madhya Pradesh aged between 21 and 60 years. Family's combined annual income must be under ₹2.5 lakh, and family must not have any income tax payer or regular government employee.",
+  "eligibilityTextHindi": "मध्य प्रदेश की 21 से 60 वर्ष आयु वर्ग की विवाहित, विधवा या परित्यक्ता महिलाएं। पारिवारिक आय ₹2.5 लाख से कम हो तथा परिवार में कोई आयकरदाता या सरकारी कर्मचारी न हो।",
+  "eligibilityRules": [
+    {
+      "field": "gender",
+      "operator": "equals",
+      "value": "female",
+      "isMandatory": true,
+      "description": "Applicant must be female.",
+      "descriptionHindi": "आवेदक महिला होनी चाहिए।",
+      "sourceUrl": "https://ladlibehna.mp.gov.in",
+      "sourceQuote": "The applicant must be a resident woman of Madhya Pradesh."
+    },
+    {
+      "field": "state",
+      "operator": "equals",
+      "value": "MP",
+      "isMandatory": true,
+      "description": "Must be a resident of Madhya Pradesh.",
+      "descriptionHindi": "आवेदक मध्य प्रदेश की स्थानीय निवासी होनी चाहिए।",
+      "sourceUrl": "https://ladlibehna.mp.gov.in",
+      "sourceQuote": "The woman must be a permanent/local resident of Madhya Pradesh."
+    },
+    {
+      "field": "age",
+      "operator": "greaterThanOrEqual",
+      "value": 21,
+      "isMandatory": true,
+      "description": "Must be at least 21 years old as on 1st January of the calendar year.",
+      "descriptionHindi": "आयु कम से कम 21 वर्ष होनी चाहिए।",
+      "sourceUrl": "https://ladlibehna.mp.gov.in",
+      "sourceQuote": "The applicant must have completed 21 years of age"
+    },
+    {
+      "field": "age",
+      "operator": "lessThan",
+      "value": 60,
+      "isMandatory": true,
+      "description": "Must be under 60 years of age.",
+      "descriptionHindi": "आयु 60 वर्ष से कम होनी चाहिए।",
+      "sourceUrl": "https://ladlibehna.mp.gov.in",
+      "sourceQuote": "and must be under 60 years old (less than 60 years)"
+    },
+    {
+      "field": "annualFamilyIncome",
+      "operator": "lessThanOrEqual",
+      "value": 250000,
+      "isMandatory": true,
+      "description": "Total family annual income must not exceed ₹2,50,000.",
+      "descriptionHindi": "परिवार की कुल वार्षिक आय ₹2.5 लाख से कम होनी चाहिए।",
+      "sourceUrl": "https://ladlibehna.mp.gov.in",
+      "sourceQuote": "The family total annual income must be below the specified threshold limit"
+    },
+    {
+      "field": "isTaxpayer",
+      "operator": "isFalse",
+      "value": null,
+      "isMandatory": true,
+      "description": "No member of the household should be an income tax payer.",
+      "descriptionHindi": "परिवार का कोई सदस्य आयकरदाता नहीं होना चाहिए।",
+      "sourceUrl": "https://ladlibehna.mp.gov.in",
+      "sourceQuote": "Any member of her family is an income tax payer is excluded."
+    },
+    {
+      "field": "isGovtEmployee",
+      "operator": "isFalse",
+      "value": null,
+      "isMandatory": true,
+      "description": "No family member should be a regular/permanent government employee or pensioner.",
+      "descriptionHindi": "परिवार का कोई सदस्य नियमित सरकारी सेवा में नहीं होना चाहिए।",
+      "sourceUrl": "https://ladlibehna.mp.gov.in",
+      "sourceQuote": "Any family member is a regular/permanent government employee or pensioner is excluded."
+    }
+  ],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [
+    "Family Samagra ID and Individual Member Samagra ID",
+    "Aadhaar Card (e-KYC verified with Samagra)",
+    "Bank Account Passbook (Aadhaar linked and DBT enabled)",
+    "Active Mobile Number"
+  ],
+  "requiredDocumentsHindi": [
+    "परिवार समग्र आईडी एवं सदस्य समग्र आईडी",
+    "समग्र से ई-केवाईसी सत्यापित आधार कार्ड",
+    "डीबीटी सक्रिय बैंक खाता पासबुक",
+    "सक्रिय मोबाइल नंबर"
+  ],
+  "applicationProcess": "1. Ensure Samagra e-KYC and Aadhaar DBT linking are active on bank account. 2. Attend designated camp at Gram Panchayat / Ward office. 3. Camp official fills online form on ladlibehna.mp.gov.in using Samagra ID. 4. Biometric/OTP authentication and photo captured. 5. Acknowledgment slip issued with application number.",
+  "applicationProcessHindi": "1. बैंक खाते में डीबीटी और समग्र ई-केवाईसी सक्रिय कराएं। 2. ग्राम पंचायत या वार्ड कैंप में जाएं। 3. कैंप प्रभारी समग्र आईडी से फॉर्म भरेंगे। 4. फोटो और ओटीपी प्रमाणीकरण कराएं। 5. पावती पर्ची प्राप्त करें।",
+  "applicationUrl": "https://ladlibehna.mp.gov.in",
+  "officialSourceUrl": "https://ladlibehna.mp.gov.in",
+  "sourceName": "Government of Madhya Pradesh",
+  "sourceUrls": [
+    "https://ladlibehna.mp.gov.in",
+    "https://mp.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": true,
+  "popularityRank": 10,
+  "searchKeywords": [
+    "ladlibehna",
+    "ladli",
+    "behna",
+    "mp",
+    "madhyapradesh",
+    "1250",
+    "women",
+    "samagra",
+    "लाड़ली",
+    "बहना",
+    "मध्य प्रदेश"
+  ],
+  "nameLower": "mukhyamantri ladli behna yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": true,
+    "hasRules": true,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "partial_rules_coverage"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

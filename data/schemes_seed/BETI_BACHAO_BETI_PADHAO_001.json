@@ -1,0 +1,69 @@
+{
+  "schemeId": "BETI_BACHAO_BETI_PADHAO_001",
+  "name": "Beti Bachao Beti Padhao",
+  "nameHindi": "बेटी बचाओ बेटी पढ़ाओ",
+  "description": "Beti Bachao Beti Padhao is a joint national initiative to prevent gender-biased sex selection, ensure the survival and protection of the girl child, and encourage her education.",
+  "descriptionHindi": "बालिकाओं के लिंगानुपात में सुधार, उनके संरक्षण, सुरक्षा और गुणवत्तापूर्ण शिक्षा को बढ़ावा देने के लिए राष्ट्रीय अभियान।",
+  "category": "women-child",
+  "tags": [
+    "women",
+    "girl-child"
+  ],
+  "ministry": "Ministry of Women and Child Development",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Multi-sectoral action ensuring secondary education enrollment of girl children, community sensitization, and district-level advocacy campaigns.",
+  "benefitsHindi": "बालिकाओं की शिक्षा, सुरक्षा, स्वास्थ्य और समग्र सशक्तिकरण हेतु जिला स्तरीय प्रोत्साहन और सामुदायिक अभियान।",
+  "eligibilityText": "Open to all girl children, families, schools, and communities across all districts in India.",
+  "eligibilityTextHindi": "देश की सभी बालिकाएं, परिवार और शैक्षणिक संस्थान।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://wcd.nic.in",
+  "officialSourceUrl": "https://wcd.nic.in",
+  "sourceName": "Ministry of Women and Child Development",
+  "sourceUrls": [
+    "https://wcd.nic.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "bbbp",
+    "beti",
+    "bachao",
+    "padhao",
+    "girl",
+    "child",
+    "women",
+    "wcd"
+  ],
+  "nameLower": "beti bachao beti padhao",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

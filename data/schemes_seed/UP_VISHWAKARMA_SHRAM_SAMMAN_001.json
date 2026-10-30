@@ -1,0 +1,69 @@
+{
+  "schemeId": "UP_VISHWAKARMA_SHRAM_SAMMAN_001",
+  "name": "Vishwakarma Shram Samman Yojana",
+  "nameHindi": "विश्वकर्मा श्रम सम्मान योजना",
+  "description": "Uplifts traditional artisans and craftspersons across rural and urban Uttar Pradesh through modern skill training, free toolkits, and credit linkage.",
+  "descriptionHindi": "उत्तर प्रदेश के पारंपरिक कारीगरों (बढ़ई, दर्जी, कुम्हार, लोहार आदि) को निःशुल्क आधुनिक टूलकिट, प्रशिक्षण और ऋण सहायता।",
+  "category": "employment-skills",
+  "tags": [
+    "artisans",
+    "workers",
+    "skill-training"
+  ],
+  "ministry": "Department of MSME and Export Promotion, Uttar Pradesh",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "UP"
+  ],
+  "benefits": "6-day free advanced skill training with stipend, free modern toolkits worth up to ₹15,000, and institutional loan assistance without collateral.",
+  "benefitsHindi": "6 दिवसीय निःशुल्क कौशल प्रशिक्षण, ₹15,000 तक की आधुनिक टूलकिट और बिना गारंटी व्यवसाय ऋण।",
+  "eligibilityText": "Traditional craftspersons aged 18 and above residing in Uttar Pradesh belonging to eligible artisan trades.",
+  "eligibilityTextHindi": "उत्तर प्रदेश के 18 वर्ष से अधिक आयु के पारंपरिक दस्तकार और हस्तशिल्पी।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://msme1connect.up.gov.in",
+  "officialSourceUrl": "https://msme.up.gov.in",
+  "sourceName": "MSME Department Uttar Pradesh",
+  "sourceUrls": [
+    "https://msme.up.gov.in",
+    "https://up.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "vishwakarma",
+    "shram",
+    "samman",
+    "artisan",
+    "toolkit",
+    "msme",
+    "up"
+  ],
+  "nameLower": "vishwakarma shram samman yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

@@ -1,0 +1,67 @@
+{
+  "schemeId": "JH_MAIYA_SAMMAN_001",
+  "name": "Mukhyamantri Maiya Samman Yojana",
+  "nameHindi": "मुख्यमंत्री मंईयां सम्मान योजना",
+  "description": "Financial security initiative by Government of Jharkhand providing monthly financial assistance to women to support nutrition, health, and household dignity.",
+  "descriptionHindi": "झारखंड सरकार द्वारा 18 से 50 वर्ष की महिलाओं को आर्थिक आत्मनिर्भरता और सम्मान हेतु मासिक सहायता योजना।",
+  "category": "women-child",
+  "tags": [
+    "women"
+  ],
+  "ministry": "Women, Child Development and Social Security Department, Jharkhand",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "JH"
+  ],
+  "benefits": "Monthly financial assistance of ₹1,000 (enhanced up to ₹2,500) credited directly via Aadhaar-linked DBT into the woman's bank account on the 15th of every month.",
+  "benefitsHindi": "प्रति माह ₹1,000 (क्रमशः ₹2,500 तक) की सम्मान राशि सीधे डीबीटी द्वारा बैंक खाते में अंतरित।",
+  "eligibilityText": "Resident women of Jharkhand aged between 18 and 50 years belonging to eligible ration cardholder households who are not income tax payers.",
+  "eligibilityTextHindi": "झारखंड की 18 से 50 वर्ष की महिलाएं जिनका परिवार राशन कार्ड धारक हो तथा जो आयकरदाता न हों।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://mmmsy.jharkhand.gov.in",
+  "officialSourceUrl": "https://mmmsy.jharkhand.gov.in",
+  "sourceName": "Government of Jharkhand",
+  "sourceUrls": [
+    "https://mmmsy.jharkhand.gov.in",
+    "https://jharkhand.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "maiyasamman",
+    "maiya",
+    "samman",
+    "jharkhand",
+    "women",
+    "1000",
+    "2500"
+  ],
+  "nameLower": "mukhyamantri maiya samman yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

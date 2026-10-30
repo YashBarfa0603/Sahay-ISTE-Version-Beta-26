@@ -1,0 +1,69 @@
+{
+  "schemeId": "TN_PUDHUMAI_PENN_001",
+  "name": "Pudhumai Penn Scheme",
+  "nameHindi": "पुधुमई पेन योजना",
+  "description": "Higher Education Assurance Scheme incentivizing female students from government schools in Tamil Nadu to pursue graduation and diploma courses.",
+  "descriptionHindi": "सरकारी स्कूलों की छात्राओं को उच्च शिक्षा (डिग्री व डिप्लोमा) प्राप्त करने हेतु मासिक वित्तीय प्रोत्साहन योजना।",
+  "category": "education",
+  "tags": [
+    "scholarship",
+    "women",
+    "students"
+  ],
+  "ministry": "Social Welfare and Women Empowerment Department, Tamil Nadu",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "TN"
+  ],
+  "benefits": "Monthly financial scholarship of ₹1,000 transferred directly to the student's bank account until successful completion of the undergraduate or diploma course.",
+  "benefitsHindi": "कॉलेज की पढ़ाई पूरी होने तक छात्राओं को प्रति माह ₹1,000 की वित्तीय सहायता।",
+  "eligibilityText": "Girl students who studied from Class 6 to 12 in Tamil Nadu government schools enrolled in higher education programs.",
+  "eligibilityTextHindi": "कक्षा 6 से 12वीं तक सरकारी स्कूल में पढ़ीं छात्राएं जो उच्च शिक्षण संस्थानों में नामांकित हों।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://www.pudhumaipenn.tn.gov.in",
+  "officialSourceUrl": "https://www.pudhumaipenn.tn.gov.in",
+  "sourceName": "Government of Tamil Nadu",
+  "sourceUrls": [
+    "https://www.pudhumaipenn.tn.gov.in",
+    "https://tn.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "pudhumaipenn",
+    "pudhumai",
+    "penn",
+    "highereducation",
+    "girls",
+    "1000",
+    "tamilnadu"
+  ],
+  "nameLower": "pudhumai penn scheme",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

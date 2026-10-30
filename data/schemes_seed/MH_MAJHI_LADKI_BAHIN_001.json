@@ -1,0 +1,67 @@
+{
+  "schemeId": "MH_MAJHI_LADKI_BAHIN_001",
+  "name": "Mukhyamantri Majhi Ladki Bahin Yojana",
+  "nameHindi": "मुख्यमंत्री माझी लाडकी बहीण योजना",
+  "description": "Financial assistance scheme by Government of Maharashtra to promote economic independence, health, and nutrition among women across the state.",
+  "descriptionHindi": "महाराष्ट्र सरकार द्वारा महिलाओं के आर्थिक स्वावलंबन, स्वास्थ्य और पोषण में सुधार हेतु मासिक वित्तीय सहायता योजना।",
+  "category": "women-child",
+  "tags": [
+    "women"
+  ],
+  "ministry": "Women and Child Development Department, Government of Maharashtra",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "MH"
+  ],
+  "benefits": "Monthly financial assistance of ₹1,500 transferred directly via Aadhaar-linked DBT into the beneficiary woman's bank account.",
+  "benefitsHindi": "पात्र महिलाओं को ₹1,500 प्रति माह की आर्थिक सहायता सीधे आधार लिंक बैंक खाते में डीबीटी द्वारा प्रदान की जाती है।",
+  "eligibilityText": "Resident married, widowed, divorced, or abandoned women of Maharashtra aged between 21 and 65 years with annual family income under ₹2.50 lakh.",
+  "eligibilityTextHindi": "महाराष्ट्र की 21 से 65 वर्ष आयु वर्ग की विवाहित, विधवा या परित्यक्ता महिलाएं जिनकी पारिवारिक आय ₹2.5 लाख तक हो।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://ladakibahin.maharashtra.gov.in",
+  "officialSourceUrl": "https://ladakibahin.maharashtra.gov.in",
+  "sourceName": "Government of Maharashtra",
+  "sourceUrls": [
+    "https://ladakibahin.maharashtra.gov.in",
+    "https://maharashtra.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "ladkibahin",
+    "majhi",
+    "bahin",
+    "maharashtra",
+    "women",
+    "1500",
+    "dbt"
+  ],
+  "nameLower": "mukhyamantri majhi ladki bahin yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

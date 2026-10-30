@@ -1,0 +1,71 @@
+{
+  "schemeId": "NSAP_001",
+  "name": "National Social Assistance Programme",
+  "nameHindi": "राष्ट्रीय सामाजिक सहायता कार्यक्रम",
+  "description": "NSAP provides financial assistance to elderly persons, widows, and persons with severe disabilities living below the poverty line (BPL).",
+  "descriptionHindi": "गरीबी रेखा से नीचे जीवन यापन करने वाले वृद्धजनों, विधवाओं और दिव्यांग व्यक्तियों को मासिक पेंशन सहायता।",
+  "category": "social-security",
+  "tags": [
+    "pension",
+    "senior-citizens",
+    "bpl",
+    "disabled"
+  ],
+  "ministry": "Ministry of Rural Development",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Monthly pensions under IGNOAPS (old age: ₹200-₹500 central contribution plus state top-up), IGNWPS (widow), IGNDPS (disability), and one-time NFBS grant (₹20,000 on breadwinner death).",
+  "benefitsHindi": "वृद्धावस्था पेंशन, विधवा पेंशन, दिव्यांग पेंशन तथा परिवार के कमाऊ मुखिया की मृत्यु पर ₹20,000 की एकमुश्त सहायता।",
+  "eligibilityText": "BPL individuals aged 60+ for old age pension, BPL widows aged 40-79, and BPL persons aged 18+ with 80% or severe disability.",
+  "eligibilityTextHindi": "बीपीएल श्रेणी के 60 वर्ष से अधिक वृद्ध, 40 वर्ष से अधिक विधवाएं तथा गंभीर दिव्यांगजन।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://nsap.nic.in",
+  "officialSourceUrl": "https://nsap.nic.in",
+  "sourceName": "NSAP Official Portal",
+  "sourceUrls": [
+    "https://nsap.nic.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "nsap",
+    "social",
+    "assistance",
+    "pension",
+    "bpl",
+    "widow",
+    "disability",
+    "ignaps"
+  ],
+  "nameLower": "national social assistance programme",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

@@ -1,0 +1,67 @@
+{
+  "schemeId": "MP_KISAN_KALYAN_001",
+  "name": "Mukhyamantri Kisan Kalyan Yojana",
+  "nameHindi": "मुख्यमंत्री किसान कल्याण योजना",
+  "description": "Provides supplementary annual income support from the MP state government to farmers who are registered beneficiaries of the PM-KISAN scheme.",
+  "descriptionHindi": "पीएम-किसान योजना के पात्र हितग्राही किसान परिवारों को मध्य प्रदेश शासन द्वारा अतिरिक्त वार्षिक वित्तीय सहायता।",
+  "category": "agriculture",
+  "tags": [
+    "farmers"
+  ],
+  "ministry": "Revenue Department, Government of Madhya Pradesh",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "MP"
+  ],
+  "benefits": "Direct financial transfer of ₹6,000 per year in three equal installments of ₹2,000 each into the Aadhaar-linked bank accounts of beneficiary farmers.",
+  "benefitsHindi": "मध्य प्रदेश सरकार द्वारा प्रति वर्ष ₹6,000 की वित्तीय सहायता ₹2,000 की तीन किस्तों में सीधे डीबीटी द्वारा प्रदान की जाती है।",
+  "eligibilityText": "Landholding farmers who are permanent residents of Madhya Pradesh and actively receiving installments under PM-KISAN.",
+  "eligibilityTextHindi": "मध्य प्रदेश के मूल निवासी भूमिधारक किसान जो पीएम-किसान योजना के तहत लाभ प्राप्त कर रहे हों।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://saara.mp.gov.in",
+  "officialSourceUrl": "https://saara.mp.gov.in",
+  "sourceName": "SAARA Portal, Revenue Department MP",
+  "sourceUrls": [
+    "https://saara.mp.gov.in",
+    "https://mp.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "kisan",
+    "kalyan",
+    "mp",
+    "saara",
+    "farmers",
+    "6000",
+    "madhyapradesh"
+  ],
+  "nameLower": "mukhyamantri kisan kalyan yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

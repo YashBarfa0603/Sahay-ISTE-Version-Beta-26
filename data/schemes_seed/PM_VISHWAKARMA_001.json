@@ -1,0 +1,70 @@
+{
+  "schemeId": "PM_VISHWAKARMA_001",
+  "name": "PM Vishwakarma",
+  "nameHindi": "पीएम विश्वकर्मा",
+  "description": "PM Vishwakarma provides end-to-end holistic support to traditional artisans and craftspeople working with hands and tools across 18 designated family trades.",
+  "descriptionHindi": "हाथ और औजारों से काम करने वाले 18 पारंपरिक शिल्पकर्मियों और कारीगरों को समग्र वित्तीय, तकनीकी और बाजार सहायता।",
+  "category": "employment-skills",
+  "tags": [
+    "artisans",
+    "workers",
+    "skill-training",
+    "loan"
+  ],
+  "ministry": "Ministry of Micro, Small and Medium Enterprises",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "PM Vishwakarma Certificate/ID, ₹15,000 modern toolkit incentive, skill training with ₹500/day stipend, and collateral-free enterprise loans up to ₹3 lakh at 5% interest.",
+  "benefitsHindi": "प्रमाण पत्र, ₹15,000 का टूलकिट अनुदान, ₹500 प्रतिदिन स्टाइपेंड के साथ प्रशिक्षण तथा 5% रियायती ब्याज पर ₹3 लाख तक बिना गारंटी ऋण।",
+  "eligibilityText": "Traditional artisans and craftspeople aged 18 years or above engaged in one of the 18 specified trades on self-employment basis.",
+  "eligibilityTextHindi": "18 अधिसूचित पारंपरिक शिल्पों में स्वरोजगार कर रहे 18 वर्ष या उससे अधिक आयु के कारीगर।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://pmvishwakarma.gov.in",
+  "officialSourceUrl": "https://pmvishwakarma.gov.in",
+  "sourceName": "Ministry of MSME",
+  "sourceUrls": [
+    "https://pmvishwakarma.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "vishwakarma",
+    "artisan",
+    "carpenter",
+    "blacksmith",
+    "toolkit",
+    "15000",
+    "loan"
+  ],
+  "nameLower": "pm vishwakarma",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

@@ -1,0 +1,69 @@
+{
+  "schemeId": "MP_SAMBAL_2_001",
+  "name": "Sambal 2.0 Yojana",
+  "nameHindi": "मुख्यमंत्री जन कल्याण (संबल 2.0) योजना",
+  "description": "Sambal 2.0 provides comprehensive social security protection to millions of unorganized workers in Madhya Pradesh from birth through twilight years.",
+  "descriptionHindi": "असंगठित क्षेत्र के श्रमिकों और उनके परिवारों को सामाजिक सुरक्षा, अनुग्रह सहायता और शिक्षा प्रोत्साहन देने वाली योजना।",
+  "category": "social-security",
+  "tags": [
+    "workers",
+    "bpl",
+    "insurance"
+  ],
+  "ministry": "Labour Department, Government of Madhya Pradesh",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "MP"
+  ],
+  "benefits": "Ex-gratia financial assistance of ₹4 lakh in case of accidental death, ₹2 lakh for normal death, ₹2 lakh for permanent disability, and ₹5,000 for funeral costs.",
+  "benefitsHindi": "दुर्घटना में मृत्यु पर ₹4 लाख, सामान्य मृत्यु पर ₹2 लाख, स्थायी दिव्यांगता पर ₹2 लाख और अंत्येष्टि सहायता ₹5,000।",
+  "eligibilityText": "Unorganized workers aged between 18 and 60 years who are permanent residents of MP holding a registered Sambal card.",
+  "eligibilityTextHindi": "18 से 60 वर्ष के मध्य प्रदेश के असंगठित श्रमिक जिनके पास संबल कार्ड हो।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://sambal.mp.gov.in",
+  "officialSourceUrl": "https://sambal.mp.gov.in",
+  "sourceName": "Sambal Portal, Labour Department MP",
+  "sourceUrls": [
+    "https://sambal.mp.gov.in",
+    "https://mp.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "sambal",
+    "unorganized",
+    "workers",
+    "labour",
+    "death",
+    "assistance",
+    "mp"
+  ],
+  "nameLower": "sambal 2.0 yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

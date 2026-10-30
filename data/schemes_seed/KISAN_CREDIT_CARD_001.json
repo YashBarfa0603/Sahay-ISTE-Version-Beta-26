@@ -1,0 +1,67 @@
+{
+  "schemeId": "KISAN_CREDIT_CARD_001",
+  "name": "Kisan Credit Card (KCC)",
+  "nameHindi": "किसान क्रेडिट कार्ड",
+  "description": "Kisan Credit Card scheme provides adequate and timely institutional credit to farmers under a single window for crop cultivation, post-harvest expenses, and allied agricultural activities.",
+  "descriptionHindi": "किसानों को फसल उत्पादन, कटाई उपरांत खर्चों एवं कृषि संबंधित गतिविधियों हेतु आसान और समय पर संस्थागत ऋण उपलब्ध कराया जाता है।",
+  "category": "agriculture",
+  "tags": [
+    "farmers",
+    "loan"
+  ],
+  "ministry": "Ministry of Agriculture and Farmers Welfare",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Short-term crop loans up to ₹3 lakh at a concessional effective interest rate of 4% per annum upon prompt repayment, alongside credit for animal husbandry and fisheries.",
+  "benefitsHindi": "समय पर भुगतान करने पर 4% की रियायती ब्याज दर पर ₹3 लाख तक का अल्पकालिक फसली ऋण तथा पशुपालन व मत्स्य पालन हेतु कार्यशील पूंजी।",
+  "eligibilityText": "All farmers, individual or joint cultivators, tenant farmers, oral lessees, and sharecroppers are eligible.",
+  "eligibilityTextHindi": "सभी व्यक्तिगत/संयुक्त काश्तकार किसान, बटाईदार और स्वयं सहायता समूह पात्र हैं।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://myscheme.gov.in/schemes/kcc",
+  "officialSourceUrl": "https://myscheme.gov.in",
+  "sourceName": "Department of Agriculture & Farmers Welfare",
+  "sourceUrls": [
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "kcc",
+    "kisan",
+    "credit",
+    "card",
+    "loan",
+    "farmers",
+    "agriculture"
+  ],
+  "nameLower": "kisan credit card (kcc)",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

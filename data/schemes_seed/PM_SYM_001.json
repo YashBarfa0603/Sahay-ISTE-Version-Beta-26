@@ -1,0 +1,68 @@
+{
+  "schemeId": "PM_SYM_001",
+  "name": "Pradhan Mantri Shram Yogi Maandhan",
+  "nameHindi": "प्रधानमंत्री श्रम योगी मानधन",
+  "description": "PM-SYM is a voluntary and contributory pension scheme for unorganized workers to ensure old-age financial protection.",
+  "descriptionHindi": "असंगठित क्षेत्र के कामगारों के लिए वृद्धावस्था पेंशन योजना, जिसमें 60 वर्ष की आयु के बाद निश्चित मासिक पेंशन मिलती है।",
+  "category": "social-security",
+  "tags": [
+    "pension",
+    "workers"
+  ],
+  "ministry": "Ministry of Labour and Employment",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Assured minimum monthly pension of ₹3,000 after attaining the age of 60 years, with matching equal monthly contribution by the Central Government.",
+  "benefitsHindi": "60 वर्ष के बाद ₹3,000 प्रति माह की निश्चित पेंशन, जिसमें जितनी राशि कामगार जमा करता है उतनी ही केंद्र सरकार मिलाती है।",
+  "eligibilityText": "Unorganized workers aged 18 to 40 years with monthly income of ₹15,000 or less, who are not members of EPFO/ESIC/NPS and not income tax payers.",
+  "eligibilityTextHindi": "18 से 40 वर्ष के असंगठित श्रमिक जिनकी मासिक आय ₹15,000 या कम हो तथा जो आयकरदाता या ईपीएफओ/ईएसआईसी सदस्य न हों।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://myscheme.gov.in/schemes/pm-kmy",
+  "officialSourceUrl": "https://labour.gov.in",
+  "sourceName": "Ministry of Labour and Employment",
+  "sourceUrls": [
+    "https://labour.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "pmsym",
+    "pm-sym",
+    "shram",
+    "yogi",
+    "maandhan",
+    "unorganized",
+    "pension"
+  ],
+  "nameLower": "pradhan mantri shram yogi maandhan",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

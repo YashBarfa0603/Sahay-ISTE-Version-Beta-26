@@ -1,0 +1,67 @@
+{
+  "schemeId": "KA_SHAKTI_001",
+  "name": "Shakti Scheme",
+  "nameHindi": "शक्ति योजना",
+  "description": "Provides free bus travel for women domiciled in Karnataka across state-run Road Transport Corporation city and ordinary buses.",
+  "descriptionHindi": "कर्नाटक की महिलाओं और छात्राओं को राज्य परिवहन की सरकारी बसों में निःशुल्क यात्रा सुविधा।",
+  "category": "women-child",
+  "tags": [
+    "women"
+  ],
+  "ministry": "Transport Department, Government of Karnataka",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "KA"
+  ],
+  "benefits": "100% free travel in ordinary and express bus services operated by KSRTC, BMTC, NWKRTC, and KKRTC across Karnataka using Shakti Smart Card or government ID.",
+  "benefitsHindi": "केएसआरटीसी, बीएमटीसी सहित राज्य की सभी साधारण व एक्सप्रेस बसों में शत-प्रतिशत मुफ्त यात्रा।",
+  "eligibilityText": "All women, girl students, and transgender persons domiciled in the state of Karnataka.",
+  "eligibilityTextHindi": "कर्नाटक की मूल निवासी सभी महिलाएं, छात्राएं एवं ट्रांसजेंडर व्यक्ति।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://sevasindhuservices.karnataka.gov.in",
+  "officialSourceUrl": "https://sevasindhuservices.karnataka.gov.in",
+  "sourceName": "Transport Department Karnataka",
+  "sourceUrls": [
+    "https://sevasindhuservices.karnataka.gov.in",
+    "https://karnataka.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "shakti",
+    "freebus",
+    "travel",
+    "women",
+    "ksrtc",
+    "bmtc",
+    "karnataka"
+  ],
+  "nameLower": "shakti scheme",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

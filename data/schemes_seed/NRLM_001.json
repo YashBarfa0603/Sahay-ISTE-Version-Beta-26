@@ -1,0 +1,69 @@
+{
+  "schemeId": "NRLM_001",
+  "name": "National Rural Livelihoods Mission",
+  "nameHindi": "दीनदयाल अंत्योदय योजना - राष्ट्रीय ग्रामीण आजीविका मिशन",
+  "description": "DAY-NRLM aims to alleviate rural poverty by building strong community institutions of the poor (Women SHGs) and promoting diversified livelihoods.",
+  "descriptionHindi": "ग्रामीण गरीब परिवारों की महिलाओं को स्वयं सहायता समूहों (SHG) से जोड़कर स्थायी आजीविका और वित्तीय स्वतंत्रता दिलाना।",
+  "category": "rural-development",
+  "tags": [
+    "women",
+    "rural",
+    "bpl"
+  ],
+  "ministry": "Ministry of Rural Development",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Revolving fund of ₹20,000 to ₹30,000, Community Investment Support Fund, and collateral-free bank loans up to ₹20 lakh with interest subvention at 7%.",
+  "benefitsHindi": "रिवॉल्विंग फंड, सामुदायिक निवेश कोष तथा 7% ब्याज दर पर ₹20 लाख तक का बिना गारंटी बैंक ऋण।",
+  "eligibilityText": "Rural poor households, with at least one woman member organized into a Self Help Group.",
+  "eligibilityTextHindi": "ग्रामीण गरीब परिवार, विशेषकर स्वयं सहायता समूह से जुड़ी महिलाएं।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://aajeevika.gov.in",
+  "officialSourceUrl": "https://aajeevika.gov.in",
+  "sourceName": "Ministry of Rural Development",
+  "sourceUrls": [
+    "https://aajeevika.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "nrlm",
+    "aajeevika",
+    "shg",
+    "women",
+    "rural",
+    "livelihood",
+    "revolvingfund"
+  ],
+  "nameLower": "national rural livelihoods mission",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

@@ -1,0 +1,68 @@
+{
+  "schemeId": "SAKSHAM_ANGANWADI_POSHAN_2_001",
+  "name": "Saksham Anganwadi and POSHAN 2.0",
+  "nameHindi": "सक्षम आंगनवाड़ी एवं पोषण 2.0",
+  "description": "An integrated nutrition support programme addressing malnutrition among children, adolescent girls, pregnant women, and lactating mothers.",
+  "descriptionHindi": "कुपोषण से निपटने, स्वास्थ्य व पोषण संबंधी व्यवहार सुधारने और आंगनवाड़ी केंद्रों को सक्षम बनाने का राष्ट्रीय कार्यक्रम।",
+  "category": "women-child",
+  "tags": [
+    "women",
+    "pregnant-women",
+    "girl-child"
+  ],
+  "ministry": "Ministry of Women and Child Development",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Supplementary nutrition (hot cooked meals and take-home rations), growth monitoring, early childhood care and education, and Poshan Tracker digital health monitoring.",
+  "benefitsHindi": "पूरक पोषण आहार (गर्म पका भोजन और टेक-होम राशन), वृद्धि निगरानी और पूर्व-प्राथमिक शिक्षा।",
+  "eligibilityText": "Children aged 6 months to 6 years, pregnant women, lactating mothers, and adolescent girls (14 to 18 years in aspirational districts).",
+  "eligibilityTextHindi": "6 माह से 6 वर्ष तक के बच्चे, गर्भवती महिलाएं, धात्री माताएं और आकांक्षी जिलों की किशोरियां।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://myscheme.gov.in/schemes/sap2",
+  "officialSourceUrl": "https://wcd.nic.in",
+  "sourceName": "Ministry of Women and Child Development",
+  "sourceUrls": [
+    "https://wcd.nic.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "poshan",
+    "anganwadi",
+    "nutrition",
+    "malnutrition",
+    "ration",
+    "children"
+  ],
+  "nameLower": "saksham anganwadi and poshan 2.0",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

@@ -1,0 +1,69 @@
+{
+  "schemeId": "PM_MATRU_VANDANA_001",
+  "name": "Pradhan Mantri Matru Vandana Yojana",
+  "nameHindi": "प्रधानमंत्री मातृ वंदना योजना",
+  "description": "PMMVY is a direct benefit transfer maternity incentive scheme compensating for wage loss and encouraging health-seeking behavior among pregnant women and lactating mothers.",
+  "descriptionHindi": "गर्भवती महिलाओं और स्तनपान कराने वाली माताओं को मजदूरी के नुकसान की भरपाई और पोषण सुधार हेतु प्रत्यक्ष वित्तीय सहायता।",
+  "category": "women-child",
+  "tags": [
+    "women",
+    "pregnant-women"
+  ],
+  "ministry": "Ministry of Women and Child Development",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Cash incentive of ₹5,000 in two installments for the first live child, and ₹6,000 in a single installment upon the birth of a second girl child.",
+  "benefitsHindi": "पहले बच्चे के जन्म पर ₹5,000 की वित्तीय सहायता तथा दूसरी संतान बालिका होने पर ₹6,000 की एकमुश्त सहायता।",
+  "eligibilityText": "Pregnant women and lactating mothers belonging to socially/economically disadvantaged sections who are not in regular government employment.",
+  "eligibilityTextHindi": "आर्थिक व सामाजिक रूप से कमजोर वर्गों की गर्भवती महिलाएं एवं धात्री माताएं जो नियमित सरकारी सेवा में न हों।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://pmmvy.wcd.gov.in",
+  "officialSourceUrl": "https://pmmvy.wcd.gov.in",
+  "sourceName": "Ministry of Women and Child Development",
+  "sourceUrls": [
+    "https://pmmvy.wcd.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "pmmvy",
+    "matru",
+    "vandana",
+    "maternity",
+    "pregnant",
+    "women",
+    "5000",
+    "6000"
+  ],
+  "nameLower": "pradhan mantri matru vandana yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

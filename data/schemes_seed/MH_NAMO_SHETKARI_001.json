@@ -1,0 +1,67 @@
+{
+  "schemeId": "MH_NAMO_SHETKARI_001",
+  "name": "Namo Shetkari Mahasanman Nidhi Yojana",
+  "nameHindi": "नमो शेतकरी महासन्मान निधी योजना",
+  "description": "Maharashtra state income support scheme providing supplemental financial grants to farmers who receive PM-KISAN benefits.",
+  "descriptionHindi": "पीएम-किसान योजना के पात्र महाराष्ट्र के किसानों को राज्य सरकार द्वारा अतिरिक्त आर्थिक संबल प्रदान करने की योजना।",
+  "category": "agriculture",
+  "tags": [
+    "farmers"
+  ],
+  "ministry": "Agriculture Department, Government of Maharashtra",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "MH"
+  ],
+  "benefits": "Annual grant of ₹6,000 paid in three equal installments of ₹2,000 each, complementing PM-KISAN to deliver total annual support of ₹12,000.",
+  "benefitsHindi": "राज्य सरकार द्वारा प्रति वर्ष ₹6,000 की वित्तीय सहायता (पीएम-किसान मिलाकर कुल ₹12,000 वार्षिक)।",
+  "eligibilityText": "Landholding farmers domiciled in Maharashtra whose bank accounts are active beneficiaries under PM-KISAN.",
+  "eligibilityTextHindi": "महाराष्ट्र के मूल निवासी किसान जो पीएम-किसान योजना के सक्रिय लाभार्थी हों।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://mahadbt.maharashtra.gov.in",
+  "officialSourceUrl": "https://mahadbt.maharashtra.gov.in",
+  "sourceName": "MahaDBT Portal, Government of Maharashtra",
+  "sourceUrls": [
+    "https://mahadbt.maharashtra.gov.in",
+    "https://maharashtra.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "namoshetkari",
+    "shetkari",
+    "mahasanman",
+    "farmers",
+    "maharashtra",
+    "6000",
+    "kisan"
+  ],
+  "nameLower": "namo shetkari mahasanman nidhi yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

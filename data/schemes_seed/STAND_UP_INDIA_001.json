@@ -1,0 +1,72 @@
+{
+  "schemeId": "STAND_UP_INDIA_001",
+  "name": "Stand-Up India",
+  "nameHindi": "स्टैंड-अप इंडिया",
+  "description": "Stand-Up India facilitates bank loans between ₹10 lakh and ₹1 crore to at least one SC or ST borrower and at least one woman borrower per bank branch for setting up greenfield enterprises.",
+  "descriptionHindi": "अनुसूचित जाति, जनजाति और महिला उद्यमियों को नया व्यवसाय (ग्रीनफील्ड उद्यम) शुरू करने हेतु ₹10 लाख से ₹1 करोड़ तक का बैंक ऋण।",
+  "category": "finance",
+  "tags": [
+    "loan",
+    "sc",
+    "st",
+    "women",
+    "entrepreneurs"
+  ],
+  "ministry": "Ministry of Finance",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Composite bank loans between ₹10 lakh and ₹1 crore covering working capital and term loans for greenfield ventures in manufacturing, services, trading, or agri-allied sectors.",
+  "benefitsHindi": "विनिर्माण, सेवा या व्यापार में नए उद्यमों हेतु ₹10 लाख से ₹1 करोड़ तक का समग्र बैंक ऋण।",
+  "eligibilityText": "SC/ST and/or women entrepreneurs above 18 years of age setting up greenfield enterprises. In non-individual enterprises, 51% shareholding must be held by SC/ST and/or women.",
+  "eligibilityTextHindi": "18 वर्ष से अधिक आयु की महिलाएं अथवा अनुसूचित जाति/जनजाति के उद्यमी।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://myscheme.gov.in/schemes/sui",
+  "officialSourceUrl": "https://financialservices.gov.in",
+  "sourceName": "Department of Financial Services",
+  "sourceUrls": [
+    "https://financialservices.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "standup",
+    "india",
+    "loan",
+    "women",
+    "sc",
+    "st",
+    "greenfield",
+    "entrepreneurs"
+  ],
+  "nameLower": "stand-up india",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

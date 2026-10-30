@@ -1,0 +1,226 @@
+{
+  "fields": [
+    {
+      "key": "age",
+      "type": "number",
+      "allowedValues": null,
+      "question": "What is your age in years?",
+      "questionHindi": "आपकी आयु कितने वर्ष है?",
+      "alwaysKnown": true
+    },
+    {
+      "key": "state",
+      "type": "choice",
+      "allowedValues": [
+        "AN", "AP", "AR", "AS", "BR", "CH", "CG", "DN", "DD", "DL", "GA", "GJ",
+        "HR", "HP", "JK", "JH", "KA", "KL", "LA", "LD", "MP", "MH", "MN", "ML",
+        "MZ", "NL", "OD", "PY", "PB", "RJ", "SK", "TN", "TS", "TR", "UP", "UK", "WB"
+      ],
+      "question": "Which state or union territory do you reside in?",
+      "questionHindi": "आप किस राज्य या केंद्र शासित प्रदेश में रहते हैं?",
+      "alwaysKnown": true
+    },
+    {
+      "key": "district",
+      "type": "choice",
+      "allowedValues": null,
+      "question": "What is your residential district?",
+      "questionHindi": "आपका गृह जिला कौन सा है?",
+      "alwaysKnown": true
+    },
+    {
+      "key": "occupation",
+      "type": "choice",
+      "allowedValues": [
+        "farmer",
+        "agricultural_worker",
+        "unorganized_worker",
+        "construction_worker",
+        "street_vendor",
+        "artisan_craftsperson",
+        "student",
+        "salaried_private",
+        "government_employee",
+        "self_employed_business",
+        "homemaker",
+        "unemployed",
+        "retired"
+      ],
+      "question": "What is your primary occupation?",
+      "questionHindi": "आपका मुख्य व्यवसाय क्या है?",
+      "alwaysKnown": true
+    },
+    {
+      "key": "gender",
+      "type": "choice",
+      "allowedValues": [
+        "male",
+        "female",
+        "transgender"
+      ],
+      "question": "What is your gender?",
+      "questionHindi": "आपका लिंग क्या है?",
+      "alwaysKnown": true
+    },
+    {
+      "key": "residenceType",
+      "type": "choice",
+      "allowedValues": [
+        "rural",
+        "urban"
+      ],
+      "question": "Do you live in a rural or urban area?",
+      "questionHindi": "क्या आप ग्रामीण क्षेत्र में रहते हैं या शहरी क्षेत्र में?",
+      "alwaysKnown": true
+    },
+    {
+      "key": "preferredLanguage",
+      "type": "choice",
+      "allowedValues": [
+        "en",
+        "hi",
+        "mr",
+        "kn",
+        "bn",
+        "ta"
+      ],
+      "question": "What is your preferred language?",
+      "questionHindi": "आपकी पसंदीदा भाषा कौन सी है?",
+      "alwaysKnown": true
+    },
+    {
+      "key": "socialCategory",
+      "type": "choice",
+      "allowedValues": [
+        "general",
+        "obc",
+        "sc",
+        "st",
+        "minority"
+      ],
+      "question": "What is your social category?",
+      "questionHindi": "आपकी सामाजिक श्रेणी (वर्ग) क्या है?",
+      "alwaysKnown": false
+    },
+    {
+      "key": "annualFamilyIncome",
+      "type": "number",
+      "allowedValues": null,
+      "question": "What is your approximate annual family income (in ₹)?",
+      "questionHindi": "आपकी वार्षिक पारिवारिक आय (रुपये में) लगभग कितनी है?",
+      "alwaysKnown": false
+    },
+    {
+      "key": "educationLevel",
+      "type": "choice",
+      "allowedValues": [
+        "none",
+        "primary",
+        "middle",
+        "secondary_10th",
+        "higher_secondary_12th",
+        "diploma",
+        "graduate",
+        "post_graduate",
+        "doctorate"
+      ],
+      "question": "What is your highest educational qualification?",
+      "questionHindi": "आपकी उच्चतम शैक्षणिक योग्यता क्या है?",
+      "alwaysKnown": false
+    },
+    {
+      "key": "isStudent",
+      "type": "bool",
+      "allowedValues": null,
+      "question": "Are you currently enrolled as a student?",
+      "questionHindi": "क्या आप वर्तमान में एक छात्र/विद्यार्थी हैं?",
+      "alwaysKnown": false
+    },
+    {
+      "key": "landholdingAcres",
+      "type": "number",
+      "allowedValues": null,
+      "question": "How many acres of agricultural land does your family hold?",
+      "questionHindi": "आपके परिवार के पास कितने एकड़ कृषि भूमि है?",
+      "alwaysKnown": false
+    },
+    {
+      "key": "isFarmer",
+      "type": "bool",
+      "allowedValues": null,
+      "question": "Are you an agricultural cultivator or farmer?",
+      "questionHindi": "क्या आप किसान अथवा काश्तकार हैं?",
+      "alwaysKnown": false
+    },
+    {
+      "key": "hasDisability",
+      "type": "bool",
+      "allowedValues": null,
+      "question": "Do you have a benchmark disability (40% or more)?",
+      "questionHindi": "क्या आप दिव्यांगजन (40% या अधिक दिव्यांगता) हैं?",
+      "alwaysKnown": false
+    },
+    {
+      "key": "maritalStatus",
+      "type": "choice",
+      "allowedValues": [
+        "unmarried",
+        "married",
+        "widowed",
+        "divorced_separated"
+      ],
+      "question": "What is your marital status?",
+      "questionHindi": "आपकी वैवाहिक स्थिति क्या है?",
+      "alwaysKnown": false
+    },
+    {
+      "key": "hasGirlChild",
+      "type": "bool",
+      "allowedValues": null,
+      "question": "Do you have a daughter/girl child in your family?",
+      "questionHindi": "क्या आपके परिवार में कोई बालिका/बेटी है?",
+      "alwaysKnown": false
+    },
+    {
+      "key": "isPregnantOrLactating",
+      "type": "bool",
+      "allowedValues": null,
+      "question": "Are you currently pregnant or a lactating mother?",
+      "questionHindi": "क्या आप गर्भवती अथवा धात्री (स्तनपान कराने वाली) माता हैं?",
+      "alwaysKnown": false
+    },
+    {
+      "key": "hasBplOrRationCard",
+      "type": "bool",
+      "allowedValues": null,
+      "question": "Does your family possess a BPL, Antyodaya (AAY), or Priority Household (PHH) ration card?",
+      "questionHindi": "क्या आपके परिवार के पास बीपीएल, अंत्योदय या प्राथमिकता राशन कार्ड है?",
+      "alwaysKnown": false
+    },
+    {
+      "key": "isTaxpayer",
+      "type": "bool",
+      "allowedValues": null,
+      "question": "Did any member of your family pay income tax in the last assessment year?",
+      "questionHindi": "क्या आपके परिवार के किसी सदस्य ने पिछले वर्ष आयकर का भुगतान किया था?",
+      "alwaysKnown": false
+    },
+    {
+      "key": "isGovtEmployee",
+      "type": "bool",
+      "allowedValues": null,
+      "question": "Is any member of your household currently a regular government employee or pensioner?",
+      "questionHindi": "क्या आपके परिवार का कोई सदस्य नियमित सरकारी कर्मचारी या पेंशनभोगी है?",
+      "alwaysKnown": false
+    },
+    {
+      "key": "familySize",
+      "type": "number",
+      "allowedValues": null,
+      "question": "How many members are in your family household?",
+      "questionHindi": "आपके परिवार में कुल कितने सदस्य हैं?",
+      "alwaysKnown": false
+    }
+  ]
+}
+

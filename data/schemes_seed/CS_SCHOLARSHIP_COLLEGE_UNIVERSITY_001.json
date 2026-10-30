@@ -1,0 +1,67 @@
+{
+  "schemeId": "CS_SCHOLARSHIP_COLLEGE_UNIVERSITY_001",
+  "name": "Central Sector Scheme of Scholarships for College and University Students",
+  "nameHindi": "महाविद्यालय और विश्वविद्यालय के छात्रों के लिए केंद्रीय क्षेत्र छात्रवृत्ति योजना",
+  "description": "This scheme provides financial assistance to meritorious students from low-income families to meet day-to-day expenses while pursuing higher graduate and postgraduate studies.",
+  "descriptionHindi": "कम आय वाले परिवारों के मेधावी छात्रों को स्नातक एवं स्नातकोत्तर उच्च शिक्षा के दौरान दैनिक खर्चों को वहन करने हेतु वित्तीय सहायता।",
+  "category": "education",
+  "tags": [
+    "scholarship",
+    "students"
+  ],
+  "ministry": "Ministry of Education",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "₹12,000 per annum for the first three years of undergraduate study and ₹20,000 per annum at the postgraduate level.",
+  "benefitsHindi": "स्नातक स्तर पर पहले तीन वर्षों हेतु ₹12,000 प्रति वर्ष तथा स्नातकोत्तर स्तर पर ₹20,000 प्रति वर्ष की छात्रवृत्ति।",
+  "eligibilityText": "Students above the 80th percentile in relevant stream in Class XII board exams pursuing regular degree courses with family income up to ₹4.5 lakh per annum.",
+  "eligibilityTextHindi": "12वीं बोर्ड में संबंधित संकाय में 80 पर्सेंटाइल से अधिक अंक और पारिवारिक वार्षिक आय ₹4.5 लाख से कम।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://scholarships.gov.in",
+  "officialSourceUrl": "https://scholarships.gov.in",
+  "sourceName": "Department of Higher Education",
+  "sourceUrls": [
+    "https://scholarships.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "csss",
+    "college",
+    "university",
+    "scholarship",
+    "highereducation",
+    "students"
+  ],
+  "nameLower": "central sector scheme of scholarships for college and university students",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

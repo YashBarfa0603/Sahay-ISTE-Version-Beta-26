@@ -1,0 +1,36 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // -------------------------------------------------------------------------
+    // SAHAY Scheme Catalogue Public Read-Only Collections
+    // -------------------------------------------------------------------------
+    
+    // Schemes catalogue: Read-only for authenticated & guest citizens.
+    // Writes are strictly restricted to the Firebase Admin SDK / backend workers.
+    match /schemes/{schemeId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Controlled Categories: Read-only for all clients
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // App Configuration & Controlled Vocabulary: Read-only for all clients
+    match /appConfig/{configId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // Teammate-Owned Collections (Auth, Users, Assessments)
+    // -------------------------------------------------------------------------
+    // users and eligibility_assessments rules: owned by teammate
+    // DO NOT write or modify rules for /users or /eligibility_assessments here.
+    // -------------------------------------------------------------------------
+  }
+}
+

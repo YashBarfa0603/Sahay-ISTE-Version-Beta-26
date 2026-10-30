@@ -1,0 +1,69 @@
+{
+  "schemeId": "NAPS_001",
+  "name": "National Apprenticeship Promotion Scheme",
+  "nameHindi": "राष्ट्रीय शिक्षुता संवर्धन योजना",
+  "description": "NAPS promotes apprenticeship training across industrial sectors by providing financial incentives to employers and stipend sharing for apprentices.",
+  "descriptionHindi": "उद्योगों में शिक्षुता (अप्रेंटिसशिप) को बढ़ावा देने तथा प्रशिक्षुओं को मासिक स्टाइपेंड में सरकारी अंशदान प्रदान करने की योजना।",
+  "category": "employment-skills",
+  "tags": [
+    "youth",
+    "skill-training",
+    "employment"
+  ],
+  "ministry": "Ministry of Skill Development and Entrepreneurship",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Stipend support where the Government reimburses 25% of prescribed stipend up to ₹1,500 per month per apprentice directly to the apprentice via DBT.",
+  "benefitsHindi": "शिक्षुओं को निर्धारित स्टाइपेंड का 25% (अधिकतम ₹1,500 प्रति माह) सीधे डीबीटी के माध्यम से बैंक खाते में सरकारी सहयोग।",
+  "eligibilityText": "Candidates aged 14 years or above (18 years for hazardous trades) who possess educational qualification as prescribed for the designated trade.",
+  "eligibilityTextHindi": "14 वर्ष या उससे अधिक आयु के युवा जो संबंधित ट्रेड के अनुसार शैक्षणिक योग्यता रखते हों।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://www.apprenticeshipindia.gov.in",
+  "officialSourceUrl": "https://www.apprenticeshipindia.gov.in",
+  "sourceName": "Ministry of Skill Development and Entrepreneurship",
+  "sourceUrls": [
+    "https://www.apprenticeshipindia.gov.in",
+    "https://www.msde.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "naps",
+    "apprenticeship",
+    "stipend",
+    "skill",
+    "training",
+    "youth",
+    "industry"
+  ],
+  "nameLower": "national apprenticeship promotion scheme",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

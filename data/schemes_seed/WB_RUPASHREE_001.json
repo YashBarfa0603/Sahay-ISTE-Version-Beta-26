@@ -1,0 +1,67 @@
+{
+  "schemeId": "WB_RUPASHREE_001",
+  "name": "Rupashree Prakalpa",
+  "nameHindi": "रूपाश्री प्रकल्प",
+  "description": "Provides a one-time financial grant to economically stressed families in West Bengal towards marriage expenses of their adult daughters.",
+  "descriptionHindi": "गरीब परिवारों की वयस्क बेटियों के विवाह के खर्च में सहायता हेतु एकमुश्त वित्तीय अनुदान योजना।",
+  "category": "women-child",
+  "tags": [
+    "women",
+    "girl-child"
+  ],
+  "ministry": "Department of Women & Child Development and Social Welfare, West Bengal",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "WB"
+  ],
+  "benefits": "One-time financial grant of ₹25,000 credited directly into the bank account of the girl prior to her solemnized marriage.",
+  "benefitsHindi": "विवाह से पूर्व कन्या के बैंक खाते में सीधे ₹25,000 की एकमुश्त वित्तीय सहायता।",
+  "eligibilityText": "Resident women of West Bengal aged 18 or above whose proposed marriage is their first, with family annual income up to ₹1.50 lakh.",
+  "eligibilityTextHindi": "18 वर्ष या उससे अधिक आयु की कन्याएं जिनका प्रथम विवाह हो तथा परिवार की वार्षिक आय ₹1.5 लाख से कम हो।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://wbrupashree.gov.in",
+  "officialSourceUrl": "https://wbrupashree.gov.in",
+  "sourceName": "Rupashree Portal, Government of West Bengal",
+  "sourceUrls": [
+    "https://wbrupashree.gov.in",
+    "https://wb.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "rupashree",
+    "prakalpa",
+    "marriage",
+    "grant",
+    "25000",
+    "westbengal"
+  ],
+  "nameLower": "rupashree prakalpa",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

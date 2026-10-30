@@ -1,0 +1,68 @@
+{
+  "schemeId": "SOIL_HEALTH_CARD_001",
+  "name": "Soil Health Card Scheme",
+  "nameHindi": "मृदा स्वास्थ्य कार्ड योजना",
+  "description": "Soil Health Card Scheme provides periodic soil test reports to farmers across 12 vital chemical and physical nutrient parameters along with customized fertilizer dosage recommendations.",
+  "descriptionHindi": "किसानों को 12 प्रमुख पोषक तत्वों की जांच के आधार पर मृदा स्वास्थ्य रिपोर्ट और उर्वरक प्रयोग की वैज्ञानिक सलाह दी जाती है।",
+  "category": "agriculture",
+  "tags": [
+    "farmers",
+    "rural"
+  ],
+  "ministry": "Ministry of Agriculture and Farmers Welfare",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Free soil testing and customized crop-specific nutrient management advice to reduce input costs and preserve soil fertility.",
+  "benefitsHindi": "निःशुल्क मृदा परीक्षण तथा फसलों के अनुसार संतुलित उर्वरक उपयोग की सलाह जिससे लागत घटे और उपज बढ़े।",
+  "eligibilityText": "All farmers holding agricultural land are eligible to have their soil tested and receive cards.",
+  "eligibilityTextHindi": "देश के सभी किसान जिनके पास कृषि भूमि है इस योजना के पात्र हैं।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://soilhealth.dac.gov.in",
+  "officialSourceUrl": "https://soilhealth.dac.gov.in",
+  "sourceName": "Soil Health Card Portal",
+  "sourceUrls": [
+    "https://soilhealth.dac.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "soil",
+    "health",
+    "card",
+    "mrida",
+    "swasthya",
+    "fertilizer",
+    "farmers"
+  ],
+  "nameLower": "soil health card scheme",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

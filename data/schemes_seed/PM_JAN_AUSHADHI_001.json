@@ -1,0 +1,68 @@
+{
+  "schemeId": "PM_JAN_AUSHADHI_001",
+  "name": "Pradhan Mantri Jan Aushadhi Pariyojana",
+  "nameHindi": "प्रधानमंत्री जन औषधि परियोजना",
+  "description": "Pradhan Mantri Bhartiya Janaushadhi Pariyojana makes quality generic medicines and surgical products available to all citizens at 50% to 90% lower prices than branded equivalents.",
+  "descriptionHindi": "गुणवत्तापूर्ण जेनेरिक दवाइयां और सर्जिकल उत्पाद ब्रांडेड दवाओं की तुलना में 50% से 90% कम कीमत पर जन औषधि केंद्रों के माध्यम से उपलब्ध कराए जाते हैं।",
+  "category": "health",
+  "tags": [
+    "health",
+    "bpl"
+  ],
+  "ministry": "Ministry of Chemicals and Fertilizers",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Access to over 1,900 generic medicines and 290 surgical items at heavily discounted rates through dedicated Jan Aushadhi Kendras.",
+  "benefitsHindi": "1,900 से अधिक जेनेरिक दवाइयों और 290 सर्जिकल उपकरणों की बाजार से 50% से 90% तक कम कीमत पर उपलब्धता।",
+  "eligibilityText": "All citizens seeking affordable healthcare treatments; entrepreneurs and pharmacists eligible to open kendras.",
+  "eligibilityTextHindi": "सस्ती दवाइयों के लिए सभी भारतीय नागरिक; केंद्र खोलने हेतु फार्मासिस्ट और उद्यमी।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://janaushadhi.gov.in",
+  "officialSourceUrl": "https://janaushadhi.gov.in",
+  "sourceName": "Pharmaceuticals & Medical Devices Bureau of India",
+  "sourceUrls": [
+    "https://janaushadhi.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "pmbjp",
+    "janaushadhi",
+    "generic",
+    "medicines",
+    "pharmacy",
+    "health",
+    "affordable"
+  ],
+  "nameLower": "pradhan mantri jan aushadhi pariyojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

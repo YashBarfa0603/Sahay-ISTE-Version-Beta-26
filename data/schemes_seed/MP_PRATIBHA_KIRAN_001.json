@@ -1,0 +1,71 @@
+{
+  "schemeId": "MP_PRATIBHA_KIRAN_001",
+  "name": "Pratibha Kiran Yojana",
+  "nameHindi": "प्रतिभा किरण योजना",
+  "description": "Provides financial scholarship assistance to meritorious girl students living in urban areas belonging to BPL families to pursue higher education.",
+  "descriptionHindi": "शहरी क्षेत्र के बीपीएल परिवारों की मेधावी छात्राओं को 12वीं के बाद उच्च शिक्षा जारी रखने हेतु छात्रवृत्ति।",
+  "category": "education",
+  "tags": [
+    "scholarship",
+    "students",
+    "women",
+    "bpl"
+  ],
+  "ministry": "Higher Education Department, Government of Madhya Pradesh",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "MP"
+  ],
+  "benefits": "Financial scholarship of ₹5,000 per year (₹500 per month for 10 months) for regular degree courses and ₹7,500 for technical/professional courses.",
+  "benefitsHindi": "कॉलेज में नियमित स्नातक अध्ययन हेतु ₹5,000 प्रति वर्ष तथा तकनीकी पाठ्यक्रमों हेतु ₹7,500 वार्षिक छात्रवृत्ति।",
+  "eligibilityText": "Female urban residents of MP belonging to BPL households who secured 60% or more marks in Class 12 board examinations.",
+  "eligibilityTextHindi": "शहरी क्षेत्र की बीपीएल परिवार की छात्राएं जिन्होंने 12वीं में न्यूनतम 60% अंक प्राप्त किए हों।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://scholarshipportal.mp.nic.in",
+  "officialSourceUrl": "https://scholarshipportal.mp.nic.in",
+  "sourceName": "MP State Scholarship Portal",
+  "sourceUrls": [
+    "https://scholarshipportal.mp.nic.in",
+    "https://mp.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "pratibhakiran",
+    "pratibha",
+    "kiran",
+    "urban",
+    "bpl",
+    "girl",
+    "scholarship",
+    "mp"
+  ],
+  "nameLower": "pratibha kiran yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

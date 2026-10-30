@@ -1,0 +1,66 @@
+{
+  "schemeId": "MP_TIRTH_DARSHAN_001",
+  "name": "Mukhyamantri Tirth-Darshan Yojana",
+  "nameHindi": "मुख्यमंत्री तीर्थ-दर्शन योजना",
+  "description": "Enables senior citizens of Madhya Pradesh to undertake free pilgrimages to major religious and spiritual destinations across India by special trains and flights.",
+  "descriptionHindi": "मध्य प्रदेश के वरिष्ठ नागरिकों को देश के प्रमुख तीर्थ स्थलों की निःशुल्क यात्रा (रेल एवं वायु मार्ग द्वारा) कराने की योजना।",
+  "category": "social-security",
+  "tags": [
+    "senior-citizens"
+  ],
+  "ministry": "Religious Trusts and Endowments Department, Government of MP",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "MP"
+  ],
+  "benefits": "Free travel by train or air, complimentary accommodation, meals, guided security, and medical care for the entire duration of the pilgrimage.",
+  "benefitsHindi": "यात्रा टिकट, ठहरने की व्यवस्था, भोजन, चिकित्सा सहायता और सुरक्षा का संपूर्ण खर्च राज्य सरकार वहन करती है।",
+  "eligibilityText": "Senior citizens aged 60 years and above (65+ for male individuals travelling alone) who are permanent residents of MP and not income tax payers.",
+  "eligibilityTextHindi": "मध्य प्रदेश के 60 वर्ष या उससे अधिक आयु के वरिष्ठ नागरिक जो आयकरदाता न हों।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://tirthdarshan.mp.gov.in",
+  "officialSourceUrl": "https://tirthdarshan.mp.gov.in",
+  "sourceName": "Tirth Darshan Portal, Government of MP",
+  "sourceUrls": [
+    "https://tirthdarshan.mp.gov.in",
+    "https://mp.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "tirthdarshan",
+    "tirth",
+    "darshan",
+    "pilgrimage",
+    "seniorcitizens",
+    "mp"
+  ],
+  "nameLower": "mukhyamantri tirth-darshan yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

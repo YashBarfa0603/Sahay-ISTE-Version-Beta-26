@@ -1,0 +1,68 @@
+{
+  "schemeId": "MISSION_VATSALYA_001",
+  "name": "Mission Vatsalya",
+  "nameHindi": "मिशन वात्सल्य",
+  "description": "Mission Vatsalya is a centrally sponsored child protection services scheme securing a healthy and happy childhood for every child in difficult circumstances in India.",
+  "descriptionHindi": "कठिन परिस्थितियों में जीवन यापन करने वाले बच्चों की सुरक्षा, संरक्षण और समग्र विकास हेतु समर्पित राष्ट्रीय योजना।",
+  "category": "women-child",
+  "tags": [
+    "women",
+    "girl-child"
+  ],
+  "ministry": "Ministry of Women and Child Development",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Non-institutional care sponsorship of ₹4,000 per child per month, institutional child care homes, foster care, and specialized adoption agencies.",
+  "benefitsHindi": "देखभाल की आवश्यकता वाले बच्चों हेतु ₹4,000 प्रति माह प्रायोजन सहायता, बाल गृह तथा पुनर्वास सेवाएं।",
+  "eligibilityText": "Children in need of care and protection (CNCP) and children in conflict with law (CCL) aged below 18 years.",
+  "eligibilityTextHindi": "18 वर्ष से कम आयु के अनाथ, परित्यक्त अथवा कठिन परिस्थितियों में रहने वाले बच्चे।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://wcd.nic.in",
+  "officialSourceUrl": "https://wcd.nic.in",
+  "sourceName": "Ministry of Women and Child Development",
+  "sourceUrls": [
+    "https://wcd.nic.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "vatsalya",
+    "mission",
+    "child",
+    "protection",
+    "orphan",
+    "adoption",
+    "cpc"
+  ],
+  "nameLower": "mission vatsalya",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

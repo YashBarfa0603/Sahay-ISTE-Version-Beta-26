@@ -1,0 +1,67 @@
+{
+  "schemeId": "MP_VIKRAMADITYA_SCHOLARSHIP_001",
+  "name": "Vikramaditya Scholarship Yojana",
+  "nameHindi": "विक्रमादित्य निःशुल्क शिक्षा योजना",
+  "description": "Provides financial education assistance to students of general category from economically weaker sections to pursue higher graduation studies in MP.",
+  "descriptionHindi": "सामान्य वर्ग के निर्धन परिवारों के प्रतिभावान विद्यार्थियों को उच्च शिक्षा हेतु वार्षिक शुल्क प्रतिपूर्ति योजना।",
+  "category": "education",
+  "tags": [
+    "scholarship",
+    "students"
+  ],
+  "ministry": "Higher Education Department, Government of Madhya Pradesh",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "MP"
+  ],
+  "benefits": "Reimbursement of tuition fees up to ₹2,500 per annum for undergraduate degree education in government/aided colleges.",
+  "benefitsHindi": "कॉलेज की पढ़ाई के लिए प्रति वर्ष ₹2,500 तक की शिक्षण शुल्क प्रतिपूर्ति।",
+  "eligibilityText": "General category students residing in MP with minimum 60% marks in Class 12 whose parental annual income does not exceed ₹1.18 lakh (rural) or ₹1.20 lakh (urban).",
+  "eligibilityTextHindi": "12वीं में 60% अंक प्राप्त सामान्य वर्ग के छात्र जिनकी पारिवारिक वार्षिक आय सीमा ₹1.20 लाख तक हो।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://scholarshipportal.mp.nic.in",
+  "officialSourceUrl": "https://scholarshipportal.mp.nic.in",
+  "sourceName": "MP State Scholarship Portal",
+  "sourceUrls": [
+    "https://scholarshipportal.mp.nic.in",
+    "https://mp.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "vikramaditya",
+    "scholarship",
+    "general",
+    "highereducation",
+    "mp",
+    "tuition"
+  ],
+  "nameLower": "vikramaditya scholarship yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

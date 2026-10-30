@@ -1,0 +1,68 @@
+{
+  "schemeId": "PMSBY_001",
+  "name": "Pradhan Mantri Suraksha Bima Yojana",
+  "nameHindi": "प्रधानमंत्री सुरक्षा बीमा योजना",
+  "description": "PMSBY is a government-backed one-year renewable accidental insurance scheme offering financial coverage against accidental death and permanent disability.",
+  "descriptionHindi": "दुर्घटना में मृत्यु या स्थायी दिव्यांगता की स्थिति में बेहद कम प्रीमियम पर ₹2 लाख तक का दुर्घटना बीमा कवर देने वाली योजना।",
+  "category": "social-security",
+  "tags": [
+    "insurance",
+    "workers"
+  ],
+  "ministry": "Ministry of Finance",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Accidental insurance cover of ₹2 lakh for accidental death or permanent total disability, and ₹1 lakh for permanent partial disability at an annual premium of ₹20.",
+  "benefitsHindi": "वार्षिक मात्र ₹20 के प्रीमियम पर आकस्मिक मृत्यु या पूर्ण दिव्यांगता पर ₹2 लाख तथा आंशिक दिव्यांगता पर ₹1 लाख का बीमा।",
+  "eligibilityText": "Individual bank or post office account holders aged between 18 and 70 years who give consent for annual auto-debit.",
+  "eligibilityTextHindi": "18 से 70 वर्ष के बैंक या डाकघर खाताधारक जो स्वतः कटौती (ऑटो-डेबिट) की सहमति देते हैं।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://jansuraksha.gov.in",
+  "officialSourceUrl": "https://jansuraksha.gov.in",
+  "sourceName": "Jan Suraksha Portal",
+  "sourceUrls": [
+    "https://jansuraksha.gov.in",
+    "https://financialservices.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "pmsby",
+    "suraksha",
+    "bima",
+    "accident",
+    "insurance",
+    "20rupees",
+    "jansuraksha"
+  ],
+  "nameLower": "pradhan mantri suraksha bima yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

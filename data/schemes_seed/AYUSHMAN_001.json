@@ -1,0 +1,93 @@
+{
+  "schemeId": "AYUSHMAN_001",
+  "name": "Ayushman Bharat – PM Jan Arogya Yojana",
+  "nameHindi": "आयुष्मान भारत – प्रधानमंत्री जन आरोग्य योजना",
+  "description": "Ayushman Bharat PM-JAY is the world's largest health assurance scheme, providing completely cashless and paperless secondary and tertiary hospitalization cover to poor and vulnerable families across India.",
+  "descriptionHindi": "आयुष्मान भारत योजना देश के गरीब एवं संवेदनशील परिवारों को माध्यमिक एवं तृतीयक स्तर के अस्पताल में कैशलेस और पेपरलेस स्वास्थ्य बीमा कवर प्रदान करती है।",
+  "category": "health",
+  "tags": [
+    "health",
+    "bpl",
+    "insurance",
+    "senior-citizens"
+  ],
+  "ministry": "Ministry of Health and Family Welfare",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Cashless health insurance coverage of up to ₹5,00,000 per family per year for secondary and tertiary care hospitalization across all empanelled public and private hospitals in India.",
+  "benefitsHindi": "प्रति परिवार प्रति वर्ष ₹5,00,000 तक का कैशलेस स्वास्थ्य बीमा कवर, देश के सभी संबद्ध सरकारी व निजी अस्पतालों में द्वितीयक व तृतीयक उपचार हेतु।",
+  "eligibilityText": "Families identified by the Socio-Economic Caste Census (SECC 2011) based on deprivation criteria in rural areas and designated occupational categories in urban areas. Recently expanded to cover all senior citizens aged 70 years and above regardless of income.",
+  "eligibilityTextHindi": "एसईसीसी 2011 के वंचित ग्रामीण परिवारों एवं निर्धारित शहरी श्रमिक परिवारों के लिए। हाल ही में 70 वर्ष या उससे अधिक आयु के सभी वरिष्ठ नागरिकों को भी शामिल किया गया है।",
+  "eligibilityRules": [
+    {
+      "field": "hasBplOrRationCard",
+      "operator": "isTrue",
+      "value": null,
+      "isMandatory": false,
+      "description": "Households possessing eligible ration cards or identified under SECC 2011 deprivation categories qualify.",
+      "descriptionHindi": "एसईसीसी 2011 अथवा पात्र राशन कार्ड धारक परिवार पात्र हैं।",
+      "sourceUrl": "https://pmjay.gov.in",
+      "sourceQuote": "Covers bottom 40 percent poor and vulnerable population based on SECC 2011."
+    }
+  ],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [
+    "Aadhaar Card",
+    "Ration Card or Family Identification Document",
+    "Active Mobile Number"
+  ],
+  "requiredDocumentsHindi": [
+    "आधार कार्ड",
+    "राशन कार्ड अथवा परिवार पहचान पत्र",
+    "सक्रिय मोबाइल नंबर"
+  ],
+  "applicationProcess": "1. Visit beneficiary.nha.gov.in or download the Ayushman App. 2. Log in using your mobile number and Aadhaar OTP. 3. Search for your family using State, District, and Aadhaar or Ration Card number. 4. Complete biometric or face e-KYC. 5. Download the Ayushman Card upon successful verification.",
+  "applicationProcessHindi": "1. पोर्टल beneficiary.nha.gov.in पर जाएं या आयुष्मान ऐप खोलें। 2. मोबाइल और आधार ओटीपी से लॉगिन करें। 3. आधार या राशन कार्ड से नाम खोजें। 4. e-KYC पूर्ण करें। 5. आयुष्मान कार्ड डाउनलोड करें।",
+  "applicationUrl": "https://beneficiary.nha.gov.in",
+  "officialSourceUrl": "https://pmjay.gov.in",
+  "sourceName": "National Health Authority",
+  "sourceUrls": [
+    "https://pmjay.gov.in",
+    "https://beneficiary.nha.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": true,
+  "popularityRank": 2,
+  "searchKeywords": [
+    "ayushman",
+    "pmjay",
+    "ab-pmjay",
+    "health",
+    "insurance",
+    "hospital",
+    "5lakh",
+    "card",
+    "आयुष्मान",
+    "आरोग्य",
+    "इलाज"
+  ],
+  "nameLower": "ayushman bharat – pm jan arogya yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": true,
+    "hasRules": true,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "staged_rules_secc_required"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

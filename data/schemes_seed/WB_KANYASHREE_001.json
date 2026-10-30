@@ -1,0 +1,68 @@
+{
+  "schemeId": "WB_KANYASHREE_001",
+  "name": "Kanyashree Prakalpa",
+  "nameHindi": "कन्याश्री प्रकल्प",
+  "description": "United Nations award-winning conditional cash transfer scheme in West Bengal incentivizing schooling and delaying child marriage of adolescent girls.",
+  "descriptionHindi": "बालिकाओं की शिक्षा को बढ़ावा देने, बाल विवाह रोकने और उच्च शिक्षा हेतु वित्तीय अनुदान देने वाली संयुक्त राष्ट्र पुरस्कृत योजना।",
+  "category": "education",
+  "tags": [
+    "scholarship",
+    "girl-child",
+    "students"
+  ],
+  "ministry": "Department of Women & Child Development and Social Welfare, West Bengal",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "WB"
+  ],
+  "benefits": "Annual scholarship (K1) of ₹1,000 for unmarried girls aged 13-18 enrolled in classes 8-12, and a one-time grant (K2) of ₹25,000 upon turning 18.",
+  "benefitsHindi": "कक्षा 8-12 की छात्राओं को ₹1,000 वार्षिक छात्रवृत्ति तथा 18 वर्ष पूर्ण होने पर ₹25,000 का एकमुश्त अनुदान।",
+  "eligibilityText": "Unmarried girls residing in West Bengal enrolled in recognized schools, madrasahs, or colleges aged between 13 and 19 years.",
+  "eligibilityTextHindi": "पश्चिम बंगाल की मान्यता प्राप्त स्कूलों में पढ़ने वाली 13 से 19 वर्ष की अविवाहित छात्राएं।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://wbkanyashree.gov.in",
+  "officialSourceUrl": "https://wbkanyashree.gov.in",
+  "sourceName": "Kanyashree Portal, Government of West Bengal",
+  "sourceUrls": [
+    "https://wbkanyashree.gov.in",
+    "https://wb.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "kanyashree",
+    "prakalpa",
+    "girlchild",
+    "scholarship",
+    "25000",
+    "westbengal"
+  ],
+  "nameLower": "kanyashree prakalpa",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

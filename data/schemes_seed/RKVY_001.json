@@ -1,0 +1,68 @@
+{
+  "schemeId": "RKVY_001",
+  "name": "Rashtriya Krishi Vikas Yojana",
+  "nameHindi": "राष्ट्रीय कृषि विकास योजना",
+  "description": "RKVY incentivizes states to increase public investment in agriculture and allied sectors, fostering holistic agricultural development and farmer income generation.",
+  "descriptionHindi": "कृषि एवं संबद्ध क्षेत्रों में सार्वजनिक निवेश बढ़ाकर समग्र विकास और किसानों की आय वृद्धि सुनिश्चित करने की योजना।",
+  "category": "agriculture",
+  "tags": [
+    "farmers",
+    "rural"
+  ],
+  "ministry": "Ministry of Agriculture and Farmers Welfare",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Grants for agri-startups, farm mechanization, seed infrastructure, and innovative community farming projects.",
+  "benefitsHindi": "कृषि स्टार्टअप्स को अनुदान, कृषि यंत्रीकरण, बीज अवसंरचना और उन्नत परियोजनाओं हेतु वित्तीय सहायता।",
+  "eligibilityText": "Individual farmers, cooperatives, state agriculture agencies, and qualified agri-startups.",
+  "eligibilityTextHindi": "किसान, सहकारी समितियां और कृषि स्टार्टअप्स।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://rkvy.nic.in",
+  "officialSourceUrl": "https://rkvy.nic.in",
+  "sourceName": "RKVY Official Portal",
+  "sourceUrls": [
+    "https://rkvy.nic.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "rkvy",
+    "rashtriya",
+    "krishi",
+    "vikas",
+    "yojana",
+    "startups",
+    "agriculture"
+  ],
+  "nameLower": "rashtriya krishi vikas yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

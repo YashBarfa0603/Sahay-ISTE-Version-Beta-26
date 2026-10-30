@@ -1,0 +1,69 @@
+{
+  "schemeId": "NATIONAL_SCHOLARSHIP_SC_001",
+  "name": "National Scholarship Scheme for SC Students",
+  "nameHindi": "अनुसूचित जाति के छात्रों के लिए राष्ट्रीय छात्रवृत्ति योजना",
+  "description": "Provides financial assistance to meritorious Scheduled Caste students to pursue quality education in designated premier higher education institutions across India.",
+  "descriptionHindi": "देश के प्रतिष्ठित उच्च शिक्षण संस्थानों में गुणवत्तापूर्ण शिक्षा प्राप्त करने हेतु अनुसूचित जाति के मेधावी विद्यार्थियों को छात्रवृत्ति।",
+  "category": "education",
+  "tags": [
+    "scholarship",
+    "students",
+    "sc"
+  ],
+  "ministry": "Ministry of Social Justice and Empowerment",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Full tuition fees and non-refundable charges, living expenses of ₹3,000 per month, books/stationery allowance of ₹5,000 per annum, and computer grant up to ₹45,000.",
+  "benefitsHindi": "पूर्ण ट्यूशन फीस, ₹3,000 प्रति माह जीवन निर्वाह भत्ता, ₹5,000 वार्षिक पुस्तक अनुदान तथा ₹45,000 तक कंप्यूटर सहायता।",
+  "eligibilityText": "SC students who have secured admission in notified top institutions (IITs, IIMs, NLUs, etc.) with total family annual income up to ₹8.00 lakh.",
+  "eligibilityTextHindi": "अधिसूचित शीर्ष संस्थानों में प्रवेश पाने वाले एससी छात्र जिनकी कुल पारिवारिक वार्षिक आय ₹8 लाख तक हो।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://scholarships.gov.in",
+  "officialSourceUrl": "https://scholarships.gov.in",
+  "sourceName": "Ministry of Social Justice and Empowerment",
+  "sourceUrls": [
+    "https://scholarships.gov.in",
+    "https://socialjustice.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "sc",
+    "scholarship",
+    "topclass",
+    "students",
+    "iit",
+    "iim",
+    "highereducation"
+  ],
+  "nameLower": "national scholarship scheme for sc students",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

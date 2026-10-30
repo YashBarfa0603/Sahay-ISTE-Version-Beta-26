@@ -1,0 +1,69 @@
+{
+  "schemeId": "DIGITAL_INDIA_001",
+  "name": "Digital India",
+  "nameHindi": "डिजिटल इंडिया",
+  "description": "Digital India is a flagship programme to transform India into a digitally empowered society and knowledge economy by providing digital infrastructure, digital services, and digital literacy.",
+  "descriptionHindi": "देश को डिजिटल रूप से सशक्त समाज और ज्ञान अर्थव्यवस्था में बदलने हेतु डिजिटल अवसंरचना, ई-गवर्नेंस और डिजिटल साक्षरता कार्यक्रम।",
+  "category": "employment-skills",
+  "tags": [
+    "youth",
+    "skill-training",
+    "rural",
+    "urban"
+  ],
+  "ministry": "Ministry of Electronics and Information Technology",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Access to citizen digital services, digital locker, high-speed broadband in gram panchayats (BharatNet), and free digital literacy training via PMGDISHA.",
+  "benefitsHindi": "डिजिलॉकर, भारतनेट ब्रॉडबैंड, उमंग पोर्टल तथा पीएमजीदिशा के तहत ग्रामीण परिवारों को निःशुल्क डिजिटल साक्षरता प्रशिक्षण।",
+  "eligibilityText": "Open to all Indian citizens, particularly rural households aiming for digital literacy.",
+  "eligibilityTextHindi": "देश के सभी नागरिक, विशेषकर डिजिटल साक्षरता चाहने वाले ग्रामीण परिवार।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://www.digitalindia.gov.in",
+  "officialSourceUrl": "https://www.digitalindia.gov.in",
+  "sourceName": "Ministry of Electronics and Information Technology",
+  "sourceUrls": [
+    "https://www.digitalindia.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "digital",
+    "india",
+    "meity",
+    "pmgdisha",
+    "digilocker",
+    "broadband",
+    "services"
+  ],
+  "nameLower": "digital india",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

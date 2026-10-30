@@ -1,0 +1,70 @@
+{
+  "schemeId": "PMFBY_001",
+  "name": "Pradhan Mantri Fasal Bima Yojana (PMFBY)",
+  "nameHindi": "प्रधानमंत्री फसल बीमा योजना",
+  "description": "PMFBY provides comprehensive crop insurance coverage against non-preventable natural risks from pre-sowing to post-harvest stages at highly subsidized premium rates for farmers.",
+  "descriptionHindi": "प्राकृतिक आपदाओं, कीटों और रोगों से फसल नुकसान के विरुद्ध किसानों को कम प्रीमियम पर व्यापक फसल बीमा सुरक्षा प्रदान की जाती है।",
+  "category": "agriculture",
+  "tags": [
+    "farmers",
+    "insurance"
+  ],
+  "ministry": "Ministry of Agriculture and Farmers Welfare",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Subsidized insurance coverage where farmers pay a maximum premium of 2% for Kharif crops, 1.5% for Rabi food/oilseed crops, and 5% for commercial/horticultural crops, with remaining premium shared by government.",
+  "benefitsHindi": "खरीफ फसलों के लिए मात्र 2%, रबी फसलों के लिए 1.5% और वाणिज्यिक/बागवानी फसलों के लिए 5% प्रीमियम पर पूर्ण फसल सुरक्षा।",
+  "eligibilityText": "All farmers growing notified crops in notified areas, including sharecroppers and tenant farmers, are eligible to enroll voluntarily.",
+  "eligibilityTextHindi": "अधिसूचित क्षेत्रों में अधिसूचित फसलें उगाने वाले सभी किसान (बटाईदार एवं काश्तकार सहित) पात्र हैं।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://pmfby.gov.in",
+  "officialSourceUrl": "https://pmfby.gov.in",
+  "sourceName": "PMFBY Official Portal",
+  "sourceUrls": [
+    "https://pmfby.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "pmfby",
+    "crop",
+    "insurance",
+    "fasal",
+    "bima",
+    "farmers",
+    "agriculture",
+    "kharif",
+    "rabi"
+  ],
+  "nameLower": "pradhan mantri fasal bima yojana (pmfby)",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

@@ -1,0 +1,68 @@
+{
+  "schemeId": "MP_LADLI_LAXMI_001",
+  "name": "Mukhyamantri Ladli Laxmi Yojana",
+  "nameHindi": "मुख्यमंत्री लाड़ली लक्ष्मी योजना",
+  "description": "Ladli Laxmi Yojana improves educational and health standards of girl children, prevents child marriage, and provides milestone-based financial certificates.",
+  "descriptionHindi": "बालिकाओं के जन्म के प्रति सकारात्मक दृष्टिकोण, शिक्षा और स्वास्थ्य में सुधार तथा 21 वर्ष की आयु पर एकमुश्त वित्तीय सहायता।",
+  "category": "women-child",
+  "tags": [
+    "women",
+    "girl-child"
+  ],
+  "ministry": "Women and Child Development Department, Government of Madhya Pradesh",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "MP"
+  ],
+  "benefits": "Assurance certificate of ₹1,43,000 in girl's name, milestone educational incentives of ₹2,000 (Class 6), ₹4,000 (Class 9), ₹6,000 (Class 11/12), and final payout of ₹1 lakh at age 21.",
+  "benefitsHindi": "बालिका के नाम ₹1,43,000 का आश्वासन प्रमाण पत्र, विभिन्न कक्षाओं में प्रवेश पर छात्रवृत्ति तथा 21 वर्ष की आयु में ₹1 लाख का अंतिम भुगतान।",
+  "eligibilityText": "Girl children born in Madhya Pradesh to resident parents who are not income tax payers and have registered their child in an Anganwadi.",
+  "eligibilityTextHindi": "मध्य प्रदेश की मूल निवासी बालिकाएं जिनके माता-पिता आयकरदाता न हों और आंगनवाड़ी में पंजीकृत हों।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://ladlilaxmi.mp.gov.in",
+  "officialSourceUrl": "https://ladlilaxmi.mp.gov.in",
+  "sourceName": "Government of Madhya Pradesh",
+  "sourceUrls": [
+    "https://ladlilaxmi.mp.gov.in",
+    "https://mp.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "ladlilaxmi",
+    "ladli",
+    "laxmi",
+    "mp",
+    "girlchild",
+    "wcd",
+    "143000"
+  ],
+  "nameLower": "mukhyamantri ladli laxmi yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

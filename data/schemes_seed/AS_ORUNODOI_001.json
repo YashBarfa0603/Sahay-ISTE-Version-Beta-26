@@ -1,0 +1,68 @@
+{
+  "schemeId": "AS_ORUNODOI_001",
+  "name": "Orunodoi Scheme",
+  "nameHindi": "ओरुनोदोई योजना",
+  "description": "Massive direct benefit transfer poverty alleviation scheme in Assam providing regular monthly financial support to female heads of economically vulnerable families.",
+  "descriptionHindi": "असम के गरीब और संवेदनशील परिवारों की महिला मुखिया को पोषण, स्वास्थ्य और घरेलू जरूरतों हेतु मासिक प्रत्यक्ष लाभ अंतरण।",
+  "category": "women-child",
+  "tags": [
+    "women",
+    "bpl"
+  ],
+  "ministry": "Finance Department, Government of Assam",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "AS"
+  ],
+  "benefits": "Monthly cash assistance of ₹1,250 deposited directly into the bank accounts of nominated female beneficiaries on the 10th of every month.",
+  "benefitsHindi": "प्रति माह ₹1,250 की नकद सहायता सीधे महिला लाभार्थी के खाते में प्रत्येक माह की 10 तारीख को।",
+  "eligibilityText": "Permanent residents of Assam with combined family annual income below ₹2.00 lakh, with priority to households with widows, divyang members, or unmarried women.",
+  "eligibilityTextHindi": "असम के निवासी परिवार जिनकी वार्षिक आय ₹2 लाख से कम हो, प्राथमिकता विधवा व दिव्यांग परिवारों को।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://orunodoi.assam.gov.in",
+  "officialSourceUrl": "https://orunodoi.assam.gov.in",
+  "sourceName": "Finance Department, Government of Assam",
+  "sourceUrls": [
+    "https://orunodoi.assam.gov.in",
+    "https://assam.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "orunodoi",
+    "orunodoi2",
+    "assam",
+    "women",
+    "dbt",
+    "1250",
+    "poverty"
+  ],
+  "nameLower": "orunodoi scheme",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

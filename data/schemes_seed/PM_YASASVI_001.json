@@ -1,0 +1,70 @@
+{
+  "schemeId": "PM_YASASVI_001",
+  "name": "PM YASASVI",
+  "nameHindi": "पीएम यशस्वी",
+  "description": "PM Young Achievers Scholarship Award Scheme for Vibrant India offers scholarships to meritorious students from OBC, EBC, and DNT communities for school and top-class college education.",
+  "descriptionHindi": "ओबीसी, ईबीसी और गैर-अधिसूचित घुमंतू जनजातियों के मेधावी विद्यार्थियों को उत्कृष्ट विद्यालय एवं उच्च शिक्षा हेतु छात्रवृत्ति।",
+  "category": "education",
+  "tags": [
+    "scholarship",
+    "students",
+    "sc",
+    "st"
+  ],
+  "ministry": "Ministry of Social Justice and Empowerment",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Financial aid up to ₹75,000 per year for Class 9 and 10, and up to ₹1,25,000 per year for Class 11 and 12, plus full tuition and living expenses for top-class college education.",
+  "benefitsHindi": "कक्षा 9-10 हेतु ₹75,000 तथा 11-12वीं हेतु ₹1,25,000 वार्षिक तक की छात्रवृत्ति एवं कॉलेज स्तर पर पूर्ण फीस कवरेज।",
+  "eligibilityText": "OBC, EBC, and DNT/NT students studying in identified schools/colleges with annual family income not exceeding ₹2.50 lakh.",
+  "eligibilityTextHindi": "ओबीसी, ईबीसी एवं विमुक्त घुमंतू जातियों के छात्र जिनकी पारिवारिक वार्षिक आय ₹2.5 लाख तक हो।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://scholarships.gov.in",
+  "officialSourceUrl": "https://socialjustice.gov.in",
+  "sourceName": "Ministry of Social Justice and Empowerment",
+  "sourceUrls": [
+    "https://socialjustice.gov.in",
+    "https://scholarships.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "yasasvi",
+    "pm-yasasvi",
+    "obc",
+    "ebc",
+    "dnt",
+    "scholarship",
+    "students"
+  ],
+  "nameLower": "pm yasasvi",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

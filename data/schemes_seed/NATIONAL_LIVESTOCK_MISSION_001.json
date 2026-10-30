@@ -1,0 +1,68 @@
+{
+  "schemeId": "NATIONAL_LIVESTOCK_MISSION_001",
+  "name": "National Livestock Mission",
+  "nameHindi": "राष्ट्रीय पशुधन मिशन",
+  "description": "National Livestock Mission aims to enhance livestock production, foster feed and fodder development, and promote breed improvement in poultry, sheep, goat, and piggery sectors.",
+  "descriptionHindi": "पशुपालन, पोल्ट्री, भेड़, बकरी और सुअर पालन में नस्ल सुधार, चारा विकास और उद्यमिता को बढ़ावा देने का राष्ट्रीय मिशन।",
+  "category": "agriculture",
+  "tags": [
+    "farmers",
+    "rural"
+  ],
+  "ministry": "Ministry of Fisheries, Animal Husbandry and Dairying",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Capital capital subsidy of 50% up to ₹50 lakh for sheep/goat/poultry breeding farms, fodder seed production, and livestock entrepreneurship units.",
+  "benefitsHindi": "पशुधन प्रजनन इकाइयों, पोल्ट्री और चारा विकास उद्यमों की स्थापना हेतु 50% (अधिकतम ₹50 लाख) तक पूंजीगत सब्सिडी।",
+  "eligibilityText": "Individual farmers, livestock entrepreneurs, FPOs, cooperatives, and Section 8 companies.",
+  "eligibilityTextHindi": "पशुपालक किसान, ग्रामीण उद्यमी, किसान उत्पादक संगठन और स्वयं सहायता समूह।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://dahd.nic.in",
+  "officialSourceUrl": "https://dahd.nic.in",
+  "sourceName": "Department of Animal Husbandry and Dairying",
+  "sourceUrls": [
+    "https://dahd.nic.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "nlm",
+    "livestock",
+    "poultry",
+    "goat",
+    "sheep",
+    "fodder",
+    "dairy"
+  ],
+  "nameLower": "national livestock mission",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

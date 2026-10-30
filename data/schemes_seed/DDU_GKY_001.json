@@ -1,0 +1,70 @@
+{
+  "schemeId": "DDU_GKY_001",
+  "name": "Deen Dayal Upadhyaya Grameen Kaushalya Yojana",
+  "nameHindi": "दीनदयाल उपाध्याय ग्रामीण कौशल्य योजना",
+  "description": "DDU-GKY is a placement-linked skill development programme for rural poor youth under the National Rural Livelihoods Mission.",
+  "descriptionHindi": "ग्रामीण गरीब युवाओं को मांग आधारित व्यावसायिक प्रशिक्षण देकर संगठित क्षेत्र में रोजगार उपलब्ध कराने की योजना।",
+  "category": "employment-skills",
+  "tags": [
+    "skill-training",
+    "youth",
+    "rural",
+    "employment"
+  ],
+  "ministry": "Ministry of Rural Development",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Free residential/non-residential market-led vocational training, free uniforms, tablets/books, and mandatory minimum 70% placement guarantee.",
+  "benefitsHindi": "निःशुल्क आवासीय प्रशिक्षण, भोजन, पुस्तकें तथा न्यूनतम 70% गारंटीकृत प्लेसमेंट (रोजगार)।",
+  "eligibilityText": "Rural youth from poor households aged between 15 and 35 years (up to 45 years for women, SC, ST, and disabled).",
+  "eligibilityTextHindi": "ग्रामीण गरीब परिवारों के 15 से 35 वर्ष के युवा (महिला, एससी/एसटी हेतु 45 वर्ष तक)।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://ddugky.gov.in",
+  "officialSourceUrl": "https://ddugky.gov.in",
+  "sourceName": "Ministry of Rural Development",
+  "sourceUrls": [
+    "https://ddugky.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "ddugky",
+    "ddu-gky",
+    "rural",
+    "skill",
+    "placement",
+    "jobs",
+    "youth"
+  ],
+  "nameLower": "deen dayal upadhyaya grameen kaushalya yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

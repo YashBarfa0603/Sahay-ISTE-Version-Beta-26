@@ -1,0 +1,114 @@
+{
+  "schemeId": "PM_KISAN_001",
+  "name": "PM-KISAN – Pradhan Mantri Kisan Samman Nidhi",
+  "nameHindi": "प्रधानमंत्री किसान सम्मान निधि",
+  "description": "PM-KISAN is a central sector scheme providing income support to all landholding farmer families across India to supplement their financial needs for agricultural inputs and domestic requirements.",
+  "descriptionHindi": "पीएम-किसान योजना के अंतर्गत देश के सभी भूमिधारक किसान परिवारों को कृषि आदानों और घरेलू आवश्यकताओं की पूर्ति हेतु प्रत्यक्ष वित्तीय सहायता प्रदान की जाती है।",
+  "category": "agriculture",
+  "tags": [
+    "farmers",
+    "rural"
+  ],
+  "ministry": "Ministry of Agriculture and Farmers Welfare",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Eligible landholding farmer families receive income support of ₹6,000 per year in three equal installments of ₹2,000 each every four months directly into their bank accounts via DBT.",
+  "benefitsHindi": "पात्र किसान परिवारों को प्रति वर्ष ₹6,000 की वित्तीय सहायता ₹2,000 की तीन समान किस्तों में प्रत्यक्ष लाभ अंतरण (DBT) के माध्यम से बैंक खातों में दी जाती है।",
+  "eligibilityText": "All landholding farmer families with cultivable land in their names are eligible. Excluded: institutional landholders, constitutional post holders, current/former ministers, government employees, pensioners with monthly pension >= ₹10,000, and income tax payers.",
+  "eligibilityTextHindi": "वे सभी किसान परिवार जिनके नाम कृषि योग्य भूमि है पात्र हैं। संवैधानिक पदधारक, सरकारी कर्मचारी, ₹10,000 से अधिक मासिक पेंशनभोगी तथा आयकरदाता अपात्र हैं।",
+  "eligibilityRules": [
+    {
+      "field": "isFarmer",
+      "operator": "isTrue",
+      "value": null,
+      "isMandatory": true,
+      "description": "Applicant must be a landholder farmer family with cultivable landholding in their name.",
+      "descriptionHindi": "आवेदक के नाम पर कृषि योग्य भूमि का स्वामित्व होना अनिवार्य है।",
+      "sourceUrl": "https://pmkisan.gov.in",
+      "sourceQuote": "All landholder farmer families having cultivable landholding in their names are eligible."
+    },
+    {
+      "field": "isTaxpayer",
+      "operator": "isFalse",
+      "value": null,
+      "isMandatory": true,
+      "description": "No member of the farmer household should have paid income tax in the last assessment year.",
+      "descriptionHindi": "परिवार का कोई भी सदस्य पिछले मूल्यांकन वर्ष में आयकरदाता नहीं होना चाहिए।",
+      "sourceUrl": "https://pmkisan.gov.in",
+      "sourceQuote": "All persons who paid income tax in the last assessment year are excluded."
+    },
+    {
+      "field": "isGovtEmployee",
+      "operator": "isFalse",
+      "value": null,
+      "isMandatory": true,
+      "description": "Serving or retired government employees (excluding multi-tasking staff / Class IV) are excluded.",
+      "descriptionHindi": "नियमित सरकारी सेवा में कार्यरत या सेवानिवृत्त कर्मचारी (ग्रुप डी को छोड़कर) अपात्र हैं।",
+      "sourceUrl": "https://pmkisan.gov.in",
+      "sourceQuote": "Serving or retired officers and employees of Government are excluded."
+    }
+  ],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [
+    "Aadhaar Card",
+    "Proof of Land Ownership (Khatauni / Record of Rights)",
+    "Bank Account Passbook (Aadhaar-seeded)",
+    "Active Mobile Number"
+  ],
+  "requiredDocumentsHindi": [
+    "आधार कार्ड",
+    "भूमि स्वामित्व प्रमाण (खतौनी / खसरा)",
+    "आधार लिंक बैंक पासबुक",
+    "सक्रिय मोबाइल नंबर"
+  ],
+  "applicationProcess": "1. Visit the official PM-KISAN portal (pmkisan.gov.in). 2. Navigate to 'Farmers Corner' and click 'New Farmer Registration'. 3. Enter your Aadhaar number, mobile number, and select your state. 4. Enter personal, bank, and land details as per land records. 5. Submit the application and complete mandatory OTP-based e-KYC.",
+  "applicationProcessHindi": "1. आधिकारिक पोर्टल pmkisan.gov.in पर जाएं। 2. 'फार्मर्स कॉर्नर' में 'नया किसान पंजीकरण' चुनें। 3. आधार और मोबाइल नंबर दर्ज करें। 4. भूमि रिकॉर्ड एवं बैंक विवरण भरें। 5. आवेदन जमा कर e-KYC पूर्ण करें।",
+  "applicationUrl": "https://pmkisan.gov.in/RegistrationFormNew.aspx",
+  "officialSourceUrl": "https://pmkisan.gov.in",
+  "sourceName": "PM-KISAN Official Portal",
+  "sourceUrls": [
+    "https://pmkisan.gov.in",
+    "https://pmkisan.gov.in/RegistrationFormNew.aspx"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": true,
+  "popularityRank": 1,
+  "searchKeywords": [
+    "pmkisan",
+    "pm-kisan",
+    "kisan",
+    "samman",
+    "nidhi",
+    "farmer",
+    "agriculture",
+    "dbt",
+    "6000",
+    "किसान",
+    "सम्मान",
+    "निधि"
+  ],
+  "nameLower": "pm-kisan – pradhan mantri kisan samman nidhi",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": true,
+    "hasRules": true,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "partial_rules_coverage"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

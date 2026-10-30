@@ -1,0 +1,68 @@
+{
+  "schemeId": "POST_MATRIC_SCHOLARSHIP_SC_001",
+  "name": "Post-Matric Scholarship for SC Students",
+  "nameHindi": "अनुसूचित जाति के छात्रों के लिए पोस्ट-मैट्रिक छात्रवृत्ति",
+  "description": "Centrally sponsored scheme providing financial assistance to Scheduled Caste students studying at post-matriculation or post-secondary stages to complete their education.",
+  "descriptionHindi": "दसवीं कक्षा (मैट्रिक) के बाद उच्चतर माध्यमिक, डिप्लोमा एवं स्नातक स्तर पर शिक्षा पूरी करने हेतु अनुसूचित जाति के छात्रों को छात्रवृत्ति।",
+  "category": "education",
+  "tags": [
+    "scholarship",
+    "students",
+    "sc"
+  ],
+  "ministry": "Ministry of Social Justice and Empowerment",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Reimbursement of compulsory non-refundable course fees and monthly academic maintenance allowance transferred directly to the student's bank account via DBT.",
+  "benefitsHindi": "संस्थान की अनिवार्य गैर-वापसी योग्य फीस की प्रतिपूर्ति तथा मासिक शैक्षणिक निर्वाह भत्ता डीबीटी द्वारा सीधे खाते में।",
+  "eligibilityText": "SC students who have completed matriculation and are pursuing recognized post-secondary courses with parental annual income not exceeding ₹2.50 lakh.",
+  "eligibilityTextHindi": "मैट्रिक उत्तीर्ण एससी विद्यार्थी जिनकी पारिवारिक वार्षिक आय ₹2.50 लाख से अधिक न हो।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://scholarships.gov.in",
+  "officialSourceUrl": "https://scholarships.gov.in",
+  "sourceName": "National Scholarship Portal",
+  "sourceUrls": [
+    "https://scholarships.gov.in",
+    "https://socialjustice.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "postmatric",
+    "sc",
+    "scholarship",
+    "fees",
+    "students",
+    "matric"
+  ],
+  "nameLower": "post-matric scholarship for sc students",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

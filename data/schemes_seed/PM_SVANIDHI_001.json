@@ -1,0 +1,70 @@
+{
+  "schemeId": "PM_SVANIDHI_001",
+  "name": "PM SVANidhi",
+  "nameHindi": "पीएम स्वनिधि",
+  "description": "PM SVANidhi provides affordable collateral-free working capital micro-loans to urban street vendors to resume their businesses and move towards formalization and digital payments.",
+  "descriptionHindi": "शहरी स्ट्रीट वेंडरों और रेहड़ी-पटरी वालों को अपना व्यवसाय शुरू करने हेतु बिना गारंटी आसान कार्यशील पूंजी ऋण।",
+  "category": "finance",
+  "tags": [
+    "street-vendors",
+    "loan",
+    "urban"
+  ],
+  "ministry": "Ministry of Housing and Urban Affairs",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Initial working capital loan of ₹10,000, progressing to ₹20,000 and ₹50,000 on timely repayment, with 7% interest subsidy and cashback on digital transactions up to ₹1,200 per year.",
+  "benefitsHindi": "शुरुआती ₹10,000 का ऋण, समय पर चुकाने पर ₹20,000 और ₹50,000 का अगला ऋण, साथ में 7% ब्याज सब्सिडी और डिजिटल कैशबैक।",
+  "eligibilityText": "Street vendors and hawkers vending in urban areas who possess a Certificate of Vending / ID card issued by Urban Local Bodies or identified in surveys.",
+  "eligibilityTextHindi": "शहरी स्थानीय निकायों द्वारा जारी वेंडिंग प्रमाण पत्र या पहचान पत्र रखने वाले स्ट्रीट वेंडर।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://pmsvanidhi.mohua.gov.in",
+  "officialSourceUrl": "https://pmsvanidhi.mohua.gov.in",
+  "sourceName": "Ministry of Housing and Urban Affairs",
+  "sourceUrls": [
+    "https://pmsvanidhi.mohua.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "pmsvanidhi",
+    "svanidhi",
+    "street",
+    "vendor",
+    "loan",
+    "urban",
+    "10000",
+    "cashback"
+  ],
+  "nameLower": "pm svanidhi",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

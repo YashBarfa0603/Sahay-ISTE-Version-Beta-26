@@ -1,0 +1,69 @@
+{
+  "schemeId": "AICTE_PRAGATI_001",
+  "name": "AICTE Pragati Scholarship",
+  "nameHindi": "एआईसीटीई प्रगति छात्रवृत्ति",
+  "description": "AICTE Pragati Scholarship assists young women pursuing technical education (degree and diploma) in AICTE-approved institutions to advance women in STEM and engineering.",
+  "descriptionHindi": "बालिकाओं को तकनीकी शिक्षा (डिग्री एवं डिप्लोमा) प्राप्त करने हेतु प्रति वर्ष वित्तीय सहायता प्रदान करने वाली योजना।",
+  "category": "education",
+  "tags": [
+    "scholarship",
+    "students",
+    "women"
+  ],
+  "ministry": "Ministry of Education",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "₹50,000 per annum for every year of technical study towards college fee payment, computer, equipment, books, and software purchase.",
+  "benefitsHindi": "तकनीकी शिक्षा के प्रत्येक वर्ष हेतु ₹50,000 की वार्षिक छात्रवृत्ति कॉलेज फीस व अध्ययन सामग्री हेतु।",
+  "eligibilityText": "Female students admitted to the first year (or second year via lateral entry) of a degree or diploma course in an AICTE-approved institution with family income up to ₹8.00 lakh.",
+  "eligibilityTextHindi": "एआईसीटीई मान्यता प्राप्त संस्थान में तकनीकी डिग्री या डिप्लोमा में प्रवेशित छात्राएं, पारिवारिक वार्षिक आय ₹8 लाख तक।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://scholarships.gov.in",
+  "officialSourceUrl": "https://aicte.gov.in",
+  "sourceName": "All India Council for Technical Education",
+  "sourceUrls": [
+    "https://aicte.gov.in",
+    "https://scholarships.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "pragati",
+    "aicte",
+    "women",
+    "technical",
+    "engineering",
+    "scholarship",
+    "50000"
+  ],
+  "nameLower": "aicte pragati scholarship",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

@@ -1,0 +1,69 @@
+{
+  "schemeId": "AGRI_INFRASTRUCTURE_FUND_001",
+  "name": "Agriculture Infrastructure Fund",
+  "nameHindi": "कृषि अवसंरचना कोष",
+  "description": "AIF is a medium-long term debt financing facility for investment in viable projects for post-harvest management infrastructure and community farming assets.",
+  "descriptionHindi": "कटाई उपरांत फसल प्रबंधन और सामुदायिक कृषि अवसंरचना परियोजनाओं के लिए दीर्घकालिक वित्तीय सहायता और ब्याज अनुदान।",
+  "category": "agriculture",
+  "tags": [
+    "farmers",
+    "loan",
+    "entrepreneurs"
+  ],
+  "ministry": "Ministry of Agriculture and Farmers Welfare",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Interest subvention of 3% per annum on loans up to ₹2 crore for up to 7 years, along with credit guarantee coverage under CGTMSE.",
+  "benefitsHindi": "₹2 करोड़ तक के ऋण पर 7 वर्षों के लिए 3% प्रति वर्ष ब्याज अनुदान तथा क्रेडिट गारंटी कवरेज।",
+  "eligibilityText": "Farmers, FPOs, PACS, Agri-entrepreneurs, and startups establishing post-harvest storage, cold chains, and processing units.",
+  "eligibilityTextHindi": "किसान, एफपीओ, प्राथमिक कृषि सहकारी समितियां, कृषि उद्यमी और स्टार्टअप।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://agriinfra.dac.gov.in",
+  "officialSourceUrl": "https://agriinfra.dac.gov.in",
+  "sourceName": "Department of Agriculture and Farmers Welfare",
+  "sourceUrls": [
+    "https://agriinfra.dac.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "aif",
+    "agri",
+    "infrastructure",
+    "fund",
+    "coldchain",
+    "storage",
+    "loan"
+  ],
+  "nameLower": "agriculture infrastructure fund",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

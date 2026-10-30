@@ -1,0 +1,105 @@
+{
+  "schemeId": "PMAY_002",
+  "name": "Pradhan Mantri Awas Yojana – Urban",
+  "nameHindi": "प्रधानमंत्री आवास योजना – शहरी",
+  "description": "Pradhan Mantri Awas Yojana - Urban (PMAY-U) addresses urban housing requirements among Economically Weaker Sections (EWS) and Low-Income Groups (LIG) by providing pucca homes and interest subsidies.",
+  "descriptionHindi": "प्रधानमंत्री आवास योजना (शहरी) के तहत शहरी क्षेत्रों में आर्थिक रूप से कमजोर और निम्न आय वर्ग के परिवारों को पक्का मकान और ब्याज सब्सिडी दी जाती है।",
+  "category": "housing",
+  "tags": [
+    "housing",
+    "urban",
+    "bpl"
+  ],
+  "ministry": "Ministry of Housing and Urban Affairs",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Central financial assistance of up to ₹2.5 lakh for Beneficiary-Led Construction (BLC) and affordable housing projects, or upfront interest subsidies on home loans under Credit Linked Subsidy Scheme verticals.",
+  "benefitsHindi": "शहरी क्षेत्र में स्वयं के पक्के मकान निर्माण हेतु ₹2.5 लाख तक की केंद्रीय सहायता अथवा गृह ऋण पर ब्याज सब्सिडी।",
+  "eligibilityText": "Urban families who do not own a pucca house anywhere in India. Household annual income must be up to ₹3 lakh for EWS and between ₹3 lakh to ₹6 lakh for LIG. House title must include female ownership or co-ownership.",
+  "eligibilityTextHindi": "भारत में कहीं भी पक्का मकान न रखने वाले शहरी परिवार। ईडब्ल्यूएस हेतु वार्षिक आय ₹3 लाख तथा एलआईजी हेतु ₹6 लाख तक। महिला का मालिकाना हक अनिवार्य।",
+  "eligibilityRules": [
+    {
+      "field": "residenceType",
+      "operator": "equals",
+      "value": "urban",
+      "isMandatory": true,
+      "description": "Applicant must reside in a statutory town or notified urban local area.",
+      "descriptionHindi": "आवेदक का शहरी निकाय क्षेत्र में निवास होना चाहिए।",
+      "sourceUrl": "https://pmaymis.gov.in",
+      "sourceQuote": "Aimed at addressing urban housing shortages across statutory towns, planning areas, and urban local bodies."
+    },
+    {
+      "field": "annualFamilyIncome",
+      "operator": "lessThanOrEqual",
+      "value": 300000,
+      "isMandatory": true,
+      "description": "Annual household income must not exceed ₹3,00,000 for EWS assistance.",
+      "descriptionHindi": "ईडब्ल्यूएस सहायता हेतु वार्षिक पारिवारिक आय ₹3,00,000 से कम होनी चाहिए।",
+      "sourceUrl": "https://pmaymis.gov.in",
+      "sourceQuote": "EWS (Economically Weaker Section): Annual household income up to ₹3 lakh."
+    }
+  ],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [
+    "Aadhaar Card of all family members",
+    "Income Certificate or Salary Slip",
+    "Proof of Urban Residence",
+    "Land Title / Ownership Document (for BLC)",
+    "Bank Account Passbook"
+  ],
+  "requiredDocumentsHindi": [
+    "परिवार के सभी सदस्यों का आधार कार्ड",
+    "आय प्रमाण पत्र या वेतन पर्ची",
+    "शहरी निवास का प्रमाण",
+    "भूमि का स्वामित्व अभिलेख (स्वयं निर्माण हेतु)",
+    "बैंक पासबुक"
+  ],
+  "applicationProcess": "1. Visit the PMAY-U portal (pmaymis.gov.in) or your local municipal corporation/CSC. 2. Under 'Citizen Assessment', choose your applicable component (e.g. Beneficiary Led Construction). 3. Enter Aadhaar details and verify name. 4. Fill in income, family, and existing dwelling details. 5. Submit application and track status online.",
+  "applicationProcessHindi": "1. पोर्टल pmaymis.gov.in पर जाएं या नजदीकी सीएससी/नगर निगम जाएं। 2. 'सिटिजन असेसमेंट' में जाएं। 3. आधार संख्या दर्ज करें। 4. आय और परिवार का विवरण भरें। 5. आवेदन जमा कर संदर्भ संख्या से स्थिति ट्रैक करें।",
+  "applicationUrl": "https://pmaymis.gov.in",
+  "officialSourceUrl": "https://pmaymis.gov.in",
+  "sourceName": "Ministry of Housing and Urban Affairs",
+  "sourceUrls": [
+    "https://pmaymis.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": true,
+  "popularityRank": 5,
+  "searchKeywords": [
+    "pmayu",
+    "pmay-u",
+    "housing",
+    "urban",
+    "shahar",
+    "ews",
+    "clss",
+    "blc",
+    "subsidy",
+    "आवास",
+    "शहरी"
+  ],
+  "nameLower": "pradhan mantri awas yojana – urban",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": true,
+    "hasRules": true,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "partial_rules_coverage"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

@@ -1,0 +1,114 @@
+{
+  "schemeId": "PM_UJJWALA_001",
+  "name": "Pradhan Mantri Ujjwala Yojana",
+  "nameHindi": "प्रधानमंत्री उज्ज्वला योजना",
+  "description": "Pradhan Mantri Ujjwala Yojana (PMUY) provides deposit-free LPG connections to adult women from poor households to safeguard women and children from kitchen smoke and promote clean cooking fuels.",
+  "descriptionHindi": "प्रधानमंत्री उज्ज्वला योजना के तहत निर्धन परिवारों की वयस्क महिलाओं को निःशुल्क रसोई गैस (LPG) कनेक्शन एवं पहला रिफिल प्रदान किया जाता है।",
+  "category": "utilities",
+  "tags": [
+    "women",
+    "bpl",
+    "housing",
+    "rural"
+  ],
+  "ministry": "Ministry of Petroleum and Natural Gas",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Security-deposit-free LPG cylinder connection, free pressure regulator and suraksha hose, free first cylinder refill, and free two-burner stove (hot plate).",
+  "benefitsHindi": "सुरक्षा जमा मुक्त एलपीजी कनेक्शन, रेगुलेटर, सुरक्षा पाइप, पहला सिलेंडर रिफिल बिल्कुल मुफ्त और दो बर्नर वाला गैस चूल्हा निःशुल्क।",
+  "eligibilityText": "Applicant must be an adult woman aged 18 years or above belonging to a poor household (SC/ST, PMAY, AAY, or forest dwellers) with no existing LPG connection in the same household.",
+  "eligibilityTextHindi": "आवेदक महिला की आयु कम से कम 18 वर्ष होनी चाहिए, गरीब परिवार से हो तथा घर में पहले से कोई एलपीजी कनेक्शन न हो।",
+  "eligibilityRules": [
+    {
+      "field": "gender",
+      "operator": "equals",
+      "value": "female",
+      "isMandatory": true,
+      "description": "The applicant must be a woman.",
+      "descriptionHindi": "आवेदक महिला होनी चाहिए।",
+      "sourceUrl": "https://pmuy.gov.in",
+      "sourceQuote": "The applicant must be an adult woman who has attained at least 18 years of age."
+    },
+    {
+      "field": "age",
+      "operator": "greaterThanOrEqual",
+      "value": 18,
+      "isMandatory": true,
+      "description": "Applicant must be at least 18 years of age.",
+      "descriptionHindi": "आवेदक की आयु 18 वर्ष या उससे अधिक होनी चाहिए।",
+      "sourceUrl": "https://pmuy.gov.in",
+      "sourceQuote": "The applicant must be an adult woman who has attained at least 18 years of age."
+    },
+    {
+      "field": "hasBplOrRationCard",
+      "operator": "isTrue",
+      "value": null,
+      "isMandatory": true,
+      "description": "Applicant must belong to an eligible BPL/AAY or deprived household.",
+      "descriptionHindi": "आवेदक गरीब परिवार (बीपीएल/अंत्योदय राशन कार्ड) से संबंधित होनी चाहिए।",
+      "sourceUrl": "https://pmuy.gov.in",
+      "sourceQuote": "The adult woman must belong to a poor household based on deprivation declaration."
+    }
+  ],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [
+    "Aadhaar Card of Applicant",
+    "Ration Card with family composition details",
+    "Bank Passbook or Account Details",
+    "Passport Size Photograph"
+  ],
+  "requiredDocumentsHindi": [
+    "आवेदक का आधार कार्ड",
+    "परिवार के सदस्यों का विवरण युक्त राशन कार्ड",
+    "बैंक पासबुक या खाता विवरण",
+    "पासपोर्ट साइज फोटो"
+  ],
+  "applicationProcess": "1. Visit the official portal pmuy.gov.in or contact the nearest LPG distributor (Indane, Bharatgas, HP Gas). 2. Submit the Ujjwala 2.0 application form online or offline. 3. Attach Aadhaar, Ration Card, and bank details. 4. Complete biometric e-KYC. 5. Receive the free cylinder, regulator, and stove upon approval.",
+  "applicationProcessHindi": "1. पोर्टल pmuy.gov.in पर जाएं या नजदीकी गैस वितरक से संपर्क करें। 2. उज्ज्वला 2.0 आवेदन पत्र भरें। 3. आधार, राशन कार्ड एवं बैंक विवरण संलग्न करें। 4. बायोमेट्रिक सत्यापन करें। 5. स्वीकृत होने पर निःशुल्क कनेक्शन प्राप्त करें।",
+  "applicationUrl": "https://pmuy.gov.in",
+  "officialSourceUrl": "https://pmuy.gov.in",
+  "sourceName": "Ministry of Petroleum and Natural Gas",
+  "sourceUrls": [
+    "https://pmuy.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": true,
+  "popularityRank": 3,
+  "searchKeywords": [
+    "ujjwala",
+    "pmuy",
+    "lpg",
+    "gas",
+    "cylinder",
+    "women",
+    "stove",
+    "bpl",
+    "उज्ज्वला",
+    "गैस",
+    "सिलेंडर"
+  ],
+  "nameLower": "pradhan mantri ujjwala yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": true,
+    "hasRules": true,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "partial_rules_coverage"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

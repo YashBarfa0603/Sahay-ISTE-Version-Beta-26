@@ -1,0 +1,68 @@
+{
+  "schemeId": "WB_KRISHAK_BANDHU_001",
+  "name": "Krishak Bandhu Scheme",
+  "nameHindi": "कृषक बंधु योजना",
+  "description": "Comprehensive welfare scheme for farmers in West Bengal providing assured annual crop assistance and death benefit insurance coverage.",
+  "descriptionHindi": "पश्चिम बंगाल के किसानों को फसल सहायता तथा मृत्यु की स्थिति में परिवार को सामाजिक सुरक्षा बीमा प्रदान करने वाली योजना।",
+  "category": "agriculture",
+  "tags": [
+    "farmers",
+    "insurance"
+  ],
+  "ministry": "Department of Agriculture, Government of West Bengal",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "WB"
+  ],
+  "benefits": "Financial assistance of ₹10,000 per year (minimum ₹4,000 for small holdings) in two crop seasons, plus ₹2 lakh life insurance grant on death between ages 18 and 60.",
+  "benefitsHindi": "प्रति वर्ष ₹10,000 तक की फसल सहायता (दो किस्तों में) तथा 18 से 60 वर्ष की आयु में मृत्यु पर ₹2 लाख का जीवन बीमा लाभ।",
+  "eligibilityText": "All farmers and recorded Bhagchasis (sharecroppers) cultivating agricultural land in West Bengal.",
+  "eligibilityTextHindi": "पश्चिम बंगाल के सभी भूमिधारक किसान एवं पंजीकृत बटाईदार (भागचासी)।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://krishakbandhu.wb.gov.in",
+  "officialSourceUrl": "https://krishakbandhu.wb.gov.in",
+  "sourceName": "Krishak Bandhu Portal, Government of West Bengal",
+  "sourceUrls": [
+    "https://krishakbandhu.wb.gov.in",
+    "https://wb.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "krishakbandhu",
+    "krishak",
+    "bandhu",
+    "farmers",
+    "10000",
+    "insurance",
+    "westbengal"
+  ],
+  "nameLower": "krishak bandhu scheme",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

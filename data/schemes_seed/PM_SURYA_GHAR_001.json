@@ -1,0 +1,70 @@
+{
+  "schemeId": "PM_SURYA_GHAR_001",
+  "name": "Pradhan Mantri Surya Ghar: Muft Bijli Yojana",
+  "nameHindi": "प्रधानमंत्री सूर्य घर: मुफ्त बिजली योजना",
+  "description": "PM Surya Ghar Muft Bijli Yojana provides substantial financial subsidies to residential households to install rooftop solar power systems, ensuring up to 300 units of free electricity every month.",
+  "descriptionHindi": "आवासीय घरों की छतों पर रूफटॉप सोलर पैनल लगाने हेतु भारी सब्सिडी, जिससे हर माह 300 यूनिट तक मुफ्त बिजली प्राप्त हो सके।",
+  "category": "utilities",
+  "tags": [
+    "housing",
+    "rural",
+    "urban"
+  ],
+  "ministry": "Ministry of New and Renewable Energy",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Direct central capital subsidy of ₹30,000 for 1 kW, ₹60,000 for 2 kW, and ₹78,000 for 3 kW or higher rooftop solar installations, plus access to low-interest collateral-free loans.",
+  "benefitsHindi": "1 किलोवाट पर ₹30,000, 2 किलोवाट पर ₹60,000 तथा 3 किलोवाट या अधिक पर ₹78,000 तक की सीधी सब्सिडी और रियायती ऋण।",
+  "eligibilityText": "Indian residential households with a valid domestic electricity connection and suitable rooftop space for solar panel installation.",
+  "eligibilityTextHindi": "वैध घरेलू बिजली कनेक्शन और उपयुक्त छत वाले सभी आवासीय उपभोक्ता।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://pmsuryaghar.gov.in",
+  "officialSourceUrl": "https://pmsuryaghar.gov.in",
+  "sourceName": "Ministry of New and Renewable Energy",
+  "sourceUrls": [
+    "https://pmsuryaghar.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "suryaghar",
+    "solar",
+    "rooftop",
+    "muft",
+    "bijli",
+    "electricity",
+    "subsidy",
+    "300units"
+  ],
+  "nameLower": "pradhan mantri surya ghar: muft bijli yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

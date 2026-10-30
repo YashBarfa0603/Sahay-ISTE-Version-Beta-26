@@ -1,0 +1,96 @@
+{
+  "schemeId": "PM_MUDRA_001",
+  "name": "Pradhan Mantri Mudra Yojana",
+  "nameHindi": "प्रधानमंत्री मुद्रा योजना",
+  "description": "Pradhan Mantri MUDRA Yojana (PMMY) enables micro and small non-farm enterprises to access collateral-free institutional credit up to ₹20 lakh for income-generating activities in manufacturing, trading, and services.",
+  "descriptionHindi": "प्रधानमंत्री मुद्रा योजना सूक्ष्म एवं लघु उद्योगों को विनिर्माण, व्यापार और सेवा क्षेत्र में व्यवसाय शुरू या विस्तार करने हेतु ₹20 लाख तक का बिना गारंटी ऋण देती है।",
+  "category": "finance",
+  "tags": [
+    "loan",
+    "entrepreneurs",
+    "youth"
+  ],
+  "ministry": "Ministry of Finance",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Collateral-free institutional loans categorized into Shishu (up to ₹50,000), Kishore (₹50,000 to ₹5 lakh), Tarun (₹5 lakh to ₹10 lakh), and Tarun Plus (up to ₹20 lakh) at competitive interest rates.",
+  "benefitsHindi": "बिना गारंटी ऋण: शिशु (₹50,000 तक), किशोर (₹50,000 से ₹5 लाख), तरुण (₹5 से ₹10 लाख) तथा तरुण प्लस (₹20 लाख तक)।",
+  "eligibilityText": "Any non-corporate, non-farm small/micro enterprise owner or entrepreneur with a viable business proposal in manufacturing, processing, trading, or service sector. Must have a satisfactory credit track record and not be a bank defaulter.",
+  "eligibilityTextHindi": "गैर-कॉरपोरेट, गैर-कृषि व्यवसाय चलाने वाले व्यक्ति या उद्यमी। बैंक से डिफाल्टर नहीं होना चाहिए तथा संतोषजनक क्रेडिट इतिहास होना चाहिए।",
+  "eligibilityRules": [
+    {
+      "field": "age",
+      "operator": "greaterThanOrEqual",
+      "value": 18,
+      "isMandatory": true,
+      "description": "Applicant must be an adult Indian citizen aged 18 or above.",
+      "descriptionHindi": "आवेदक की आयु 18 वर्ष या उससे अधिक होनी चाहिए।",
+      "sourceUrl": "https://myscheme.gov.in",
+      "sourceQuote": "Any Indian citizen who has a business plan for an income-generating activity"
+    }
+  ],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [
+    "Identity Proof (Aadhaar / Voter ID / Passport)",
+    "Proof of Residence",
+    "Proof of Business Enterprise / Registration (if existing)",
+    "Bank Account Statement for last 6 months",
+    "Business Plan / Project Report with cost details"
+  ],
+  "requiredDocumentsHindi": [
+    "पहचान प्रमाण (आधार / वोटर कार्ड)",
+    "निवास प्रमाण पत्र",
+    "व्यवसाय पंजीकरण प्रमाण",
+    "पिछले 6 माह का बैंक खाता विवरण",
+    "परियोजना रिपोर्ट / व्यवसाय योजना"
+  ],
+  "applicationProcess": "1. Prepare your business plan and choose loan category (Shishu, Kishore, Tarun). 2. Apply via any commercial bank, RRB, small finance bank, or MFI. 3. Submit KYC and business proposal documents. 4. Loan sanctioned and disbursed with Mudra Card for working capital.",
+  "applicationProcessHindi": "1. व्यवसाय योजना तैयार कर श्रेणी चुनें। 2. किसी भी वाणिज्यिक बैंक, क्षेत्रीय ग्रामीण बैंक या एमएफआई में आवेदन करें। 3. दस्तावेज जमा करें। 4. ऋण स्वीकृति उपरांत मुद्रा कार्ड प्राप्त करें।",
+  "applicationUrl": "https://myscheme.gov.in/schemes/pmmy",
+  "officialSourceUrl": "https://financialservices.gov.in",
+  "sourceName": "Department of Financial Services",
+  "sourceUrls": [
+    "https://financialservices.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": true,
+  "popularityRank": 8,
+  "searchKeywords": [
+    "mudra",
+    "pmmy",
+    "loan",
+    "business",
+    "shishu",
+    "kishore",
+    "tarun",
+    "credit",
+    "मुद्रा",
+    "ऋण",
+    "लोन"
+  ],
+  "nameLower": "pradhan mantri mudra yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": true,
+    "hasRules": true,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "partial_rules_coverage"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

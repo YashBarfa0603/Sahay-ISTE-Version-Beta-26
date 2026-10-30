@@ -1,0 +1,70 @@
+{
+  "schemeId": "MP_SIKHO_KAMAO_001",
+  "name": "Mukhyamantri Sikho Kamao Yojana",
+  "nameHindi": "मुख्यमंत्री सीखो-कमाओ योजना",
+  "description": "MMSKY provides on-the-job vocational training and monthly stipends to youth across industrial, technical, and service establishments in Madhya Pradesh.",
+  "descriptionHindi": "युवाओं को उद्योगों एवं व्यावसायिक प्रतिष्ठानों में व्यावहारिक कार्य प्रशिक्षण के साथ मासिक स्टाइपेंड प्रदान करने की योजना।",
+  "category": "employment-skills",
+  "tags": [
+    "youth",
+    "skill-training",
+    "employment"
+  ],
+  "ministry": "Technical Education, Skill Development and Employment Department, MP",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "MP"
+  ],
+  "benefits": "Monthly stipend based on qualification: ₹8,000 (12th pass), ₹8,500 (ITI pass), ₹9,000 (Diploma pass), and ₹10,000 (Graduate/Post Graduate) during training.",
+  "benefitsHindi": "प्रशिक्षण अवधि में योग्यता अनुसार ₹8,000 से लेकर ₹10,000 प्रति माह का स्टाइपेंड सीधे बैंक खाते में।",
+  "eligibilityText": "Permanent residents of MP aged 18 to 29 years with minimum qualification of 12th pass, ITI, Diploma, or Higher Degree.",
+  "eligibilityTextHindi": "18 से 29 वर्ष के मध्य प्रदेश के निवासी जिन्होंने न्यूनतम 12वीं, आईटीआई, डिप्लोमा या स्नातक उत्तीर्ण किया हो।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://mmsky.mp.gov.in",
+  "officialSourceUrl": "https://mmsky.mp.gov.in",
+  "sourceName": "MMSKY Portal, Government of MP",
+  "sourceUrls": [
+    "https://mmsky.mp.gov.in",
+    "https://mp.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "mmsky",
+    "sikho",
+    "kamao",
+    "stipend",
+    "youth",
+    "skill",
+    "training",
+    "mp"
+  ],
+  "nameLower": "mukhyamantri sikho kamao yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

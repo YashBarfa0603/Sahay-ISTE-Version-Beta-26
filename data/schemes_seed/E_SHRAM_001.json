@@ -1,0 +1,67 @@
+{
+  "schemeId": "E_SHRAM_001",
+  "name": "e-Shram",
+  "nameHindi": "ई-श्रम",
+  "description": "e-Shram is a comprehensive national database of unorganized workers seeded with Aadhaar to facilitate targeted delivery of social security schemes and welfare benefits.",
+  "descriptionHindi": "असंगठित कामगारों का राष्ट्रीय डेटाबेस, जिसके माध्यम से सामाजिक सुरक्षा योजनाओं और कल्याणकारी लाभों का सीधा अंतरण किया जाता है।",
+  "category": "social-security",
+  "tags": [
+    "workers",
+    "insurance"
+  ],
+  "ministry": "Ministry of Labour and Employment",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Universal Account Number (UAN) e-Shram card providing access to government social security welfare programs and accidental insurance coverage.",
+  "benefitsHindi": "12 अंकों का विशिष्ट यूएएन (UAN) कार्ड, जिसके जरिए केंद्र व राज्य की सामाजिक सुरक्षा योजनाओं का सीधा लाभ मिलता है।",
+  "eligibilityText": "Any unorganized worker aged between 16 and 59 years who is not a member of EPFO/ESIC and not an income tax payer.",
+  "eligibilityTextHindi": "16 से 59 वर्ष की आयु के असंगठित कामगार जो ईपीएफओ/ईएसआईसी सदस्य या आयकरदाता न हों।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://eshram.gov.in",
+  "officialSourceUrl": "https://eshram.gov.in",
+  "sourceName": "Ministry of Labour and Employment",
+  "sourceUrls": [
+    "https://eshram.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "eshram",
+    "e-shram",
+    "uan",
+    "unorganized",
+    "workers",
+    "labour",
+    "card"
+  ],
+  "nameLower": "e-shram",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

@@ -1,0 +1,67 @@
+{
+  "schemeId": "STARTUP_INDIA_001",
+  "name": "Startup India",
+  "nameHindi": "स्टार्टअप इंडिया",
+  "description": "Startup India is a flagship initiative to build a strong ecosystem for nurturing innovation, economic growth, and large-scale employment generation.",
+  "descriptionHindi": "देश में नवाचार और स्टार्टअप संस्कृति को बढ़ावा देने, कर छूट और इनक्यूबेशन सहायता प्रदान करने वाली राष्ट्रीय पहल।",
+  "category": "business",
+  "tags": [
+    "entrepreneurs",
+    "youth"
+  ],
+  "ministry": "Ministry of Commerce and Industry",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Income tax exemption under Section 80-IAC for 3 consecutive years, Fund of Funds investment, fast-tracked patent examination with 80% rebate, and seed funding support.",
+  "benefitsHindi": "3 वर्षों के लिए आयकर छूट, फंड ऑफ फंड्स से पूंजी, 80% छूट के साथ पेटेंट आवेदन और सीड फंड सहायता।",
+  "eligibilityText": "Entities incorporated as private limited company, partnership firm, or LLP in India within 10 years having annual turnover under ₹100 crore.",
+  "eligibilityTextHindi": "10 वर्ष के भीतर निगमित संस्था जिसका वार्षिक टर्नओवर ₹100 करोड़ से कम हो तथा जो नवाचार पर आधारित हो।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://www.startupindia.gov.in",
+  "officialSourceUrl": "https://www.startupindia.gov.in",
+  "sourceName": "DPIIT, Ministry of Commerce and Industry",
+  "sourceUrls": [
+    "https://www.startupindia.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "startup",
+    "india",
+    "dpiit",
+    "innovation",
+    "entrepreneurs",
+    "seedfund",
+    "taxfree"
+  ],
+  "nameLower": "startup india",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

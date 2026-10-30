@@ -1,0 +1,106 @@
+{
+  "schemeId": "MGNREGA_001",
+  "name": "MGNREGA – Mahatma Gandhi National Rural Employment Guarantee Act",
+  "nameHindi": "महात्मा गांधी राष्ट्रीय ग्रामीण रोजगार गारंटी अधिनियम",
+  "description": "MGNREGA guarantees at least 100 days of wage employment in a financial year to every rural household whose adult members volunteer to do unskilled manual work, enhancing livelihood security.",
+  "descriptionHindi": "मनरेगा ग्रामीण परिवारों के आजीविका की सुरक्षा सुनिश्चित करने हेतु प्रत्येक वित्तीय वर्ष में कम से कम 100 दिनों के अकुशल मजदूरी रोजगार की कानूनी गारंटी देता है।",
+  "category": "employment-skills",
+  "tags": [
+    "employment",
+    "rural",
+    "workers",
+    "bpl"
+  ],
+  "ministry": "Ministry of Rural Development",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Legal entitlement to 100 days of guaranteed wage employment per household per year. Equal wages for men and women, paid directly via DBT within 15 days, and unemployment allowance if work is not provided within 15 days of demand.",
+  "benefitsHindi": "प्रति परिवार प्रति वर्ष 100 दिनों का कानूनी गारंटीड मजदूरी रोजगार। महिला-पुरुष को समान मजदूरी, 15 दिन में बैंक खाते में भुगतान तथा काम न मिलने पर बेरोजगारी भत्ता।",
+  "eligibilityText": "Adult members of a rural household who are 18 years of age or older, reside in rural areas, and volunteer to do unskilled manual labor. Job Card is issued per household by the local Gram Panchayat.",
+  "eligibilityTextHindi": "ग्रामीण क्षेत्र के 18 वर्ष या उससे अधिक आयु के वयस्क नागरिक जो अकुशल शारीरिक श्रम करने के इच्छुक हों।",
+  "eligibilityRules": [
+    {
+      "field": "residenceType",
+      "operator": "equals",
+      "value": "rural",
+      "isMandatory": true,
+      "description": "Must reside in a rural area.",
+      "descriptionHindi": "आवेदक ग्रामीण क्षेत्र का निवासी होना चाहिए।",
+      "sourceUrl": "https://nrega.nic.in",
+      "sourceQuote": "Must be a citizen of India residing in a rural area."
+    },
+    {
+      "field": "age",
+      "operator": "greaterThanOrEqual",
+      "value": 18,
+      "isMandatory": true,
+      "description": "Must be at least 18 years old.",
+      "descriptionHindi": "आयु कम से कम 18 वर्ष होनी चाहिए।",
+      "sourceUrl": "https://nrega.nic.in",
+      "sourceQuote": "Adult members of a rural household who have completed 18 years of age"
+    }
+  ],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [
+    "Aadhaar Card",
+    "Proof of Rural Residence",
+    "Bank or Post Office Passbook",
+    "Passport Size Photograph",
+    "MGNREGA Job Card (issued by Panchayat)"
+  ],
+  "requiredDocumentsHindi": [
+    "आधार कार्ड",
+    "ग्रामीण निवास का प्रमाण",
+    "बैंक या डाकघर पासबुक",
+    "पासपोर्ट साइज फोटो",
+    "मनरेगा जॉब कार्ड"
+  ],
+  "applicationProcess": "1. Submit a written or verbal application for registration to your local Gram Panchayat. 2. Gram Panchayat verifies details and issues a Job Card with photo within 15 days. 3. Submit an application for work demanding employment. 4. Work allocated within 5 km of village within 15 days. 5. Wages credited via DBT.",
+  "applicationProcessHindi": "1. ग्राम पंचायत में जॉब कार्ड हेतु आवेदन करें। 2. पंचायत 15 दिनों में जॉब कार्ड जारी करेगी। 3. काम की मांग का आवेदन जमा करें। 4. 15 दिन में 5 किमी के भीतर काम दिया जाएगा। 5. मजदूरी सीधे बैंक खाते में पहुंचेगी।",
+  "applicationUrl": "https://nrega.nic.in",
+  "officialSourceUrl": "https://nrega.nic.in",
+  "sourceName": "Ministry of Rural Development",
+  "sourceUrls": [
+    "https://nrega.nic.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": true,
+  "popularityRank": 9,
+  "searchKeywords": [
+    "mgnrega",
+    "nrega",
+    "employment",
+    "jobcard",
+    "wages",
+    "rural",
+    "100days",
+    "मनरेगा",
+    "नरेगा",
+    "रोजगार",
+    "मजदूरी"
+  ],
+  "nameLower": "mgnrega – mahatma gandhi national rural employment guarantee act",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": true,
+    "hasRules": true,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "partial_rules_coverage"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

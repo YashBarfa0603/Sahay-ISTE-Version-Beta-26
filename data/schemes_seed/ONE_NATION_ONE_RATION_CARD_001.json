@@ -1,0 +1,71 @@
+{
+  "schemeId": "ONE_NATION_ONE_RATION_CARD_001",
+  "name": "One Nation One Ration Card",
+  "nameHindi": "एक राष्ट्र एक राशन कार्ड",
+  "description": "ONORC enables migrant beneficiaries to access their entitled subsidized foodgrains under the National Food Security Act (NFSA) from any Fair Price Shop (FPS) anywhere in the country.",
+  "descriptionHindi": "प्रवासी मजदूरों एवं राष्ट्रीय खाद्य सुरक्षा कानून के लाभार्थियों को देश में कहीं भी किसी भी उचित मूल्य की दुकान से राशन प्राप्त करने की पोर्टेबिलिटी।",
+  "category": "food-security",
+  "tags": [
+    "bpl",
+    "workers",
+    "rural",
+    "urban"
+  ],
+  "ministry": "Ministry of Consumer Affairs, Food and Public Distribution",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Nationwide ration card portability allowing migrant workers and their family members to draw their subsidized foodgrains using existing ration card and biometric authentication.",
+  "benefitsHindi": "राष्ट्रीय स्तर पर राशन कार्ड पोर्टेबिलिटी, जिससे बायोमेट्रिक सत्यापन द्वारा देश के किसी भी राज्य में राशन उठाया जा सकता है।",
+  "eligibilityText": "All NFSA ration card holders (Antyodaya Anna Yojana and Priority Households).",
+  "eligibilityTextHindi": "देश के सभी एनएफएसए राशन कार्ड धारक (अंत्योदय एवं प्राथमिकता परिवार)।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://nfsa.gov.in",
+  "officialSourceUrl": "https://nfsa.gov.in",
+  "sourceName": "Department of Food and Public Distribution",
+  "sourceUrls": [
+    "https://nfsa.gov.in",
+    "https://myscheme.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "onorc",
+    "ration",
+    "card",
+    "portability",
+    "food",
+    "grains",
+    "migrants",
+    "nfsa"
+  ],
+  "nameLower": "one nation one ration card",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

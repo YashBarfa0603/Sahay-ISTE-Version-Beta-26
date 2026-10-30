@@ -1,0 +1,68 @@
+{
+  "schemeId": "TN_MAGALIR_URIMAI_THOGAI_001",
+  "name": "Kalaignar Magalir Urimai Thogai",
+  "nameHindi": "कलैग्नार मगलिर उरीमई थोगई",
+  "description": "Basic income entitlement scheme by Government of Tamil Nadu providing monthly financial assistance to eligible women heads of families.",
+  "descriptionHindi": "तमिलनाडु सरकार द्वारा महिलाओं के श्रम को सम्मान देने और आर्थिक आत्मनिर्भरता हेतु मासिक बुनियादी आय योजना।",
+  "category": "women-child",
+  "tags": [
+    "women"
+  ],
+  "ministry": "Special Programme Implementation Department, Government of Tamil Nadu",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "TN"
+  ],
+  "benefits": "Monthly financial rights grant of ₹1,000 deposited directly into the Aadhaar-linked bank accounts of beneficiary women heads of families.",
+  "benefitsHindi": "परिवार की पात्र महिला मुखिया के बैंक खाते में प्रति माह ₹1,000 का प्रत्यक्ष अंतरण।",
+  "eligibilityText": "Women heads of families domiciled in Tamil Nadu aged 21 and above with annual family income below ₹2.50 lakh and power consumption under 3,600 units.",
+  "eligibilityTextHindi": "तमिलनाडु की 21 वर्ष या उससे अधिक आयु की महिला मुखिया जिनकी पारिवारिक वार्षिक आय ₹2.5 लाख से कम हो।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://kmut.tn.gov.in",
+  "officialSourceUrl": "https://kmut.tn.gov.in",
+  "sourceName": "KMUT Portal, Government of Tamil Nadu",
+  "sourceUrls": [
+    "https://kmut.tn.gov.in",
+    "https://tn.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "kmut",
+    "magalir",
+    "urimai",
+    "thogai",
+    "tamilnadu",
+    "women",
+    "1000",
+    "kalaignar"
+  ],
+  "nameLower": "kalaignar magalir urimai thogai",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

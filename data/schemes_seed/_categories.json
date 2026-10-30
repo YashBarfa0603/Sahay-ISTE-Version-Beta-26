@@ -1,0 +1,146 @@
+[
+  {
+    "categoryId": "agriculture",
+    "name": "Agriculture & Farming",
+    "nameHindi": "कृषि एवं किसान कल्याण",
+    "description": "Schemes for farmers, crop insurance, irrigation, soil health, and agricultural credit.",
+    "descriptionHindi": "किसानों, फसल बीमा, सिंचाई, मृदा स्वास्थ्य और कृषि ऋण से संबंधित योजनाएं।",
+    "iconName": "agriculture",
+    "isActive": true,
+    "displayOrder": 1,
+    "schemeCount": 0
+  },
+  {
+    "categoryId": "health",
+    "name": "Healthcare & Wellness",
+    "nameHindi": "स्वास्थ्य एवं चिकित्सा",
+    "description": "Universal health coverage, subsidized medicines, health insurance, and maternal healthcare.",
+    "descriptionHindi": "सार्वजनिक स्वास्थ्य सुरक्षा, सस्ती दवाइयां, स्वास्थ्य बीमा और मातृत्व स्वास्थ्य योजनाएं।",
+    "iconName": "health_and_safety",
+    "isActive": true,
+    "displayOrder": 2,
+    "schemeCount": 0
+  },
+  {
+    "categoryId": "social-security",
+    "name": "Social Security & Pension",
+    "nameHindi": "सामाजिक सुरक्षा एवं पेंशन",
+    "description": "Old age pension, disability assistance, unorganized workers safety nets, and widow welfare.",
+    "descriptionHindi": "वृद्धावस्था पेंशन, दिव्यांग सहायता, असंगठित श्रमिक सुरक्षा और कल्याणाकारी योजनाएं।",
+    "iconName": "shield",
+    "isActive": true,
+    "displayOrder": 3,
+    "schemeCount": 0
+  },
+  {
+    "categoryId": "housing",
+    "name": "Housing & Shelter",
+    "nameHindi": "आवास एवं आश्रय",
+    "description": "Affordable housing, rural and urban housing subsidies, and pucca house construction.",
+    "descriptionHindi": "किफायती आवास, ग्रामीण एवं शहरी आवास सब्सिडी और पक्के मकान निर्माण योजनाएं।",
+    "iconName": "home",
+    "isActive": true,
+    "displayOrder": 4,
+    "schemeCount": 0
+  },
+  {
+    "categoryId": "finance",
+    "name": "Banking & Financial Inclusion",
+    "nameHindi": "बैंकिंग एवं वित्तीय समावेशन",
+    "description": "Bank accounts, micro-credit, collateral-free loans, and girl-child savings accounts.",
+    "descriptionHindi": "बैंक खाते, सूक्ष्म ऋण, बिना गारंटी के ऋण और बालिका बचत खाते।",
+    "iconName": "account_balance",
+    "isActive": true,
+    "displayOrder": 5,
+    "schemeCount": 0
+  },
+  {
+    "categoryId": "education",
+    "name": "Education & Scholarships",
+    "nameHindi": "शिक्षा एवं छात्रवृत्ति",
+    "description": "Pre-matric, post-matric, higher education scholarships, and educational fellowships.",
+    "descriptionHindi": "प्री-मैट्रिक, पोस्ट-मैट्रिक, उच्च शिक्षा छात्रवृत्तियां और शैक्षिक फैलोशिप योजनाएं।",
+    "iconName": "school",
+    "isActive": true,
+    "displayOrder": 6,
+    "schemeCount": 0
+  },
+  {
+    "categoryId": "women-child",
+    "name": "Women & Child Development",
+    "nameHindi": "महिला एवं बाल विकास",
+    "description": "Maternity benefits, nutritional assistance, girl child protection, and women empowerment.",
+    "descriptionHindi": "मातृत्व लाभ, पोषण सहायता, बालिका सुरक्षा और महिला सशक्तिकरण कार्यक्रम।",
+    "iconName": "escalator_warning",
+    "isActive": true,
+    "displayOrder": 7,
+    "schemeCount": 0
+  },
+  {
+    "categoryId": "employment-skills",
+    "name": "Employment & Skill Development",
+    "nameHindi": "रोजगार एवं कौशल विकास",
+    "description": "Wage employment guarantees, vocational training, apprenticeships, and job placement.",
+    "descriptionHindi": "गारंटीड मजदूरी रोजगार, व्यावसायिक कौशल प्रशिक्षण, शिक्षुता और रोजगार मेले।",
+    "iconName": "work",
+    "isActive": true,
+    "displayOrder": 8,
+    "schemeCount": 0
+  },
+  {
+    "categoryId": "business",
+    "name": "Business & Entrepreneurship",
+    "nameHindi": "व्यापार एवं उद्यमिता",
+    "description": "MSME support, startup incubation, artisan empowerment, and enterprise subsidies.",
+    "descriptionHindi": "सूक्ष्म व लघु उद्योग सहायता, स्टार्टअप इन्क्यूबेशन, कारीगर प्रोत्साहन और व्यवसाय सब्सिडी।",
+    "iconName": "store",
+    "isActive": true,
+    "displayOrder": 9,
+    "schemeCount": 0
+  },
+  {
+    "categoryId": "rural-development",
+    "name": "Rural Development",
+    "nameHindi": "ग्रामीण विकास",
+    "description": "Self-help groups, rural livelihood missions, and infrastructure empowerment.",
+    "descriptionHindi": "स्वयं सहायता समूह, राज्य ग्रामीण आजीविका मिशन और ग्रामीण बुनियादी ढांचा।",
+    "iconName": "nature_people",
+    "isActive": true,
+    "displayOrder": 10,
+    "schemeCount": 0
+  },
+  {
+    "categoryId": "utilities",
+    "name": "Energy & Clean Utilities",
+    "nameHindi": "ऊर्जा एवं जन सुविधाएं",
+    "description": "Clean cooking gas, rooftop solar electricity, and piped tap water connections.",
+    "descriptionHindi": "स्वच्छ रसोई गैस (एलपीजी), रूफटॉप सोलर मुफ्त बिजली और नल से जल आपूर्ति योजनाएं।",
+    "iconName": "bolt",
+    "isActive": true,
+    "displayOrder": 11,
+    "schemeCount": 0
+  },
+  {
+    "categoryId": "food-security",
+    "name": "Food Security & Nutrition",
+    "nameHindi": "खाद्य सुरक्षा एवं राशन",
+    "description": "Subsidized and free food grains, portable ration cards, and community nutrition.",
+    "descriptionHindi": "मुफ्त एवं रियायती खाद्यान्न वितरण, वन नेशन वन राशन कार्ड और पोषण सहायता।",
+    "iconName": "restaurant",
+    "isActive": true,
+    "displayOrder": 12,
+    "schemeCount": 0
+  },
+  {
+    "categoryId": "tribal-welfare",
+    "name": "Tribal Affairs & Welfare",
+    "nameHindi": "जनजातीय कल्याण",
+    "description": "Special programs for Particularly Vulnerable Tribal Groups (PVTG) and tribal development.",
+    "descriptionHindi": "विशेष रूप से कमजोर जनजातीय समूहों (PVTG) और आदिवासी समुदायों के लिए समग्र कल्याण योजनाएं।",
+    "iconName": "groups",
+    "isActive": true,
+    "displayOrder": 13,
+    "schemeCount": 0
+  }
+]
+

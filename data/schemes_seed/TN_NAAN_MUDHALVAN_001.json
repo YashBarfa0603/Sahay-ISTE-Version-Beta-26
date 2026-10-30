@@ -1,0 +1,70 @@
+{
+  "schemeId": "TN_NAAN_MUDHALVAN_001",
+  "name": "Naan Mudhalvan Scheme",
+  "nameHindi": "नान मुधलवन योजना",
+  "description": "Massive skill development and career guidance movement providing industry-relevant training to 10 lakh college students and youth across Tamil Nadu.",
+  "descriptionHindi": "तमिलनाडु के युवाओं और कॉलेज विद्यार्थियों को आधुनिक उद्योगों के अनुरूप कौशल प्रशिक्षण और करियर मार्गदर्शन देने की योजना।",
+  "category": "employment-skills",
+  "tags": [
+    "youth",
+    "skill-training",
+    "employment"
+  ],
+  "ministry": "Tamil Nadu Skill Development Corporation (TNSDC)",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "TN"
+  ],
+  "benefits": "Free training in emerging technologies (AI, Robotics, Cloud, Green Skills), foreign languages, soft skills, and direct placement opportunities.",
+  "benefitsHindi": "आर्टिफिशियल इंटेलिजेंस, क्लाउड कंप्यूटिंग और तकनीकी क्षेत्रों में निःशुल्क प्रशिक्षण तथा कैंपस प्लेसमेंट।",
+  "eligibilityText": "College students studying in engineering, arts, science, polytechnic, and ITI institutions across Tamil Nadu.",
+  "eligibilityTextHindi": "तमिलनाडु के इंजीनियरिंग, कला, विज्ञान, पॉलिटेक्निक और आईटीआई संस्थानों के विद्यार्थी।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://www.naanmudhalvan.tn.gov.in",
+  "officialSourceUrl": "https://www.naanmudhalvan.tn.gov.in",
+  "sourceName": "Tamil Nadu Skill Development Corporation",
+  "sourceUrls": [
+    "https://www.naanmudhalvan.tn.gov.in",
+    "https://tn.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "naanmudhalvan",
+    "naan",
+    "mudhalvan",
+    "skill",
+    "training",
+    "youth",
+    "placement",
+    "tamilnadu"
+  ],
+  "nameLower": "naan mudhalvan scheme",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

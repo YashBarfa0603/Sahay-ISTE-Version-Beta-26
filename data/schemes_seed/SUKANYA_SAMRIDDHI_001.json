@@ -1,0 +1,95 @@
+{
+  "schemeId": "SUKANYA_SAMRIDDHI_001",
+  "name": "Sukanya Samriddhi Yojana",
+  "nameHindi": "सुकन्या समृद्धि योजना",
+  "description": "Sukanya Samriddhi Yojana (SSY) is a government-backed high-interest savings scheme designed to encourage parents to build a dedicated financial corpus for the education and marriage of a girl child.",
+  "descriptionHindi": "सुकन्या समृद्धि योजना बालिकाओं के सुरक्षित भविष्य, उच्च शिक्षा और विवाह हेतु माता-पिता को बचत करने के लिए प्रोत्साहित करने वाली एक उच्च ब्याज दर बचत योजना है।",
+  "category": "finance",
+  "tags": [
+    "girl-child",
+    "women",
+    "insurance",
+    "loan"
+  ],
+  "ministry": "Ministry of Finance",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "High sovereign-guaranteed interest rate, complete EEE tax exemption under Section 80C (investment, interest, and maturity proceeds tax-free), and partial withdrawal up to 50% for higher education at age 18.",
+  "benefitsHindi": "उच्चतम सरकारी ब्याज दर, आयकर धारा 80C के तहत पूर्ण कर छूट (EEE स्टेटस), तथा 18 वर्ष की आयु होने पर उच्च शिक्षा हेतु 50% तक निकासी की सुविधा।",
+  "eligibilityText": "Account can be opened by a parent or legal guardian in the name of a girl child who is below 10 years of age. Maximum of two accounts permitted per family (except for twins/triplets). Minimum annual deposit is ₹250 and maximum ₹1,50,000.",
+  "eligibilityTextHindi": "10 वर्ष से कम आयु की बालिका के नाम पर माता-पिता द्वारा खाता खोला जा सकता है। प्रति परिवार अधिकतम दो बालिकाओं के लिए। न्यूनतम वार्षिक जमा ₹250 तथा अधिकतम ₹1,50,000।",
+  "eligibilityRules": [
+    {
+      "field": "hasGirlChild",
+      "operator": "isTrue",
+      "value": null,
+      "isMandatory": true,
+      "description": "Family must have a girl child.",
+      "descriptionHindi": "परिवार में 10 वर्ष से कम आयु की बालिका होना आवश्यक है।",
+      "sourceUrl": "https://indiapost.gov.in",
+      "sourceQuote": "The account can be opened in the name of a girl child until she attains the age of 10 years."
+    }
+  ],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [
+    "Birth Certificate of the Girl Child",
+    "Aadhaar Card and Identity Proof of Parent/Guardian",
+    "Proof of Address of Parent/Guardian",
+    "Passport Size Photograph of Parent and Child"
+  ],
+  "requiredDocumentsHindi": [
+    "बालिका का जन्म प्रमाण पत्र",
+    "माता-पिता/अभिभावक का आधार कार्ड व पहचान पत्र",
+    "अभिभावक का निवास प्रमाण पत्र",
+    "पासपोर्ट साइज फोटो"
+  ],
+  "applicationProcess": "1. Collect the Sukanya Samriddhi account opening form from any Post Office or authorized commercial bank branch. 2. Fill in girl child and guardian details. 3. Attach birth certificate and KYC documents. 4. Deposit the initial opening amount (minimum ₹250). 5. Receive the SSY passbook.",
+  "applicationProcessHindi": "1. किसी भी डाकघर या अधिकृत बैंक शाखा से सुकन्या खाता फॉर्म प्राप्त करें। 2. फॉर्म में बालिका व अभिभावक का विवरण भरें। 3. जन्म प्रमाण पत्र एवं केवाईसी दस्तावेज संलग्न करें। 4. न्यूनतम ₹250 की आरंभिक राशि जमा करें। 5. पासबुक प्राप्त करें।",
+  "applicationUrl": "https://indiapost.gov.in",
+  "officialSourceUrl": "https://indiapost.gov.in",
+  "sourceName": "India Post & National Savings Institute",
+  "sourceUrls": [
+    "https://indiapost.gov.in",
+    "https://nsiindia.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": true,
+  "popularityRank": 6,
+  "searchKeywords": [
+    "sukanya",
+    "samriddhi",
+    "ssy",
+    "girl",
+    "child",
+    "postoffice",
+    "savings",
+    "taxfree",
+    "सुकन्या",
+    "समृद्धि",
+    "बेटी"
+  ],
+  "nameLower": "sukanya samriddhi yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": true,
+    "hasRules": true,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "partial_rules_coverage"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

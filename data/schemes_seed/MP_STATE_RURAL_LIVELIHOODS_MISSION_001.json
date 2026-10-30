@@ -1,0 +1,71 @@
+{
+  "schemeId": "MP_STATE_RURAL_LIVELIHOODS_MISSION_001",
+  "name": "MP Day State Rural Livelihoods Mission programmes",
+  "nameHindi": "मध्य प्रदेश राज्य ग्रामीण आजीविका मिशन",
+  "description": "Community-led rural poverty reduction programme organizing rural women into Self Help Groups (SHGs) and federations to promote sustainable micro-enterprises.",
+  "descriptionHindi": "ग्रामीण महिलाओं को स्वयं सहायता समूहों से जोड़कर आजीविका और स्वरोजगार के साधन उपलब्ध कराने का राज्य ग्रामीण आजीविका मिशन।",
+  "category": "rural-development",
+  "tags": [
+    "women",
+    "rural",
+    "bpl"
+  ],
+  "ministry": "Panchayat and Rural Development Department, Government of MP",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "MP"
+  ],
+  "benefits": "Revolving funds, community investment support, bank loan linkage at subsidized interest rates, and cluster enterprise training for rural women SHGs.",
+  "benefitsHindi": "स्वयं सहायता समूहों को रिवॉल्विंग फंड, सामुदायिक निवेश कोष और रियायती ब्याज दर पर बैंक ऋण सहायता।",
+  "eligibilityText": "Poor rural households in Madhya Pradesh organized through village-level Self Help Groups.",
+  "eligibilityTextHindi": "मध्य प्रदेश के ग्रामीण गरीब परिवार, विशेषकर स्वयं सहायता समूह से जुड़ी महिलाएं।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://mpsrlm.mp.gov.in",
+  "officialSourceUrl": "https://mpsrlm.mp.gov.in",
+  "sourceName": "MP State Rural Livelihoods Mission",
+  "sourceUrls": [
+    "https://mpsrlm.mp.gov.in",
+    "https://mp.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "pending",
+  "verifiedBy": null,
+  "status": "underVerification",
+  "lastVerified": null,
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "mpsrlm",
+    "srlm",
+    "day-srlm",
+    "rural",
+    "livelihood",
+    "shg",
+    "women",
+    "mp"
+  ],
+  "nameLower": "mp day state rural livelihoods mission programmes",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "name_unconfirmed",
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}

@@ -1,0 +1,68 @@
+{
+  "schemeId": "MH_LEK_LADKI_001",
+  "name": "Lek Ladki Yojana",
+  "nameHindi": "लेक लाडकी योजना",
+  "description": "Promotes the birth, health, and higher education of girl children belonging to yellow and orange ration cardholder families in Maharashtra.",
+  "descriptionHindi": "महाराष्ट्र में गरीब परिवारों की बालिकाओं के जन्म, पोषण और शिक्षा को बढ़ावा देने हेतु चरणबद्ध वित्तीय सहायता योजना।",
+  "category": "women-child",
+  "tags": [
+    "women",
+    "girl-child"
+  ],
+  "ministry": "Women and Child Development Department, Government of Maharashtra",
+  "governmentLevel": "state",
+  "applicableStates": [
+    "MH"
+  ],
+  "benefits": "Total financial grant of ₹1,01,000 provided in stages: ₹5,000 at birth, ₹6,000 (Class 1), ₹7,000 (Class 6), ₹8,000 (Class 11), and ₹75,000 at age 18.",
+  "benefitsHindi": "बालिका के जन्म से 18 वर्ष तक विभिन्न चरणों में कुल ₹1,01,000 की वित्तीय सहायता।",
+  "eligibilityText": "Girl children born on or after April 1, 2023, in Maharashtra to families holding yellow or orange ration cards.",
+  "eligibilityTextHindi": "1 अप्रैल 2023 के बाद जन्मी बालिकाएं जिनके परिवार पीले अथवा नारंगी राशन कार्ड धारक हों।",
+  "eligibilityRules": [],
+  "ruleStages": null,
+  "rulesComplete": false,
+  "rulesVerificationStatus": "unverified",
+  "eligibilityEnabled": false,
+  "requiredDocuments": [],
+  "requiredDocumentsHindi": [],
+  "applicationProcess": "",
+  "applicationProcessHindi": null,
+  "applicationUrl": "https://wcd.maharashtra.gov.in",
+  "officialSourceUrl": "https://wcd.maharashtra.gov.in",
+  "sourceName": "Women and Child Development Department Maharashtra",
+  "sourceUrls": [
+    "https://wcd.maharashtra.gov.in",
+    "https://maharashtra.gov.in"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": false,
+  "popularityRank": 0,
+  "searchKeywords": [
+    "lekladki",
+    "lek",
+    "ladki",
+    "girlchild",
+    "maharashtra",
+    "101000",
+    "wcd"
+  ],
+  "nameLower": "lek ladki yojana",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": false,
+    "hasRules": false,
+    "hasHindi": true,
+    "hindiReviewed": false,
+    "flags": [
+      "catalogue_tier2"
+    ]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}
