@@ -42,7 +42,16 @@ class AuthErrorMapper {
       // Duck typing for FirebaseAuthException.code
       final dynamic dyn = error;
       if (dyn.code != null && dyn.code is String) {
-        return (dyn.code as String).toLowerCase().trim();
+        final rawCode = (dyn.code as String).toLowerCase().trim();
+        if (rawCode == 'email_exists' ||
+            rawCode == 'email-already-exists' ||
+            rawCode == 'user-already-exists') {
+          return 'email-already-in-use';
+        }
+        if (rawCode == 'invalid_login_credentials') {
+          return 'invalid-credential';
+        }
+        return rawCode;
       }
     } catch (_) {}
 
@@ -50,17 +59,26 @@ class AuthErrorMapper {
 
     if (str.contains('invalid-credential') ||
         str.contains('wrong-password') ||
-        str.contains('user-not-found')) {
+        str.contains('user-not-found') ||
+        str.contains('invalid_login_credentials')) {
       return 'invalid-credential';
     }
     if (str.contains('invalid-email')) {
       return 'invalid-email';
     }
-    if (str.contains('email-already-in-use')) {
+    if (str.contains('email-already-in-use') ||
+        str.contains('email_exists') ||
+        str.contains('email-already-exists') ||
+        str.contains('user-already-exists')) {
       return 'email-already-in-use';
     }
     if (str.contains('weak-password')) {
       return 'weak-password';
+    }
+    if (str.contains('database') ||
+        str.contains('permission-denied') ||
+        str.contains('unavailable')) {
+      return 'database-error';
     }
     if (str.contains('network') || str.contains('socket') || str.contains('connection')) {
       return 'network-request-failed';

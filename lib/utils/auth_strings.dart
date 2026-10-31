@@ -68,6 +68,14 @@ class AuthStrings {
       'en': 'If this email is registered, a password reset link has been sent to it.',
       'hi': 'यदि यह ईमेल पंजीकृत है, तो उस पर पासवर्ड रीसेट लिंक भेज दिया गया है।',
     },
+    'database-error': {
+      'en': 'Could not sync user profile. Please check your internet connection and try again.',
+      'hi': 'उपयोगकर्ता प्रोफ़ाइल सिंक नहीं हो सकी। कृपया अपना इंटरनेट कनेक्शन जांचें और पुनः प्रयास करें।',
+    },
+    'signup-failed': {
+      'en': 'Account registration could not be completed. Please try again.',
+      'hi': 'खाता पंजीकरण पूरा नहीं हो सका। कृपया पुनः प्रयास करें।',
+    },
     'unknown-error': {
       'en': 'An unexpected authentication error occurred. Please try again.',
       'hi': 'एक अप्रत्याशित प्रमाणीकरण त्रुटि हुई। कृपया पुनः प्रयास करें।',

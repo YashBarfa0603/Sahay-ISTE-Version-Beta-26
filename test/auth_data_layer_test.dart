@@ -179,6 +179,24 @@ void main() {
     test('AuthErrorMapper maps raw errors gracefully', () {
       final mapped = AuthErrorMapper.mapErrorToMessage('FirebaseAuthException: invalid-email', 'en');
       expect(mapped, contains('email address format is not valid'));
+
+      final mappedExists = AuthErrorMapper.mapErrorToMessage('FirebaseAuthException: EMAIL_EXISTS', 'en');
+      expect(mappedExists, contains('already exists with this email'));
+
+      final mappedDb = AuthErrorMapper.mapErrorToMessage('FirebaseException: permission-denied', 'en');
+      expect(mappedDb, contains('Could not sync user profile'));
+    });
+
+    test('AuthStrings provides database-error and signup-failed in en and hi', () {
+      final dbEn = AuthStrings.getMessage('database-error', 'en');
+      final dbHi = AuthStrings.getMessage('database-error', 'hi');
+      expect(dbEn, contains('Could not sync user profile'));
+      expect(dbHi, contains('उपयोगकर्ता प्रोफ़ाइल सिंक नहीं हो सकी'));
+
+      final signupEn = AuthStrings.getMessage('signup-failed', 'en');
+      final signupHi = AuthStrings.getMessage('signup-failed', 'hi');
+      expect(signupEn, contains('registration could not be completed'));
+      expect(signupHi, contains('खाता पंजीकरण पूरा नहीं हो सका'));
     });
   });
 }

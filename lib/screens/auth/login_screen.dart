@@ -24,6 +24,16 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _obscurePassword = true;
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<AuthProvider>().clearError();
+      }
+    });
+  }
+
+  @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
@@ -38,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final lang = context.read<LocaleProvider>().languageCode;
     final success = await auth.signIn(
-      email: _emailController.text,
+      email: _emailController.text.trim(),
       password: _passwordController.text,
       lang: lang,
     );
@@ -355,6 +365,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
+                          context.read<AuthProvider>().clearError();
                           Navigator.of(context).push(
                             MaterialPageRoute(builder: (_) => const SignupScreen()),
                           );

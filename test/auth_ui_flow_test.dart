@@ -32,6 +32,20 @@ class FakeTestAuthRepository extends Fake implements AuthRepository {
   Future<void> signOut() async {
     mockUser = null;
   }
+
+  @override
+  Future<void> updateProfile(Map<String, dynamic> fields) async {
+    if (mockUser != null) {
+      mockUser = mockUser!.copyWith(
+        age: fields['age'] is int ? fields['age'] as int : null,
+        state: fields['state']?.toString(),
+        district: fields['district']?.toString(),
+        occupation: fields['occupation']?.toString(),
+        preferredLanguage: fields['preferredLanguage']?.toString(),
+        profileComplete: fields['profileComplete'] as bool? ?? true,
+      );
+    }
+  }
 }
 
 Widget createTestApp({
@@ -188,6 +202,40 @@ void main() {
 
       final enabledBtn = tester.widget<ElevatedButton>(createAccountFinder);
       expect(enabledBtn.onPressed, isNotNull);
+    });
+
+    testWidgets('7. ProfileSetupScreen updates profile and transitions when saved', (tester) async {
+      final incompleteUser = UserModel(
+        uid: 'user_setup_789',
+        fullName: 'Test Setup User',
+        email: 'setup@example.com',
+        mobileNumber: '9876543210',
+        profileComplete: false,
+      );
+      final fakeRepo = FakeTestAuthRepository()..mockUser = incompleteUser;
+      final authProvider = AuthProvider(authRepository: fakeRepo);
+
+      await tester.pumpWidget(createTestApp(
+        authProvider: authProvider,
+        home: const AuthGate(),
+      ));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(ProfileSetupScreen), findsOneWidget);
+
+      final success = await authProvider.updateProfile({
+        'age': 30,
+        'state': 'MP',
+        'district': 'Bhopal',
+        'occupation': 'farmer',
+        'preferredLanguage': 'en',
+        'profileComplete': true,
+      });
+
+      expect(success, isTrue);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(HomeScreen), findsOneWidget);
     });
   });
 }

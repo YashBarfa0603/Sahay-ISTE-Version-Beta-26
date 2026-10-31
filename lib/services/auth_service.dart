@@ -56,7 +56,7 @@ class AuthService {
   }) async {
     try {
       final credential = await _auth.createUserWithEmailAndPassword(
-        email: email.trim(),
+        email: email.trim().toLowerCase(),
         password: password,
       );
       return credential.user;
@@ -76,7 +76,7 @@ class AuthService {
   }) async {
     try {
       final credential = await _auth.signInWithEmailAndPassword(
-        email: email.trim(),
+        email: email.trim().toLowerCase(),
         password: password,
       );
       return credential.user;
@@ -127,7 +127,7 @@ class AuthService {
   // Password reset
   Future<void> sendPasswordReset(String email) async {
     try {
-      await _auth.sendPasswordResetEmail(email: email.trim());
+      await _auth.sendPasswordResetEmail(email: email.trim().toLowerCase());
     } on FirebaseAuthException catch (e) {
       debugPrint('AuthService: password reset error ${e.code}');
       throw AuthFailure(code: e.code, messageKey: e.code);
@@ -166,7 +166,7 @@ class AuthService {
   // Reauthenticate email
   Future<void> reauthenticateWithEmail(String email, String password) async {
     final credential = EmailAuthProvider.credential(
-      email: email.trim(),
+      email: email.trim().toLowerCase(),
       password: password,
     );
     await reauthenticate(credential);

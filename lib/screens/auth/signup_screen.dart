@@ -28,6 +28,16 @@ class _SignupScreenState extends State<SignupScreen> {
   bool _consentAccepted = false;
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<AuthProvider>().clearError();
+      }
+    });
+  }
+
+  @override
   void dispose() {
     _fullNameController.dispose();
     _mobileController.dispose();
@@ -45,10 +55,10 @@ class _SignupScreenState extends State<SignupScreen> {
 
     final lang = context.read<LocaleProvider>().languageCode;
     final success = await auth.signUp(
-      email: _emailController.text,
+      email: _emailController.text.trim(),
       password: _passwordController.text,
-      fullName: _fullNameController.text,
-      mobileNumber: _mobileController.text,
+      fullName: _fullNameController.text.trim(),
+      mobileNumber: _mobileController.text.trim(),
       consentAccepted: _consentAccepted,
       consentVersion: '1.0',
       lang: lang,
@@ -477,7 +487,10 @@ class _SignupScreenState extends State<SignupScreen> {
                       style: AppTextStyles.bodyMedium.copyWith(color: AppColors.deepNavy),
                     ),
                     GestureDetector(
-                      onTap: () => Navigator.of(context).pop(),
+                      onTap: () {
+                        context.read<AuthProvider>().clearError();
+                        Navigator.of(context).pop();
+                      },
                       child: Text(
                         isHi ? 'साइन इन करें' : 'Sign In',
                         style: AppTextStyles.bodyMedium.copyWith(

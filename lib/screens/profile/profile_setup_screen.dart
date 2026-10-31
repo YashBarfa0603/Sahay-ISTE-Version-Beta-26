@@ -106,6 +106,9 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
     if (success && mounted) {
       // Sync app locale with selected preferred language
       context.read<LocaleProvider>().setLocale(Locale(_selectedLanguage));
+      if (Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+      }
     }
   }
 
