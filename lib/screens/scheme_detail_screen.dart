@@ -20,7 +20,7 @@ import 'package:sahay/widgets/expandable_document_card.dart';
 import 'package:sahay/widgets/sahay_app_bar.dart';
 import 'package:sahay/widgets/scheme_source_info.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:sahay/models/application_model.dart';
+
 import 'package:sahay/providers/application_provider.dart';
 import 'package:sahay/providers/user_profile_provider.dart';
 import 'package:sahay/screens/application/smart_filler_preparation_screen.dart';
@@ -100,7 +100,8 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
   }
 
   void _startSahayApplication(BuildContext context) async {
-    final appProvider = context.read<ApplicationProvider>();
+    final appProvider = Provider.of<ApplicationProvider?>(context, listen: false);
+    if (appProvider == null) return;
     final userProfile = context.read<UserProfileProvider>();
     final locale = context.read<LocaleProvider>().languageCode;
 
@@ -1049,7 +1050,7 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
           // ------------------------------------
           // PROMINENT PRIMARY ACTION: APPLY WITH SAHAY (10-Scheme Smart Application Filler)
           // ------------------------------------
-          if (context.watch<ApplicationProvider>().isSchemeSupported(widget.scheme.schemeId))
+          if (Provider.of<ApplicationProvider?>(context)?.isSchemeSupported(widget.scheme.schemeId) ?? false)
             Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(

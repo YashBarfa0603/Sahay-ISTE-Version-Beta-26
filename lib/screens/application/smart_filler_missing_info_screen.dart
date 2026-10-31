@@ -66,7 +66,7 @@ class _SmartFillerMissingInfoScreenState extends State<SmartFillerMissingInfoScr
               children: [
                 const Icon(Icons.lightbulb_outline, color: AppColors.softSaffron, size: 24),
                 const SizedBox(width: 8),
-                Text(field.fieldLabel, style: AppTextStyles.subheading),
+                Text(field.fieldLabel, style: AppTextStyles.heading3),
               ],
             ),
             const SizedBox(height: 14),
@@ -265,7 +265,7 @@ class _SmartFillerMissingInfoScreenState extends State<SmartFillerMissingInfoScr
           const SizedBox(height: 10),
           if (field.fieldType == FieldType.dropdown && field.options != null && field.options!.isNotEmpty)
             DropdownButtonFormField<String>(
-              value: _dropdownValues[field.fieldId] ?? field.options!.first,
+              initialValue: _dropdownValues[field.fieldId] ?? field.options!.first,
               items: field.options!
                   .map((opt) => DropdownMenuItem(value: opt, child: Text(opt, style: const TextStyle(fontSize: 14))))
                   .toList(),
