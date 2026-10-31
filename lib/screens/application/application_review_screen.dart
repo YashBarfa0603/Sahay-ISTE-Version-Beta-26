@@ -31,7 +31,7 @@ class _ApplicationReviewScreenState extends State<ApplicationReviewScreen> {
     }
   }
 
-  void _handleFinalSubmission(BuildContext context, ApplicationProvider provider) async {
+  void _handleFinalSubmission(ApplicationProvider provider) async {
     if (!_userExplicitApproval) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -44,9 +44,18 @@ class _ApplicationReviewScreenState extends State<ApplicationReviewScreen> {
 
     setState(() => _isSubmitting = true);
     final success = await provider.confirmFinalSubmission(userApproved: true);
+    if (!mounted) return;
     setState(() => _isSubmitting = false);
 
-    if (!mounted) return;
+    if (!success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(provider.errorMessage ?? 'Submission could not be completed.'),
+          backgroundColor: AppColors.error,
+        ),
+      );
+      return;
+    }
 
     final session = provider.currentSession;
     final ack = session?.submissionReference ?? 'SAHAY-ACK-CONFIRMED';
@@ -247,7 +256,7 @@ class _ApplicationReviewScreenState extends State<ApplicationReviewScreen> {
                 width: double.infinity,
                 height: 52,
                 child: ElevatedButton.icon(
-                  onPressed: _isSubmitting ? null : () => _handleFinalSubmission(context, provider),
+                  onPressed: _isSubmitting ? null : () => _handleFinalSubmission(provider),
                   icon: _isSubmitting
                       ? const SizedBox(
                           width: 20,

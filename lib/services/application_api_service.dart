@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:sahay/models/application_model.dart';
 import 'package:sahay/services/api_client.dart';

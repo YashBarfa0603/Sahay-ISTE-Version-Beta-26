@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 enum InteractionMode {
   directWeb,
   guidedForm,
