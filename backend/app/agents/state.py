@@ -43,3 +43,4 @@ class AgentState(TypedDict):
     iteration_count: int
     errors: List[str]
     final_response: Optional[Dict[str, Any]]
+

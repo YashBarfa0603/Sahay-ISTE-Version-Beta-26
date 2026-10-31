@@ -314,3 +314,4 @@ async def test_langgraph_multi_agent_orchestrator():
     assert "FraudAndAuthenticityAgent" in path
     assert "IncomeAssistanceAgent" in path
     assert "ResultAggregator" in path
+

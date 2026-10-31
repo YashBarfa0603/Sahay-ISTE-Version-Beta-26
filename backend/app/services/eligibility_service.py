@@ -228,3 +228,4 @@ class EligibilityEvaluationService:
             return sat, False, f"Not in excluded list" if sat else f"Value '{actual}' is in excluded list"
 
         return False, False, "Unknown comparison operator"
+

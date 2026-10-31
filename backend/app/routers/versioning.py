@@ -111,3 +111,4 @@ async def rollback_scheme_rules(
         await db.save_discovered_scheme(scheme)
 
     return record
+
