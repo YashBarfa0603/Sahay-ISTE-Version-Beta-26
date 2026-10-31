@@ -221,7 +221,7 @@ class _GuidedApplicationScreenState extends State<GuidedApplicationScreen> {
                   // Verification & Security Notice
                   Container(
                     padding: const EdgeInsets.all(14),
-                    margin: const EdgeInsets.bottom(16),
+                    margin: const EdgeInsets.only(bottom: 16),
                     decoration: BoxDecoration(
                       color: AppColors.paleSage,
                       borderRadius: BorderRadius.circular(12),
@@ -470,7 +470,7 @@ class _GuidedApplicationScreenState extends State<GuidedApplicationScreen> {
           const SizedBox(height: 10),
           if (field.fieldType == FieldType.dropdown && field.options != null && field.options!.isNotEmpty)
             DropdownButtonFormField<String>(
-              value: field.options!.contains(field.mappedValue?.toString()) ? field.mappedValue.toString() : null,
+              initialValue: field.options!.contains(field.mappedValue?.toString()) ? field.mappedValue.toString() : null,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
