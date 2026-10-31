@@ -4,6 +4,7 @@ import 'package:sahay/models/scheme_model.dart';
 import 'package:sahay/services/backend_scheme_service.dart';
 import 'package:sahay/services/category_service.dart';
 import 'package:sahay/services/scheme_data_service.dart';
+import 'package:sahay/services/scheme_search_service.dart';
 import 'package:sahay/utils/indian_states.dart';
 
 class SchemeProvider extends ChangeNotifier {
@@ -198,28 +199,12 @@ class SchemeProvider extends ChangeNotifier {
       }).toList();
     }
 
-    final query = _searchQuery.trim().toLowerCase();
+    final query = _searchQuery.trim();
     if (query.isNotEmpty) {
-      result = result.where((scheme) {
-        final matchesName = scheme.name.toLowerCase().contains(query);
-        final matchesHindiName =
-            scheme.nameHindi?.toLowerCase().contains(query) ?? false;
-        final matchesDescription =
-            scheme.description.toLowerCase().contains(query);
-        final matchesCategory =
-            scheme.category.toLowerCase().contains(query);
-        final matchesMinistry =
-            scheme.ministry.toLowerCase().contains(query);
-        final matchesBenefits =
-            scheme.benefits.toLowerCase().contains(query);
-
-        return matchesName ||
-            matchesHindiName ||
-            matchesDescription ||
-            matchesCategory ||
-            matchesMinistry ||
-            matchesBenefits;
-      }).toList();
+      result = const SchemeSearchService().search(
+        schemes: result,
+        query: query,
+      );
     }
 
     _filteredSchemes = result;

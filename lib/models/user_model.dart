@@ -16,6 +16,8 @@ class UserModel {
   final String? residenceType;
 
   final bool profileComplete;
+  final bool onboardingCompleted;
+  final DateTime? onboardingCompletedAt;
   final String authProvider;
   final DateTime? consentAcceptedAt;
   final String? consentVersion;
@@ -36,6 +38,8 @@ class UserModel {
     this.gender,
     this.residenceType,
     this.profileComplete = false,
+    this.onboardingCompleted = false,
+    this.onboardingCompletedAt,
     this.authProvider = 'email',
     this.consentAcceptedAt,
     this.consentVersion,
@@ -58,6 +62,8 @@ class UserModel {
       'gender': gender,
       'residenceType': residenceType,
       'profileComplete': profileComplete,
+      'onboardingCompleted': onboardingCompleted,
+      'onboardingCompletedAt': onboardingCompletedAt?.toIso8601String(),
       'authProvider': authProvider,
       'consentAcceptedAt': consentAcceptedAt?.toIso8601String(),
       'consentVersion': consentVersion ?? '1.0',
@@ -68,6 +74,15 @@ class UserModel {
 
   // Deserialization
   factory UserModel.fromMap(Map<String, dynamic> map) {
+    final isProfComplete = map['profileComplete'] is bool
+        ? map['profileComplete'] as bool
+        : (map['profileComplete'] == 'true' || map['profileComplete'] == 1);
+    final isOnboarded = map['onboardingCompleted'] is bool
+        ? map['onboardingCompleted'] as bool
+        : (map['onboardingCompleted'] == 'true' ||
+            map['onboardingCompleted'] == 1 ||
+            isProfComplete);
+
     return UserModel(
       uid: map['uid']?.toString() ?? '',
       fullName: map['fullName']?.toString() ?? '',
@@ -82,9 +97,9 @@ class UserModel {
       preferredLanguage: map['preferredLanguage']?.toString(),
       gender: map['gender']?.toString(),
       residenceType: map['residenceType']?.toString(),
-      profileComplete: map['profileComplete'] is bool
-          ? map['profileComplete'] as bool
-          : (map['profileComplete'] == 'true' || map['profileComplete'] == 1),
+      profileComplete: isProfComplete,
+      onboardingCompleted: isOnboarded,
+      onboardingCompletedAt: _parseDateTime(map['onboardingCompletedAt']),
       authProvider: map['authProvider']?.toString() ?? 'email',
       consentAcceptedAt: _parseDateTime(map['consentAcceptedAt']),
       consentVersion: map['consentVersion']?.toString() ?? '1.0',
@@ -121,6 +136,8 @@ class UserModel {
     String? gender,
     String? residenceType,
     bool? profileComplete,
+    bool? onboardingCompleted,
+    DateTime? onboardingCompletedAt,
     String? authProvider,
     DateTime? consentAcceptedAt,
     String? consentVersion,
@@ -140,6 +157,9 @@ class UserModel {
       gender: gender ?? this.gender,
       residenceType: residenceType ?? this.residenceType,
       profileComplete: profileComplete ?? this.profileComplete,
+      onboardingCompleted: onboardingCompleted ?? this.onboardingCompleted,
+      onboardingCompletedAt:
+          onboardingCompletedAt ?? this.onboardingCompletedAt,
       authProvider: authProvider ?? this.authProvider,
       consentAcceptedAt: consentAcceptedAt ?? this.consentAcceptedAt,
       consentVersion: consentVersion ?? this.consentVersion,

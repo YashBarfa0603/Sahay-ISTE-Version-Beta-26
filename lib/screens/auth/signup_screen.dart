@@ -4,6 +4,7 @@ import 'package:sahay/core/theme/app_colors.dart';
 import 'package:sahay/core/theme/app_text_styles.dart';
 import 'package:sahay/providers/auth_provider.dart';
 import 'package:sahay/providers/locale_provider.dart';
+import 'package:sahay/screens/auth/auth_gate.dart';
 import 'package:sahay/utils/validators.dart';
 import 'package:sahay/widgets/language_toggle.dart';
 
@@ -65,7 +66,10 @@ class _SignupScreenState extends State<SignupScreen> {
     );
 
     if (success && mounted) {
-      Navigator.of(context).popUntil((route) => route.isFirst);
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => const AuthGate()),
+        (route) => false,
+      );
     }
   }
 
@@ -76,7 +80,10 @@ class _SignupScreenState extends State<SignupScreen> {
 
     final success = await auth.signInWithGoogle(lang: lang);
     if (success && mounted) {
-      Navigator.of(context).popUntil((route) => route.isFirst);
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => const AuthGate()),
+        (route) => false,
+      );
     }
   }
 

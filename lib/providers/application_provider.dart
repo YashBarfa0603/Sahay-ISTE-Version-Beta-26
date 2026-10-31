@@ -64,6 +64,16 @@ class ApplicationProvider extends ChangeNotifier {
     }
   }
 
+  /// Clears active application session data on logout or session end
+  void clearSession() {
+    _currentSession = null;
+    _portalPayload = null;
+    _readBackReport = null;
+    _errorMessage = null;
+    _isLoading = false;
+    notifyListeners();
+  }
+
   /// Starts or resumes the unified Smart Application Filler workflow.
   Future<bool> startSession({
     required SchemeModel scheme,

@@ -113,3 +113,31 @@ async def test_cross_user_deletion_rejected():
         assert del_res.status_code == 403
         assert "Forbidden" in del_res.json()["detail"]
 
+
+@pytest.mark.asyncio
+async def test_upload_additional_document_with_custom_display_name():
+    """Uploading an additional document preserves the custom user-entered display name."""
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
+        file_content = b"%PDF-1.4 birth certificate document"
+        files = {"file": ("birth_cert.pdf", io.BytesIO(file_content), "application/pdf")}
+        data = {
+            "document_type": "additional_document",
+            "display_name": "Birth Certificate",
+        }
+        headers = {"Authorization": "Bearer test_valid_token"}
+
+        response = await client.post("/api/documents/upload", files=files, data=data, headers=headers)
+        assert response.status_code == 201
+        res = response.json()
+        assert res["document_type"] == "additional_document"
+        assert res["display_name"] == "Birth Certificate"
+
+        # Verify in my-vault
+        list_res = await client.get("/api/documents/my-vault", headers=headers)
+        assert list_res.status_code == 200
+        matched = [d for d in list_res.json() if d["document_id"] == res["document_id"]]
+        assert len(matched) == 1
+        assert matched[0]["display_name"] == "Birth Certificate"
+        assert matched[0]["document_type"] == "additional_document"
+

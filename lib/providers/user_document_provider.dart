@@ -139,8 +139,15 @@ class UserDocumentProvider extends ChangeNotifier {
 
       final saved = await _service.saveDocument(newDoc);
 
-      // Remove any existing doc of same type and add newly uploaded one
-      _documents.removeWhere((d) => d.documentType == documentType);
+      // For standard canonical documents, replace same documentType.
+      // For additional/custom documents, allow multiple distinct named documents.
+      if (documentType != 'additional_document' && documentType != 'other_document') {
+        _documents.removeWhere((d) => d.documentType == documentType);
+      } else {
+        _documents.removeWhere((d) =>
+            d.documentType == documentType &&
+            d.documentName.trim().toLowerCase() == documentName.trim().toLowerCase());
+      }
       _documents.insert(0, saved);
 
       _isLoading = false;

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sahay/core/theme/app_colors.dart';
 import 'package:sahay/core/theme/app_text_styles.dart';
+import 'package:sahay/providers/application_provider.dart';
 import 'package:sahay/providers/auth_provider.dart';
 import 'package:sahay/providers/eligibility_provider.dart';
 import 'package:sahay/providers/locale_provider.dart';
+import 'package:sahay/providers/user_document_provider.dart';
 import 'package:sahay/providers/user_profile_provider.dart';
-import 'package:sahay/screens/welcome_screen.dart';
+import 'package:sahay/screens/auth/auth_gate.dart';
 import 'package:sahay/services/privacy_service.dart';
 
 class PrivacyDialog {
@@ -99,6 +101,12 @@ class PrivacyDialog {
               // Clear all temporary data
               context.read<UserProfileProvider>().clearAllAnswers();
               context.read<EligibilityProvider>().clearResults();
+              try {
+                context.read<UserDocumentProvider>().clear();
+              } catch (_) {}
+              try {
+                context.read<ApplicationProvider>().clearSession();
+              } catch (_) {}
               PrivacyService().clearSessionData();
               context.read<AuthProvider>().exitGuestMode();
 
@@ -115,9 +123,9 @@ class PrivacyDialog {
                 ),
               );
 
-              // Navigate to WelcomeScreen and completely clear stack
+              // Navigate to AuthGate and completely clear stack
               Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (_) => const WelcomeScreen()),
+                MaterialPageRoute(builder: (_) => const AuthGate()),
                 (route) => false,
               );
             },

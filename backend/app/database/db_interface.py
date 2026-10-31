@@ -538,22 +538,10 @@ class InMemorySchemeDatabase(SchemeDatabaseInterface):
         state: Optional[str] = None,
         limit: int = 20,
     ) -> List[SchemeModelSchema]:
-        results = []
-        q = query.strip().lower()
+        scored_candidates = []
+        q = query.strip()
 
         for s in self._schemes.values():
-            # Keyword matching across name, Hindi name, description, benefits, ministry
-            matches_query = (
-                not q
-                or q in s.name.lower()
-                or (s.nameHindi and q in s.nameHindi.lower())
-                or q in s.description.lower()
-                or q in s.benefits.lower()
-                or q in s.ministry.lower()
-            )
-            if not matches_query:
-                continue
-
             # Category filter
             if category and s.category.lower() != category.lower():
                 continue
@@ -567,11 +555,14 @@ class InMemorySchemeDatabase(SchemeDatabaseInterface):
                 if not any(state.lower() == st.lower() for st in s.applicableStates):
                     continue
 
-            results.append(s)
-            if len(results) >= limit:
-                break
+            score = _score_scheme_match(s, q)
+            if score > 0:
+                scored_candidates.append((s, score))
 
-        return results
+        # Sort descending by score, then popularityRank
+        scored_candidates.sort(key=lambda item: (-item[1], item[0].popularityRank or 999, item[0].name))
+
+        return [item[0] for item in scored_candidates[:limit]]
 
     async def list_all_schemes(self, limit: int = 100) -> List[SchemeModelSchema]:
         return list(self._schemes.values())[:limit]
@@ -579,6 +570,200 @@ class InMemorySchemeDatabase(SchemeDatabaseInterface):
     async def save_discovered_scheme(self, scheme: SchemeModelSchema) -> bool:
         self._schemes[scheme.schemeId] = scheme
         return True
+
+
+SCHEME_ALIASES: dict[str, list[str]] = {
+    "pmkisan-001": [
+        "pm kisan", "pm-kisan", "pmkisan", "kisan samman", "kisan samman nidhi",
+        "pm kisan samman nidhi", "kisan", "kisan yojana", "pm kisaan", "kisaan",
+        "पीएम किसान", "किसान सम्मान", "किसान सम्मान निधि"
+    ],
+    "pm_kisan_001": [
+        "pm kisan", "pm-kisan", "pmkisan", "kisan samman", "kisan samman nidhi",
+        "pm kisan samman nidhi", "kisan", "kisan yojana", "pm kisaan", "kisaan",
+        "farmer cash assistance", "farmer income support",
+        "पीएम किसान", "किसान सम्मान", "किसान सम्मान निधि"
+    ],
+    "ayushman_001": [
+        "ayushman", "ayushman bharat", "pm-jay", "pmjay", "ab-pmjay", "pm jay",
+        "ayushman card", "ayushman yojana", "ayushman bhrat", "golden card",
+        "health insurance", "आयुष्मान भारत", "आयुष्मान कार्ड", "जन आरोग्य योजना"
+    ],
+    "pmjay-002": [
+        "ayushman", "ayushman bharat", "pm-jay", "pmjay", "ab-pmjay", "pm jay",
+        "ayushman card", "ayushman yojana", "ayushman bhrat", "golden card",
+        "आयुष्मान भारत", "आयुष्मान कार्ड", "जन आरोग्य योजना"
+    ],
+    "ayushman_001": [
+        "ayushman", "ayushman bharat", "pm-jay", "pmjay", "ab-pmjay", "pm jay",
+        "ayushman card", "ayushman yojana", "ayushman bhrat", "golden card",
+        "आयुष्मान भारत", "आयुष्मान कार्ड", "जन आरोग्य योजना"
+    ],
+    "pmay-g-003": [
+        "pm awas", "pmay", "pmay-g", "pmayg", "pm awas yojana", "awas yojana",
+        "pradhan mantri awas", "pradhan mantri awas yojana", "indira awas",
+        "pm awaas", "आवास योजना", "प्रधानमंत्री आवास", "प्रधानमंत्री आवास योजना"
+    ],
+    "pmay_001": [
+        "pm awas", "pmay", "pmay-g", "pmayg", "pm awas yojana", "awas yojana",
+        "pradhan mantri awas", "pradhan mantri awas yojana", "indira awas",
+        "pm awaas", "आवास योजना", "प्रधानमंत्री आवास", "प्रधानमंत्री आवास योजना"
+    ],
+    "pmay_002": [
+        "pm awas", "pmay", "pmay-u", "pmayu", "pm awas yojana urban",
+        "awas yojana", "pradhan mantri awas", "आवास योजना"
+    ],
+    "pmuy-004": [
+        "ujjwala", "pm ujjwala", "pmuy", "ujjwala yojana", "ujwala", "ujwala yojana",
+        "gas cylinder", "free gas", "lpg yojana", "उज्ज्वला", "उज्ज्वला योजना", "गैस कनेक्शन"
+    ],
+    "pm_ujjwala_001": [
+        "ujjwala", "pm ujjwala", "pmuy", "ujjwala yojana", "ujwala", "ujwala yojana",
+        "gas cylinder", "free gas", "lpg yojana", "उज्ज्वला", "उज्ज्वला योजना", "गैस कनेक्शन"
+    ],
+    "mp_ladli_behna_001": [
+        "ladli behna", "ladli behena", "ladli bahna", "ladli", "ladli yojna",
+        "ladli yojana", "ladli behena yojna", "mukhyamantri ladli behna",
+        "mukhyamantri ladli behna yojana", "लाडली बहना", "लाडली बहना योजना", "लाड़ली बहना"
+    ],
+    "pmsvanidhi-005": [
+        "pm svanidhi", "svanidhi", "swanidhi", "street vendor loan", "vendor scheme",
+        "स्वनिधि", "रेहड़ी पटरी", "स्ट्रीट वेंडर"
+    ],
+    "pm_svanidhi_001": [
+        "pm svanidhi", "svanidhi", "swanidhi", "street vendor loan", "vendor scheme",
+        "स्वनिधि", "रेहड़ी पटरी", "स्ट्रीट वेंडर"
+    ],
+    "pm-vishwakarma-006": [
+        "pm vishwakarma", "vishwakarma", "vishwakarma yojana", "artisan scheme",
+        "craftsman loan", "विश्वकर्मा", "विश्वकर्मा योजना"
+    ],
+    "pm_vishwakarma_001": [
+        "pm vishwakarma", "vishwakarma", "vishwakarma yojana", "artisan scheme",
+        "craftsman loan", "विश्वकर्मा", "विश्वकर्मा योजना"
+    ],
+    "sukanya_samriddhi_001": [
+        "sukanya samriddhi", "sukanya", "ssy", "sukanya yojana", "girl child scheme",
+        "सुकन्या समृद्धि", "सुकन्या समृद्धि योजना"
+    ],
+    "cs_scholarship_college_university_001": [
+        "student scholarship", "college scholarship", "university scholarship",
+        "scholarship", "छात्रवृत्ति", "स्कॉलरशिप"
+    ],
+    "mp_post_matric_scholarship_sc_st_001": [
+        "student scholarship", "post matric scholarship", "mp scholarship",
+        "scholarship", "छात्रवृत्ति", "स्कॉलरशिप"
+    ],
+    "pre_matric_scholarship_minorities_001": [
+        "student scholarship", "pre matric scholarship", "minority scholarship",
+        "scholarship", "छात्रवृत्ति", "स्कॉलरशिप"
+    ],
+}
+
+
+def _normalize_text(text: Optional[str]) -> str:
+    import re
+    if not text:
+        return ""
+    t = text.strip().lower()
+    t = re.sub(r'[\-_/\\,;:!?.()\[\]{}"\x27]', ' ', t)
+    return re.sub(r'\s+', ' ', t).strip()
+
+
+def _levenshtein(a: str, b: str) -> int:
+    if a == b:
+        return 0
+    if not a:
+        return len(b)
+    if not b:
+        return len(a)
+    v0 = list(range(len(b) + 1))
+    v1 = [0] * (len(b) + 1)
+    for i in range(len(a)):
+        v1[0] = i + 1
+        for j in range(len(b)):
+            cost = 0 if a[i] == b[j] else 1
+            v1[j + 1] = min(v1[j] + 1, v0[j + 1] + 1, v0[j] + cost)
+        v0 = list(v1)
+    return v1[len(b)]
+
+
+def _similarity(s1: str, s2: str) -> float:
+    if s1 == s2:
+        return 1.0
+    if not s1 or not s2:
+        return 0.0
+    m = max(len(s1), len(s2))
+    return (m - _levenshtein(s1, s2)) / m
+
+
+def _score_scheme_match(scheme: SchemeModelSchema, query: str) -> float:
+    clean_query = _normalize_text(query)
+    if not clean_query:
+        return 1.0
+
+    name_norm = _normalize_text(scheme.name)
+    name_hindi = _normalize_text(scheme.nameHindi)
+    desc_norm = _normalize_text(scheme.description)
+    benefits_norm = _normalize_text(scheme.benefits)
+    ministry_norm = _normalize_text(scheme.ministry)
+    category_norm = _normalize_text(scheme.category)
+
+    # 1. Exact match
+    if name_norm == clean_query or name_hindi == clean_query:
+        return 1000.0
+
+    # Retrieve aliases
+    aliases = SCHEME_ALIASES.get(scheme.schemeId.lower(), [])
+    norm_aliases = [_normalize_text(a) for a in aliases]
+
+    # 2. Exact alias
+    for a in norm_aliases:
+        if a == clean_query:
+            return 850.0
+
+    # 3. Substring match in title or aliases
+    if clean_query in name_norm or clean_query in name_hindi:
+        return 650.0
+    for a in norm_aliases:
+        if clean_query in a or a in clean_query:
+            return 600.0
+
+    # 4. Token matching
+    query_tokens = clean_query.split()
+    title_tokens = name_norm.split() + name_hindi.split()
+    for a in norm_aliases:
+        title_tokens.extend(a.split())
+
+    if query_tokens and all(any(qt in tt or tt in qt for tt in title_tokens) for qt in query_tokens):
+        return 520.0
+
+    matched_tokens = sum(1 for qt in query_tokens if any(qt == tt or qt in tt for tt in title_tokens))
+    if matched_tokens > 0:
+        return 250.0 + (matched_tokens * 40.0)
+
+    # 5. Fuzzy matching
+    for qt in query_tokens:
+        for tt in title_tokens:
+            if len(qt) >= 3 and len(tt) >= 3:
+                sim = _similarity(qt, tt)
+                if sim >= 0.72:
+                    return 260.0 * sim
+        for a in norm_aliases:
+            sim = _similarity(clean_query, a)
+            if sim >= 0.70:
+                return 450.0 * sim
+
+    # 6. Description / category fallback
+    if clean_query in desc_norm or clean_query in benefits_norm:
+        return 180.0
+    if clean_query in category_norm or clean_query in ministry_norm:
+        return 160.0
+    for qt in query_tokens:
+        if qt in desc_norm or qt in benefits_norm:
+            return 120.0
+
+    return 0.0
 
 
 # Global database instance

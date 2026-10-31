@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sahay/core/l10n/app_localizations.dart';
@@ -30,6 +31,7 @@ class SchemesScreen extends StatefulWidget {
 
 class _SchemesScreenState extends State<SchemesScreen> {
   late final TextEditingController _searchController;
+  Timer? _debounceTimer;
   GovernmentLevel? _selectedLevel;
   String? _selectedCategory;
   String? _selectedState;
@@ -192,12 +194,18 @@ class _SchemesScreenState extends State<SchemesScreen> {
 
   @override
   void dispose() {
+    _debounceTimer?.cancel();
     _searchController.dispose();
     super.dispose();
   }
 
   void _onSearchChanged(String query) {
-    context.read<SchemeProvider>().searchSchemes(query);
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(const Duration(milliseconds: 250), () {
+      if (mounted) {
+        context.read<SchemeProvider>().searchSchemes(query);
+      }
+    });
   }
 
   void _onLevelFilterChanged(GovernmentLevel? level) {

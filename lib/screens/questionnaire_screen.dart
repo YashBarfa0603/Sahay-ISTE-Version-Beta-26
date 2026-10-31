@@ -4,6 +4,7 @@ import 'package:sahay/core/l10n/app_localizations.dart';
 import 'package:sahay/core/theme/app_colors.dart';
 import 'package:sahay/core/theme/app_text_styles.dart';
 import 'package:sahay/models/scheme_model.dart';
+import 'package:sahay/providers/auth_provider.dart';
 import 'package:sahay/providers/eligibility_provider.dart';
 import 'package:sahay/providers/locale_provider.dart';
 import 'package:sahay/providers/scheme_provider.dart';
@@ -51,6 +52,10 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     if (!mounted) return;
 
     final userProfile = context.read<UserProfileProvider>();
+    final auth = context.read<AuthProvider>();
+    if (auth.isAuthenticated && auth.currentUser != null) {
+      userProfile.populateFromUser(auth.currentUser!);
+    }
     final schemes = schemeProvider.schemes;
 
     // Pick first question from engine based on existing answers or first baseline
@@ -151,11 +156,26 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     List<SchemeModel> schemes = schemeProvider.schemes;
     if (schemes.isEmpty) {
       await schemeProvider.loadSchemes(SchemeDataService());
+      if (!mounted) return;
       schemes = schemeProvider.schemes;
     }
 
     // Run eligibility engine evaluation for all schemes
     eligibilityProvider.evaluateAll(schemes, userProfile.answers);
+
+    // Persist answers permanently for authenticated users and mark onboarding completed
+    final auth = context.read<AuthProvider>();
+    if (auth.isAuthenticated) {
+      final answers = Map<String, dynamic>.from(userProfile.answers);
+      answers['profileComplete'] = true;
+      answers['onboardingCompleted'] = true;
+      answers['onboardingCompletedAt'] = DateTime.now().toIso8601String();
+      try {
+        await auth.updateProfile(answers);
+      } catch (e) {
+        debugPrint('QuestionnaireScreen: non-fatal updateProfile error: $e');
+      }
+    }
 
     if (!mounted) return;
 

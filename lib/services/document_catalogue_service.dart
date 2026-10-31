@@ -815,6 +815,42 @@ class DocumentCatalogueService {
           'Government header with State/Registrar crest, Registration Number, Child\'s Full Name, Sex, Date of Birth, Place of Birth, Parents\' Names, and Registrar Seal.',
     ),
     const DocumentInfoModel(
+      documentType: 'additional_document',
+      displayName: 'Additional Document',
+      displayNameHindi: 'अतिरिक्त दस्तावेज़',
+      category: 'Other',
+      categoryHindi: 'अन्य',
+      description:
+          'Any supplementary or specialized government certificate or document not listed above.',
+      descriptionHindi:
+          'उपरोक्त में सूचीबद्ध न किया गया कोई भी पूरक या विशिष्ट सरकारी प्रमाण पत्र अथवा दस्तावेज़।',
+      purpose: 'Supplementary proof for specialized eligibility or exemption rules.',
+      purposeHindi: 'विशिष्ट पात्रता या छूट नियमों हेतु पूरक प्रमाण।',
+      provesInfo: [
+        'Custom Scheme Requirement or Declaration',
+      ],
+      provesInfoHindi: [
+        'कस्टम योजना आवश्यकता अथवा घोषणा',
+      ],
+      issuingAuthority: 'Competent Authority / Notary Public',
+      issuingAuthorityHindi: 'सक्षम प्राधिकारी / नोटरी पब्लिक',
+      howToObtain: [
+        'Obtain from issuing department or competent office.',
+      ],
+      howToObtainHindi: [
+        'जारीकर्ता विभाग अथवा सक्षम कार्यालय से प्राप्त करें।',
+      ],
+      importantChecks: [
+        'Ensure the certificate name and details match your government application requirements.',
+      ],
+      importantChecksHindi: [
+        'सुनिश्चित करें कि प्रमाण पत्र का नाम और विवरण आपके सरकारी आवेदन की आवश्यकताओं से मेल खाते हैं।',
+      ],
+      specimenTitle: 'SPECIMEN: Additional Document',
+      specimenDescription:
+          'Official Document Header, Certificate Title, Holder Details, Issuing Authority Seal and Signature.',
+    ),
+    const DocumentInfoModel(
       documentType: 'other_document',
       displayName: 'Other Supporting Document / Affidavit',
       displayNameHindi: 'अन्य समर्थक दस्तावेज / शपथ पत्र',
@@ -939,7 +975,12 @@ class DocumentCatalogueService {
 
     // If it's a mobile/phone number verification, it is contact verification, not an identity doc.
     if (s.contains('mobile') || s.contains('phone') || s.contains('मोबाइल')) {
-      return 'other_document';
+      // 17. Additional Document
+    if (s.contains('additional') || s == 'additional_document' || s.contains('अतिरिक्त')) {
+      return 'additional_document';
+    }
+
+    return 'other_document';
     }
 
     // 3. Primary identity: Aadhaar
@@ -1056,6 +1097,11 @@ class DocumentCatalogueService {
     // 16. PAN Card
     if (RegExp(r'\bpan\b|\bpan card\b|पैन').hasMatch(s)) {
       return 'pan_card';
+    }
+
+    // 17. Additional Document
+    if (s.contains('additional') || s == 'additional_document' || s.contains('अतिरिक्त')) {
+      return 'additional_document';
     }
 
     return 'other_document';

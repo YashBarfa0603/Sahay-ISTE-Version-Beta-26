@@ -55,6 +55,11 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
     int selectedFileSize = existingDoc?.fileSize ?? 0;
     String selectedFileFormat = existingDoc?.fileType ?? '';
     final notesController = TextEditingController(text: existingDoc?.notes ?? '');
+    final customNameController = TextEditingController(
+      text: (existingDoc?.documentType == 'additional_document' || existingDoc?.documentType == 'other_document')
+          ? existingDoc?.documentName ?? ''
+          : '',
+    );
     String? localError;
     bool isUploading = false;
     double progressValue = 0.0;
@@ -218,6 +223,35 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                               }
                             },
                     ),
+                    if (selectedType == 'additional_document' || selectedType == 'other_document') ...[
+                      const SizedBox(height: 14),
+                      Row(
+                        children: [
+                          Text(
+                            isHi ? 'दस्तावेज़ का नाम:' : 'Document Name:',
+                            style: AppTextStyles.label,
+                          ),
+                          const SizedBox(width: 4),
+                          const Text(
+                            '*',
+                            style: TextStyle(color: AppColors.mutedCoral, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 6),
+                      TextFormField(
+                        controller: customNameController,
+                        decoration: InputDecoration(
+                          hintText: isHi
+                              ? 'उदा. जन्म प्रमाण पत्र, मृत्यु प्रमाण पत्र'
+                              : 'e.g. Birth Certificate, Death Certificate',
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                        ),
+                      ),
+                    ],
                     const SizedBox(height: 16),
 
                     // Real File Selection from Device
@@ -390,6 +424,18 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                         onPressed: isUploading
                             ? null
                             : () async {
+                                final isCustomType = selectedType == 'additional_document' || selectedType == 'other_document';
+                                final customName = customNameController.text.trim();
+
+                                if (isCustomType && customName.isEmpty) {
+                                  setModalState(() {
+                                    localError = isHi
+                                        ? 'कृपया दस्तावेज़ का नाम दर्ज करें।'
+                                        : 'Please enter the document name.';
+                                  });
+                                  return;
+                                }
+
                                 if (selectedFileName == null && existingDoc == null) {
                                   setModalState(() {
                                     localError = isHi
@@ -420,9 +466,11 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
 
                                 final provider = context.read<UserDocumentProvider>();
                                 final uid = auth.user?.uid ?? 'guest_user';
-                                final docName = isHi
-                                    ? (docInfo?.displayNameHindi ?? selectedType)
-                                    : (docInfo?.displayName ?? selectedType);
+                                final docName = isCustomType
+                                    ? customName
+                                    : (isHi
+                                        ? (docInfo?.displayNameHindi ?? selectedType)
+                                        : (docInfo?.displayName ?? selectedType));
 
                                 bool success = false;
                                 final fileName = selectedFileName ??

@@ -24,7 +24,9 @@ class AuthProvider extends ChangeNotifier {
   UserModel? get currentUser => _currentUser;
   UserModel? get user => _currentUser;
   bool get isAuthenticated => _currentUser != null;
-  bool get isProfileComplete => _currentUser?.profileComplete ?? false;
+  bool get isProfileComplete =>
+      (_currentUser?.profileComplete ?? false) ||
+      (_currentUser?.onboardingCompleted ?? false);
   bool get isGuest => _isGuest;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
@@ -35,13 +37,19 @@ class AuthProvider extends ChangeNotifier {
       _profileSubscription = _authRepository.currentUserProfileStream.listen(
         (user) {
           if (user != null) {
+            final currentCompleted = (_currentUser?.profileComplete ?? false) ||
+                (_currentUser?.onboardingCompleted ?? false);
+            final userCompleted =
+                user.profileComplete || user.onboardingCompleted;
+
             if (_currentUser != null &&
                 _currentUser!.uid == user.uid &&
-                _currentUser!.profileComplete &&
-                !user.profileComplete) {
+                currentCompleted &&
+                !userCompleted) {
               // Preserve completed profile state even if remote Firestore document hasn't synced
               _currentUser = user.copyWith(
                 profileComplete: true,
+                onboardingCompleted: true,
                 age: _currentUser!.age,
                 state: _currentUser!.state,
                 district: _currentUser!.district,
@@ -229,6 +237,12 @@ class AuthProvider extends ChangeNotifier {
           profileComplete: fields['profileComplete'] is bool
               ? fields['profileComplete'] as bool
               : true,
+          onboardingCompleted: fields['onboardingCompleted'] is bool
+              ? fields['onboardingCompleted'] as bool
+              : true,
+          onboardingCompletedAt: fields['onboardingCompletedAt'] != null
+              ? DateTime.tryParse(fields['onboardingCompletedAt'].toString())
+              : (_currentUser!.onboardingCompletedAt ?? DateTime.now()),
         );
       }
       _isLoading = false;

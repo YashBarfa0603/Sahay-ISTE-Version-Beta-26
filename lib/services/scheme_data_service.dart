@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:sahay/models/scheme_model.dart';
 import 'package:sahay/services/category_service.dart';
+import 'package:sahay/services/scheme_search_service.dart';
 
 class SchemeDataService {
   const SchemeDataService();
@@ -77,40 +78,16 @@ class SchemeDataService {
 
   // Search
   Future<List<SchemeModel>> searchSchemes(String query, {bool searchComplete = false}) async {
-    final cleanQuery = query.trim().toLowerCase();
+    final cleanQuery = query.trim();
     final source = searchComplete ? await getCompleteCatalogue() : _curatedSchemes;
     if (cleanQuery.isEmpty) {
       return List<SchemeModel>.unmodifiable(source);
     }
 
-    return source.where((scheme) {
-      final matchesEnglishName =
-          scheme.name.toLowerCase().contains(cleanQuery);
-      final matchesHindiName =
-          scheme.nameHindi?.toLowerCase().contains(cleanQuery) ?? false;
-      final matchesDescription =
-          scheme.description.toLowerCase().contains(cleanQuery);
-      final matchesHindiDescription =
-          scheme.descriptionHindi?.toLowerCase().contains(cleanQuery) ?? false;
-      final matchesCategory =
-          scheme.category.toLowerCase().contains(cleanQuery);
-      final matchesMinistry =
-          scheme.ministry.toLowerCase().contains(cleanQuery);
-      final matchesBenefits =
-          scheme.benefits.toLowerCase().contains(cleanQuery);
-      final matchesDocuments = scheme.requiredDocuments.any(
-        (doc) => doc.toLowerCase().contains(cleanQuery),
-      );
-
-      return matchesEnglishName ||
-          matchesHindiName ||
-          matchesDescription ||
-          matchesHindiDescription ||
-          matchesCategory ||
-          matchesMinistry ||
-          matchesBenefits ||
-          matchesDocuments;
-    }).toList();
+    return const SchemeSearchService().search(
+      schemes: source,
+      query: cleanQuery,
+    );
   }
 
   // Schemes

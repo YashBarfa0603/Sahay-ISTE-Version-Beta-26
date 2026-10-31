@@ -32,12 +32,10 @@ class AuthRepository {
         mobileNumber: user.phoneNumber ?? '',
         authProvider: 'email',
         profileComplete: false,
+        onboardingCompleted: false,
         consentVersion: '1.0',
         consentAcceptedAt: DateTime.now(),
       );
-
-      // Yield immediate authenticated user so UI is never left in an unauthenticated or null state
-      yield stub;
 
       try {
         await for (final profile in _userService.profileStream(user.uid)) {

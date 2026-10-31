@@ -48,6 +48,10 @@ class UserDocumentModel {
     }
   }
 
+  /// User-visible document display name
+  String get displayName => documentName;
+  String get resolvedDisplayName => documentName;
+
   bool get isPdf => fileType.toLowerCase() == 'pdf';
   bool get isImage =>
       fileType.toLowerCase() == 'jpg' ||
@@ -60,6 +64,7 @@ class UserDocumentModel {
       'userId': userId,
       'documentType': documentType,
       'documentName': documentName,
+      'displayName': documentName,
       'storagePath': storagePath,
       'downloadUrl': downloadUrl,
       'fileType': fileType.toLowerCase(),
@@ -87,7 +92,7 @@ class UserDocumentModel {
       documentId: (map['documentId']?.toString() ?? id ?? '').trim(),
       userId: (map['userId']?.toString() ?? '').trim(),
       documentType: (map['documentType']?.toString() ?? 'other_document').trim(),
-      documentName: (map['documentName']?.toString() ?? 'Document').trim(),
+      documentName: (map['displayName']?.toString() ?? map['documentName']?.toString() ?? 'Document').trim(),
       storagePath: (map['storagePath']?.toString() ?? '').trim(),
       downloadUrl: map['downloadUrl']?.toString(),
       fileType: (map['fileType']?.toString() ?? 'pdf').toLowerCase().trim(),

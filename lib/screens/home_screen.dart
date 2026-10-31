@@ -5,12 +5,14 @@ import 'package:sahay/core/theme/app_colors.dart';
 import 'package:sahay/core/theme/app_text_styles.dart';
 import 'package:sahay/models/scheme_model.dart';
 import 'package:sahay/models/user_model.dart';
+import 'package:sahay/providers/application_provider.dart';
 import 'package:sahay/providers/auth_provider.dart';
 import 'package:sahay/providers/eligibility_provider.dart';
 import 'package:sahay/providers/locale_provider.dart';
 import 'package:sahay/providers/scheme_provider.dart';
 import 'package:sahay/providers/user_document_provider.dart';
 import 'package:sahay/providers/user_profile_provider.dart';
+import 'package:sahay/screens/auth/auth_gate.dart';
 import 'package:sahay/screens/auth/login_screen.dart';
 import 'package:sahay/screens/csc_locator_screen.dart';
 import 'package:sahay/screens/my_documents_screen.dart';
@@ -284,6 +286,32 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: 12),
 
+                  // Edit Profile & Details Button
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const ProfileSetupScreen(),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.edit_outlined, color: AppColors.indianTeal, size: 18),
+                      label: Text(
+                        isHi ? 'प्रोफ़ाइल एवं विवरण संपादित करें' : 'Edit Profile & Details',
+                        style: const TextStyle(color: AppColors.indianTeal, fontWeight: FontWeight.w600),
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: AppColors.indianTeal),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
                   // Find CSC Button
                   SizedBox(
                     width: double.infinity,
@@ -345,6 +373,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         try {
                           context.read<UserDocumentProvider>().clear();
                         } catch (_) {}
+                        try {
+                          context.read<ApplicationProvider>().clearSession();
+                        } catch (_) {}
                         final nav = Navigator.of(context);
                         Navigator.of(ctx).pop();
                         eligProvider.clearResults();
@@ -352,7 +383,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         await PrivacyService().clearSessionData();
                         await auth.signOut();
                         nav.pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (_) => const WelcomeScreen()),
+                          MaterialPageRoute(builder: (_) => const AuthGate()),
                           (route) => false,
                         );
                       },
