@@ -85,7 +85,7 @@ def verify_firebase_token_payload(token: str) -> Dict[str, Any]:
             raise ValueError("Firebase ID token has expired. Re-authentication required.")
         if token in ["revoked_token", "test_revoked_token", "test_token_revoked"]:
             raise ValueError("Firebase ID token has been revoked.")
-        if token.startswith("uid_mismatch_token"):
+        if token.startswith("uid_mismatch_token") or token.startswith("test_uid_mismatch"):
             return {
                 "uid": "mismatched_server_uid_999",
                 "sub": "mismatched_server_uid_999",

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sahay/core/theme/app_colors.dart';
-import 'package:sahay/models/application_model.dart';
 import 'package:sahay/models/scheme_model.dart';
 import 'package:sahay/providers/application_provider.dart';
 import 'package:sahay/screens/application/smart_filler_validation_screen.dart';
@@ -68,7 +67,6 @@ class _SmartFillerPortalScreenState extends State<SmartFillerPortalScreen> {
   Widget build(BuildContext context) {
     final appProvider = context.watch<ApplicationProvider>();
     final session = appProvider.currentSession;
-    final payload = appProvider.portalPayload;
     final targetUrl = widget.scheme.applicationUrl ?? 'https://pmkisan.gov.in';
 
     return Scaffold(

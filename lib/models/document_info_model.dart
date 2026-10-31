@@ -21,6 +21,8 @@ class DocumentInfoModel {
   final String specimenDescription;
   final List<String> acceptedFormats;
   final int maxSizeBytes;
+  final String? referenceAssetPath;
+  final String? officialPortalUrl;
 
   const DocumentInfoModel({
     required this.documentType,
@@ -44,6 +46,8 @@ class DocumentInfoModel {
     required this.specimenDescription,
     this.acceptedFormats = const ['PDF', 'JPG', 'PNG'],
     this.maxSizeBytes = 5 * 1024 * 1024, // 5 MB
+    this.referenceAssetPath,
+    this.officialPortalUrl,
   });
 }
 

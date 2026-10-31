@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:sahay/core/theme/app_colors.dart';
 import 'package:sahay/core/theme/app_text_styles.dart';
 import 'package:sahay/models/document_info_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// Renders an educational illustrative sample/specimen of an Indian government
-/// document with prominent disclaimers preventing misrepresentation.
+/// document with authentic field layouts, zoomable interactive inspection, and
+/// official disclaimers.
 class DocumentSpecimenViewer extends StatelessWidget {
   final DocumentInfoModel documentInfo;
   final String language;
@@ -14,6 +16,104 @@ class DocumentSpecimenViewer extends StatelessWidget {
     required this.documentInfo,
     this.language = 'en',
   });
+
+  void _openFullScreenZoom(BuildContext context, bool isHi) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (ctx) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+          child: Container(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.85,
+              maxWidth: 500,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.25),
+                  blurRadius: 20,
+                  offset: const Offset(0, 10),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Dialog Header
+                Container(
+                  padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
+                  decoration: const BoxDecoration(
+                    color: AppColors.deepNavy,
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.zoom_in_rounded, color: AppColors.softSaffron, size: 22),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              isHi ? 'पूर्ण प्रारूप निरीक्षण (ज़ूम करें)' : 'Full-Screen Specimen Inspection',
+                              style: AppTextStyles.bodyMedium.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text(
+                              isHi ? 'ज़ूम करने के लिए पिंच या डबल-टैप करें (0.8x - 4x)' : 'Pinch or double-tap to zoom (0.8x - 4x)',
+                              style: AppTextStyles.caption.copyWith(
+                                color: Colors.white.withValues(alpha: 0.7),
+                                fontSize: 10.5,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.close_rounded, color: Colors.white, size: 20),
+                        onPressed: () => Navigator.of(ctx).pop(),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Interactive Zoomable Body
+                Flexible(
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.vertical(bottom: Radius.circular(20)),
+                    child: InteractiveViewer(
+                      minScale: 0.8,
+                      maxScale: 4.0,
+                      panEnabled: true,
+                      scaleEnabled: true,
+                      child: SingleChildScrollView(
+                        padding: const EdgeInsets.all(20),
+                        child: _buildSpecimenContainer(context, isHi, isFullScreen: true),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _launchPortalUrl(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +139,7 @@ class DocumentSpecimenViewer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Top Specimen Banner
+          // Top Specimen Banner with Zoom Action
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             decoration: const BoxDecoration(
@@ -67,18 +167,29 @@ class DocumentSpecimenViewer extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: AppColors.deepNavy,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(
-                    'SAMPLE',
-                    style: AppTextStyles.caption.copyWith(
-                      color: Colors.white,
-                      fontSize: 9,
-                      fontWeight: FontWeight.w900,
+                // Zoom Action Pill
+                GestureDetector(
+                  onTap: () => _openFullScreenZoom(context, isHi),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    decoration: BoxDecoration(
+                      color: AppColors.deepNavy,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.zoom_in_rounded, size: 13, color: Colors.white),
+                        const SizedBox(width: 4),
+                        Text(
+                          isHi ? 'ज़ूम करें' : 'ZOOM',
+                          style: AppTextStyles.caption.copyWith(
+                            color: Colors.white,
+                            fontSize: 9.5,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -89,134 +200,32 @@ class DocumentSpecimenViewer extends StatelessWidget {
           // Specimen Card Body (Simulated Document Paper)
           Padding(
             padding: const EdgeInsets.all(16),
-            child: Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: const Color(0xFFFBFBF6), // Warm parchment
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: const Color(0xFFD6D1BF),
-                  width: 1,
+            child: _buildSpecimenContainer(context, isHi, isFullScreen: false),
+          ),
+
+          // Portal URL action if available
+          if (documentInfo.officialPortalUrl != null)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+              child: OutlinedButton.icon(
+                onPressed: () => _launchPortalUrl(documentInfo.officialPortalUrl!),
+                icon: const Icon(Icons.open_in_new_rounded, size: 14),
+                label: Text(
+                  isHi
+                      ? 'आधिकारिक सरकारी पोर्टल पर जाएं'
+                      : 'Visit Official Portal (${Uri.parse(documentInfo.officialPortalUrl!).host})',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
+                ),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: AppColors.indianTeal,
+                  side: BorderSide(color: AppColors.indianTeal.withValues(alpha: 0.4)),
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
               ),
-              child: Stack(
-                children: [
-                  // Diagonal Watermark
-                  Positioned.fill(
-                    child: Center(
-                      child: Transform.rotate(
-                        angle: -0.3,
-                        child: Text(
-                          'SPECIMEN / नमूना',
-                          style: TextStyle(
-                            fontSize: 26,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.black.withValues(alpha: 0.05),
-                            letterSpacing: 3,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  // Mockup Content
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Header: Seal and Authority
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 38,
-                            height: 38,
-                            decoration: BoxDecoration(
-                              color: AppColors.deepNavy.withValues(alpha: 0.08),
-                              shape: BoxShape.circle,
-                              border: Border.all(color: AppColors.indianTeal, width: 1.2),
-                            ),
-                            child: const Icon(
-                              Icons.verified_rounded,
-                              size: 20,
-                              color: AppColors.indianTeal,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  isHi
-                                      ? documentInfo.issuingAuthorityHindi
-                                      : documentInfo.issuingAuthority,
-                                  style: AppTextStyles.caption.copyWith(
-                                    fontWeight: FontWeight.w800,
-                                    color: AppColors.deepNavy,
-                                    fontSize: 11,
-                                    height: 1.2,
-                                  ),
-                                ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  documentInfo.specimenTitle,
-                                  style: AppTextStyles.caption.copyWith(
-                                    color: AppColors.indianTeal,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 10,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 12),
-                      const Divider(height: 1, thickness: 1, color: Color(0xFFE2DEC9)),
-                      const SizedBox(height: 12),
-
-                      // Document-specific visual fields mockup
-                      _buildSpecimenFields(documentInfo, isHi),
-
-                      const SizedBox(height: 12),
-
-                      // Layout Description Note
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: AppColors.border),
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Icon(
-                              Icons.info_outline_rounded,
-                              size: 14,
-                              color: AppColors.steelBlue,
-                            ),
-                            const SizedBox(width: 6),
-                            Expanded(
-                              child: Text(
-                                documentInfo.specimenDescription,
-                                style: AppTextStyles.caption.copyWith(
-                                  color: AppColors.deepNavy.withValues(alpha: 0.8),
-                                  fontSize: 10.5,
-                                  height: 1.35,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
             ),
-          ),
 
           // Bottom Official Disclaimer
           Container(
@@ -237,8 +246,8 @@ class DocumentSpecimenViewer extends StatelessWidget {
                 Expanded(
                   child: Text(
                     isHi
-                        ? 'महत्वपूर्ण सूचना: यह केवल एक उदाहरणात्मक नमूना है। वास्तविक दस्तावेज़ का प्रारूप राज्य, जारीकर्ता वर्ष और संबंधित प्राधिकरण के अनुसार भिन्न हो सकता है।'
-                        : 'Notice: Illustrative sample only. Actual document formats and security watermarks vary by issuing state and authority.',
+                        ? 'महत्वपूर्ण सूचना: यह केवल एक उदाहरणात्मक संदर्भ प्रारूप है। वास्तविक दस्तावेज़ का प्रारूप राज्य, जारीकर्ता वर्ष और संबंधित प्राधिकरण के अनुसार भिन्न हो सकता है।'
+                        : 'Notice: Illustrative reference format. Actual document layouts, state emblems, and security watermarks vary by issuing state and authority.',
                     style: AppTextStyles.caption.copyWith(
                       color: AppColors.deepNavy.withValues(alpha: 0.75),
                       fontSize: 10,
@@ -249,6 +258,136 @@ class DocumentSpecimenViewer extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSpecimenContainer(BuildContext context, bool isHi, {required bool isFullScreen}) {
+    return Container(
+      padding: EdgeInsets.all(isFullScreen ? 18 : 14),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFBFBF6), // Warm parchment
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: const Color(0xFFD6D1BF),
+          width: 1,
+        ),
+      ),
+      child: Stack(
+        children: [
+          // Diagonal Watermark
+          Positioned.fill(
+            child: Center(
+              child: Transform.rotate(
+                angle: -0.3,
+                child: Text(
+                  'SPECIMEN / नमूना',
+                  style: TextStyle(
+                    fontSize: isFullScreen ? 34 : 26,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.black.withValues(alpha: 0.05),
+                    letterSpacing: 3,
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          // Mockup Content
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header: Seal and Authority
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 38,
+                    height: 38,
+                    decoration: BoxDecoration(
+                      color: AppColors.deepNavy.withValues(alpha: 0.08),
+                      shape: BoxShape.circle,
+                      border: Border.all(color: AppColors.indianTeal, width: 1.2),
+                    ),
+                    child: const Icon(
+                      Icons.verified_rounded,
+                      size: 20,
+                      color: AppColors.indianTeal,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          isHi
+                              ? documentInfo.issuingAuthorityHindi
+                              : documentInfo.issuingAuthority,
+                          style: AppTextStyles.caption.copyWith(
+                            fontWeight: FontWeight.w800,
+                            color: AppColors.deepNavy,
+                            fontSize: 11,
+                            height: 1.2,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          documentInfo.specimenTitle,
+                          style: AppTextStyles.caption.copyWith(
+                            color: AppColors.indianTeal,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 12),
+              const Divider(height: 1, thickness: 1, color: Color(0xFFE2DEC9)),
+              const SizedBox(height: 12),
+
+              // Document-specific visual fields mockup
+              _buildSpecimenFields(documentInfo, isHi),
+
+              const SizedBox(height: 12),
+
+              // Layout Description Note
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: AppColors.border),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Icon(
+                      Icons.info_outline_rounded,
+                      size: 14,
+                      color: AppColors.steelBlue,
+                    ),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: Text(
+                        documentInfo.specimenDescription,
+                        style: AppTextStyles.caption.copyWith(
+                          color: AppColors.deepNavy.withValues(alpha: 0.75),
+                          fontSize: 9.5,
+                          height: 1.3,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -290,17 +429,21 @@ class DocumentSpecimenViewer extends StatelessWidget {
                     style: TextStyle(fontSize: 9.5, color: Colors.grey.shade700),
                   ),
                   const SizedBox(height: 6),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    color: Colors.grey.shade100,
-                    child: Text(
-                      'XXXX  XXXX  1234',
-                      style: TextStyle(
-                        fontFamily: 'monospace',
-                        fontWeight: FontWeight.w900,
-                        fontSize: 12,
-                        letterSpacing: 2,
-                        color: Colors.red.shade900,
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      color: Colors.grey.shade100,
+                      child: Text(
+                        'XXXX  XXXX  1234',
+                        style: TextStyle(
+                          fontFamily: 'monospace',
+                          fontWeight: FontWeight.w900,
+                          fontSize: 12,
+                          letterSpacing: 2,
+                          color: Colors.red.shade900,
+                        ),
                       ),
                     ),
                   ),
@@ -333,10 +476,10 @@ class DocumentSpecimenViewer extends StatelessWidget {
       case 'samagra_id':
         return Column(
           children: [
-            _buildDataRow('Family ID (परिवार आईडी):', '87654321 (8 Digits)'),
-            _buildDataRow('Member ID (सदस्य आईडी):', '123456789 (9 Digits)'),
-            _buildDataRow('e-KYC Status:', 'COMPLETED (सत्यापित)'),
-            _buildDataRow('Bank Account Linked:', 'YES / हां'),
+            _buildDataRow(isHi ? 'परिवार समग्र आईडी (8 अंक):' : 'Family ID (8-digit):', '87654321'),
+            _buildDataRow(isHi ? 'सदस्य समग्र आईडी (9 अंक):' : 'Member ID (9-digit):', '123456789'),
+            _buildDataRow(isHi ? 'ई-केवाईसी स्थिति:' : 'e-KYC Status:', isHi ? 'पूर्ण (सत्यापित)' : 'COMPLETED (Verified)'),
+            _buildDataRow(isHi ? 'बैंक डीबीटी लिंक:' : 'Bank Account Linked:', isHi ? 'सक्रिय / हां' : 'ACTIVE / YES'),
           ],
         );
 
@@ -365,15 +508,23 @@ class DocumentSpecimenViewer extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2.5),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            label,
-            style: TextStyle(fontSize: 10, color: Colors.grey.shade700, fontWeight: FontWeight.w600),
+          Expanded(
+            flex: 5,
+            child: Text(
+              label,
+              style: TextStyle(fontSize: 10, color: Colors.grey.shade700, fontWeight: FontWeight.w600),
+            ),
           ),
-          Text(
-            value,
-            style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.deepNavy),
+          const SizedBox(width: 8),
+          Flexible(
+            flex: 6,
+            child: Text(
+              value,
+              textAlign: TextAlign.end,
+              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.deepNavy),
+            ),
           ),
         ],
       ),

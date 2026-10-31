@@ -43,6 +43,12 @@ class Settings(BaseSettings):
     # Firebase Admin SDK Service Account Credentials (path to JSON key file)
     GOOGLE_APPLICATION_CREDENTIALS: str = ""
 
+    # Cloudinary Document Vault Settings
+    CLOUDINARY_CLOUD_NAME: str = ""
+    CLOUDINARY_API_KEY: str = ""
+    CLOUDINARY_API_SECRET: str = ""
+    CLOUDINARY_SECURE_VAULT_FOLDER: str = "sahay/document_vault"
+
     model_config = ConfigDict(
         env_file=(
             str(_BACKEND_DIR / ".env"),

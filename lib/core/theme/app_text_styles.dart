@@ -29,6 +29,8 @@ class AppTextStyles {
         color: AppColors.deepNavy,
       );
 
+  static TextStyle get subheading => heading3;
+
   static TextStyle get bodyLarge => GoogleFonts.poppins(
         fontSize: 16,
         fontWeight: FontWeight.w400,

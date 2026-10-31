@@ -8,6 +8,7 @@ import 'package:sahay/providers/locale_provider.dart';
 import 'package:sahay/providers/scheme_provider.dart';
 import 'package:sahay/screens/questionnaire_screen.dart';
 import 'package:sahay/screens/scheme_detail_screen.dart';
+import 'package:sahay/services/category_service.dart';
 import 'package:sahay/services/scheme_data_service.dart';
 import 'package:sahay/utils/indian_states.dart';
 import 'package:sahay/widgets/sahay_app_bar.dart';
@@ -33,23 +34,18 @@ class _SchemesScreenState extends State<SchemesScreen> {
   String? _selectedCategory;
   String? _selectedState;
 
-  final List<String> _categories = [
+  late final List<String> _categories = [
     'all',
-    'agriculture',
-    'health',
-    'housing',
-    'education',
-    'women',
-    'employment',
-    'socialWelfare',
-    'financial',
+    ...CategoryService.allCategories.map((c) => c.categoryId),
   ];
 
   @override
   void initState() {
     super.initState();
     _searchController = TextEditingController(text: widget.initialQuery ?? '');
-    _selectedCategory = widget.initialCategory;
+    if (widget.initialCategory != null && widget.initialCategory!.isNotEmpty) {
+      _selectedCategory = CategoryService.normalizeCategory(widget.initialCategory!);
+    }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final schemeProvider = context.read<SchemeProvider>();
@@ -189,8 +185,8 @@ class _SchemesScreenState extends State<SchemesScreen> {
     if (widget.initialQuery != null && widget.initialQuery!.isNotEmpty) {
       schemeProvider.searchSchemes(widget.initialQuery!);
     }
-    if (widget.initialCategory != null && widget.initialCategory!.isNotEmpty) {
-      schemeProvider.filterByCategory(widget.initialCategory);
+    if (_selectedCategory != null && _selectedCategory!.isNotEmpty) {
+      schemeProvider.filterByCategory(_selectedCategory);
     }
   }
 
@@ -210,34 +206,18 @@ class _SchemesScreenState extends State<SchemesScreen> {
   }
 
   void _onCategoryFilterChanged(String category) {
-    final target = category == 'all' ? null : category;
+    final target = (category == 'all') ? null : CategoryService.normalizeCategory(category);
     setState(() => _selectedCategory = target);
     context.read<SchemeProvider>().filterByCategory(target);
   }
 
-  String _getCategoryDisplayName(String catKey, SahayLocalizations l10n) {
-    switch (catKey) {
-      case 'agriculture':
-        return l10n.agriculture;
-      case 'health':
-        return l10n.health;
-      case 'housing':
-        return l10n.housing;
-      case 'education':
-        return l10n.education;
-      case 'women':
-        return l10n.women;
-      case 'employment':
-        return l10n.employment;
-      case 'socialWelfare':
-        return l10n.socialWelfare;
-      case 'financial':
-        return l10n.financial;
-      default:
-        return l10n.allSchemes.isNotEmpty && l10n.allSchemes != 'allSchemes'
-            ? l10n.allSchemes
-            : 'All';
+  String _getCategoryDisplayName(String catKey, SahayLocalizations l10n, String currentLang) {
+    if (catKey == 'all') {
+      return l10n.allSchemes.isNotEmpty && l10n.allSchemes != 'allSchemes'
+          ? l10n.allSchemes
+          : (currentLang == 'hi' ? 'सभी' : 'All');
     }
+    return CategoryService.getCategoryTitle(catKey, lang: currentLang);
   }
 
   @override
@@ -386,7 +366,7 @@ class _SchemesScreenState extends State<SchemesScreen> {
                     return Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: _FilterChip(
-                        label: _getCategoryDisplayName(catKey, l10n),
+                        label: _getCategoryDisplayName(catKey, l10n, currentLang),
                         isSelected: isSelected,
                         onSelected: () => _onCategoryFilterChanged(catKey),
                       ),
@@ -397,6 +377,10 @@ class _SchemesScreenState extends State<SchemesScreen> {
             ),
 
             const SizedBox(height: 8),
+
+            // Category Banner Card if Category is selected
+            if (_selectedCategory != null)
+              _buildCategoryBanner(context, _selectedCategory!, currentLang, displayedSchemes.length),
 
             // Schemes Count Indicator
             Padding(
@@ -477,6 +461,82 @@ class _SchemesScreenState extends State<SchemesScreen> {
                           ),
                         ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCategoryBanner(
+    BuildContext context,
+    String categoryKey,
+    String currentLang,
+    int count,
+  ) {
+    final title = CategoryService.getCategoryTitle(categoryKey, lang: currentLang);
+    final desc = CategoryService.getCategoryDescription(categoryKey, lang: currentLang);
+    final color = CategoryService.getCategoryColor(categoryKey);
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: color.withValues(alpha: 0.12),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: color.withValues(alpha: 0.4)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    title,
+                    style: AppTextStyles.heading3.copyWith(
+                      color: AppColors.deepNavy,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    '$count ${count == 1 ? 'Scheme' : 'Schemes'}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 6),
+                IconButton(
+                  icon: const Icon(Icons.close_rounded, size: 18, color: AppColors.deepNavy),
+                  constraints: const BoxConstraints(),
+                  padding: EdgeInsets.zero,
+                  tooltip: currentLang == 'hi' ? 'श्रेणी हटाएं' : 'Clear Category',
+                  onPressed: () => _onCategoryFilterChanged('all'),
+                ),
+              ],
+            ),
+            if (desc.isNotEmpty) ...[
+              const SizedBox(height: 6),
+              Text(
+                desc,
+                style: AppTextStyles.bodySmall.copyWith(
+                  color: AppColors.deepNavy.withValues(alpha: 0.8),
+                  height: 1.35,
+                ),
+              ),
+            ],
           ],
         ),
       ),

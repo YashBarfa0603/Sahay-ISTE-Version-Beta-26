@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:sahay/models/api_response_models.dart';
 import 'package:sahay/models/scheme_model.dart';
 import 'package:sahay/services/backend_scheme_service.dart';
+import 'package:sahay/services/category_service.dart';
 import 'package:sahay/services/scheme_data_service.dart';
 import 'package:sahay/utils/indian_states.dart';
 
@@ -113,7 +114,7 @@ class SchemeProvider extends ChangeNotifier {
   void filterByCategory(String? category) {
     final normalized = (category == null || category.trim().isEmpty || category.toLowerCase() == 'all')
         ? null
-        : category.trim();
+        : CategoryService.normalizeCategory(category.trim());
 
     if (_categoryFilter != normalized) {
       _categoryFilter = normalized;
@@ -179,9 +180,8 @@ class SchemeProvider extends ChangeNotifier {
     }
 
     if (_categoryFilter != null && _categoryFilter!.isNotEmpty) {
-      final categoryLower = _categoryFilter!.toLowerCase();
       result = result
-          .where((scheme) => scheme.category.toLowerCase() == categoryLower)
+          .where((scheme) => CategoryService.matchesCategory(scheme.category, _categoryFilter!))
           .toList();
     }
 
