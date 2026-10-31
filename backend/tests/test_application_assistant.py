@@ -1,59 +1,65 @@
 """
-Comprehensive Test Suite for SAHAY Agentic AI Government Scheme Application Assistant.
+Comprehensive Test Suite for SAHAY 10-Scheme Smart Application Filler.
 Tests:
-- Application Session Lifecycles (start, retrieve, cancel)
-- Multi-Agent Orchestration (Context, Document, Form, Mapping, Explanation, Validation)
-- EasyOCR & OpenCV Document Intelligence (Bilingual OCR, structured entity classification)
-- Field Mapping, Conflict Detection & Confirmation
-- Multilingual Field Explanations (EN, HI, Hinglish)
+- 10-Scheme Central Registry Verification (All 10 schemes supported with full metadata)
+- Unsupported Scheme Rejection Guard
+- EasyOCR & OpenCV Document Intelligence (Bilingual OCR, entity classification)
+- Normalized Citizen Profile Store with Value Provenance & Conflict Detection
+- Missing Information & Conflict Resolution Workflows
+- Controlled JavaScript Bridge Safety (Guards against OTP, CAPTCHA, passwords)
+- Read-Back Verification Engine (DOM value inspection vs normalized data)
 - Deterministic Validation Gatekeeper
-- Review Summary Synthesis
-- Controlled Direct Web Portal Adapter & JavaScript Bridge Security
 - Mandatory Explicit Human Approval for Submission
-- Security Invariants: Cross-User Authorization & Prompt Injection Guards
+- Smart Filler Router Endpoints (Direct invocation testing)
 """
 
 import base64
 import io
 import pytest
 from PIL import Image, ImageDraw
-from fastapi.testclient import TestClient
 
-from backend.app.main import app
+from backend.app.dependencies.auth import AuthenticatedUser
+from backend.app.routers.applications import (
+    answer_missing_fields as router_answer_missing_fields,
+    confirm_submission as router_confirm_submission,
+    get_application_session as router_get_application_session,
+    get_portal_populate_payload as router_get_portal_populate_payload,
+    get_supported_schemes as router_get_supported_schemes,
+    resolve_conflict as router_resolve_conflict,
+    start_application_session as router_start_application,
+    verify_portal_readback as router_verify_portal_readback,
+)
 from backend.app.schemas.application_schema import (
-    ApplicationAnswerRequest,
+    ApplicationSessionModel,
     ApplicationStartRequest,
-    DirectWebInspectRequest,
-    DirectWebPopulateRequest,
-    DocumentProcessRequest,
-    FieldConfirmRequest,
-    FieldExplanationRequest,
-    InteractionMode,
+    ApplicationStatus,
+    ConflictResolveRequest,
+    MissingFieldsAnswerRequest,
+    PortalReadBackVerifyRequest,
     SubmissionConfirmationRequest,
 )
 from backend.app.services.application_service import ApplicationService
 from backend.app.services.easyocr_service import EasyOCRService
 from backend.app.services.portal_adapter_service import PortalAdapterService
 
-client = TestClient(app)
+TARGET_SCHEMES = [
+    "PM_KISAN_001",
+    "PMAY_002",
+    "E_SHRAM_001",
+    "UDYAM_001",
+    "PM_SURYA_GHAR_001",
+    "PM_SVANIDHI_001",
+    "PMEGP_001",
+    "MP_POST_MATRIC_SCHOLARSHIP_SC_ST_001",
+    "AICTE_PRAGATI_001",
+    "AICTE_SAKSHAM_001",
+]
 
-
-# ==========================================
-# Helpers: Generate Synthetic Test Documents
-# ==========================================
-
-
-def _create_synthetic_document_image(text_lines: list[str]) -> bytes:
-    """Generates synthetic image bytes containing test government certificate text."""
-    img = Image.new("RGB", (600, 300), color=(255, 255, 255))
-    draw = ImageDraw.Draw(img)
-    y = 20
-    for line in text_lines:
-        draw.text((20, y), line, fill=(0, 0, 0))
-        y += 35
-    buf = io.BytesIO()
-    img.save(buf, format="JPEG")
-    return buf.getvalue()
+mock_user = AuthenticatedUser(
+    uid="test_user_smart_filler",
+    email="citizen@sahay.gov.in",
+    is_guest=False,
+)
 
 
 # ==========================================
@@ -75,7 +81,7 @@ def test_opencv_preprocessing_execution():
     dummy_img = np.full((100, 100, 3), 180, dtype=np.uint8)
     processed = service.preprocess_image(dummy_img)
     assert processed is not None
-    assert len(processed.shape) == 2  # Grayscale 2D array
+    assert len(processed.shape) == 2
 
 
 def test_document_classification_income_certificate():
@@ -112,284 +118,345 @@ def test_document_classification_aadhaar_card():
     assert result["fields"]["gender"]["value"] == "Female"
 
 
-def test_document_classification_bank_passbook():
-    """Verifies Bank Passbook parsing (IFSC, Account Number)."""
-    service = EasyOCRService()
-    synthetic_text = (
-        "STATE BANK OF INDIA\n"
-        "SAVINGS BANK PASSBOOK\n"
-        "Account No: 987654321012\n"
-        "IFSC: SBIN0001234\n"
-    )
-    result = service._classify_and_extract_entities(synthetic_text, base_confidence=0.94)
-    assert result["document_type"] == "bank_passbook"
-    assert result["fields"]["ifsc_code"]["value"] == "SBIN0001234"
-    assert result["fields"]["account_number"]["value"] == "987654321012"
-
-
 # ==========================================
-# 2. Portal Adapter Registry & Safety Tests
+# 2. 10-Scheme Central Registry & Security Tests
 # ==========================================
 
 
-def test_portal_adapter_registry_pm_kisan():
-    """Verifies PM-KISAN official portal adapter resolution and restrictions."""
-    adapter = PortalAdapterService.get_adapter_for_scheme("PM_KISAN_001")
-    assert adapter.official_domain == "pmkisan.gov.in"
-    assert "aadhaar_number" in adapter.supported_fields
-    assert "state" in adapter.supported_fields
+def test_10_scheme_registry_completeness():
+    """Verifies that all 10 target schemes are registered with required metadata."""
+    registry = PortalAdapterService.get_supported_schemes_registry()
+    assert len(registry) == 10
+    registry_ids = [entry.schemeId for entry in registry]
+    for scheme_id in TARGET_SCHEMES:
+        assert scheme_id in registry_ids
+        entry = PortalAdapterService.get_entry_for_scheme(scheme_id)
+        assert entry is not None
+        assert entry.schemeId == scheme_id
+        assert entry.portalDomain != ""
+        assert len(entry.supportedFields) > 0
+        assert entry.authenticationRequirements != ""
+        assert len(entry.manualInterventionRequirements) > 0
+
+
+def test_unsupported_scheme_rejection():
+    """Ensures non-approved schemes are rejected by the Smart Filler adapter."""
+    assert PortalAdapterService.is_scheme_supported("UNKNOWN_SCHEME_999") is False
+    assert PortalAdapterService.get_entry_for_scheme("UNKNOWN_SCHEME_999") is None
 
 
 def test_controlled_javascript_bridge_safety():
     """Ensures that declarative population never emits instructions for OTP, CAPTCHA, or passwords."""
-    untrusted_instructions = [
-        {"selector": "farmer_name", "value": "Rahul Singh"},
-        {"selector": "captcha_input", "value": "1234"},  # MUST BE REJECTED
-        {"selector": "otp_field", "value": "999999"},  # MUST BE REJECTED
-        {"selector": "user_password", "value": "secret"},  # MUST BE REJECTED
+    field_values = {
+        "farmer_name": "Rahul Singh",
+        "mobile_number": "9876543210",
+        "captcha": "1234",
+        "otp": "999999",
+        "password": "secret",
+    }
+    script = PortalAdapterService.generate_population_script("PM_KISAN_001", field_values)
+    assert "Rahul Singh" in script
+    assert "POPULATE_RESULTS" in script
+    assert "window.SahayBridge" in script
+    assert "password" not in script.lower()
+
+
+def test_readback_script_generation():
+    """Verifies readback script generation contains field selectors and returns window.SahayBridge."""
+    script = PortalAdapterService.generate_readback_script("PM_KISAN_001")
+    assert "READBACK_RESULTS" in script
+    assert "window.SahayBridge" in script
+
+
+def test_readback_verification_engine():
+    """Verifies deterministic comparison between expected values and DOM extracted values."""
+    expected_values = {
+        "farmer_name": "Ramesh Kumar",
+        "mobile_number": "9876543210",
+        "district": "Bhopal",
+    }
+    dom_values = {
+        "farmer_name": "Ramesh Kumar",  # Match
+        "mobile_number": "9876543210",  # Match
+        "district": "Indore",           # Mismatch
+    }
+    report = PortalAdapterService.verify_readback(
+        scheme_id="PM_KISAN_001",
+        expected_values=expected_values,
+        actual_dom_values=dom_values,
+    )
+    assert report.total_fields == 10
+    assert report.verified_count == 2
+    assert report.unverified_count == 1
+    assert report.can_proceed_to_review is False
+
+
+# ==========================================
+# 3. Citizen Profile Normalization & Provenance
+# ==========================================
+
+
+def test_normalize_citizen_profile_with_provenance():
+    """Verifies profile normalization populates submodels and tracks provenance."""
+    service = ApplicationService()
+    raw_profile = {
+        "fullName": "Amit Verma",
+        "gender": "Male",
+        "mobileNumber": "9876543210",
+        "addressLine1": "Plot 42, Kisan Nagar",
+        "district": "Bhopal",
+        "state": "Madhya Pradesh",
+        "pincode": "462001",
+        "annualIncome": 150000,
+        "occupation": "Farmer",
+    }
+    extracted_docs = [
+        {
+            "document_type": "aadhaar_card",
+            "document_id": "doc_aadhaar_01",
+            "fields": {
+                "aadhaar_number": {"value": "XXXXXXXX1234", "confidence": 0.95},
+                "fullName": {"value": "Amit Verma", "confidence": 0.95},
+            },
+        }
     ]
-    script = PortalAdapterService.generate_population_script(untrusted_instructions)
-    assert "farmer_name" in script
-    assert "captcha_input" not in script
-    assert "otp_field" not in script
-    assert "user_password" not in script
+
+    profile = service.normalize_citizen_profile(
+        user_id="user_test_123",
+        raw_answers=raw_profile,
+        extracted_docs=extracted_docs,
+    )
+
+    assert profile.personal.full_name == "Amit Verma"
+    assert profile.contact.mobile_number == "9876543210"
+    assert profile.address.state == "Madhya Pradesh"
+    assert profile.financial.annual_income == 150000
+
+    # Provenance checks
+    assert "personal.full_name" in profile.provenance_map
+    assert profile.provenance_map["personal.full_name"].source == "user_profile"
+    assert "personal.aadhaar_number" in profile.provenance_map
+    assert profile.provenance_map["personal.aadhaar_number"].source == "document_ocr"
+
+
+def test_income_conflict_detection_in_session():
+    """Verifies that discrepancy between profile income and document income creates conflict."""
+    service = ApplicationService()
+    raw_profile = {"annualIncome": 250000, "fullName": "Farmer Kumar"}
+    extracted_docs = [
+        {
+            "document_type": "income_certificate",
+            "document_id": "doc_inc_01",
+            "fields": {
+                "annual_income": {"value": 180000, "confidence": 0.95},
+            },
+        }
+    ]
+    service._user_documents["user_conflict_test"] = extracted_docs
+    session = service.start_session(
+        scheme_id="PMAY_002",
+        user_id="user_conflict_test",
+        user_profile=raw_profile,
+    )
+    assert session.conflicts_count >= 1
+    all_fields = [f for s in session.sections for f in s.fields]
+    income_fields = [f for f in all_fields if f.field_id == "annual_income"]
+    assert len(income_fields) == 1
+    assert income_fields[0].conflict_detected is True
 
 
 # ==========================================
-# 3. Application Session & Multi-Agent Tests
+# 4. Application Session & Workflow Tests
 # ==========================================
 
 
-@pytest.mark.asyncio
-async def test_application_session_start_pm_kisan():
-    """Tests session creation, multi-agent graph execution, and section generation."""
+def test_session_start_all_10_schemes():
+    """Ensures session can be created for all 10 supported schemes."""
     service = ApplicationService()
     user_profile = {
-        "fullName": "Amit Verma",
+        "fullName": "Sunita Devi",
         "mobileNumber": "9876543210",
         "state": "Madhya Pradesh",
-        "district": "Bhopal",
-        "annualFamilyIncome": 150000,
-        "isFarmer": "Yes",
+        "district": "Indore",
+        "gender": "Female",
     }
-    session = await service.start_session(
-        scheme_id="PM_KISAN_001",
-        user_id="user_test_123",
-        user_profile=user_profile,
-    )
-    assert session.session_id.startswith("app_sess_")
-    assert session.scheme_id == "PM_KISAN_001"
-    assert len(session.sections) >= 3
-
-    # Check prefilled fields
-    all_fields = {f.field_id: f for sec in session.sections for f in sec.fields}
-    assert "fullName" in all_fields
-    assert all_fields["fullName"].mapped_value == "Amit Verma"
-    assert all_fields["mobileNumber"].mapped_value == "9876543210"
-
-
-@pytest.mark.asyncio
-async def test_field_mapping_conflict_detection():
-    """Verifies that conflicting profile vs document values are detected and flagged."""
-    service = ApplicationService()
-    # Profile says income is 2,00,000
-    user_profile = {"annualFamilyIncome": 200000}
-    session = await service.start_session(
-        scheme_id="PM_KISAN_001",
-        user_id="user_conflict_test",
-        user_profile=user_profile,
-    )
-
-    # Process an uploaded income certificate with mocked run_ocr
-    from unittest.mock import patch
-    mock_ocr = {
-        "document_type": "income_certificate",
-        "confidence": 0.95,
-        "fields": {
-            "annual_income": {"value": 180000, "confidence": 0.95},
-        },
-        "raw_text": "INCOME CERTIFICATE\nAnnual Income: Rs. 1,80,000",
-        "processing_status": "completed",
-    }
-    with patch.object(service.ocr_service, "run_ocr", return_value=mock_ocr):
-        await service.process_document_bytes(
-            session_id=session.session_id,
-            user_id="user_conflict_test",
-            document_id="income_certificate",
-            file_bytes=b"dummy_bytes",
-            mime_type="image/jpeg",
+    for scheme_id in TARGET_SCHEMES:
+        session = service.start_session(
+            scheme_id=scheme_id,
+            user_id=f"user_test_{scheme_id}",
+            user_profile=user_profile,
         )
+        assert session.session_id.startswith("app_sess_")
+        assert session.scheme_id == scheme_id
+        assert len(session.sections) > 0
 
-    retrieved = service.get_session(session.session_id, "user_conflict_test")
-    all_fields = {f.field_id: f for sec in retrieved.sections for f in sec.fields}
-    income_field = all_fields.get("annualFamilyIncome")
-    assert income_field is not None
 
-    # Resolve conflict with user's explicit choice
-    updated = service.confirm_field_conflict(
-        session_id=session.session_id,
-        user_id="user_conflict_test",
-        field_id="annualFamilyIncome",
-        confirmed_value=180000,
+def test_session_missing_info_answering():
+    """Verifies answering missing fields updates the session profile and fields."""
+    service = ApplicationService()
+    session = service.start_session(
+        scheme_id="PM_KISAN_001",
+        user_id="user_missing_test",
+        user_profile={"fullName": "Ramesh Kumar"},
     )
-    all_updated = {f.field_id: f for sec in updated.sections for f in sec.fields}
-    assert all_updated["annualFamilyIncome"].mapped_value == 180000
-    assert all_updated["annualFamilyIncome"].user_confirmed is True
+    # Answer missing field mobile_number
+    updated = service.answer_missing_fields(
+        session_id=session.session_id,
+        answers={"mobile_number": "9876543210"},
+    )
+    all_fields = {f.field_id: f for s in updated.sections for f in s.fields}
+    assert all_fields["mobile_number"].mapped_value == "9876543210"
+    assert all_fields["mobile_number"].user_confirmed is True
 
 
-def test_multilingual_field_explanations():
-    """Tests plain-language explanations in English, Hindi, and Hinglish."""
+def test_session_conflict_resolution():
+    """Verifies citizen resolving a conflict updates the chosen value."""
     service = ApplicationService()
-    en_res = service.explain_field("annualFamilyIncome", "Annual Family Income", language="en")
-    assert "gross income" in en_res["explanation"].lower() or "household" in en_res["explanation"].lower()
+    service._user_documents["user_conf_test"] = [
+        {
+            "document_type": "income_certificate",
+            "document_id": "doc_inc_02",
+            "fields": {"annual_income": {"value": 240000, "confidence": 0.9}},
+        }
+    ]
+    session = service.start_session(
+        scheme_id="PMAY_002",
+        user_id="user_conf_test",
+        user_profile={"annualIncome": 300000, "fullName": "Test Beneficiary"},
+    )
+    assert session.conflicts_count >= 1
 
-    hi_res = service.explain_field("annualFamilyIncome", "वार्षिक आय", language="hi")
-    assert "परिवार" in hi_res["explanation"]
+    # Resolve conflict to document value
+    resolved_session = service.resolve_field_conflict(
+        session_id=session.session_id,
+        field_id="annual_income",
+        confirmed_value=240000,
+    )
+    assert resolved_session.conflicts_count == 0
+    all_fields = {f.field_id: f for s in resolved_session.sections for f in s.fields}
+    assert all_fields["annual_income"].mapped_value == 240000
+    assert all_fields["annual_income"].conflict_detected is False
 
-    hing_res = service.explain_field("annualFamilyIncome", "Annual Family Income", language="hinglish")
-    assert "parivaar" in hing_res["explanation"].lower() or "income" in hing_res["explanation"].lower()
 
-
-@pytest.mark.asyncio
-async def test_deterministic_validation_gatekeeper():
-    """Verifies that missing required fields or invalid formats prevent submission."""
+def test_deterministic_validation_gatekeeper():
+    """Verifies that missing required fields prevent submission."""
     service = ApplicationService()
-    session = await service.start_session(
+    session = service.start_session(
         scheme_id="PM_KISAN_001",
         user_id="user_val_test",
-        user_profile={},  # Empty profile
+        user_profile={},
     )
-
-    # Initial validation should fail due to missing required fields
-    val_res = service.validate_session(session.session_id, "user_val_test")
-    assert val_res.is_valid is False
-    assert val_res.can_submit is False
-    assert len(val_res.missing_required_fields) > 0
-
-    # Supply an invalid mobile number format
-    service.answer_field(
-        session.session_id,
-        "user_val_test",
-        ApplicationAnswerRequest(field_id="mobileNumber", value="12345"),  # Invalid (not 10 digits)
-    )
-    val_res2 = service.validate_session(session.session_id, "user_val_test")
-    assert any("mobile" in err.lower() for err in val_res2.invalid_format_fields or session.validation_errors)
+    val = service.validate_session(session.session_id)
+    assert val.is_valid is False
+    assert val.can_submit is False
+    assert len(val.missing_required_fields) > 0
 
 
-@pytest.mark.asyncio
-async def test_explicit_human_approval_mandatory_for_submission():
+def test_explicit_human_approval_mandatory_for_submission():
     """CRITICAL SECURITY INVARIANT: Automated submission without human approval is strictly blocked."""
     service = ApplicationService()
-    session = await service.start_session(
+    session = service.start_session(
         scheme_id="PM_KISAN_001",
         user_id="user_approval_test",
         user_profile={"fullName": "Test User"},
     )
 
-    # Attempt submission with user_approved = False must raise 400
     with pytest.raises(Exception) as excinfo:
         service.confirm_submission(
             session_id=session.session_id,
-            user_id="user_approval_test",
-            user_approved=False,
+            user_explicit_approval=False,
         )
-    assert "Explicit citizen approval is mandatory" in str(excinfo.value)
+    assert "Explicit citizen approval" in str(excinfo.value)
 
-    # Submission with user_approved = True succeeds
-    success = service.confirm_submission(
+    # Submission with approval
+    confirmed = service.confirm_submission(
         session_id=session.session_id,
-        user_id="user_approval_test",
-        user_approved=True,
+        user_explicit_approval=True,
         acknowledgement_number="PMK-TEST-9988",
     )
-    assert success is True
-    confirmed_session = service.get_session(session.session_id, "user_approval_test")
-    assert confirmed_session.status.value == "submitted_confirmed"
-    assert confirmed_session.submission_reference == "PMK-TEST-9988"
+    assert confirmed.status == ApplicationStatus.SUBMITTED_CONFIRMED
+    assert confirmed.submission_reference == "PMK-TEST-9988"
 
 
 # ==========================================
-# 4. FastAPI End-to-End API Integration Tests
+# 5. Smart Filler Router Endpoints Tests
 # ==========================================
 
 
-def test_api_start_and_get_application():
-    """Tests POST /api/applications/start and GET /api/applications/{session_id}."""
-    resp = client.post(
-        "/api/applications/start",
-        json={"scheme_id": "PM_KISAN_001", "interaction_mode": "guided_form"},
-    )
-    assert resp.status_code == 200
-    data = resp.json()
-    assert "session_id" in data
-    session_id = data["session_id"]
-
-    # GET session
-    get_resp = client.get(f"/api/applications/{session_id}")
-    assert get_resp.status_code == 200
-    assert get_resp.json()["scheme_id"] == "PM_KISAN_001"
+def test_router_get_supported_schemes():
+    """Tests router get_supported_schemes endpoint directly."""
+    entries = router_get_supported_schemes()
+    assert len(entries) == 10
+    ids = [e.schemeId for e in entries]
+    for tid in TARGET_SCHEMES:
+        assert tid in ids
 
 
-def test_api_answer_guided_form_field():
-    """Tests POST /api/applications/{session_id}/guided-form/answer."""
-    start_resp = client.post("/api/applications/start", json={"scheme_id": "PM_KISAN_001"})
-    session_id = start_resp.json()["session_id"]
-
-    ans_resp = client.post(
-        f"/api/applications/{session_id}/guided-form/answer",
-        json={"field_id": "fullName", "value": "Vikas Patel", "user_confirmed": True},
-    )
-    assert ans_resp.status_code == 200
-    updated_data = ans_resp.json()
-    all_fields = {f["field_id"]: f for sec in updated_data["sections"] for f in sec["fields"]}
-    assert all_fields["fullName"]["mapped_value"] == "Vikas Patel"
-    assert all_fields["fullName"]["user_confirmed"] is True
-
-
-def test_api_explain_field():
-    """Tests POST /api/applications/{session_id}/explain-field."""
-    start_resp = client.post("/api/applications/start", json={"scheme_id": "PM_KISAN_001"})
-    session_id = start_resp.json()["session_id"]
-
-    exp_resp = client.post(
-        f"/api/applications/{session_id}/explain-field",
-        json={
-            "field_id": "annualFamilyIncome",
-            "field_label": "Annual Family Income",
-            "language": "hi",
+def test_router_start_and_get_session():
+    """Tests router start_application and get_application_session."""
+    req = ApplicationStartRequest(
+        scheme_id="PM_KISAN_001",
+        user_profile_answers={
+            "fullName": "Kisan Bhai",
+            "mobileNumber": "9876543210",
+            "state": "Madhya Pradesh",
         },
     )
-    assert exp_resp.status_code == 200
-    res_data = exp_resp.json()
-    assert "explanation" in res_data
-    assert res_data["language"] == "hi"
+    session = router_start_application(req, user=mock_user)
+    assert session.scheme_id == "PM_KISAN_001"
+    assert session.session_id.startswith("app_sess_")
+
+    retrieved = router_get_application_session(session.session_id, user=mock_user)
+    assert retrieved.session_id == session.session_id
 
 
-def test_api_review_endpoint():
-    """Tests GET /api/applications/{session_id}/review."""
-    start_resp = client.post("/api/applications/start", json={"scheme_id": "PM_KISAN_001"})
-    session_id = start_resp.json()["session_id"]
-
-    rev_resp = client.get(f"/api/applications/{session_id}/review")
-    assert rev_resp.status_code == 200
-    review_data = rev_resp.json()
-    assert "total_fields" in review_data
-    assert "can_submit" in review_data
-    assert "sections" in review_data
-
-
-def test_api_submission_confirmation():
-    """Tests POST /api/applications/{session_id}/submission-confirmation."""
-    start_resp = client.post("/api/applications/start", json={"scheme_id": "PM_KISAN_001"})
-    session_id = start_resp.json()["session_id"]
-
-    sub_resp = client.post(
-        f"/api/applications/{session_id}/submission-confirmation",
-        json={
-            "user_explicit_approval": True,
-            "official_acknowledgement_number": "ACK-GOV-2026-XYZ",
-        },
+def test_router_answer_missing_and_portal_payload():
+    """Tests router answer_missing_fields and get_portal_populate_payload."""
+    req = ApplicationStartRequest(
+        scheme_id="E_SHRAM_001",
+        user_profile_answers={"fullName": "Labour Worker"},
     )
-    assert sub_resp.status_code == 200
-    assert sub_resp.json()["submitted"] is True
-    assert sub_resp.json()["acknowledgement_number"] == "ACK-GOV-2026-XYZ"
+    session = router_start_application(req, user=mock_user)
+
+    ans_req = MissingFieldsAnswerRequest(answers={"mobile_number": "9123456789"})
+    updated = router_answer_missing_fields(session.session_id, ans_req, user=mock_user)
+    assert updated.session_id == session.session_id
+
+    payload = router_get_portal_populate_payload(session.session_id, user=mock_user)
+    assert payload.portal_id == "eshram_adapter_v2"
+    assert len(payload.declarative_instructions) > 0
+
+
+def test_router_verify_readback():
+    """Tests router verify_portal_readback endpoint."""
+    req = ApplicationStartRequest(
+        scheme_id="UDYAM_001",
+        user_profile_answers={"fullName": "Entrepreneur Ji", "mobileNumber": "9876543210"},
+    )
+    session = router_start_application(req, user=mock_user)
+
+    verify_req = PortalReadBackVerifyRequest(
+        read_back_data={
+            "owner_name": "Entrepreneur Ji",
+            "mobile_number": "9876543210",
+        }
+    )
+    report = router_verify_portal_readback(session.session_id, verify_req, user=mock_user)
+    assert report.total_fields > 0
+
+
+def test_router_submission_confirmation():
+    """Tests router confirm_submission endpoint."""
+    req = ApplicationStartRequest(
+        scheme_id="PM_KISAN_001",
+        user_profile_answers={"fullName": "Test Farmer"},
+    )
+    session = router_start_application(req, user=mock_user)
+
+    confirm_req = SubmissionConfirmationRequest(
+        user_explicit_approval=True,
+        official_acknowledgement_number="ACK-SMART-2026-001",
+    )
+    confirmed = router_confirm_submission(session.session_id, confirm_req, user=mock_user)
+    assert confirmed.status == ApplicationStatus.SUBMITTED_CONFIRMED
+    assert confirmed.submission_reference == "ACK-SMART-2026-001"

@@ -1,15 +1,14 @@
-enum InteractionMode {
-  directWeb,
-  guidedForm,
-}
+import 'package:flutter/foundation.dart';
 
 enum ApplicationStatus {
   preparing,
   ready,
   inProgress,
+  fillingPortal,
   awaitingUserInput,
   awaitingConfirmation,
   validationRequired,
+  readyForReview,
   readyForSubmission,
   submittedConfirmed,
   cancelled,
@@ -45,6 +44,125 @@ enum SourceType {
   officialPortal,
 }
 
+enum ReadBackFieldStatus {
+  filledVerified,
+  filledUnverified,
+  manualActionRequired,
+  failed,
+  missing,
+}
+
+// Backward-compatibility alias
+enum InteractionMode {
+  directWeb,
+  guidedForm,
+}
+
+// ==========================================
+// Central 10-Scheme Registry Model
+// ==========================================
+
+class SchemeRegistryEntryModel {
+  final String schemeId;
+  final String schemeName;
+  final List<String> alternateNames;
+  final String category;
+  final String stateOrCentral;
+  final String officialSchemeUrl;
+  final String officialApplicationUrl;
+  final String applicationMode;
+  final String portalDomain;
+  final String adapterId;
+  final List<String> supportedFields;
+  final List<String> requiredDocuments;
+  final String authenticationRequirements;
+  final List<String> manualInterventionRequirements;
+  final String portalCompatibilityStatus;
+  final String lastTestedAt;
+  final String lastVerifiedAt;
+  final String applicationAvailabilityStatus;
+  final List<String> knownLimitations;
+
+  SchemeRegistryEntryModel({
+    required this.schemeId,
+    required this.schemeName,
+    this.alternateNames = const [],
+    required this.category,
+    this.stateOrCentral = 'central',
+    required this.officialSchemeUrl,
+    required this.officialApplicationUrl,
+    this.applicationMode = 'smart_filler',
+    required this.portalDomain,
+    required this.adapterId,
+    this.supportedFields = const [],
+    this.requiredDocuments = const [],
+    required this.authenticationRequirements,
+    this.manualInterventionRequirements = const [],
+    this.portalCompatibilityStatus = 'fully_supported',
+    this.lastTestedAt = '',
+    this.lastVerifiedAt = '',
+    this.applicationAvailabilityStatus = 'active_accepting_applications',
+    this.knownLimitations = const [],
+  });
+
+  factory SchemeRegistryEntryModel.fromMap(Map<String, dynamic> map) {
+    return SchemeRegistryEntryModel(
+      schemeId: map['schemeId']?.toString() ?? '',
+      schemeName: map['schemeName']?.toString() ?? '',
+      alternateNames: (map['alternateNames'] as List?)?.map((e) => e.toString()).toList() ?? [],
+      category: map['category']?.toString() ?? '',
+      stateOrCentral: map['stateOrCentral']?.toString() ?? 'central',
+      officialSchemeUrl: map['officialSchemeUrl']?.toString() ?? '',
+      officialApplicationUrl: map['officialApplicationUrl']?.toString() ?? '',
+      applicationMode: map['applicationMode']?.toString() ?? 'smart_filler',
+      portalDomain: map['portalDomain']?.toString() ?? '',
+      adapterId: map['adapterId']?.toString() ?? '',
+      supportedFields: (map['supportedFields'] as List?)?.map((e) => e.toString()).toList() ?? [],
+      requiredDocuments: (map['requiredDocuments'] as List?)?.map((e) => e.toString()).toList() ?? [],
+      authenticationRequirements: map['authenticationRequirements']?.toString() ?? '',
+      manualInterventionRequirements: (map['manualInterventionRequirements'] as List?)?.map((e) => e.toString()).toList() ?? [],
+      portalCompatibilityStatus: map['portalCompatibilityStatus']?.toString() ?? 'fully_supported',
+      lastTestedAt: map['lastTestedAt']?.toString() ?? '',
+      lastVerifiedAt: map['lastVerifiedAt']?.toString() ?? '',
+      applicationAvailabilityStatus: map['applicationAvailabilityStatus']?.toString() ?? 'active_accepting_applications',
+      knownLimitations: (map['knownLimitations'] as List?)?.map((e) => e.toString()).toList() ?? [],
+    );
+  }
+}
+
+// ==========================================
+// Value Provenance & Field Mapping Models
+// ==========================================
+
+class ValueProvenanceModel {
+  final String field;
+  final dynamic value;
+  final String source;
+  final String verificationStatus;
+  final String? sourceDocumentId;
+  final String lastUpdatedAt;
+
+  ValueProvenanceModel({
+    required this.field,
+    this.value,
+    required this.source,
+    this.verificationStatus = 'self_reported',
+    this.sourceDocumentId,
+    required this.lastUpdatedAt,
+  });
+
+  factory ValueProvenanceModel.fromMap(Map<String, dynamic> map) {
+    return ValueProvenanceModel(
+      field: map['field']?.toString() ?? '',
+      value: map['value'],
+      source: map['source']?.toString() ?? 'user_profile',
+      verificationStatus: map['verification_status']?.toString() ?? 'self_reported',
+      sourceDocumentId: map['source_document_id']?.toString(),
+      lastUpdatedAt: map['last_updated_at']?.toString() ?? '',
+    );
+  }
+}
+
 class FieldMappingModel {
   final String fieldId;
   final String fieldLabel;
@@ -65,6 +183,9 @@ class FieldMappingModel {
   final String? explanationHinglish;
   final bool conflictDetected;
   final Map<String, dynamic>? conflictDetails;
+  final ValueProvenanceModel? provenance;
+  final String? portalSelector;
+  ReadBackFieldStatus? readBackStatus;
 
   FieldMappingModel({
     required this.fieldId,
@@ -86,6 +207,9 @@ class FieldMappingModel {
     this.explanationHinglish,
     this.conflictDetected = false,
     this.conflictDetails,
+    this.provenance,
+    this.portalSelector,
+    this.readBackStatus,
   });
 
   factory FieldMappingModel.fromMap(Map<String, dynamic> map) {
@@ -109,6 +233,9 @@ class FieldMappingModel {
       explanationHinglish: map['explanation_hinglish']?.toString(),
       conflictDetected: map['conflict_detected'] as bool? ?? false,
       conflictDetails: map['conflict_details'] is Map ? Map<String, dynamic>.from(map['conflict_details'] as Map) : null,
+      provenance: map['provenance'] is Map ? ValueProvenanceModel.fromMap(Map<String, dynamic>.from(map['provenance'] as Map)) : null,
+      portalSelector: map['portal_selector']?.toString(),
+      readBackStatus: _parseReadBackStatus(map['read_back_status']),
     );
   }
 
@@ -155,6 +282,16 @@ class FieldMappingModel {
     if (str.contains('invalid')) return MappingStatus.invalid;
     if (str.contains('ready')) return MappingStatus.ready;
     return MappingStatus.missing;
+  }
+
+  static ReadBackFieldStatus? _parseReadBackStatus(dynamic val) {
+    final str = val?.toString().toLowerCase() ?? '';
+    if (str.contains('filled_verified')) return ReadBackFieldStatus.filledVerified;
+    if (str.contains('filled_unverified')) return ReadBackFieldStatus.filledUnverified;
+    if (str.contains('manual_action')) return ReadBackFieldStatus.manualActionRequired;
+    if (str.contains('failed')) return ReadBackFieldStatus.failed;
+    if (str.contains('missing')) return ReadBackFieldStatus.missing;
+    return null;
   }
 }
 
@@ -216,6 +353,113 @@ class DocumentRequirementModel {
   }
 }
 
+// ==========================================
+// Read-Back Verification Models
+// ==========================================
+
+class ReadBackFieldItemModel {
+  final String fieldId;
+  final String selector;
+  final dynamic expectedValue;
+  final dynamic readValue;
+  final ReadBackFieldStatus status;
+  final String? message;
+
+  ReadBackFieldItemModel({
+    required this.fieldId,
+    required this.selector,
+    this.expectedValue,
+    this.readValue,
+    required this.status,
+    this.message,
+  });
+
+  factory ReadBackFieldItemModel.fromMap(Map<String, dynamic> map) {
+    return ReadBackFieldItemModel(
+      fieldId: map['field_id']?.toString() ?? '',
+      selector: map['selector']?.toString() ?? '',
+      expectedValue: map['expected_value'],
+      readValue: map['read_value'],
+      status: FieldMappingModel._parseReadBackStatus(map['status']) ?? ReadBackFieldStatus.missing,
+      message: map['message']?.toString(),
+    );
+  }
+}
+
+class ReadBackVerificationReportModel {
+  final int totalFields;
+  final int verifiedCount;
+  final int unverifiedCount;
+  final int manualActionCount;
+  final int failedCount;
+  final bool canProceedToReview;
+  final List<ReadBackFieldItemModel> items;
+
+  ReadBackVerificationReportModel({
+    required this.totalFields,
+    required this.verifiedCount,
+    required this.unverifiedCount,
+    this.manualActionCount = 0,
+    this.failedCount = 0,
+    required this.canProceedToReview,
+    this.items = const [],
+  });
+
+  factory ReadBackVerificationReportModel.fromMap(Map<String, dynamic> map) {
+    final rawItems = map['items'] as List? ?? [];
+    return ReadBackVerificationReportModel(
+      totalFields: map['total_fields'] as int? ?? 0,
+      verifiedCount: map['verified_count'] as int? ?? 0,
+      unverifiedCount: map['unverified_count'] as int? ?? 0,
+      manualActionCount: map['manual_action_count'] as int? ?? 0,
+      failedCount: map['failed_count'] as int? ?? 0,
+      canProceedToReview: map['can_proceed_to_review'] as bool? ?? false,
+      items: rawItems
+          .map((i) => ReadBackFieldItemModel.fromMap(Map<String, dynamic>.from(i as Map)))
+          .toList(),
+    );
+  }
+}
+
+class PortalPopulationPayloadModel {
+  final String portalId;
+  final String portalDomain;
+  final List<Map<String, dynamic>> declarativeInstructions;
+  final List<Map<String, dynamic>> readBackSelectors;
+  final List<String> manualInterventionRequired;
+
+  PortalPopulationPayloadModel({
+    required this.portalId,
+    required this.portalDomain,
+    this.declarativeInstructions = const [],
+    this.readBackSelectors = const [],
+    this.manualInterventionRequired = const [],
+  });
+
+  factory PortalPopulationPayloadModel.fromMap(Map<String, dynamic> map) {
+    return PortalPopulationPayloadModel(
+      portalId: map['portal_id']?.toString() ?? '',
+      portalDomain: map['portal_domain']?.toString() ?? '',
+      declarativeInstructions: (map['declarative_instructions'] as List?)
+              ?.map((e) => Map<String, dynamic>.from(e as Map))
+              .toList() ??
+          [],
+      readBackSelectors: (map['read_back_selectors'] as List?)
+              ?.map((e) => Map<String, dynamic>.from(e as Map))
+              .toList() ??
+          [],
+      manualInterventionRequired: (map['manual_intervention_required'] as List?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          [],
+    );
+  }
+}
+
+// ==========================================
+// Application Session Master Model
+// ==========================================
+
 class ApplicationSession {
   final String sessionId;
   final String schemeId;
@@ -227,11 +471,14 @@ class ApplicationSession {
   ApplicationStatus status;
   final List<ApplicationSectionModel> sections;
   final List<DocumentRequirementModel> documents;
+  int missingFieldsCount;
+  int conflictsCount;
   List<String> validationErrors;
   List<String> warnings;
   bool canSubmit;
   bool submissionConfirmed;
   String? submissionReference;
+  ReadBackVerificationReportModel? readBackReport;
 
   ApplicationSession({
     required this.sessionId,
@@ -239,22 +486,24 @@ class ApplicationSession {
     required this.schemeName,
     required this.schemeCategory,
     this.officialUrl,
-    required this.interactionMode,
+    this.interactionMode = InteractionMode.guidedForm,
     this.portalAdapterId,
     required this.status,
     required this.sections,
     required this.documents,
+    this.missingFieldsCount = 0,
+    this.conflictsCount = 0,
     this.validationErrors = const [],
     this.warnings = const [],
     this.canSubmit = false,
     this.submissionConfirmed = false,
     this.submissionReference,
+    this.readBackReport,
   });
 
   factory ApplicationSession.fromMap(Map<String, dynamic> map) {
     final rawSections = map['sections'] as List? ?? [];
     final rawDocs = map['documents'] as List? ?? [];
-    final modeStr = map['interaction_mode']?.toString().toLowerCase() ?? '';
 
     return ApplicationSession(
       sessionId: map['session_id']?.toString() ?? '',
@@ -262,7 +511,7 @@ class ApplicationSession {
       schemeName: map['scheme_name']?.toString() ?? '',
       schemeCategory: map['scheme_category']?.toString() ?? '',
       officialUrl: map['official_application_url']?.toString(),
-      interactionMode: modeStr.contains('web') ? InteractionMode.directWeb : InteractionMode.guidedForm,
+      interactionMode: InteractionMode.guidedForm,
       portalAdapterId: map['portal_adapter_id']?.toString(),
       status: _parseAppStatus(map['status']),
       sections: rawSections
@@ -271,22 +520,27 @@ class ApplicationSession {
       documents: rawDocs
           .map((d) => DocumentRequirementModel.fromMap(Map<String, dynamic>.from(d as Map)))
           .toList(),
+      missingFieldsCount: map['missing_fields_count'] as int? ?? 0,
+      conflictsCount: map['conflicts_count'] as int? ?? 0,
       validationErrors: (map['validation_errors'] as List?)?.map((e) => e.toString()).toList() ?? [],
       warnings: (map['warnings'] as List?)?.map((e) => e.toString()).toList() ?? [],
       canSubmit: map['can_submit'] as bool? ?? false,
       submissionConfirmed: map['submission_confirmed'] as bool? ?? false,
       submissionReference: map['submission_reference']?.toString(),
+      readBackReport: map['read_back_report'] is Map
+          ? ReadBackVerificationReportModel.fromMap(Map<String, dynamic>.from(map['read_back_report'] as Map))
+          : null,
     );
   }
 
   static ApplicationStatus _parseAppStatus(dynamic val) {
     final str = val?.toString().toLowerCase() ?? '';
     if (str.contains('submit')) return ApplicationStatus.submittedConfirmed;
-    if (str.contains('ready_for_sub')) return ApplicationStatus.readyForSubmission;
+    if (str.contains('ready_for_rev')) return ApplicationStatus.readyForReview;
+    if (str.contains('filling')) return ApplicationStatus.fillingPortal;
     if (str.contains('valid')) return ApplicationStatus.validationRequired;
-    if (str.contains('progress')) return ApplicationStatus.inProgress;
+    if (str.contains('awaiting_user')) return ApplicationStatus.awaitingUserInput;
     if (str.contains('ready')) return ApplicationStatus.ready;
     return ApplicationStatus.inProgress;
   }
 }
-

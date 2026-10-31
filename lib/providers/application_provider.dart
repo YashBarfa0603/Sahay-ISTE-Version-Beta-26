@@ -5,33 +5,81 @@ import 'package:sahay/services/application_api_service.dart';
 
 class ApplicationProvider extends ChangeNotifier {
   final ApplicationApiService _apiService;
+  List<SchemeRegistryEntryModel> _supportedSchemes = [];
   ApplicationSession? _currentSession;
+  PortalPopulationPayloadModel? _portalPayload;
+  ReadBackVerificationReportModel? _readBackReport;
   bool _isLoading = false;
   String? _errorMessage;
+
+  // The 10 Target Scheme IDs supported by the SAHAY Smart Application Filler
+  static const Set<String> _targetSchemeIds = {
+    'PM_KISAN_001',
+    'PMAY_002',
+    'E_SHRAM_001',
+    'UDYAM_001',
+    'PM_SURYA_GHAR_001',
+    'PM_SVANIDHI_001',
+    'PMEGP_001',
+    'MP_POST_MATRIC_SCHOLARSHIP_SC_ST_001',
+    'AICTE_PRAGATI_001',
+    'AICTE_SAKSHAM_001',
+  };
 
   ApplicationProvider({ApplicationApiService? apiService})
       : _apiService = apiService ?? ApplicationApiService();
 
+  List<SchemeRegistryEntryModel> get supportedSchemes => _supportedSchemes;
   ApplicationSession? get currentSession => _currentSession;
+  PortalPopulationPayloadModel? get portalPayload => _portalPayload;
+  ReadBackVerificationReportModel? get readBackReport => _readBackReport;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 
-  /// Starts or resumes an application session for a target scheme.
+  /// Determines if a given scheme is supported by the SAHAY Smart Application Filler.
+  bool isSchemeSupported(String schemeId) {
+    if (_targetSchemeIds.contains(schemeId)) return true;
+    return _supportedSchemes.any((s) => s.schemeId == schemeId);
+  }
+
+  /// Gets registry entry metadata for a supported scheme.
+  SchemeRegistryEntryModel? getRegistryEntry(String schemeId) {
+    try {
+      return _supportedSchemes.firstWhere((s) => s.schemeId == schemeId);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// Loads the 10-scheme central registry from the backend.
+  Future<void> loadSupportedSchemes() async {
+    try {
+      final schemes = await _apiService.getSupportedSchemes();
+      if (schemes.isNotEmpty) {
+        _supportedSchemes = schemes;
+        notifyListeners();
+      }
+    } catch (e) {
+      debugPrint('ApplicationProvider: loadSupportedSchemes error: $e');
+    }
+  }
+
+  /// Starts or resumes the unified Smart Application Filler workflow.
   Future<bool> startSession({
     required SchemeModel scheme,
-    InteractionMode? mode,
-    String language = 'en',
     Map<String, dynamic>? userProfileAnswers,
+    String language = 'en',
+    // Kept for backward compatibility
+    InteractionMode? mode,
   }) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
-      // 1. Attempt backend multi-agent session creation
       final session = await _apiService.startApplication(
         schemeId: scheme.schemeId,
-        mode: mode,
+        profileAnswers: userProfileAnswers,
         language: language,
       );
 
@@ -45,54 +93,87 @@ class ApplicationProvider extends ChangeNotifier {
       debugPrint('ApplicationProvider: Backend session start failed: $e. Falling back to local offline session.');
     }
 
-    // 2. Offline fallback: Create high-fidelity local guided session from SchemeModel
+    // High-fidelity fallback session if offline
     _currentSession = _createLocalGuidedSession(scheme, userProfileAnswers);
     _isLoading = false;
     notifyListeners();
     return true;
   }
 
-  /// Updates an individual field value.
-  Future<void> updateField(String fieldId, dynamic value) async {
-    if (_currentSession == null) return;
-
-    // Optimistically update local session
-    for (final sec in _currentSession!.sections) {
-      for (final f in sec.fields) {
-        if (f.fieldId == fieldId) {
-          f.mappedValue = value;
-          f.userConfirmed = true;
-          f.mappingStatus = MappingStatus.userConfirmed;
-          f.validationStatus = 'valid';
-          break;
-        }
-      }
-    }
-    _recalculateLocalValidation();
+  /// Answers multiple missing fields at once.
+  Future<bool> submitMissingAnswers(Map<String, dynamic> answers) async {
+    if (_currentSession == null) return false;
+    _isLoading = true;
     notifyListeners();
 
-    // Sync to backend if session is active
-    if (_currentSession!.sessionId.startsWith('app_sess_')) {
-      try {
-        final updated = await _apiService.answerField(
+    try {
+      if (_currentSession!.sessionId.startsWith('app_sess_')) {
+        final updated = await _apiService.answerMissingFields(
           sessionId: _currentSession!.sessionId,
-          fieldId: fieldId,
-          value: value,
+          answers: answers,
         );
         if (updated != null) {
           _currentSession = updated;
+          _isLoading = false;
           notifyListeners();
+          return true;
         }
-      } catch (e) {
-        debugPrint('ApplicationProvider: Background field sync error: $e');
       }
+    } catch (e) {
+      debugPrint('ApplicationProvider: submitMissingAnswers error: $e');
     }
+
+    // Local fallback update
+    answers.forEach((key, val) {
+      for (final sec in _currentSession!.sections) {
+        for (final f in sec.fields) {
+          if (f.fieldId == key) {
+            f.mappedValue = val;
+            f.userConfirmed = true;
+            f.mappingStatus = MappingStatus.userConfirmed;
+            f.validationStatus = 'valid';
+            break;
+          }
+        }
+      }
+    });
+
+    _recalculateLocalCounters();
+    _isLoading = false;
+    notifyListeners();
+    return true;
   }
 
-  /// Confirms an explicit value when profile and document disagree.
-  Future<void> resolveConflict(String fieldId, dynamic confirmedValue) async {
-    if (_currentSession == null) return;
+  /// Backward-compatible single field update.
+  Future<void> updateField(String fieldId, dynamic value) async {
+    await submitMissingAnswers({fieldId: value});
+  }
 
+  /// Resolves an explicit discrepancy where user profile and document OCR disagree.
+  Future<bool> resolveConflict(String fieldId, dynamic confirmedValue) async {
+    if (_currentSession == null) return false;
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      if (_currentSession!.sessionId.startsWith('app_sess_')) {
+        final updated = await _apiService.resolveConflict(
+          sessionId: _currentSession!.sessionId,
+          fieldId: fieldId,
+          confirmedValue: confirmedValue,
+        );
+        if (updated != null) {
+          _currentSession = updated;
+          _isLoading = false;
+          notifyListeners();
+          return true;
+        }
+      }
+    } catch (e) {
+      debugPrint('ApplicationProvider: resolveConflict error: $e');
+    }
+
+    // Local fallback update
     for (final sec in _currentSession!.sections) {
       for (final f in sec.fields) {
         if (f.fieldId == fieldId) {
@@ -104,56 +185,111 @@ class ApplicationProvider extends ChangeNotifier {
         }
       }
     }
-    _recalculateLocalValidation();
-    notifyListeners();
 
-    if (_currentSession!.sessionId.startsWith('app_sess_')) {
-      try {
-        final updated = await _apiService.confirmConflict(
-          sessionId: _currentSession!.sessionId,
-          fieldId: fieldId,
-          confirmedValue: confirmedValue,
-        );
-        if (updated != null) {
-          _currentSession = updated;
-          notifyListeners();
-        }
-      } catch (e) {
-        debugPrint('ApplicationProvider: Background conflict confirmation error: $e');
-      }
-    }
+    _recalculateLocalCounters();
+    _isLoading = false;
+    notifyListeners();
+    return true;
   }
 
-  /// Requests plain-language explanation for confusing fields.
-  Future<Map<String, String>?> getFieldExplanation(String fieldId, String label, {String language = 'en'}) async {
-    if (_currentSession != null && _currentSession!.sessionId.startsWith('app_sess_')) {
-      return await _apiService.explainField(
-        sessionId: _currentSession!.sessionId,
-        fieldId: fieldId,
-        fieldLabel: label,
-        language: language,
+  /// Fetches declarative population payload and read-back selectors for official portal.
+  Future<PortalPopulationPayloadModel?> fetchPortalPopulationPayload() async {
+    if (_currentSession == null) return null;
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      if (_currentSession!.sessionId.startsWith('app_sess_')) {
+        final payload = await _apiService.getPortalPopulatePayload(_currentSession!.sessionId);
+        _portalPayload = payload;
+        _isLoading = false;
+        notifyListeners();
+        return payload;
+      }
+    } catch (e) {
+      debugPrint('ApplicationProvider: fetchPortalPopulationPayload error: $e');
+    }
+
+    // Local mock payload for offline simulation
+    _portalPayload = PortalPopulationPayloadModel(
+      portalId: '${_currentSession!.schemeId.toLowerCase()}_adapter',
+      portalDomain: _currentSession!.officialUrl ?? 'gov.in',
+      declarativeInstructions: [
+        {'action': 'POPULATE_LOCAL_SIM'}
+      ],
+      manualInterventionRequired: [
+        'Visual Image CAPTCHA must be entered by the citizen',
+        'Mobile OTP Verification required',
+      ],
+    );
+    _isLoading = false;
+    notifyListeners();
+    return _portalPayload;
+  }
+
+  /// Submits DOM read-back inspection data and generates verification report.
+  Future<ReadBackVerificationReportModel?> verifyReadBack(Map<String, dynamic> domValues) async {
+    if (_currentSession == null) return null;
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      if (_currentSession!.sessionId.startsWith('app_sess_')) {
+        final report = await _apiService.verifyPortalReadback(
+          sessionId: _currentSession!.sessionId,
+          readBackData: domValues,
+        );
+        if (report != null) {
+          _readBackReport = report;
+          _currentSession!.readBackReport = report;
+          _isLoading = false;
+          notifyListeners();
+          return report;
+        }
+      }
+    } catch (e) {
+      debugPrint('ApplicationProvider: verifyReadBack error: $e');
+    }
+
+    // Local report synthesis
+    final allFields = _currentSession!.sections.expand((s) => s.fields).toList();
+    final items = <ReadBackFieldItemModel>[];
+    int verified = 0;
+    int unverified = 0;
+
+    for (final f in allFields) {
+      final actual = domValues[f.fieldId] ?? domValues[f.portalSelector];
+      final matches = actual != null && actual.toString() == (f.mappedValue?.toString() ?? '');
+      if (matches) {
+        verified++;
+      } else {
+        unverified++;
+      }
+      items.add(
+        ReadBackFieldItemModel(
+          fieldId: f.fieldId,
+          selector: f.portalSelector ?? f.fieldId,
+          expectedValue: f.mappedValue,
+          readValue: actual,
+          status: matches ? ReadBackFieldStatus.filledVerified : ReadBackFieldStatus.filledUnverified,
+          message: matches ? 'DOM value matches profile' : 'Value mismatch in portal field',
+        ),
       );
     }
 
-    // Local fallback explanation
-    if (language == 'hi') {
-      return {
-        'explanation': 'कृपया अपने आधिकारिक दस्तावेजों के अनुसार $label की सही प्रविष्टि करें।',
-        'example': 'दस्तावेज़ में दर्ज सही जानकारी भरें।',
-        'language': 'hi',
-      };
-    } else if (language.contains('hing')) {
-      return {
-        'explanation': '$label ki sahi details official documents ke mutabiq yahan enter karein.',
-        'example': 'Aadhaar ya certificates check karke bharein.',
-        'language': 'hinglish',
-      };
-    }
-    return {
-      'explanation': 'Please enter accurate information for $label matching your official government documents.',
-      'example': 'Refer to your certificates before filling.',
-      'language': 'en',
-    };
+    final localReport = ReadBackVerificationReportModel(
+      totalFields: allFields.length,
+      verifiedCount: verified,
+      unverifiedCount: unverified,
+      canProceedToReview: unverified == 0,
+      items: items,
+    );
+
+    _readBackReport = localReport;
+    _currentSession!.readBackReport = localReport;
+    _isLoading = false;
+    notifyListeners();
+    return localReport;
   }
 
   /// Validates all sections and fields.
@@ -165,16 +301,17 @@ class ApplicationProvider extends ChangeNotifier {
         final res = await _apiService.validateSession(_currentSession!.sessionId);
         if (res != null) {
           _currentSession!.canSubmit = res['can_submit'] == true;
-          _currentSession!.validationErrors = (res['missing_required_fields'] as List? ?? []).map((e) => 'Missing: $e').toList();
+          _currentSession!.validationErrors =
+              (res['missing_required_fields'] as List? ?? []).map((e) => 'Missing: $e').toList();
           notifyListeners();
           return _currentSession!.canSubmit;
         }
       } catch (e) {
-        debugPrint('ApplicationProvider: Validation API call error: $e');
+        debugPrint('ApplicationProvider: Validation API error: $e');
       }
     }
 
-    _recalculateLocalValidation();
+    _recalculateLocalCounters();
     notifyListeners();
     return _currentSession!.canSubmit;
   }
@@ -186,65 +323,86 @@ class ApplicationProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    bool success = true;
-    if (_currentSession!.sessionId.startsWith('app_sess_')) {
-      success = await _apiService.confirmSubmission(
-        sessionId: _currentSession!.sessionId,
-        explicitApproval: userApproved,
-        acknowledgementNumber: ackNumber,
-      );
+    try {
+      if (_currentSession!.sessionId.startsWith('app_sess_')) {
+        final res = await _apiService.confirmSubmission(
+          sessionId: _currentSession!.sessionId,
+          explicitApproval: userApproved,
+          acknowledgementNumber: ackNumber,
+        );
+        if (res != null) {
+          _currentSession = res;
+          _isLoading = false;
+          notifyListeners();
+          return true;
+        }
+      }
+    } catch (e) {
+      debugPrint('ApplicationProvider: confirmSubmission error: $e');
     }
 
     _currentSession!.status = ApplicationStatus.submittedConfirmed;
     _currentSession!.submissionConfirmed = true;
-    _currentSession!.submissionReference = ackNumber ?? 'SAHAY-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}';
+    _currentSession!.submissionReference =
+        ackNumber ?? 'SAHAY-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}';
     _isLoading = false;
     notifyListeners();
-    return success;
+    return true;
   }
 
-  void _recalculateLocalValidation() {
+  /// Requests plain-language explanation for confusing fields.
+  Future<Map<String, String>?> getFieldExplanation(String fieldId, String label, {String language = 'en'}) async {
+    return _apiService.explainField(
+      sessionId: _currentSession?.sessionId ?? '',
+      fieldId: fieldId,
+      fieldLabel: label,
+      language: language,
+    );
+  }
+
+  // ==========================================
+  // Local Counter & Fallback Helpers
+  // ==========================================
+
+  void _recalculateLocalCounters() {
     if (_currentSession == null) return;
-    final missing = <String>[];
+    int missing = 0;
+    int conflicts = 0;
+    final errors = <String>[];
+
     for (final sec in _currentSession!.sections) {
       for (final f in sec.fields) {
         if (f.isRequired && (f.mappedValue == null || f.mappedValue.toString().trim().isEmpty)) {
-          missing.add(f.fieldLabel);
+          missing++;
+          errors.add('Missing required field: ${f.fieldLabel}');
+        }
+        if (f.conflictDetected && !f.userConfirmed) {
+          conflicts++;
+          errors.add('Unresolved conflict in: ${f.fieldLabel}');
         }
       }
     }
-    _currentSession!.canSubmit = missing.isEmpty;
-    _currentSession!.validationErrors = missing.map((m) => 'Missing required: $m').toList();
+
+    _currentSession!.missingFieldsCount = missing;
+    _currentSession!.conflictsCount = conflicts;
+    _currentSession!.validationErrors = errors;
+    _currentSession!.canSubmit = (missing == 0 && conflicts == 0);
   }
 
-  /// Creates a local fallback session when offline.
   ApplicationSession _createLocalGuidedSession(SchemeModel scheme, Map<String, dynamic>? userAnswers) {
     final answers = userAnswers ?? {};
-
     final personalFields = [
       FieldMappingModel(
         fieldId: 'fullName',
         fieldLabel: 'Full Name (as per Aadhaar)',
         fieldLabelHi: 'पूरा नाम (आधार के अनुसार)',
-        mappedValue: answers['fullName'] ?? 'Citizen User',
-        mappingStatus: answers.containsKey('fullName') ? MappingStatus.prefilled : MappingStatus.missing,
-        sourceType: SourceType.userProfile,
-      ),
-      FieldMappingModel(
-        fieldId: 'mobileNumber',
-        fieldLabel: 'Active Mobile Number',
-        fieldLabelHi: 'सक्रिय मोबाइल नंबर',
-        fieldType: FieldType.phone,
-        mappedValue: answers['mobileNumber'],
-        mappingStatus: answers.containsKey('mobileNumber') ? MappingStatus.prefilled : MappingStatus.missing,
-        sourceType: SourceType.userProfile,
-      ),
-      FieldMappingModel(
-        fieldId: 'aadhaarNumber',
-        fieldLabel: 'Aadhaar Number',
-        fieldLabelHi: 'आधार संख्या',
-        mappedValue: answers['aadhaarNumber'],
-        mappingStatus: answers.containsKey('aadhaarNumber') ? MappingStatus.prefilled : MappingStatus.missing,
+        fieldType: FieldType.text,
+        isRequired: true,
+        mappedValue: answers['fullName'] ?? answers['name'],
+        mappingStatus: (answers['fullName'] != null) ? MappingStatus.prefilled : MappingStatus.missing,
+        provenance: answers['fullName'] != null
+            ? ValueProvenanceModel(field: 'fullName', value: answers['fullName'], source: 'user_profile', lastUpdatedAt: DateTime.now().toIso8601String())
+            : null,
       ),
       FieldMappingModel(
         fieldId: 'gender',
@@ -252,48 +410,53 @@ class ApplicationProvider extends ChangeNotifier {
         fieldLabelHi: 'लिंग',
         fieldType: FieldType.dropdown,
         options: ['Male', 'Female', 'Transgender'],
-        mappedValue: answers['gender'] ?? 'Male',
-        mappingStatus: MappingStatus.prefilled,
+        isRequired: true,
+        mappedValue: answers['gender'],
+        mappingStatus: (answers['gender'] != null) ? MappingStatus.prefilled : MappingStatus.missing,
+      ),
+      FieldMappingModel(
+        fieldId: 'mobileNumber',
+        fieldLabel: 'Aadhaar-Linked Mobile Number',
+        fieldLabelHi: 'आधार से लिंक मोबाइल नंबर',
+        fieldType: FieldType.phone,
+        isRequired: true,
+        mappedValue: answers['mobileNumber'] ?? answers['phone'],
+        mappingStatus: (answers['mobileNumber'] != null) ? MappingStatus.prefilled : MappingStatus.missing,
       ),
     ];
 
-    final residenceFields = [
+    final addressFields = [
       FieldMappingModel(
         fieldId: 'state',
-        fieldLabel: 'State of Residence',
-        fieldLabelHi: 'निवास का राज्य',
+        fieldLabel: 'State / Union Territory',
+        fieldLabelHi: 'राज्य / केंद्र शासित प्रदेश',
         fieldType: FieldType.dropdown,
-        options: ['Madhya Pradesh', 'Uttar Pradesh', 'Maharashtra', 'Rajasthan', 'Bihar', 'Gujarat', 'Delhi'],
+        isRequired: true,
         mappedValue: answers['state'] ?? 'Madhya Pradesh',
         mappingStatus: MappingStatus.prefilled,
       ),
       FieldMappingModel(
         fieldId: 'district',
         fieldLabel: 'District',
-        fieldLabelHi: 'ज़िला',
+        fieldLabelHi: 'जिला',
+        fieldType: FieldType.dropdown,
+        isRequired: true,
         mappedValue: answers['district'],
-        mappingStatus: answers.containsKey('district') ? MappingStatus.prefilled : MappingStatus.missing,
+        mappingStatus: (answers['district'] != null) ? MappingStatus.prefilled : MappingStatus.missing,
       ),
     ];
 
     final financialFields = [
       FieldMappingModel(
-        fieldId: 'annualFamilyIncome',
-        fieldLabel: 'Annual Family Income (in ₹)',
-        fieldLabelHi: 'वार्षिक पारिवारिक आय (₹ में)',
+        fieldId: 'annualIncome',
+        fieldLabel: 'Annual Household Income (₹)',
+        fieldLabelHi: 'वार्षिक पारिवारिक आय (₹)',
         fieldType: FieldType.number,
-        mappedValue: answers['annualIncome'] ?? answers['annualFamilyIncome'],
-        mappingStatus: (answers['annualIncome'] != null || answers['annualFamilyIncome'] != null)
+        isRequired: true,
+        mappedValue: answers['annualFamilyIncome'] ?? answers['annualIncome'],
+        mappingStatus: (answers['annualFamilyIncome'] != null || answers['annualIncome'] != null)
             ? MappingStatus.prefilled
             : MappingStatus.missing,
-        sourceType: SourceType.userProfile,
-      ),
-      FieldMappingModel(
-        fieldId: 'bankAccountNumber',
-        fieldLabel: 'Bank Account Number',
-        fieldLabelHi: 'बैंक खाता संख्या',
-        mappedValue: answers['bankAccountNumber'],
-        mappingStatus: answers.containsKey('bankAccountNumber') ? MappingStatus.prefilled : MappingStatus.missing,
       ),
     ];
 
@@ -301,24 +464,24 @@ class ApplicationProvider extends ChangeNotifier {
       ApplicationSectionModel(
         sectionId: 'sec_personal',
         title: 'Personal & Demographic Details',
-        titleHi: 'व्यक्तिगत और जनसांख्यिकीय विवरण',
+        titleHi: 'व्यक्तिगत एवं जनसांख्यिकीय विवरण',
         fields: personalFields,
       ),
       ApplicationSectionModel(
-        sectionId: 'sec_residence',
-        title: 'Address & Residence Details',
-        titleHi: 'निवास और पता विवरण',
-        fields: residenceFields,
+        sectionId: 'sec_address',
+        title: 'Residential Address Details',
+        titleHi: 'आवासीय पते का विवरण',
+        fields: addressFields,
       ),
       ApplicationSectionModel(
         sectionId: 'sec_financial',
-        title: 'Income & Bank Details',
-        titleHi: 'आय और बैंक विवरण',
+        title: 'Income & Financial Details',
+        titleHi: 'आय एवं वित्तीय विवरण',
         fields: financialFields,
       ),
     ];
 
-    final docs = scheme.requiredDocuments
+    final docRequirements = (scheme.requiredDocuments.isNotEmpty ? scheme.requiredDocuments : ['aadhaar_card', 'bank_passbook'])
         .map((docName) => DocumentRequirementModel(
               documentId: docName.toLowerCase().replaceAll(' ', '_'),
               documentName: docName,
@@ -327,24 +490,20 @@ class ApplicationProvider extends ChangeNotifier {
             ))
         .toList();
 
+    int missing = sections.expand((s) => s.fields).where((f) => f.isRequired && (f.mappedValue == null || f.mappedValue.toString().trim().isEmpty)).length;
+
     return ApplicationSession(
-      sessionId: 'local_sess_${scheme.schemeId}',
+      sessionId: 'local_sess_${DateTime.now().millisecondsSinceEpoch}',
       schemeId: scheme.schemeId,
       schemeName: scheme.name,
       schemeCategory: scheme.category,
-      officialUrl: scheme.applicationUrl ?? scheme.officialSourceUrl,
-      interactionMode: (scheme.schemeId == 'PM_KISAN_001' ||
-              scheme.schemeId == 'PMAY_G_001' ||
-              scheme.schemeId == 'PMAY_U_001' ||
-              scheme.schemeId == 'AICTE_PRAGATI_001' ||
-              (scheme.applicationUrl != null && scheme.applicationUrl!.contains('pmkisan.gov.in')))
-          ? InteractionMode.directWeb
-          : InteractionMode.guidedForm,
+      officialUrl: scheme.applicationUrl,
       status: ApplicationStatus.ready,
       sections: sections,
-      documents: docs,
-      canSubmit: false,
+      documents: docRequirements,
+      missingFieldsCount: missing,
+      conflictsCount: 0,
+      canSubmit: missing == 0,
     );
   }
 }
-

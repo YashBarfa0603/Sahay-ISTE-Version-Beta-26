@@ -1,0 +1,94 @@
+{
+  "schemeId": "UDYAM_001",
+  "name": "Udyam Registration – MSME Portal",
+  "nameHindi": "उद्यम पंजीकरण – एमएसएमई पोर्टल",
+  "description": "Udyam Registration is the official portal for registration of Micro, Small, and Medium Enterprises (MSMEs) in India, providing access to government subsidies, collateral-free loans, and procurement preferences.",
+  "descriptionHindi": "उद्यम पंजीकरण भारत में सूक्ष्म, लघु और मध्यम उद्यमों (MSME) के पंजीकरण का आधिकारिक पोर्टल है, जो सरकारी सब्सिडी, बिना गारंटी ऋण और खरीद प्राथमिकताओं तक पहुंच प्रदान करता है।",
+  "category": "business-entrepreneurship",
+  "tags": [
+    "msme",
+    "business",
+    "entrepreneurship",
+    "self-employed"
+  ],
+  "ministry": "Ministry of Micro, Small and Medium Enterprises",
+  "governmentLevel": "central",
+  "applicableStates": [
+    "ALL_INDIA"
+  ],
+  "benefits": "Permanent registration number and digital certificate; eligibility for Priority Sector Lending (PSL); subsidy on patent and trademark registration; protection against delayed payments under MSMED Act.",
+  "benefitsHindi": "स्थायी पंजीकरण संख्या और ई-प्रमाण पत्र; प्राथमिकता प्राप्त क्षेत्र ऋण (PSL) की पात्रता; पेटेंट और ट्रेडमार्क पंजीकरण पर सब्सिडी; एमएसएमई अधिनियम के तहत विलंबित भुगतान से सुरक्षा।",
+  "eligibilityText": "Any person who intends to establish a micro, small or medium enterprise with valid Aadhaar and PAN.",
+  "eligibilityTextHindi": "कोई भी व्यक्ति जो वैध आधार और पैन के साथ सूक्ष्म, लघु या मध्यम उद्यम स्थापित करना चाहता है।",
+  "eligibilityRules": [
+    {
+      "field": "hasAadhaar",
+      "operator": "isTrue",
+      "value": null,
+      "isMandatory": true,
+      "description": "Applicant must possess a valid Aadhaar number.",
+      "descriptionHindi": "आवेदक के पास वैध आधार संख्या होनी चाहिए।",
+      "sourceUrl": "https://udyamregistration.gov.in"
+    },
+    {
+      "field": "hasPan",
+      "operator": "isTrue",
+      "value": null,
+      "isMandatory": true,
+      "description": "Valid PAN is mandatory for all business entities and proprietors.",
+      "descriptionHindi": "सभी व्यावसायिक इकाइयों और स्वामियों के लिए वैध पैन अनिवार्य है।",
+      "sourceUrl": "https://udyamregistration.gov.in"
+    }
+  ],
+  "requiredDocuments": [
+    "Aadhaar Card",
+    "PAN Card",
+    "Bank Account Passbook / Cancelled Cheque"
+  ],
+  "requiredDocumentsHindi": [
+    "आधार कार्ड",
+    "पैन कार्ड",
+    "बैंक खाता पासबुक / रद्द चेक"
+  ],
+  "applicationProcess": "1. Visit the official Udyam Registration portal (udyamregistration.gov.in). 2. Select 'For New Entrepreneurs who are not Registered yet as MSME'. 3. Enter Aadhaar Number and Name as per Aadhaar. 4. Complete Aadhaar OTP validation. 5. Enter PAN and business details. 6. Submit final declaration with OTP.",
+  "applicationProcessHindi": "1. आधिकारिक उद्यम पंजीकरण पोर्टल udyamregistration.gov.in पर जाएं। 2. 'नए उद्यमी जो अभी तक एमएसएमई के रूप में पंजीकृत नहीं हैं' चुनें। 3. आधार संख्या और नाम दर्ज करें। 4. आधार ओटीपी सत्यापन पूरा करें। 5. पैन और व्यवसाय विवरण दर्ज करें। 6. ओटीपी के साथ अंतिम घोषणा जमा करें।",
+  "applicationUrl": "https://udyamregistration.gov.in/Udyam_Registration.aspx",
+  "officialSourceUrl": "https://udyamregistration.gov.in",
+  "sourceName": "Udyam Registration Portal",
+  "sourceUrls": [
+    "https://udyamregistration.gov.in",
+    "https://udyamregistration.gov.in/Udyam_Registration.aspx"
+  ],
+  "sourceType": "curated",
+  "discoveredAt": null,
+  "verificationStatus": "verified",
+  "verifiedBy": "agent",
+  "status": "active",
+  "lastVerified": "2026-10-31T01:00:00Z",
+  "isPopular": true,
+  "popularityRank": 4,
+  "searchKeywords": [
+    "udyam",
+    "msme",
+    "registration",
+    "business",
+    "industry",
+    "small business",
+    "enterprise",
+    "उद्यम",
+    "एमएसएमई"
+  ],
+  "nameLower": "udyam registration – msme portal",
+  "dataQuality": {
+    "hasBenefits": true,
+    "hasDocuments": true,
+    "hasRules": true,
+    "hasHindi": true,
+    "hindiReviewed": true,
+    "flags": ["supported_autofill_scheme"]
+  },
+  "schemaVersion": 2,
+  "createdAt": "2026-10-31T01:00:00Z",
+  "updatedAt": "2026-10-31T01:00:00Z"
+}
+

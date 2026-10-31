@@ -1,0 +1,264 @@
+{
+  "archetypes": [
+    {
+      "id": "archetype_01_farmer",
+      "targetSchemeId": "PM_KISAN_001",
+      "targetSchemeName": "PM-KISAN – Pradhan Mantri Kisan Samman Nidhi",
+      "description": "Small and Marginal Farmer with 1.8 hectares of agricultural land",
+      "profile": {
+        "fullName": "Ramesh Chandra Patel",
+        "gender": "Male",
+        "dob": "1978-05-12",
+        "fatherName": "Kashiram Patel",
+        "mobileNumber": "9826012345",
+        "state": "Madhya Pradesh",
+        "district": "Sehore",
+        "subDistrict": "Ichhawar",
+        "block": "Ichhawar",
+        "village": "Brijisnagar",
+        "pincode": "466115",
+        "casteCategory": "OBC",
+        "occupation": "Farmer",
+        "isFarmer": true,
+        "landAreaHectares": 1.8,
+        "khasraNumber": "142/2",
+        "bankAccountNumber": "309812345678",
+        "ifscCode": "SBIN0001234",
+        "annualIncome": 120000
+      },
+      "documents": [
+        {"type": "aadhaar_card", "maskedNumber": "XXXXXXXX4321", "name": "Ramesh Chandra Patel"},
+        {"type": "bank_passbook", "accountNumber": "309812345678", "ifsc": "SBIN0001234"},
+        {"type": "land_records", "khasra": "142/2", "area": "1.8 Hectares"}
+      ]
+    },
+    {
+      "id": "archetype_02_urban_housing",
+      "targetSchemeId": "PMAY_002",
+      "targetSchemeName": "PMAY-U 2.0 – Pradhan Mantri Awas Yojana Urban",
+      "description": "Low-income urban family living in rented accommodation",
+      "profile": {
+        "fullName": "Sunita Devi Sharma",
+        "gender": "Female",
+        "dob": "1985-08-22",
+        "fatherName": "Mohan Lal Sharma",
+        "mobileNumber": "9893012345",
+        "state": "Madhya Pradesh",
+        "district": "Bhopal",
+        "cityName": "Bhopal Municipal Corporation",
+        "currentAddress": "House No. 42, Ward 24, Kolar Road, Bhopal",
+        "pincode": "462042",
+        "casteCategory": "General",
+        "annualIncome": 240000,
+        "bankAccountNumber": "50100234567890",
+        "ifscCode": "HDFC0000123"
+      },
+      "documents": [
+        {"type": "aadhaar_card", "maskedNumber": "XXXXXXXX8765", "name": "Sunita Devi Sharma"},
+        {"type": "income_certificate", "income": 240000, "tehsildar": "Huzur Bhopal"}
+      ]
+    },
+    {
+      "id": "archetype_03_unorganised_worker",
+      "targetSchemeId": "E_SHRAM_001",
+      "targetSchemeName": "e-Shram Portal Registration",
+      "description": "Unorganised construction laborer seeking national social security card",
+      "profile": {
+        "fullName": "Mukesh Kumar Verma",
+        "gender": "Male",
+        "dob": "1992-11-04",
+        "mobileNumber": "9755012345",
+        "state": "Madhya Pradesh",
+        "district": "Indore",
+        "fullAddress": "Nanda Nagar, Sector C, Indore",
+        "pincode": "452011",
+        "occupation": "Construction Worker",
+        "primaryOccupation": "Masonry and Concrete Works",
+        "annualIncome": 96000,
+        "bankAccountNumber": "91234567890123",
+        "ifscCode": "PUNB0123400"
+      },
+      "documents": [
+        {"type": "aadhaar_card", "maskedNumber": "XXXXXXXX9812", "name": "Mukesh Kumar Verma"},
+        {"type": "bank_passbook", "accountNumber": "91234567890123", "ifsc": "PUNB0123400"}
+      ]
+    },
+    {
+      "id": "archetype_04_micro_enterprise",
+      "targetSchemeId": "UDYAM_001",
+      "targetSchemeName": "Udyam Registration – Ministry of MSME",
+      "description": "Micro manufacturing enterprise owner registering nano-unit",
+      "profile": {
+        "fullName": "Ankit Bansal",
+        "gender": "Male",
+        "dob": "1989-03-15",
+        "mobileNumber": "9425012345",
+        "email": "ankit.bansal@agrocraft.in",
+        "panNumber": "ABCDE1234F",
+        "enterpriseName": "Bansal Agro Handicrafts",
+        "state": "Madhya Pradesh",
+        "district": "Gwalior",
+        "pinCode": "474001",
+        "bankAccountNumber": "0123000100203040",
+        "ifscCode": "BARB0GWALIO"
+      },
+      "documents": [
+        {"type": "aadhaar_card", "maskedNumber": "XXXXXXXX2345", "name": "Ankit Bansal"},
+        {"type": "pan_card", "pan": "ABCDE1234F"}
+      ]
+    },
+    {
+      "id": "archetype_05_solar_rooftop",
+      "targetSchemeId": "PM_SURYA_GHAR_001",
+      "targetSchemeName": "PM Surya Ghar: Muft Bijli Yojana",
+      "description": "Urban homeowner applying for 3kW rooftop solar subsidy",
+      "profile": {
+        "fullName": "Deepak Raghuwanshi",
+        "gender": "Male",
+        "mobileNumber": "9827012345",
+        "email": "deepak.raghu@gmail.com",
+        "state": "Madhya Pradesh",
+        "district": "Jabalpur",
+        "electricityDistributionCompany": "MP Poorv Kshetra Vidyut Vitaran Company (MPPKVVCL)",
+        "consumerAccountNumber": "N1234567890",
+        "rooftopArea": "450 sq ft",
+        "proposedCapacity": "3 kW"
+      },
+      "documents": [
+        {"type": "electricity_bill", "consumerNumber": "N1234567890", "sanctionedLoad": "4 kW"},
+        {"type": "aadhaar_card", "maskedNumber": "XXXXXXXX3456", "name": "Deepak Raghuwanshi"}
+      ]
+    },
+    {
+      "id": "archetype_06_street_vendor",
+      "targetSchemeId": "PM_SVANIDHI_001",
+      "targetSchemeName": "PM SVANidhi – Street Vendor's AtmaNirbhar Nidhi",
+      "description": "Urban vegetable vendor seeking first tranche micro-credit loan",
+      "profile": {
+        "fullName": "Santosh Bai Sen",
+        "gender": "Female",
+        "dob": "1980-07-19",
+        "fatherName": "Devram Sen",
+        "mobileNumber": "9981012345",
+        "state": "Madhya Pradesh",
+        "district": "Ujjain",
+        "vendingActivity": "Fresh Fruits and Vegetables",
+        "vendingLocation": "Dewas Gate Market, Ujjain",
+        "bankAccountNumber": "60123456789",
+        "ifscCode": "MAHB0000123"
+      },
+      "documents": [
+        {"type": "aadhaar_card", "maskedNumber": "XXXXXXXX6789", "name": "Santosh Bai Sen"},
+        {"type": "vending_certificate", "lorNumber": "ULB-UJJ-2026-8812"}
+      ]
+    },
+    {
+      "id": "archetype_07_rural_entrepreneur",
+      "targetSchemeId": "PMEGP_001",
+      "targetSchemeName": "PMEGP – Prime Minister's Employment Generation Programme",
+      "description": "Rural youth setting up a flour mill and spice processing unit",
+      "profile": {
+        "fullName": "Pooja Kushwaha",
+        "gender": "Female",
+        "dob": "1997-09-10",
+        "mobileNumber": "9685012345",
+        "email": "pooja.spices@gmail.com",
+        "casteCategory": "OBC",
+        "state": "Madhya Pradesh",
+        "district": "Rewa",
+        "educationalQualification": "Graduate",
+        "proposedProjectCost": 950000,
+        "industryType": "Agro Processing (Flour and Spice Grinding Unit)",
+        "bankAccountNumber": "1002345678901",
+        "ifscCode": "CBIN0280123"
+      },
+      "documents": [
+        {"type": "aadhaar_card", "maskedNumber": "XXXXXXXX1122", "name": "Pooja Kushwaha"},
+        {"type": "project_report", "projectCost": 950000},
+        {"type": "educational_certificate", "degree": "Bachelor of Arts"}
+      ]
+    },
+    {
+      "id": "archetype_08_scholarship_student",
+      "targetSchemeId": "MP_POST_MATRIC_SCHOLARSHIP_SC_ST_001",
+      "targetSchemeName": "Madhya Pradesh Post-Matric Scholarship Scheme for SC/ST",
+      "description": "College student enrolled in B.Tech program in Bhopal",
+      "profile": {
+        "fullName": "Rahul Ahirwar",
+        "gender": "Male",
+        "dob": "2005-02-14",
+        "fatherName": "Gopal Ahirwar",
+        "mobileNumber": "9111012345",
+        "samagraId": "123456789",
+        "state": "Madhya Pradesh",
+        "district": "Sagar",
+        "casteCategory": "SC",
+        "institutionName": "University Institute of Technology, Bhopal",
+        "courseName": "B.Tech Computer Science",
+        "admissionYear": 2024,
+        "annualFamilyIncome": 140000,
+        "bankAccountNumber": "0012345678901234",
+        "ifscCode": "BKID0009876"
+      },
+      "documents": [
+        {"type": "aadhaar_card", "maskedNumber": "XXXXXXXX5544", "name": "Rahul Ahirwar"},
+        {"type": "caste_certificate", "certificateNo": "RS/45/2022/1009"},
+        {"type": "income_certificate", "annualIncome": 140000}
+      ]
+    },
+    {
+      "id": "archetype_09_female_tech_student",
+      "targetSchemeId": "AICTE_PRAGATI_001",
+      "targetSchemeName": "AICTE Pragati Scholarship for Girl Students (Technical Degree)",
+      "description": "First-year female engineering degree student",
+      "profile": {
+        "fullName": "Ananya Shrivastava",
+        "gender": "Female",
+        "dob": "2006-04-18",
+        "mobileNumber": "9300012345",
+        "email": "ananya.shriv@gmail.com",
+        "state": "Madhya Pradesh",
+        "district": "Indore",
+        "institutionName": "SGSITS Indore",
+        "courseName": "B.Tech Information Technology",
+        "annualFamilyIncome": 380000,
+        "bankAccountNumber": "45670100012345",
+        "ifscCode": "IDIB000I023"
+      },
+      "documents": [
+        {"type": "aadhaar_card", "maskedNumber": "XXXXXXXX7788", "name": "Ananya Shrivastava"},
+        {"type": "admission_letter", "institute": "SGSITS Indore", "branch": "IT"},
+        {"type": "income_certificate", "income": 380000}
+      ]
+    },
+    {
+      "id": "archetype_10_disabled_student",
+      "targetSchemeId": "AICTE_SAKSHAM_001",
+      "targetSchemeName": "AICTE Saksham Scholarship for Specially-Abled Students",
+      "description": "Specially-abled diploma student with certified 45% locomotor disability",
+      "profile": {
+        "fullName": "Vikas Tiwari",
+        "gender": "Male",
+        "dob": "2004-10-30",
+        "mobileNumber": "9826998877",
+        "email": "vikas.tiwari@gmail.com",
+        "state": "Madhya Pradesh",
+        "district": "Rewa",
+        "isSpeciallyAbled": true,
+        "disabilityType": "Locomotor Disability",
+        "disabilityPercentage": 45,
+        "udidNumber": "MP24102004001234",
+        "institutionName": "Government Polytechnic College, Rewa",
+        "courseName": "Diploma in Mechanical Engineering",
+        "annualFamilyIncome": 220000,
+        "bankAccountNumber": "78901234567890",
+        "ifscCode": "UBIN0543210"
+      },
+      "documents": [
+        {"type": "aadhaar_card", "maskedNumber": "XXXXXXXX9900", "name": "Vikas Tiwari"},
+        {"type": "disability_certificate", "udid": "MP24102004001234", "percentage": 45},
+        {"type": "income_certificate", "income": 220000}
+      ]
+    }
+  ]
+}

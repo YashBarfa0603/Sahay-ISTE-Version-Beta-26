@@ -23,8 +23,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:sahay/models/application_model.dart';
 import 'package:sahay/providers/application_provider.dart';
 import 'package:sahay/providers/user_profile_provider.dart';
-import 'package:sahay/screens/application/guided_application_screen.dart';
-import 'package:sahay/screens/application/application_webview_screen.dart';
+import 'package:sahay/screens/application/smart_filler_preparation_screen.dart';
 
 class SchemeDetailScreen extends StatefulWidget {
   final SchemeModel scheme;
@@ -122,23 +121,11 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
     if (!context.mounted) return;
     Navigator.of(context).pop();
 
-    final session = appProvider.currentSession;
-    if (session != null &&
-        session.interactionMode == InteractionMode.directWeb &&
-        widget.scheme.applicationUrl != null &&
-        widget.scheme.applicationUrl!.trim().isNotEmpty) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => ApplicationWebViewScreen(scheme: widget.scheme),
-        ),
-      );
-    } else {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => GuidedApplicationScreen(scheme: widget.scheme),
-        ),
-      );
-    }
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => SmartFillerPreparationScreen(scheme: widget.scheme),
+      ),
+    );
   }
 
   void _shareScheme(BuildContext context) {
@@ -1055,9 +1042,10 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
           const SizedBox(height: 24),
 
           // ------------------------------------
-          // PROMINENT PRIMARY ACTION: APPLY WITH SAHAY
+          // PROMINENT PRIMARY ACTION: APPLY WITH SAHAY (10-Scheme Smart Application Filler)
           // ------------------------------------
-          Container(
+          if (context.watch<ApplicationProvider>().isSchemeSupported(widget.scheme.schemeId))
+            Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               gradient: const LinearGradient(

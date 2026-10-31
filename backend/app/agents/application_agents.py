@@ -27,7 +27,6 @@ from backend.app.schemas.application_schema import (
     DocumentVerificationStatus,
     FieldMapping,
     FieldType,
-    InteractionMode,
     MappingStatus,
     SourceType,
 )

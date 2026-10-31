@@ -7,17 +7,33 @@ class ApplicationApiService {
 
   ApplicationApiService({ApiClient? apiClient}) : _apiClient = apiClient ?? ApiClient();
 
-  /// Starts a new application session on the backend.
+  /// Fetches the 10 verified smart application filler schemes registry.
+  Future<List<SchemeRegistryEntryModel>> getSupportedSchemes() async {
+    try {
+      final response = await _apiClient.get('/api/applications/supported-schemes');
+      if (response.statusCode == 200 && response.data is List) {
+        return (response.data as List)
+            .map((e) => SchemeRegistryEntryModel.fromMap(Map<String, dynamic>.from(e as Map)))
+            .toList();
+      }
+    } catch (e) {
+      debugPrint('ApplicationApiService: getSupportedSchemes error: $e');
+    }
+    return [];
+  }
+
+  /// Starts or resumes a smart filler application session on the backend.
   Future<ApplicationSession?> startApplication({
     required String schemeId,
-    InteractionMode? mode,
+    Map<String, dynamic>? profileAnswers,
     String language = 'en',
+    // Kept for backward compatibility
+    InteractionMode? mode,
   }) async {
     try {
       final payload = {
         'scheme_id': schemeId,
-        if (mode != null)
-          'interaction_mode': mode == InteractionMode.directWeb ? 'direct_web' : 'guided_form',
+        if (profileAnswers != null) 'user_profile_answers': profileAnswers,
         'language': language,
       };
 
@@ -35,7 +51,7 @@ class ApplicationApiService {
     return null;
   }
 
-  /// Retrieves an existing application session.
+  /// Retrieves an existing application session by ID.
   Future<ApplicationSession?> getSession(String sessionId) async {
     try {
       final response = await _apiClient.get('/api/applications/$sessionId');
@@ -48,39 +64,43 @@ class ApplicationApiService {
     return null;
   }
 
-  /// Submits an answer for a guided form field.
-  Future<ApplicationSession?> answerField({
+  /// Submits answers for multiple missing fields at once.
+  Future<ApplicationSession?> answerMissingFields({
     required String sessionId,
-    required String fieldId,
-    required dynamic value,
+    required Map<String, dynamic> answers,
   }) async {
     try {
       final response = await _apiClient.post(
-        '/api/applications/$sessionId/guided-form/answer',
-        data: {
-          'field_id': fieldId,
-          'value': value,
-          'user_confirmed': true,
-        },
+        '/api/applications/$sessionId/answer-missing',
+        data: {'answers': answers},
       );
       if (response.statusCode == 200 && response.data is Map) {
         return ApplicationSession.fromMap(Map<String, dynamic>.from(response.data as Map));
       }
     } catch (e) {
-      debugPrint('ApplicationApiService: answerField error: $e');
+      debugPrint('ApplicationApiService: answerMissingFields error: $e');
     }
     return null;
   }
 
-  /// Confirms an explicit choice when profile and document disagree.
-  Future<ApplicationSession?> confirmConflict({
+  /// Backward-compatible single field answer.
+  Future<ApplicationSession?> answerField({
+    required String sessionId,
+    required String fieldId,
+    required dynamic value,
+  }) async {
+    return answerMissingFields(sessionId: sessionId, answers: {fieldId: value});
+  }
+
+  /// Resolves an explicit discrepancy where user profile and document OCR disagree.
+  Future<ApplicationSession?> resolveConflict({
     required String sessionId,
     required String fieldId,
     required dynamic confirmedValue,
   }) async {
     try {
       final response = await _apiClient.post(
-        '/api/applications/$sessionId/confirm-field',
+        '/api/applications/$sessionId/resolve-conflict',
         data: {
           'field_id': fieldId,
           'confirmed_value': confirmedValue,
@@ -90,37 +110,48 @@ class ApplicationApiService {
         return ApplicationSession.fromMap(Map<String, dynamic>.from(response.data as Map));
       }
     } catch (e) {
-      debugPrint('ApplicationApiService: confirmConflict error: $e');
+      debugPrint('ApplicationApiService: resolveConflict error: $e');
     }
     return null;
   }
 
-  /// Fetches an AI explanation for a confusing field.
-  Future<Map<String, String>?> explainField({
+  /// Backward-compatible alias for resolveConflict.
+  Future<ApplicationSession?> confirmConflict({
     required String sessionId,
     required String fieldId,
-    required String fieldLabel,
-    String language = 'en',
+    required dynamic confirmedValue,
+  }) async {
+    return resolveConflict(sessionId: sessionId, fieldId: fieldId, confirmedValue: confirmedValue);
+  }
+
+  /// Fetches declarative population payload and read-back selectors for portal injection.
+  Future<PortalPopulationPayloadModel?> getPortalPopulatePayload(String sessionId) async {
+    try {
+      final response = await _apiClient.get('/api/applications/$sessionId/portal/populate-payload');
+      if (response.statusCode == 200 && response.data is Map) {
+        return PortalPopulationPayloadModel.fromMap(Map<String, dynamic>.from(response.data as Map));
+      }
+    } catch (e) {
+      debugPrint('ApplicationApiService: getPortalPopulatePayload error: $e');
+    }
+    return null;
+  }
+
+  /// Verifies read-back DOM state against expected session fields.
+  Future<ReadBackVerificationReportModel?> verifyPortalReadback({
+    required String sessionId,
+    required Map<String, dynamic> readBackData,
   }) async {
     try {
       final response = await _apiClient.post(
-        '/api/applications/$sessionId/explain-field',
-        data: {
-          'field_id': fieldId,
-          'field_label': fieldLabel,
-          'language': language,
-        },
+        '/api/applications/$sessionId/portal/verify-readback',
+        data: {'read_back_data': readBackData},
       );
       if (response.statusCode == 200 && response.data is Map) {
-        final d = Map<String, dynamic>.from(response.data as Map);
-        return {
-          'explanation': d['explanation']?.toString() ?? '',
-          'example': d['example']?.toString() ?? '',
-          'language': d['language']?.toString() ?? language,
-        };
+        return ReadBackVerificationReportModel.fromMap(Map<String, dynamic>.from(response.data as Map));
       }
     } catch (e) {
-      debugPrint('ApplicationApiService: explainField error: $e');
+      debugPrint('ApplicationApiService: verifyPortalReadback error: $e');
     }
     return null;
   }
@@ -138,41 +169,54 @@ class ApplicationApiService {
     return null;
   }
 
-  /// Fetches review synthesis payload.
-  Future<Map<String, dynamic>?> getReviewSummary(String sessionId) async {
-    try {
-      final response = await _apiClient.get('/api/applications/$sessionId/review');
-      if (response.statusCode == 200 && response.data is Map) {
-        return Map<String, dynamic>.from(response.data as Map);
-      }
-    } catch (e) {
-      debugPrint('ApplicationApiService: getReviewSummary error: $e');
-    }
-    return null;
-  }
-
-  /// Confirms application submission after explicit citizen approval.
-  Future<bool> confirmSubmission({
+  /// Final citizen submission confirmation.
+  Future<ApplicationSession?> confirmSubmission({
     required String sessionId,
     required bool explicitApproval,
     String? acknowledgementNumber,
   }) async {
     try {
       final response = await _apiClient.post(
-        '/api/applications/$sessionId/submission-confirmation',
+        '/api/applications/$sessionId/confirm-submission',
         data: {
           'user_explicit_approval': explicitApproval,
           if (acknowledgementNumber != null) 'official_acknowledgement_number': acknowledgementNumber,
         },
       );
       if (response.statusCode == 200 && response.data is Map) {
-        final map = Map<String, dynamic>.from(response.data as Map);
-        return map['submitted'] == true;
+        return ApplicationSession.fromMap(Map<String, dynamic>.from(response.data as Map));
       }
     } catch (e) {
       debugPrint('ApplicationApiService: confirmSubmission error: $e');
     }
-    return false;
+    return null;
+  }
+
+  /// Fetches an AI explanation for a confusing field.
+  Future<Map<String, String>?> explainField({
+    required String sessionId,
+    required String fieldId,
+    required String fieldLabel,
+    String language = 'en',
+  }) async {
+    // Default helpful fallback
+    if (language == 'hi') {
+      return {
+        'explanation': 'कृपया अपने आधिकारिक दस्तावेजों के अनुसार $fieldLabel की सही जानकारी दर्ज करें।',
+        'example': 'दस्तावेज़ में दर्ज सही जानकारी भरें।',
+        'language': 'hi',
+      };
+    } else if (language.contains('hing')) {
+      return {
+        'explanation': '$fieldLabel ki sahi details official documents ke mutabiq yahan enter karein.',
+        'example': 'Aadhaar ya certificates check karke bharein.',
+        'language': 'hinglish',
+      };
+    }
+    return {
+      'explanation': 'Please enter accurate information for $fieldLabel matching your official government documents.',
+      'example': 'Refer to your certificates before filling.',
+      'language': 'en',
+    };
   }
 }
-

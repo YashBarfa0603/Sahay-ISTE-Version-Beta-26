@@ -1,7 +1,8 @@
 """
-Pydantic Schemas for SAHAY Agentic AI Application Assistant.
-Covers Application Sessions, Document OCR Extraction, Field Mappings,
-Guided Forms, Direct Web Portal Integration, and Verification.
+Pydantic Schemas for SAHAY Smart Application Filler.
+Covers 10-Scheme Unified Application Sessions, Citizen Normalized Store,
+Data Provenance, Document OCR, Form Configurations, Portal Adapters,
+and Read-Back Verification.
 """
 
 from enum import Enum
@@ -9,19 +10,16 @@ from typing import Any, Dict, List, Optional, Union
 from pydantic import BaseModel, Field
 
 
-class InteractionMode(str, Enum):
-    DIRECT_WEB = "direct_web"
-    GUIDED_FORM = "guided_form"
-
-
 class ApplicationStatus(str, Enum):
     PREPARING = "preparing"
     READY = "ready"
     IN_PROGRESS = "in_progress"
     AWAITING_USER_INPUT = "awaiting_user_input"
-    AWAITING_CONFIRMATION = "awaiting_confirmation"
-    VALIDATION_REQUIRED = "validation_required"
-    READY_FOR_SUBMISSION = "ready_for_submission"
+    AWAITING_PORTAL_AUTH = "awaiting_portal_auth"
+    FILLING_PORTAL = "filling_portal"
+    READBACK_VERIFYING = "readback_verifying"
+    READY_FOR_REVIEW = "ready_for_review"
+    AWAITING_FINAL_APPROVAL = "awaiting_final_approval"
     SUBMITTED_CONFIRMED = "submitted_confirmed"
     CANCELLED = "cancelled"
     FAILED = "failed"
@@ -51,17 +49,17 @@ class MappingStatus(str, Enum):
 
 class SourceType(str, Enum):
     USER_PROFILE = "user_profile"
-    UPLOADED_DOCUMENT = "uploaded_document"
-    USER_INPUT = "user_input"
+    USER_CONFIRMED_ANSWER = "user_confirmed_answer"
+    DOCUMENT_OCR = "document_ocr"
+    DOCUMENT_METADATA = "document_metadata"
+    PREVIOUSLY_CONFIRMED_APPLICATION_DATA = "previously_confirmed_application_data"
     OFFICIAL_PORTAL = "official_portal"
 
 
 class PortalCompatibilityStatus(str, Enum):
-    TESTED_SUPPORTED = "tested_supported"
+    FULLY_SUPPORTED = "fully_supported"
     PARTIALLY_SUPPORTED = "partially_supported"
-    GUIDED_ONLY = "guided_only"
-    UNSUPPORTED = "unsupported"
-    NOT_TESTED = "not_tested"
+    BLOCKED = "blocked"
 
 
 class DocumentVerificationStatus(str, Enum):
@@ -73,8 +71,113 @@ class DocumentVerificationStatus(str, Enum):
     UNVERIFIED = "unverified"
 
 
+class ReadBackFieldStatus(str, Enum):
+    FILLED_VERIFIED = "filled_verified"
+    FILLED_UNVERIFIED = "filled_unverified"
+    NEEDS_USER_CONFIRMATION = "needs_user_confirmation"
+    MANUAL_ACTION_REQUIRED = "manual_action_required"
+    MISSING = "missing"
+    FAILED = "failed"
+    UNSUPPORTED = "unsupported"
+
+
+# ==========================================
+# Provenance & Citizen Profile Schemas
+# ==========================================
+
+
+class ValueProvenance(BaseModel):
+    """Detailed provenance tracking for every field in SAHAY."""
+
+    field: str
+    value: Any
+    source: str = "user_profile"  # user_profile, document_ocr, user_confirmed_answer, etc.
+    verification_status: str = "self_reported"  # self_reported, ocr_extracted, user_confirmed, verified
+    source_document_id: Optional[str] = None
+    confidence: float = 1.0
+    last_updated_at: str
+
+
+class PersonalInformation(BaseModel):
+    full_name: Optional[str] = None
+    dob: Optional[str] = None
+    gender: Optional[str] = None
+    age: Optional[int] = None
+    father_name: Optional[str] = None
+
+
+class ContactInformation(BaseModel):
+    mobile_number: Optional[str] = None
+    email: Optional[str] = None
+
+
+class AddressInformation(BaseModel):
+    state: Optional[str] = None
+    district: Optional[str] = None
+    sub_district: Optional[str] = None
+    block: Optional[str] = None
+    village: Optional[str] = None
+    city: Optional[str] = None
+    pincode: Optional[str] = None
+    full_address: Optional[str] = None
+
+
+class SocialInformation(BaseModel):
+    caste_category: Optional[str] = None  # General, OBC, SC, ST
+    marital_status: Optional[str] = None
+    is_disabled: bool = False
+    disability_type: Optional[str] = None
+    disability_percentage: Optional[int] = None
+
+
+class FinancialInformation(BaseModel):
+    annual_income: Optional[int] = None
+    household_income: Optional[int] = None
+    bank_account_holder: Optional[str] = None
+    bank_name: Optional[str] = None
+    bank_account_number: Optional[str] = None
+    ifsc_code: Optional[str] = None
+
+
+class OccupationInformation(BaseModel):
+    employment_type: Optional[str] = None
+    occupation_name: Optional[str] = None
+    business_name: Optional[str] = None
+    is_farmer: bool = False
+    land_area_hectares: Optional[float] = None
+    khasra_number: Optional[str] = None
+    vending_activity: Optional[str] = None
+
+
+class EducationInformation(BaseModel):
+    institution_name: Optional[str] = None
+    course_name: Optional[str] = None
+    qualification: Optional[str] = None
+    admission_year: Optional[int] = None
+    marks_percentage: Optional[float] = None
+
+
+class NormalizedCitizenProfile(BaseModel):
+    """Normalized citizen profile collation from SAHAY profile and Document Vault."""
+
+    user_id: str
+    personal: PersonalInformation = PersonalInformation()
+    contact: ContactInformation = ContactInformation()
+    address: AddressInformation = AddressInformation()
+    social: SocialInformation = SocialInformation()
+    financial: FinancialInformation = FinancialInformation()
+    occupation: OccupationInformation = OccupationInformation()
+    education: EducationInformation = EducationInformation()
+    provenance_map: Dict[str, ValueProvenance] = {}
+
+
+# ==========================================
+# Field Mapping & Section Schemas
+# ==========================================
+
+
 class FieldMapping(BaseModel):
-    """Represents a single application field with intelligent mapping and validation."""
+    """Represents a single application field with provenance, mapping and validation."""
 
     field_id: str
     field_label: str
@@ -93,13 +196,16 @@ class FieldMapping(BaseModel):
     explanation: Optional[str] = None
     explanation_hi: Optional[str] = None
     explanation_hinglish: Optional[str] = None
-    conditional_on: Optional[Dict[str, Any]] = None  # e.g. {"field_id": "hasDisability", "value": True}
+    conditional_on: Optional[Dict[str, Any]] = None
     conflict_detected: bool = False
-    conflict_details: Optional[Dict[str, Any]] = None  # profile_val, doc_val, description
+    conflict_details: Optional[Dict[str, Any]] = None
+    provenance: Optional[ValueProvenance] = None
+    portal_selector: Optional[str] = None
+    read_back_status: Optional[ReadBackFieldStatus] = None
 
 
 class ApplicationSection(BaseModel):
-    """Logical section of the application form."""
+    """Logical section of the unified application form."""
 
     section_id: str
     title: str
@@ -120,27 +226,71 @@ class DocumentRequirement(BaseModel):
     verification_status: DocumentVerificationStatus = DocumentVerificationStatus.UNVERIFIED
     extracted_info: Optional[Dict[str, Any]] = None
     storage_path: Optional[str] = None
+    portal_upload_supported: bool = False
+    portal_upload_selector: Optional[str] = None
+    max_size_kb: int = 500
 
 
-class PortalAdapterInfo(BaseModel):
-    """Metadata regarding official government portal integration."""
+# ==========================================
+# Central 10-Scheme Registry Schema
+# ==========================================
 
-    portal_id: str
-    official_domain: str
-    official_application_url: str
-    scheme_ids: List[str] = []
-    interaction_mode: InteractionMode = InteractionMode.GUIDED_FORM
-    adapter_id: str
-    supported_fields: List[str] = []
-    document_upload_supported: bool = False
-    authentication_requirements: str = "none"
-    known_restrictions: List[str] = []
-    compatibility_status: PortalCompatibilityStatus = PortalCompatibilityStatus.GUIDED_ONLY
-    last_tested_at: str = "2026-10-31"
+
+class SchemeRegistryEntry(BaseModel):
+    """Central registry model for the 10 supported government scheme workflows."""
+
+    schemeId: str
+    schemeName: str
+    alternateNames: List[str] = []
+    category: str
+    stateOrCentral: str  # central, state
+    officialSchemeUrl: str
+    officialApplicationUrl: str
+    applicationMode: str = "smart_filler"  # unified assistant mode
+    portalDomain: str
+    adapterId: str
+    supportedFields: List[str] = []
+    requiredDocuments: List[str] = []
+    authenticationRequirements: str  # aadhaar_otp, mobile_otp, etc.
+    manualInterventionRequirements: List[str] = []
+    portalCompatibilityStatus: PortalCompatibilityStatus = PortalCompatibilityStatus.FULLY_SUPPORTED
+    lastTestedAt: str
+    lastVerifiedAt: str
+    applicationAvailabilityStatus: str  # active_accepting_applications, seasonal, portal_maintenance
+    knownLimitations: List[str] = []
+
+
+# ==========================================
+# Read-Back Verification Schemas
+# ==========================================
+
+
+class ReadBackFieldItem(BaseModel):
+    field_id: str
+    selector: str
+    expected_value: Any
+    read_value: Optional[Any] = None
+    status: ReadBackFieldStatus
+    message: Optional[str] = None
+
+
+class ReadBackVerificationReport(BaseModel):
+    total_fields: int
+    verified_count: int
+    unverified_count: int
+    manual_action_count: int
+    failed_count: int
+    items: List[ReadBackFieldItem] = []
+    can_proceed_to_review: bool = False
+
+
+# ==========================================
+# Master Application Session
+# ==========================================
 
 
 class ApplicationSessionModel(BaseModel):
-    """Master application assistance session."""
+    """Master application assistance session with resumable state."""
 
     session_id: str
     user_id: str
@@ -148,13 +298,15 @@ class ApplicationSessionModel(BaseModel):
     scheme_name: str
     scheme_category: str
     official_application_url: Optional[str] = None
-    interaction_mode: InteractionMode
     portal_adapter_id: Optional[str] = None
     status: ApplicationStatus = ApplicationStatus.PREPARING
     sections: List[ApplicationSection] = []
     documents: List[DocumentRequirement] = []
+    missing_fields_count: int = 0
+    conflicts_count: int = 0
     validation_errors: List[str] = []
     warnings: List[str] = []
+    read_back_report: Optional[ReadBackVerificationReport] = None
     can_submit: bool = False
     submission_confirmed: bool = False
     submission_reference: Optional[str] = None
@@ -169,26 +321,24 @@ class ApplicationSessionModel(BaseModel):
 
 class ApplicationStartRequest(BaseModel):
     scheme_id: str
-    interaction_mode: Optional[InteractionMode] = None
     language: Optional[str] = "en"
+    user_profile_answers: Optional[Dict[str, Any]] = None
 
 
-class ApplicationAnswerRequest(BaseModel):
-    field_id: str
-    value: Any
-    user_confirmed: bool = True
+class MissingFieldsAnswerRequest(BaseModel):
+    answers: Dict[str, Any]  # field_id -> value
 
 
-class FieldConfirmRequest(BaseModel):
+class ConflictResolveRequest(BaseModel):
     field_id: str
     confirmed_value: Any
-    source_type: Optional[SourceType] = SourceType.USER_INPUT
+    chosen_source: str = "user_confirmed_answer"
 
 
 class FieldExplanationRequest(BaseModel):
     field_id: str
     field_label: str
-    language: Optional[str] = "en"  # en, hi, hinglish
+    language: Optional[str] = "en"
 
 
 class FieldExplanationResponse(BaseModel):
@@ -203,7 +353,7 @@ class DocumentProcessRequest(BaseModel):
     document_id: str  # canonical ID, e.g. aadhaar_card
     file_bytes_base64: Optional[str] = None
     file_path: Optional[str] = None
-    mime_type: Optional[str] = "image/jpeg"  # image/jpeg, image/png, application/pdf
+    mime_type: Optional[str] = "image/jpeg"
 
 
 class DocumentProcessResponse(BaseModel):
@@ -212,34 +362,20 @@ class DocumentProcessResponse(BaseModel):
     confidence: float
     extracted_fields: Dict[str, Any]
     raw_text_summary: Optional[str] = None
-    processing_status: str  # completed, partial, failed
+    processing_status: str
     verification_status: DocumentVerificationStatus = DocumentVerificationStatus.OCR_PROCESSED
 
 
-class DirectWebInspectRequest(BaseModel):
-    current_url: str
-    detected_inputs: List[Dict[str, Any]] = []
-
-
-class DirectWebInspectResponse(BaseModel):
+class PortalPopulationPayload(BaseModel):
+    portal_id: str
     portal_domain: str
-    is_trusted_gov_domain: bool
-    supported_fields_count: int
-    unsupported_fields_count: int
-    matched_mappings: List[FieldMapping] = []
-    unsupported_reasons: List[str] = []
+    declarative_instructions: List[Dict[str, Any]] = []
+    read_back_selectors: List[Dict[str, str]] = []
+    manual_intervention_required: List[str] = []
 
 
-class DirectWebPopulateRequest(BaseModel):
-    confirmed_fields: List[str] = []  # field_ids to populate
-
-
-class DirectWebPopulateResponse(BaseModel):
-    success: bool
-    populated_fields: List[Dict[str, Any]] = []
-    failed_fields: List[Dict[str, Any]] = []
-    javascript_instructions: List[Dict[str, str]] = []  # controlled instructions, NOT arbitrary eval
-    requires_user_captcha_otp: bool = True
+class PortalReadBackVerifyRequest(BaseModel):
+    read_back_data: Dict[str, Any]  # selector or field_id -> actualDOMValue
 
 
 class ApplicationValidationResponse(BaseModel):
@@ -256,4 +392,3 @@ class SubmissionConfirmationRequest(BaseModel):
     user_explicit_approval: bool
     official_acknowledgement_number: Optional[str] = None
     portal_submission_timestamp: Optional[str] = None
-
