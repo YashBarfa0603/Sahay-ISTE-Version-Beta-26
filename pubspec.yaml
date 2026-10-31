@@ -40,6 +40,7 @@ dependencies:
 
   # URL Launcher
   url_launcher: ^6.3.1
+  webview_flutter: ^4.10.0
 
   # Intl (date formatting)
   intl: ^0.20.2
@@ -54,6 +55,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+
+dependency_overrides:
+  archive: ^4.0.12
 
 flutter:
   uses-material-design: true

@@ -133,7 +133,7 @@ class _SmartFillerPreparationScreenState extends State<SmartFillerPreparationScr
                 children: [
                   Row(
                     children: [
-                      Text('Profile Data Readiness', style: AppTextStyles.subheading),
+                      Text('Profile Data Readiness', style: AppTextStyles.heading3),
                       const Spacer(),
                       Text(
                         '$readinessPercent%',

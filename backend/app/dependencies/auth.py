@@ -5,6 +5,7 @@ Derives user identity from verified claims. Never trusts raw X-User-Uid headers 
 """
 
 import os
+import json
 import logging
 from typing import Any, Dict, Optional
 from fastapi import Depends, HTTPException, Security, status
@@ -23,7 +24,22 @@ def get_firebase_app():
     """Initializes or returns existing Firebase Admin app instance."""
     if not firebase_admin._apps:
         # Prefer settings (loaded from .env by pydantic-settings), fall back to os.getenv
-        cred_path = settings.GOOGLE_APPLICATION_CREDENTIALS or os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "")
+        # 1. Check raw JSON string in environment (ideal for Secret Managers)
+        env_json = os.getenv("FIREBASE_SERVICE_ACCOUNT_JSON", "").strip()
+        if env_json:
+            try:
+                cred_dict = json.loads(env_json)
+                cred = credentials.Certificate(cred_dict)
+                return firebase_admin.initialize_app(cred)
+            except Exception as parse_err:
+                logger.warning(f"Failed to parse FIREBASE_SERVICE_ACCOUNT_JSON: {parse_err}")
+
+        # 2. Check file path from environment or settings
+        cred_path = (
+            os.getenv("FIREBASE_SERVICE_ACCOUNT_PATH")
+            or settings.GOOGLE_APPLICATION_CREDENTIALS
+            or os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "")
+        ).strip()
         try:
             if cred_path:
                 # Resolve relative paths against the backend directory

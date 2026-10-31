@@ -10,6 +10,7 @@ import 'package:sahay/providers/eligibility_provider.dart';
 import 'package:sahay/providers/locale_provider.dart';
 import 'package:sahay/providers/scheme_provider.dart';
 import 'package:sahay/providers/user_document_provider.dart';
+import 'package:sahay/providers/application_provider.dart';
 import 'package:sahay/providers/user_profile_provider.dart';
 import 'package:sahay/repositories/auth_repository.dart';
 import 'package:sahay/screens/scheme_detail_screen.dart';
@@ -58,6 +59,7 @@ void main() {
             ChangeNotifierProvider(create: (_) => UserProfileProvider()),
             ChangeNotifierProvider(create: (_) => EligibilityProvider()),
             ChangeNotifierProvider(create: (_) => UserDocumentProvider(service: DocumentService())),
+            ChangeNotifierProvider(create: (_) => ApplicationProvider()),
           ],
           child: MaterialApp(
             theme: AppTheme.lightTheme,

@@ -66,7 +66,7 @@ class _SmartFillerMissingInfoScreenState extends State<SmartFillerMissingInfoScr
               children: [
                 const Icon(Icons.lightbulb_outline, color: AppColors.softSaffron, size: 24),
                 const SizedBox(width: 8),
-                Text(field.fieldLabel, style: AppTextStyles.subheading),
+                Text(field.fieldLabel, style: AppTextStyles.heading3),
               ],
             ),
             const SizedBox(height: 14),

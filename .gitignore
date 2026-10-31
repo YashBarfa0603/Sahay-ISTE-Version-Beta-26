@@ -69,4 +69,7 @@ firestore.indexes.json
 *-firebase-adminsdk-*.json
 *service-account*.json
 sahay-firebase-adminsdk.json
+*adminsdk*.json
+*credentials*.json
+!backend/sahay-firebase-adminsdk.json.example
 
