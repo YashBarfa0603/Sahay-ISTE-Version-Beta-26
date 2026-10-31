@@ -15,6 +15,11 @@ import 'package:sahay/widgets/confidence_badge.dart';
 import 'package:sahay/widgets/sahay_app_bar.dart';
 import 'package:sahay/widgets/scheme_source_info.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:sahay/models/application_model.dart';
+import 'package:sahay/providers/application_provider.dart';
+import 'package:sahay/providers/user_profile_provider.dart';
+import 'package:sahay/screens/application/guided_application_screen.dart';
+import 'package:sahay/screens/application/application_webview_screen.dart';
 
 class SchemeDetailScreen extends StatefulWidget {
   final SchemeModel scheme;
@@ -75,6 +80,47 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
           const SnackBar(content: Text('Could not open external URL')),
         );
       }
+    }
+  }
+
+  void _startSahayApplication(BuildContext context) async {
+    final appProvider = context.read<ApplicationProvider>();
+    final userProfile = context.read<UserProfileProvider>();
+    final locale = context.read<LocaleProvider>().languageCode;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(
+        child: CircularProgressIndicator(color: AppColors.softSaffron),
+      ),
+    );
+
+    await appProvider.startSession(
+      scheme: widget.scheme,
+      userProfileAnswers: userProfile.answers,
+      language: locale,
+    );
+
+    if (!context.mounted) return;
+    Navigator.of(context).pop();
+
+    final session = appProvider.currentSession;
+    if (session != null &&
+        session.interactionMode == InteractionMode.directWeb &&
+        widget.scheme.applicationUrl != null &&
+        widget.scheme.applicationUrl!.trim().isNotEmpty) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => ApplicationWebViewScreen(scheme: widget.scheme),
+        ),
+      );
+    } else {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => GuidedApplicationScreen(scheme: widget.scheme),
+        ),
+      );
     }
   }
 
@@ -717,6 +763,85 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
           ),
 
           const SizedBox(height: 24),
+
+          // ------------------------------------
+          // PROMINENT PRIMARY ACTION: APPLY WITH SAHAY
+          // ------------------------------------
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [AppColors.deepNavy, Color(0xFF1E3A5F)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(18),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.deepNavy.withValues(alpha: 0.2),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: AppColors.softSaffron,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Icon(Icons.auto_awesome, color: AppColors.deepNavy, size: 22),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Apply with SAHAY',
+                            style: AppTextStyles.heading3.copyWith(color: Colors.white, fontSize: 18),
+                          ),
+                          Text(
+                            'AI-Powered Application Assistant',
+                            style: AppTextStyles.caption.copyWith(color: AppColors.softSaffron, fontWeight: FontWeight.w700),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  'Let SAHAY help you complete this application using your profile and documents.',
+                  style: AppTextStyles.bodyMedium.copyWith(color: Colors.white.withValues(alpha: 0.9), height: 1.4, fontSize: 13.5),
+                ),
+                const SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
+                  height: 48,
+                  child: ElevatedButton.icon(
+                    onPressed: () => _startSahayApplication(context),
+                    icon: const Icon(Icons.arrow_forward_rounded, color: AppColors.deepNavy),
+                    label: const Text(
+                      'Start Application with SAHAY',
+                      style: TextStyle(fontWeight: FontWeight.w800, fontSize: 14),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.softSaffron,
+                      foregroundColor: AppColors.deepNavy,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 18),
 
           if (hasOnlineUrl) ...[
             SizedBox(

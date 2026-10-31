@@ -22,11 +22,20 @@ bearer_scheme = HTTPBearer(auto_error=False)
 def get_firebase_app():
     """Initializes or returns existing Firebase Admin app instance."""
     if not firebase_admin._apps:
-        cred_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+        # Prefer settings (loaded from .env by pydantic-settings), fall back to os.getenv
+        cred_path = settings.GOOGLE_APPLICATION_CREDENTIALS or os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "")
         try:
-            if cred_path and os.path.exists(cred_path):
-                cred = credentials.Certificate(cred_path)
-                return firebase_admin.initialize_app(cred)
+            if cred_path:
+                # Resolve relative paths against the backend directory
+                resolved = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), cred_path)
+                if os.path.exists(resolved):
+                    cred_path = resolved
+                if os.path.exists(cred_path):
+                    cred = credentials.Certificate(cred_path)
+                    return firebase_admin.initialize_app(cred)
+                else:
+                    logger.warning(f"Firebase credential file not found at: {cred_path}")
+                    return firebase_admin.initialize_app()
             else:
                 return firebase_admin.initialize_app()
         except Exception as e:

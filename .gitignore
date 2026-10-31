@@ -58,7 +58,12 @@ skills-lock.json
 
 # Firebase
 firebase*
-**/firebase_options.dart
+!lib/firebase_options.dart
 firestore.rules
 firestore.indexes.json
+
+# Firebase Admin SDK Service Account Keys (NEVER commit these)
+*-firebase-adminsdk-*.json
+*service-account*.json
+sahay-firebase-adminsdk.json
 

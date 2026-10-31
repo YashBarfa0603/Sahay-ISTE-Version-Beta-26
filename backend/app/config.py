@@ -40,6 +40,9 @@ class Settings(BaseSettings):
     # Minimum similarity / result count threshold to avoid Tavily search
     CATALOGUE_MIN_RESULTS: int = 3
 
+    # Firebase Admin SDK Service Account Credentials (path to JSON key file)
+    GOOGLE_APPLICATION_CREDENTIALS: str = ""
+
     model_config = ConfigDict(
         env_file=(
             str(_BACKEND_DIR / ".env"),
