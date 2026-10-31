@@ -185,27 +185,34 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
                       const SizedBox(width: 8),
 
                       // Category Pill
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Text(
-                          widget.scheme.category.toUpperCase(),
-                          style: AppTextStyles.caption.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 10,
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.15),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              widget.scheme.category.toUpperCase(),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTextStyles.caption.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 10,
+                              ),
+                            ),
                           ),
                         ),
                       ),
 
-                      const Spacer(),
-
                       // Confidence Badge if assessed
-                      if (assessment != null)
+                      if (assessment != null) ...[
+                        const SizedBox(width: 8),
                         ConfidenceBadge(result: assessment.result),
+                      ],
                     ],
                   ),
                   const SizedBox(height: 12),
@@ -719,41 +726,44 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
       ),
       child: Theme(
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-        child: ExpansionTile(
-          initiallyExpanded: true,
-          tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-          leading: Icon(icon, color: headerColor, size: 22),
-          title: Text(
-            title,
-            style: AppTextStyles.bodyMedium.copyWith(
-              fontWeight: FontWeight.w700,
-              color: AppColors.deepNavy,
-              fontSize: 14.5,
+        child: Material(
+          color: Colors.transparent,
+          child: ExpansionTile(
+            initiallyExpanded: true,
+            tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            leading: Icon(icon, color: headerColor, size: 22),
+            title: Text(
+              title,
+              style: AppTextStyles.bodyMedium.copyWith(
+                fontWeight: FontWeight.w700,
+                color: AppColors.deepNavy,
+                fontSize: 14.5,
+              ),
             ),
-          ),
-          childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-          children: items.map((item) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon(bulletIcon, size: 16, color: bulletColor),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      item,
-                      style: AppTextStyles.bodySmall.copyWith(
-                        color: AppColors.deepNavy.withValues(alpha: 0.9),
-                        height: 1.45,
-                        fontSize: 12.5,
+            childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            children: items.map((item) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(bulletIcon, size: 16, color: bulletColor),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        item,
+                        style: AppTextStyles.bodySmall.copyWith(
+                          color: AppColors.deepNavy.withValues(alpha: 0.9),
+                          height: 1.45,
+                          fontSize: 12.5,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          }).toList(),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
         ),
       ),
     );
@@ -1264,9 +1274,13 @@ class _ConditionResultCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('Required:', style: AppTextStyles.caption.copyWith(color: AppColors.textSecondary)),
-                          Text(
-                            requiredText,
-                            style: AppTextStyles.caption.copyWith(fontWeight: FontWeight.w600, color: AppColors.deepNavy),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              requiredText,
+                              textAlign: TextAlign.end,
+                              style: AppTextStyles.caption.copyWith(fontWeight: FontWeight.w600, color: AppColors.deepNavy),
+                            ),
                           ),
                         ],
                       ),
@@ -1275,11 +1289,15 @@ class _ConditionResultCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('Your Profile:', style: AppTextStyles.caption.copyWith(color: AppColors.textSecondary)),
-                          Text(
-                            userValueText,
-                            style: AppTextStyles.caption.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: statusColor,
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              userValueText,
+                              textAlign: TextAlign.end,
+                              style: AppTextStyles.caption.copyWith(
+                                fontWeight: FontWeight.w700,
+                                color: statusColor,
+                              ),
                             ),
                           ),
                         ],
@@ -1290,11 +1308,15 @@ class _ConditionResultCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Difference:', style: AppTextStyles.caption.copyWith(color: AppColors.mutedCoral)),
-                            Text(
-                              condition.differenceDescription!,
-                              style: AppTextStyles.caption.copyWith(
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.mutedCoral,
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                condition.differenceDescription!,
+                                textAlign: TextAlign.end,
+                                style: AppTextStyles.caption.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.mutedCoral,
+                                ),
                               ),
                             ),
                           ],

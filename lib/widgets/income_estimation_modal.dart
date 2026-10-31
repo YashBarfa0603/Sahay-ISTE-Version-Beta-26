@@ -205,15 +205,18 @@ class _IncomeEstimationModalState extends State<IncomeEstimationModal> {
               ),
 
               // Step 4: Agriculture harvest optional
-              CheckboxListTile(
-                contentPadding: EdgeInsets.zero,
-                activeColor: AppColors.forestGreen,
-                title: Text(
-                  isHi ? 'कृषि / मौसमी फसल से अतिरिक्त आय' : 'Additional seasonal agricultural harvest income',
-                  style: AppTextStyles.bodySmall.copyWith(color: AppColors.deepNavy),
+              Material(
+                color: Colors.transparent,
+                child: CheckboxListTile(
+                  contentPadding: EdgeInsets.zero,
+                  activeColor: AppColors.forestGreen,
+                  title: Text(
+                    isHi ? 'कृषि / मौसमी फसल से अतिरिक्त आय' : 'Additional seasonal agricultural harvest income',
+                    style: AppTextStyles.bodySmall.copyWith(color: AppColors.deepNavy),
+                  ),
+                  value: _hasAgriIncome,
+                  onChanged: (val) => setState(() => _hasAgriIncome = val ?? false),
                 ),
-                value: _hasAgriIncome,
-                onChanged: (val) => setState(() => _hasAgriIncome = val ?? false),
               ),
 
               const SizedBox(height: 16),

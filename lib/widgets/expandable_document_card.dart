@@ -102,10 +102,12 @@ class _ExpandableDocumentCardState extends State<ExpandableDocumentCard> {
                           ),
                         ),
                         const SizedBox(height: 4),
-                        Row(
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 4,
                           children: [
                             // Category Tag
-                            if (docInfo != null) ...[
+                            if (docInfo != null)
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                                 decoration: BoxDecoration(
@@ -121,8 +123,6 @@ class _ExpandableDocumentCardState extends State<ExpandableDocumentCard> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
-                            ],
 
                             // Vault Upload Status Badge
                             Container(
