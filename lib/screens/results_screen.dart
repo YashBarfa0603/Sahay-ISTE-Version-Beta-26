@@ -9,11 +9,13 @@ import 'package:sahay/providers/eligibility_provider.dart';
 import 'package:sahay/providers/locale_provider.dart';
 import 'package:sahay/providers/scheme_provider.dart';
 import 'package:sahay/providers/user_profile_provider.dart';
+import 'package:sahay/screens/csc_locator_screen.dart';
 import 'package:sahay/screens/document_checklist_screen.dart';
 import 'package:sahay/screens/home_screen.dart';
 import 'package:sahay/screens/scheme_detail_screen.dart';
 import 'package:sahay/services/voice_service.dart';
 import 'package:sahay/widgets/eligibility_card.dart';
+import 'package:sahay/widgets/privacy_dialog.dart';
 import 'package:sahay/widgets/sahay_app_bar.dart';
 
 class ResultsScreen extends StatefulWidget {
@@ -154,6 +156,22 @@ class _ResultsScreenState extends State<ResultsScreen> {
         title: currentLang == 'hi' ? 'पात्रता परिणाम' : 'Assessment Results',
         showBackButton: true,
         showLanguageToggle: true,
+        extraActions: [
+          IconButton(
+            icon: const Icon(Icons.storefront_rounded, color: Colors.white),
+            tooltip: currentLang == 'hi' ? 'जन सेवा केंद्र खोजें' : 'Find CSC',
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const CscLocatorScreen()),
+              );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.shield_outlined, color: AppColors.mutedCoral),
+            tooltip: currentLang == 'hi' ? 'सत्र समाप्त करें' : 'End Session',
+            onPressed: () => PrivacyDialog.showEndSessionConfirmation(context),
+          ),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(

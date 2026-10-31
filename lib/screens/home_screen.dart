@@ -10,6 +10,7 @@ import 'package:sahay/providers/locale_provider.dart';
 import 'package:sahay/providers/scheme_provider.dart';
 import 'package:sahay/providers/user_profile_provider.dart';
 import 'package:sahay/screens/auth/login_screen.dart';
+import 'package:sahay/screens/csc_locator_screen.dart';
 import 'package:sahay/screens/questionnaire_screen.dart';
 import 'package:sahay/screens/results_screen.dart';
 import 'package:sahay/screens/scheme_detail_screen.dart';
@@ -17,6 +18,7 @@ import 'package:sahay/screens/schemes_screen.dart';
 import 'package:sahay/services/scheme_data_service.dart';
 import 'package:sahay/utils/indian_states.dart';
 import 'package:sahay/utils/profile_options.dart';
+import 'package:sahay/widgets/privacy_dialog.dart';
 import 'package:sahay/widgets/sahay_app_bar.dart';
 import 'package:sahay/widgets/voice_input_button.dart';
 
@@ -234,6 +236,57 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       style: OutlinedButton.styleFrom(
                         side: const BorderSide(color: AppColors.indianTeal),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Find CSC Button
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => CscLocatorScreen(
+                              initialState: user.state,
+                              initialDistrict: user.district,
+                            ),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.storefront_rounded, color: AppColors.deepNavy, size: 18),
+                      label: Text(
+                        isHi ? 'नजदीकी जन सेवा केंद्र (CSC) खोजें' : 'Find Nearest CSC Centre',
+                        style: const TextStyle(color: AppColors.deepNavy, fontWeight: FontWeight.w600),
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: AppColors.border),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // End Session & Clear Data (Shared Device Mode)
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                        PrivacyDialog.showEndSessionConfirmation(context);
+                      },
+                      icon: const Icon(Icons.shield_outlined, color: AppColors.mutedCoral, size: 18),
+                      label: Text(
+                        isHi ? 'सत्र समाप्त करें (शेयर्ड डिवाइस मोड)' : 'End Session & Clear (Shared Phone)',
+                        style: const TextStyle(color: AppColors.mutedCoral, fontWeight: FontWeight.w600),
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(color: AppColors.mutedCoral.withValues(alpha: 0.5)),
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
@@ -918,6 +971,112 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: 28),
               ],
+
+              // Quick Action Shortcuts: CSC Locator & Shared Device Privacy
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Row(
+                  children: [
+                    // CSC Locator Button
+                    Expanded(
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(14),
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (_) => const CscLocatorScreen()),
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(color: AppColors.border),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.03),
+                                blurRadius: 4,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  color: AppColors.paleSage,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Icon(Icons.storefront_rounded, color: AppColors.forestGreen, size: 18),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  currentLang == 'hi' ? 'जन सेवा केंद्र\n(CSC खोजें)' : 'Assistance\nCentres (CSC)',
+                                  style: AppTextStyles.caption.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.deepNavy,
+                                    height: 1.2,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    // Shared Device Privacy Button
+                    Expanded(
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(14),
+                        onTap: () => PrivacyDialog.showEndSessionConfirmation(context),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(color: AppColors.border),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.03),
+                                blurRadius: 4,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  color: AppColors.mutedCoral.withValues(alpha: 0.12),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Icon(Icons.shield_outlined, color: AppColors.mutedCoral, size: 18),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  currentLang == 'hi' ? 'सत्र समाप्त करें\n(डेटा हटाएं)' : 'End Session\n(Clear Data)',
+                                  style: AppTextStyles.caption.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.deepNavy,
+                                    height: 1.2,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 24),
 
               // Categories Header
               Padding(

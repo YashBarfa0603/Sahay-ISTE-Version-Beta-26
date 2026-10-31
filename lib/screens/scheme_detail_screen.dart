@@ -7,6 +7,7 @@ import 'package:sahay/models/eligibility_model.dart';
 import 'package:sahay/models/scheme_model.dart';
 import 'package:sahay/providers/eligibility_provider.dart';
 import 'package:sahay/providers/locale_provider.dart';
+import 'package:sahay/screens/csc_locator_screen.dart';
 import 'package:sahay/screens/document_checklist_screen.dart';
 import 'package:sahay/screens/questionnaire_screen.dart';
 import 'package:sahay/services/voice_service.dart';
@@ -698,27 +699,80 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
             const SizedBox(height: 12),
           ],
 
-          // Offline apply notice
+          // Offline apply notice and CSC locator shortcut
           Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
               color: AppColors.paleSage,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.forestGreen.withValues(alpha: 0.2)),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: AppColors.forestGreen.withValues(alpha: 0.3)),
             ),
-            child: Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.help_center_outlined, color: AppColors.forestGreen),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    'Citizens without internet connectivity can visit their nearest Common Service Centre (CSC) or Gram Panchayat office.',
-                    style: AppTextStyles.caption.copyWith(color: AppColors.deepNavy, height: 1.35),
+                Row(
+                  children: [
+                    const Icon(Icons.help_center_outlined, color: AppColors.forestGreen),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        'Citizens without internet connectivity can visit their nearest Common Service Centre (CSC) or Gram Panchayat office.',
+                        style: AppTextStyles.caption.copyWith(color: AppColors.deepNavy, height: 1.35),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const CscLocatorScreen(),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.storefront_rounded, size: 16, color: AppColors.forestGreen),
+                    label: const Text(
+                      'Find Nearest CSC / Jan Seva Kendra',
+                      style: TextStyle(color: AppColors.forestGreen, fontWeight: FontWeight.bold, fontSize: 13),
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: AppColors.forestGreen),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    ),
                   ),
                 ),
               ],
             ),
           ),
+
+          // Verification notice if unverified or under verification
+          if (widget.scheme.status == SchemeStatus.underVerification ||
+              widget.scheme.verificationStatus == VerificationStatus.pending) ...[
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppColors.softSaffron.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.softSaffron),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.warning_amber_rounded, color: AppColors.deepNavy, size: 22),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      'Notice: This scheme is newly discovered and currently undergoing departmental verification. Verify official notifications before submitting personal records.',
+                      style: AppTextStyles.caption.copyWith(color: AppColors.deepNavy, height: 1.3),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
 
           const SizedBox(height: 24),
           SchemeSourceInfo(scheme: widget.scheme),

@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:sahay/models/api_response_models.dart';
 import 'package:sahay/models/scheme_model.dart';
+import 'package:sahay/services/backend_scheme_service.dart';
 import 'package:sahay/services/scheme_data_service.dart';
 
 class SchemeProvider extends ChangeNotifier {
@@ -49,6 +51,37 @@ class SchemeProvider extends ChangeNotifier {
     if (_searchQuery != query) {
       _searchQuery = query;
       _applyFilters();
+      notifyListeners();
+    }
+  }
+
+  // Search with Live Hybrid Discovery
+  Future<void> searchSchemesWithDiscovery(
+    String query, {
+    bool forceDynamic = false,
+    BackendSchemeService? service,
+  }) async {
+    _searchQuery = query;
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+
+    final backendService = service ?? BackendSchemeService();
+    try {
+      final req = SchemeSearchApiRequest(
+        query: query,
+        category: _categoryFilter,
+        governmentLevel: _levelFilter,
+        forceDynamicDiscovery: forceDynamic,
+      );
+      final response = await backendService.searchSchemes(req);
+      _schemes = response.results;
+      _filteredSchemes = response.results;
+    } catch (e) {
+      _error = e.toString();
+      _applyFilters();
+    } finally {
+      _isLoading = false;
       notifyListeners();
     }
   }

@@ -5,6 +5,7 @@ import 'package:sahay/core/theme/app_colors.dart';
 import 'package:sahay/core/theme/app_text_styles.dart';
 import 'package:sahay/providers/locale_provider.dart';
 import 'package:sahay/services/question_engine.dart';
+import 'package:sahay/widgets/income_estimation_modal.dart';
 import 'package:sahay/widgets/voice_input_button.dart';
 
 class QuestionCard extends StatefulWidget {
@@ -607,7 +608,12 @@ class _QuestionCardState extends State<QuestionCard>
   }
 
   Widget _buildNumberControl(BuildContext context) {
-    return TextField(
+    final isIncomeQuestion = widget.question.id == 'annualIncome' ||
+        widget.question.id == 'annualFamilyIncome';
+    final lang = context.watch<LocaleProvider>().languageCode;
+    final isHi = lang == 'hi';
+
+    final textField = TextField(
       controller: _textController,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       style: AppTextStyles.heading3.copyWith(
@@ -645,6 +651,55 @@ class _QuestionCardState extends State<QuestionCard>
         final parsed = num.tryParse(val.trim());
         widget.onAnswerChanged(parsed ?? val.trim());
       },
+    );
+
+    if (!isIncomeQuestion) {
+      return textField;
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        textField,
+        const SizedBox(height: 10),
+        InkWell(
+          borderRadius: BorderRadius.circular(10),
+          onTap: () {
+            IncomeEstimationModal.show(
+              context,
+              onEstimateApplied: (estimate) {
+                final intVal = estimate.toInt();
+                _textController.text = intVal.toString();
+                widget.onAnswerChanged(intVal);
+              },
+            );
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              color: AppColors.paleSage,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: AppColors.forestGreen.withValues(alpha: 0.3)),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.auto_awesome_rounded, color: AppColors.forestGreen, size: 16),
+                const SizedBox(width: 6),
+                Text(
+                  isHi
+                      ? 'अनुमान नहीं है? आय सहायक से गणना करें'
+                      : 'Not sure? Calculate with Income Assistant',
+                  style: AppTextStyles.caption.copyWith(
+                    color: AppColors.forestGreen,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 

@@ -6,7 +6,7 @@ Multilingual Indian Government Scheme Discovery & AI Extraction Engine.
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from backend.app.config import settings
-from backend.app.routers import schemes, discovery
+from backend.app.routers import schemes, discovery, assistance, agents, versioning
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -30,6 +30,9 @@ app.add_middleware(
 # Register routers
 app.include_router(schemes.router)
 app.include_router(discovery.router)
+app.include_router(assistance.router)
+app.include_router(agents.router)
+app.include_router(versioning.router)
 
 
 @app.get("/api/health", tags=["Health"])
