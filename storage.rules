@@ -1,0 +1,39 @@
+rules_version = '2';
+
+// Firebase Cloud Storage Rules for SAHAY Private Document Vault
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Default deny for all unmatched paths
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+
+    // Citizen Private Documents Path: users/{userId}/documents/{fileName}
+    match /users/{userId}/documents/{fileName} {
+
+      function isOwner() {
+        return request.auth != null && request.auth.uid == userId;
+      }
+
+      function isValidSize() {
+        return request.resource.size <= 5 * 1024 * 1024; // 5 MB maximum
+      }
+
+      function isValidType() {
+        return request.resource.contentType.matches('application/pdf')
+          || request.resource.contentType.matches('image/jpeg')
+          || request.resource.contentType.matches('image/png');
+      }
+
+      // Owner can read, list, and delete their own files
+      allow read, delete: if isOwner();
+
+      // Owner can create or update file with size and MIME validation
+      allow create, update: if isOwner()
+        && isValidSize()
+        && isValidType();
+    }
+  }
+}
+

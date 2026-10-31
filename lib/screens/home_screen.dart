@@ -11,6 +11,7 @@ import 'package:sahay/providers/scheme_provider.dart';
 import 'package:sahay/providers/user_profile_provider.dart';
 import 'package:sahay/screens/auth/login_screen.dart';
 import 'package:sahay/screens/csc_locator_screen.dart';
+import 'package:sahay/screens/my_documents_screen.dart';
 import 'package:sahay/screens/questionnaire_screen.dart';
 import 'package:sahay/screens/results_screen.dart';
 import 'package:sahay/screens/scheme_detail_screen.dart';
@@ -243,6 +244,33 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: 12),
 
+                  // My Documents Button
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const MyDocumentsScreen(),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.folder_shared_outlined, size: 18),
+                      label: Text(
+                        isHi ? 'मेरे दस्तावेज़ (वॉल्ट)' : 'My Documents Vault',
+                        style: const TextStyle(fontWeight: FontWeight.w700),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.softSaffron,
+                        foregroundColor: AppColors.deepNavy,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
                   // Find CSC Button
                   SizedBox(
                     width: double.infinity,
@@ -377,6 +405,28 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Text(
                               isHi ? 'साइन इन / साइन अप करें' : 'Sign In / Sign Up',
                               style: AppTextStyles.buttonText,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        SizedBox(
+                          width: double.infinity,
+                          child: OutlinedButton.icon(
+                            onPressed: () {
+                              Navigator.of(ctx).pop();
+                              Navigator.of(context).push(
+                                MaterialPageRoute(builder: (_) => const MyDocumentsScreen()),
+                              );
+                            },
+                            icon: const Icon(Icons.folder_shared_outlined, size: 18, color: AppColors.deepNavy),
+                            label: Text(
+                              isHi ? 'दस्तावेज़ वॉल्ट देखें' : 'Explore Document Vault',
+                              style: const TextStyle(color: AppColors.deepNavy, fontWeight: FontWeight.w600),
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              side: const BorderSide(color: AppColors.border),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                             ),
                           ),
                         ),
@@ -553,6 +603,118 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         );
       },
+    );
+  }
+
+  Widget _buildEligibilityCtaCard(
+    BuildContext context,
+    SahayLocalizations l10n,
+    String currentLang,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [AppColors.indianTeal, Color(0xFF1B6A63)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.indianTeal.withValues(alpha: 0.35),
+              blurRadius: 14,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.2),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.verified_user_rounded,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    currentLang == 'hi' ? 'पात्रता जांचें' : 'Check Your Eligibility',
+                    style: AppTextStyles.heading2.copyWith(
+                      color: Colors.white,
+                      fontSize: 19,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Text(
+              currentLang == 'hi'
+                  ? 'कुछ सरल प्रश्नों के उत्तर दें और जानें कि आप किन-किन सरकारी योजनाओं के लिए पात्र हैं।'
+                  : 'Answer a few simple questions to instantly find schemes customized to your profile.',
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: Colors.white.withValues(alpha: 0.9),
+                fontSize: 13.5,
+              ),
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const QuestionnaireScreen(),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.softSaffron,
+                  foregroundColor: AppColors.deepNavy,
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      l10n.checkEligibilityNow.isNotEmpty && l10n.checkEligibilityNow != 'checkEligibilityNow'
+                          ? l10n.checkEligibilityNow
+                          : (currentLang == 'hi' ? 'अभी पात्रता जांचें' : 'Check Eligibility Now'),
+                      style: AppTextStyles.buttonText.copyWith(
+                        color: AppColors.deepNavy,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    const Icon(
+                      Icons.arrow_forward_rounded,
+                      color: AppColors.deepNavy,
+                      size: 18,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -805,114 +967,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
               const SizedBox(height: 24),
 
-              // Prominent "Check Your Eligibility" CTA Banner Card
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [AppColors.indianTeal, Color(0xFF1B6A63)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.indianTeal.withValues(alpha: 0.35),
-                        blurRadius: 14,
-                        offset: const Offset(0, 6),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.2),
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.verified_user_rounded,
-                              color: Colors.white,
-                              size: 24,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Text(
-                              currentLang == 'hi' ? 'पात्रता जांचें' : 'Check Your Eligibility',
-                              style: AppTextStyles.heading2.copyWith(
-                                color: Colors.white,
-                                fontSize: 19,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        currentLang == 'hi'
-                          ? 'कुछ सरल प्रश्नों के उत्तर दें और जानें कि आप किन-किन सरकारी योजनाओं के लिए पात्र हैं।'
-                          : 'Answer a few simple questions to instantly find schemes customized to your profile.',
-                        style: AppTextStyles.bodyMedium.copyWith(
-                          color: Colors.white.withValues(alpha: 0.9),
-                          fontSize: 13.5,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 48,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => const QuestionnaireScreen(),
-                              ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.softSaffron,
-                            foregroundColor: AppColors.deepNavy,
-                            elevation: 2,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                l10n.checkEligibilityNow.isNotEmpty && l10n.checkEligibilityNow != 'checkEligibilityNow'
-                                    ? l10n.checkEligibilityNow
-                                    : (currentLang == 'hi' ? 'अभी पात्रता जांचें' : 'Check Eligibility Now'),
-                                style: AppTextStyles.buttonText.copyWith(
-                                  color: AppColors.deepNavy,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              const Icon(
-                                Icons.arrow_forward_rounded,
-                                color: AppColors.deepNavy,
-                                size: 18,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 28),
+              // For authenticated users, display Eligibility Check near top
+              if (!auth.isGuest) ...[
+                _buildEligibilityCtaCard(context, l10n, currentLang),
+                const SizedBox(height: 28),
+              ],
 
               // Popular Schemes Horizontal Carousel
               if (schemeProvider.popularSchemes.isNotEmpty) ...[
@@ -1116,6 +1175,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
+
+              // For guest users, display the Check Eligibility CTA card at the bottom of the landing page
+              if (auth.isGuest) ...[
+                const SizedBox(height: 24),
+                _buildEligibilityCtaCard(context, l10n, currentLang),
+              ],
 
               const SizedBox(height: 28),
             ],

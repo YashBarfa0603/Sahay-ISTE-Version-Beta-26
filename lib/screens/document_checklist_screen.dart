@@ -8,7 +8,9 @@ import 'package:sahay/models/scheme_model.dart';
 import 'package:sahay/providers/eligibility_provider.dart';
 import 'package:sahay/providers/locale_provider.dart';
 import 'package:sahay/providers/scheme_provider.dart';
+import 'package:sahay/providers/user_document_provider.dart';
 import 'package:sahay/providers/user_profile_provider.dart';
+import 'package:sahay/services/document_catalogue_service.dart';
 import 'package:sahay/services/pdf_service.dart';
 import 'package:sahay/widgets/sahay_app_bar.dart';
 import 'package:pdf/pdf.dart';
@@ -136,6 +138,7 @@ class _DocumentChecklistScreenState extends State<DocumentChecklistScreen> {
     final eligibilityProvider = context.watch<EligibilityProvider>();
     final schemeProvider = context.watch<SchemeProvider>();
     final userProfile = context.watch<UserProfileProvider>();
+    final userDocProvider = context.watch<UserDocumentProvider>();
 
     final userName = userProfile.getAnswer('fullName')?.toString() ?? 'Citizen';
 
@@ -386,9 +389,12 @@ class _DocumentChecklistScreenState extends State<DocumentChecklistScreen> {
                         const Divider(height: 1),
                         const SizedBox(height: 12),
 
-                        // Document Checkboxes
+                        // Document Checkboxes with Vault Status
                         ...schemeDocs.map((doc) {
                           final isChecked = checkedSet.contains(doc);
+                          final canonicalId = DocumentCatalogueService.matchCanonicalId(doc);
+                          final isInVault = userDocProvider.hasDocument(canonicalId);
+
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 4.0),
                             child: InkWell(
@@ -422,6 +428,42 @@ class _DocumentChecklistScreenState extends State<DocumentChecklistScreen> {
                                         fontWeight: isChecked ? FontWeight.w600 : FontWeight.w400,
                                         decoration: isChecked ? TextDecoration.lineThrough : null,
                                       ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  // Vault status badge
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: isInVault
+                                          ? AppColors.paleSage
+                                          : AppColors.warmSand.withValues(alpha: 0.7),
+                                      borderRadius: BorderRadius.circular(4),
+                                      border: Border.all(
+                                        color: isInVault ? AppColors.forestGreen : AppColors.border,
+                                        width: 0.8,
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          isInVault ? Icons.cloud_done_rounded : Icons.cloud_off_rounded,
+                                          size: 10,
+                                          color: isInVault ? AppColors.forestGreen : AppColors.deepNavy.withValues(alpha: 0.5),
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          isInVault
+                                              ? (currentLang == 'hi' ? 'वॉल्ट में' : 'In Vault')
+                                              : (currentLang == 'hi' ? 'नहीं है' : 'Missing'),
+                                          style: AppTextStyles.caption.copyWith(
+                                            fontSize: 9.5,
+                                            fontWeight: FontWeight.w700,
+                                            color: isInVault ? AppColors.forestGreen : AppColors.deepNavy.withValues(alpha: 0.6),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],

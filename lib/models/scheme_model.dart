@@ -1,3 +1,5 @@
+import 'package:sahay/services/document_catalogue_service.dart';
+
 enum GovernmentLevel {
   central,
   state,
@@ -99,6 +101,11 @@ class SchemeModel {
   final List<String> requiredDocuments;
   final String applicationProcess;
   final String? applicationUrl;
+
+  /// Returns canonical document IDs matched against DocumentCatalogueService
+  List<String> get requiredDocumentIds =>
+      requiredDocuments.map((doc) => DocumentCatalogueService.matchCanonicalId(doc)).toList();
+
 
   // Source information
   final String officialSourceUrl;
