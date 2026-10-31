@@ -131,3 +131,48 @@ async def test_protected_versioning_endpoint_accepts_valid_token():
         proposal_id = res.json()
         assert proposal_id == "prop-valid-004"
 
+
+def test_verify_revoked_token():
+    """Confirms revoked token is rejected with explicit revocation error."""
+    with pytest.raises(ValueError, match="token has been revoked"):
+        verify_firebase_token_payload("test_revoked_token")
+
+
+def test_mock_token_strictly_prohibited_in_production(monkeypatch):
+    """Confirms mock/test tokens are strictly rejected when running in production."""
+    from backend.app.config import settings
+
+    monkeypatch.setattr(settings, "ENVIRONMENT", "production")
+    monkeypatch.delenv("TESTING", raising=False)
+
+    with pytest.raises(ValueError, match="strictly prohibited in production"):
+        verify_firebase_token_payload("test_token_valid_citizen")
+
+
+@pytest.mark.asyncio
+async def test_protected_endpoint_denies_mock_token_in_production(monkeypatch):
+    """Confirms state-changing endpoint returns 401 when mock token is submitted in production."""
+    from backend.app.config import settings
+
+    monkeypatch.setattr(settings, "ENVIRONMENT", "production")
+    monkeypatch.delenv("TESTING", raising=False)
+
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
+        res = await client.post(
+            "/api/versioning/proposals",
+            headers={"Authorization": "Bearer test_token_valid_auth"},
+            json={
+                "proposalId": "prop-prod-block-005",
+                "schemeId": "pm-kisan-001",
+                "proposedRules": [],
+                "sourceUrl": "https://gov.in",
+                "sourceName": "Test Source",
+                "department": "Agriculture",
+                "justification": "Should be blocked in production",
+            },
+        )
+        assert res.status_code == 401
+        assert "strictly prohibited in production" in res.json()["detail"]
+
+

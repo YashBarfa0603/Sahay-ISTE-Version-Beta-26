@@ -147,6 +147,9 @@ void main() {
         'annualIncome': 200000,
         'gender': 'male',
         'age': 32,
+        'isIncomeTaxPayer': false,
+        'isGovernmentEmployee': false,
+        'isInstitutionalLandholder': false,
       });
 
       expect(provider.hasEvaluated, true);

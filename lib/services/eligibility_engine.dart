@@ -339,28 +339,7 @@ class EligibilityEngine {
       }
     }
 
-    // 6. Legally exempt from income tax if declared income is <= ₹2.5L
-    if (!normalized.containsKey('isIncomeTaxPayer') && normalized.containsKey('annualIncome')) {
-      final inc = _parseNum(normalized['annualIncome']);
-      if (inc != null && inc <= 250000) {
-        normalized['isIncomeTaxPayer'] = false;
-      }
-    }
-
-    // 7. Non-government employee inference from declared non-government occupation
-    if (!normalized.containsKey('isGovernmentEmployee') && normalized.containsKey('occupation')) {
-      final occ = normalized['occupation'].toString().toLowerCase();
-      if (occ != 'government_employee') {
-        normalized['isGovernmentEmployee'] = false;
-      }
-    }
-
-    // 8. Individual citizen applicant is not an institutional landholder
-    if (!normalized.containsKey('isInstitutionalLandholder')) {
-      normalized['isInstitutionalLandholder'] = false;
-    }
-
-    // 9. Unify motorized vehicle and four wheeler flags
+    // 6. Unify motorized vehicle and four wheeler flags (synonym normalization)
     if (!normalized.containsKey('hasFourWheeler') && normalized.containsKey('hasMotorizedVehicle')) {
       normalized['hasFourWheeler'] = normalized['hasMotorizedVehicle'];
     }

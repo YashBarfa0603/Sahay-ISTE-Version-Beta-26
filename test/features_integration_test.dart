@@ -72,11 +72,14 @@ void main() {
         'state': 'Madhya Pradesh',
         'hasBankAccount': true,
         'annualIncome': 90000,
+        'isIncomeTaxPayer': false,
+        'isGovernmentEmployee': false,
+        'isInstitutionalLandholder': false,
       });
       privacyService.setSessionAnswers(userProfile.answers);
 
       expect(userProfile.hasAnswers, isTrue);
-      expect(userProfile.answeredCount, equals(6));
+      expect(userProfile.answeredCount, equals(9));
       expect(privacyService.hasPersonalData(), isTrue);
 
       // Step 2: Citizen A runs assessment

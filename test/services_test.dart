@@ -101,6 +101,21 @@ void main() {
       expect(result.missingInformation, contains('isIncomeTaxPayer'));
     });
 
+    test('Low income (e.g. 1.2L) does NOT auto-imply non-taxpayer status; requires statutory declaration', () async {
+      final scheme = (await dataService.getSchemeById('pm-kisan'))!;
+      final answers = {
+        'occupation': 'farmer',
+        'landOwnership': 1.5,
+        'annualIncome': 120000,
+        'hasBankAccount': true,
+        // isIncomeTaxPayer is intentionally omitted
+      };
+
+      final result = engine.evaluateScheme(scheme, answers);
+      expect(result.result, EligibilityResult.needsMoreInformation);
+      expect(result.missingInformation, contains('isIncomeTaxPayer'));
+    });
+
     test('Detects borderline conditions within 10% of limit', () async {
       final scheme = (await dataService.getSchemeById('ladli-behna-mp'))!;
       // Income limit is 250,000; 245,000 is within 10%

@@ -10,6 +10,8 @@ _PROJECT_ROOT = _BACKEND_DIR.parent
 class Settings(BaseSettings):
     APP_NAME: str = "SAHAY Backend API"
     APP_VERSION: str = "1.0.0"
+    ENVIRONMENT: str = "development"  # "development", "testing", "production"
+    ALLOW_MOCK_TOKENS: bool = False
     DEBUG: bool = False
 
     # Tavily Search API

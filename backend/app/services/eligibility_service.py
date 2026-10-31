@@ -83,25 +83,7 @@ class EligibilityEvaluationService:
             except (ValueError, TypeError):
                 pass
 
-        # 6. Legally exempt from income tax if declared income is <= ₹2.5L
-        if "isIncomeTaxPayer" not in norm and "annualIncome" in norm:
-            try:
-                if float(norm["annualIncome"]) <= 250000:
-                    norm["isIncomeTaxPayer"] = False
-            except (ValueError, TypeError):
-                pass
-
-        # 7. Non-government employee inference from declared non-government occupation
-        if "isGovernmentEmployee" not in norm and "occupation" in norm:
-            occ = str(norm["occupation"]).lower()
-            if occ != "government_employee":
-                norm["isGovernmentEmployee"] = False
-
-        # 8. Individual citizen applicant is not an institutional landholder
-        if "isInstitutionalLandholder" not in norm:
-            norm["isInstitutionalLandholder"] = False
-
-        # 9. Unify motorized vehicle and four-wheeler flags
+        # 6. Unify motorized vehicle and four-wheeler flags (synonym normalization)
         if "hasFourWheeler" not in norm and "hasMotorizedVehicle" in norm:
             norm["hasFourWheeler"] = norm["hasMotorizedVehicle"]
         if "hasMotorizedVehicle" not in norm and "hasFourWheeler" in norm:

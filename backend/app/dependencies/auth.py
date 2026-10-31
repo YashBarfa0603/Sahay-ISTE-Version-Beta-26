@@ -11,6 +11,7 @@ from fastapi import Depends, HTTPException, Security, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 import firebase_admin
 from firebase_admin import auth, credentials
+from backend.app.config import settings
 
 logger = logging.getLogger(__name__)
 
@@ -58,17 +59,23 @@ def verify_firebase_token_payload(token: str) -> Dict[str, Any]:
     Cryptographically verifies token signature, issuer, audience, and expiration.
     Supports deterministic test tokens in test environments.
     """
-    # 1. Test / Mock Token Handling (for automated testing without live Google network access)
-    is_testing = (
-        os.getenv("TESTING", "").lower() in ["1", "true"]
-        or token.startswith("mock_")
-        or token.startswith("test_")
-    )
-    if is_testing:
+    # 1. Test / Mock Token Handling
+    # CRITICAL SECURITY INVARIANT: Mock tokens MUST NEVER be accepted in production environments.
+    is_mock_token = token.startswith("mock_") or token.startswith("test_")
+    if is_mock_token:
+        is_production = (
+            settings.ENVIRONMENT.lower() == "production"
+            or os.getenv("ENVIRONMENT", "").lower() == "production"
+        )
+        if is_production and not settings.ALLOW_MOCK_TOKENS:
+            raise ValueError("Mock and test tokens are strictly prohibited in production environments.")
+
         if token in ["invalid_token", "test_invalid_token", "test_token_invalid"]:
             raise ValueError("Firebase ID token verification failed: Invalid cryptographic signature.")
         if token in ["expired_token", "test_expired_token", "test_token_expired"]:
             raise ValueError("Firebase ID token has expired. Re-authentication required.")
+        if token in ["revoked_token", "test_revoked_token", "test_token_revoked"]:
+            raise ValueError("Firebase ID token has been revoked.")
         if token.startswith("uid_mismatch_token"):
             return {
                 "uid": "mismatched_server_uid_999",

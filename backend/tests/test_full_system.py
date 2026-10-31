@@ -101,6 +101,26 @@ async def test_deterministic_eligibility_pm_kisan(db, eligibility_service):
 
 
 @pytest.mark.asyncio
+async def test_income_threshold_does_not_auto_imply_non_taxpayer(db, eligibility_service):
+    """Ensures income below tax threshold does not auto-imply non-taxpayer status; statutory declaration required."""
+    scheme = await db.get_scheme("pm-kisan-001")
+    assert scheme is not None
+
+    rep = eligibility_service.evaluate_scheme(
+        scheme,
+        {
+            "occupation": "farmer",
+            "landOwnership": 1.5,
+            "annualIncome": 120000.0,
+            "hasBankAccount": True,
+            # isIncomeTaxPayer intentionally omitted
+        },
+    )
+    assert rep.verdict == EvaluationVerdict.needsMoreInformation
+    assert "isIncomeTaxPayer" in rep.missingFields
+
+
+@pytest.mark.asyncio
 async def test_borderline_condition_evaluation(db, eligibility_service):
     # Test borderline condition on Ladli Behna (age upper limit is 60; 59 is within 10%)
     lb_scheme = await db.get_scheme("ladli-behna-006")
