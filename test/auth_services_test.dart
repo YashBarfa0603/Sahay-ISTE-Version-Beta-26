@@ -29,6 +29,7 @@ class MockUser extends Fake implements User {
 class FakeAuthService extends Fake implements AuthService {
   User? userToReturn;
   bool throwWrongPassword = false;
+  bool throwEmailAlreadyInUse = false;
   bool cancelGoogle = false;
 
   @override
@@ -42,6 +43,9 @@ class FakeAuthService extends Fake implements AuthService {
     required String email,
     required String password,
   }) async {
+    if (throwEmailAlreadyInUse) {
+      throw const AuthFailure(code: 'email-already-in-use', messageKey: 'email-already-in-use');
+    }
     return userToReturn;
   }
 
@@ -68,15 +72,22 @@ class FakeAuthService extends Fake implements AuthService {
 class FakeUserService extends Fake implements UserService {
   final Map<String, UserModel> profiles = {};
   int createProfileCallCount = 0;
+  bool throwDatabaseError = false;
 
   @override
   Future<UserModel?> getProfile(String uid) async {
+    if (throwDatabaseError) {
+      throw const AuthFailure(code: 'database-error', messageKey: 'database-error');
+    }
     return profiles[uid];
   }
 
   @override
   Future<void> createProfile(UserModel user) async {
     createProfileCallCount++;
+    if (throwDatabaseError) {
+      throw const AuthFailure(code: 'database-error', messageKey: 'database-error');
+    }
     if (!profiles.containsKey(user.uid)) {
       profiles[user.uid] = user;
     }
@@ -246,6 +257,96 @@ void main() {
       expect(profile.occupation, 'farmer');
       expect(profile.profileComplete, isTrue);
       expect(fakeUser.createProfileCallCount, 0); // Did not recreate or overwrite
+    });
+
+    test('7. email sign-in auto-recovers stub profile when user exists in Auth but has no Firestore profile', () async {
+      final mockAuthUser = MockUser(
+        uid: 'recovered_uid_101',
+        email: 'missing_profile@example.com',
+        displayName: 'Recovered Citizen',
+      );
+
+      final fakeAuth = FakeAuthService()..userToReturn = mockAuthUser;
+      final fakeUser = FakeUserService(); // Empty profiles
+
+      final repository = AuthRepository(
+        authService: fakeAuth,
+        userService: fakeUser,
+      );
+
+      final profile = await repository.signIn(
+        email: 'missing_profile@example.com',
+        password: 'Password123',
+      );
+
+      expect(profile, isNotNull);
+      expect(profile!.uid, 'recovered_uid_101');
+      expect(profile.email, 'missing_profile@example.com');
+      expect(profile.fullName, 'Recovered Citizen');
+      expect(profile.authProvider, 'email');
+      expect(fakeUser.createProfileCallCount, 1);
+      expect(fakeUser.profiles['recovered_uid_101'], isNotNull);
+    });
+
+    test('8. email sign-up auto-recovers when email-already-in-use occurs and profile is missing', () async {
+      final mockExistingUser = MockUser(
+        uid: 'orphan_auth_user_202',
+        email: 'orphan@example.com',
+        displayName: 'Orphan User',
+      );
+
+      final fakeAuth = FakeAuthService()
+        ..throwEmailAlreadyInUse = true
+        ..userToReturn = mockExistingUser;
+      final fakeUser = FakeUserService(); // Profile does not exist in Firestore
+
+      final repository = AuthRepository(
+        authService: fakeAuth,
+        userService: fakeUser,
+      );
+
+      final profile = await repository.signUp(
+        email: 'ORPHAN@EXAMPLE.COM',
+        password: 'Password123',
+        fullName: 'Orphan Resolved',
+        mobileNumber: '9876543210',
+        consentAccepted: true,
+      );
+
+      expect(profile, isNotNull);
+      expect(profile.uid, 'orphan_auth_user_202');
+      expect(profile.email, 'orphan@example.com');
+      expect(profile.fullName, 'Orphan Resolved');
+      expect(fakeUser.profiles['orphan_auth_user_202'], isNotNull);
+    });
+
+    test('9. email sign-up tolerates Firestore creation failure without stranding user', () async {
+      final mockNewUser = MockUser(
+        uid: 'new_user_offline',
+        email: 'offline@example.com',
+      );
+
+      final fakeAuth = FakeAuthService()..userToReturn = mockNewUser;
+      final fakeUser = FakeUserService()..throwDatabaseError = true;
+
+      final repository = AuthRepository(
+        authService: fakeAuth,
+        userService: fakeUser,
+      );
+
+      // Should not throw, should return user in memory
+      final profile = await repository.signUp(
+        email: 'offline@example.com',
+        password: 'Password123',
+        fullName: 'Offline User',
+        mobileNumber: '9876543210',
+        consentAccepted: true,
+      );
+
+      expect(profile, isNotNull);
+      expect(profile.uid, 'new_user_offline');
+      expect(profile.email, 'offline@example.com');
+      expect(profile.fullName, 'Offline User');
     });
   });
 }

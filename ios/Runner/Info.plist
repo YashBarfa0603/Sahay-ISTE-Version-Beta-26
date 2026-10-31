@@ -81,5 +81,12 @@
 	<string>SAHAY requires access to the microphone to allow you to speak questions and answers in your preferred language.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>SAHAY requires speech recognition to understand your voice answers for scheme eligibility assessment.</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sahay/models/user_model.dart';
 import 'package:sahay/repositories/auth_repository.dart';
 import 'package:sahay/utils/auth_error_mapper.dart';
+import 'package:sahay/utils/auth_strings.dart';
 
 /// Provider managing authentication state, user profile, and guest access.
 class AuthProvider extends ChangeNotifier {
@@ -32,11 +33,30 @@ class AuthProvider extends ChangeNotifier {
     try {
       _profileSubscription = _authRepository.currentUserProfileStream.listen(
         (user) {
-          _currentUser = user;
-          _isLoading = false;
           if (user != null) {
+            if (_currentUser != null &&
+                _currentUser!.uid == user.uid &&
+                _currentUser!.profileComplete &&
+                !user.profileComplete) {
+              // Preserve completed profile state even if remote Firestore document hasn't synced
+              _currentUser = user.copyWith(
+                profileComplete: true,
+                age: _currentUser!.age,
+                state: _currentUser!.state,
+                district: _currentUser!.district,
+                occupation: _currentUser!.occupation,
+                preferredLanguage: _currentUser!.preferredLanguage,
+                gender: _currentUser!.gender,
+                residenceType: _currentUser!.residenceType,
+              );
+            } else {
+              _currentUser = user;
+            }
             _isGuest = false;
+          } else {
+            _currentUser = null;
           }
+          _isLoading = false;
           notifyListeners();
         },
         onError: (error) {
@@ -84,9 +104,15 @@ class AuthProvider extends ChangeNotifier {
 
     try {
       final user = await _authRepository.signIn(
-        email: email,
+        email: email.trim(),
         password: password,
       );
+      if (user == null) {
+        _isLoading = false;
+        _errorMessage = AuthStrings.getMessage('invalid-credential', lang);
+        notifyListeners();
+        return false;
+      }
       _currentUser = user;
       _isGuest = false;
       _isLoading = false;
@@ -116,10 +142,10 @@ class AuthProvider extends ChangeNotifier {
 
     try {
       final user = await _authRepository.signUp(
-        email: email,
+        email: email.trim(),
         password: password,
-        fullName: fullName,
-        mobileNumber: mobileNumber,
+        fullName: fullName.trim(),
+        mobileNumber: mobileNumber.trim(),
         consentAccepted: consentAccepted,
         consentVersion: consentVersion,
       );
@@ -182,21 +208,26 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await _authRepository.updateProfile(fields);
+      try {
+        await _authRepository.updateProfile(fields);
+      } catch (cloudErr) {
+        debugPrint('AuthProvider: cloud updateProfile non-fatal error: $cloudErr');
+      }
+
       if (_currentUser != null) {
         _currentUser = _currentUser!.copyWith(
-          fullName: fields['fullName']?.toString(),
-          mobileNumber: fields['mobileNumber']?.toString(),
+          fullName: fields['fullName']?.toString() ?? _currentUser!.fullName,
+          mobileNumber: fields['mobileNumber']?.toString() ?? _currentUser!.mobileNumber,
           age: fields['age'] is int ? fields['age'] as int : int.tryParse(fields['age']?.toString() ?? ''),
-          state: fields['state']?.toString(),
-          district: fields['district']?.toString(),
-          occupation: fields['occupation']?.toString(),
-          preferredLanguage: fields['preferredLanguage']?.toString(),
-          gender: fields['gender']?.toString(),
-          residenceType: fields['residenceType']?.toString(),
+          state: fields['state']?.toString() ?? _currentUser!.state,
+          district: fields['district']?.toString() ?? _currentUser!.district,
+          occupation: fields['occupation']?.toString() ?? _currentUser!.occupation,
+          preferredLanguage: fields['preferredLanguage']?.toString() ?? _currentUser!.preferredLanguage,
+          gender: fields['gender']?.toString() ?? _currentUser!.gender,
+          residenceType: fields['residenceType']?.toString() ?? _currentUser!.residenceType,
           profileComplete: fields['profileComplete'] is bool
               ? fields['profileComplete'] as bool
-              : _currentUser!.profileComplete,
+              : true,
         );
       }
       _isLoading = false;

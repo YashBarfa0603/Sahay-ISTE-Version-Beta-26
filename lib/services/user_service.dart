@@ -34,13 +34,21 @@ class UserService {
   Future<void> createProfile(UserModel user) async {
     try {
       final docRef = _usersRef.doc(user.uid);
-      final doc = await docRef.get();
-      if (doc.exists) {
+      bool exists = false;
+      try {
+        final doc = await docRef.get();
+        exists = doc.exists;
+      } catch (getErr) {
+        debugPrint('UserService: docRef.get non-fatal error: $getErr');
+      }
+
+      if (exists) {
         // Preserve existing
         return;
       }
 
       final data = user.toMap();
+      data['email'] = user.email.trim().toLowerCase();
       data['authProvider'] = (user.authProvider == 'password' || user.authProvider == 'email')
           ? 'email'
           : user.authProvider;
@@ -50,7 +58,7 @@ class UserService {
       data['createdAt'] = FieldValue.serverTimestamp();
       data['updatedAt'] = FieldValue.serverTimestamp();
 
-      await docRef.set(data);
+      await docRef.set(data, SetOptions(merge: true));
     } catch (e) {
       debugPrint('UserService: createProfile error $e');
       throw const AuthFailure(code: 'database-error', messageKey: 'database-error');
@@ -65,7 +73,7 @@ class UserService {
       updateData.remove('createdAt');
       updateData['updatedAt'] = FieldValue.serverTimestamp();
 
-      await _usersRef.doc(uid).update(updateData);
+      await _usersRef.doc(uid).set(updateData, SetOptions(merge: true));
     } catch (e) {
       debugPrint('UserService: updateProfile error $e');
       throw const AuthFailure(code: 'database-error', messageKey: 'database-error');
@@ -84,12 +92,20 @@ class UserService {
 
   // Profile stream
   Stream<UserModel?> profileStream(String uid) {
-    return _usersRef.doc(uid).snapshots().map((snapshot) {
-      if (!snapshot.exists || snapshot.data() == null) {
+    try {
+      return _usersRef.doc(uid).snapshots().map((snapshot) {
+        if (!snapshot.exists || snapshot.data() == null) {
+          return null;
+        }
+        return UserModel.fromMap(snapshot.data()!);
+      }).handleError((error) {
+        debugPrint('UserService: profileStream non-fatal error: $error');
         return null;
-      }
-      return UserModel.fromMap(snapshot.data()!);
-    });
+      });
+    } catch (e) {
+      debugPrint('UserService: profileStream exception: $e');
+      return const Stream.empty();
+    }
   }
 }
 

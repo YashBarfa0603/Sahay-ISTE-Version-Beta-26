@@ -16,11 +16,40 @@ class AuthRepository {
 
   // Profile stream
   Stream<UserModel?> get currentUserProfileStream {
-    return _authService.authStateChanges.asyncExpand((user) {
+    return _authService.authStateChanges.asyncExpand((user) async* {
       if (user == null) {
-        return Stream.value(null);
+        yield null;
+        return;
       }
-      return _userService.profileStream(user.uid);
+
+      final stub = UserModel(
+        uid: user.uid,
+        fullName: (user.displayName != null && user.displayName!.trim().isNotEmpty)
+            ? user.displayName!.trim()
+            : (user.email?.split('@').first ?? 'Citizen'),
+        email: (user.email ?? '').trim().toLowerCase(),
+        mobileNumber: user.phoneNumber ?? '',
+        authProvider: 'email',
+        profileComplete: false,
+        consentVersion: '1.0',
+        consentAcceptedAt: DateTime.now(),
+      );
+
+      // Yield immediate authenticated user so UI is never left in an unauthenticated or null state
+      yield stub;
+
+      try {
+        await for (final profile in _userService.profileStream(user.uid)) {
+          if (profile != null) {
+            yield profile;
+          } else {
+            yield stub;
+          }
+        }
+      } catch (e) {
+        debugPrint('AuthRepository: profileStream error caught: $e');
+        yield stub;
+      }
     });
   }
 
@@ -47,10 +76,48 @@ class AuthRepository {
       );
     }
 
-    final user = await _authService.signUpWithEmail(
-      email: email,
-      password: password,
-    );
+    final normalizedEmail = email.trim().toLowerCase();
+    dynamic user;
+    try {
+      user = await _authService.signUpWithEmail(
+        email: normalizedEmail,
+        password: password,
+      );
+    } on AuthFailure catch (e) {
+      if (e.code == 'email-already-in-use') {
+        // Attempt recovery if user was previously created in Auth but profile creation failed
+        try {
+          final existingAuthUser = await _authService.signInWithEmail(
+            email: normalizedEmail,
+            password: password,
+          );
+          if (existingAuthUser != null) {
+            final existingProfile = await _userService.getProfile(existingAuthUser.uid);
+            if (existingProfile != null) {
+              return existingProfile;
+            }
+            // User exists in Firebase Auth but missing Firestore profile doc: create profile now
+            final recoveredUser = UserModel(
+              uid: existingAuthUser.uid,
+              fullName: fullName.trim(),
+              email: normalizedEmail,
+              mobileNumber: mobileNumber.trim(),
+              authProvider: 'email',
+              profileComplete: false,
+              consentAcceptedAt: DateTime.now(),
+              consentVersion: consentVersion,
+            );
+            try {
+              await _userService.createProfile(recoveredUser);
+            } catch (_) {}
+            return recoveredUser;
+          }
+        } catch (_) {
+          // If sign in with the supplied password fails, rethrow the original email-already-in-use
+        }
+      }
+      rethrow;
+    }
 
     if (user == null) {
       throw const AuthFailure(
@@ -62,7 +129,7 @@ class AuthRepository {
     final newUser = UserModel(
       uid: user.uid,
       fullName: fullName.trim(),
-      email: email.trim().toLowerCase(),
+      email: normalizedEmail,
       mobileNumber: mobileNumber.trim(),
       authProvider: 'email',
       profileComplete: false,
@@ -70,7 +137,12 @@ class AuthRepository {
       consentVersion: consentVersion,
     );
 
-    await _userService.createProfile(newUser);
+    try {
+      await _userService.createProfile(newUser);
+    } catch (_) {
+      // If Firestore profile creation encounters a database or network error,
+      // do not leave user unauthenticated; return newUser so session is valid in-memory.
+    }
     return newUser;
   }
 
@@ -79,12 +151,42 @@ class AuthRepository {
     required String email,
     required String password,
   }) async {
+    final normalizedEmail = email.trim().toLowerCase();
     final user = await _authService.signInWithEmail(
-      email: email,
+      email: normalizedEmail,
       password: password,
     );
     if (user == null) return null;
-    return await _userService.getProfile(user.uid);
+
+    UserModel? existingProfile;
+    try {
+      existingProfile = await _userService.getProfile(user.uid);
+    } catch (_) {}
+
+    if (existingProfile != null) {
+      return existingProfile;
+    }
+
+    // Auto-recovery: If user exists in Firebase Auth but has no Firestore profile doc yet,
+    // generate a stub profile so user is never stuck in an unauthenticated loop.
+    final stubProfile = UserModel(
+      uid: user.uid,
+      fullName: (user.displayName != null && user.displayName!.trim().isNotEmpty)
+          ? user.displayName!.trim()
+          : (user.email?.split('@').first ?? 'Citizen'),
+      email: (user.email ?? normalizedEmail).trim().toLowerCase(),
+      mobileNumber: user.phoneNumber ?? '',
+      authProvider: 'email',
+      profileComplete: false,
+      consentVersion: '1.0',
+      consentAcceptedAt: DateTime.now(),
+    );
+
+    try {
+      await _userService.createProfile(stubProfile);
+    } catch (_) {}
+
+    return stubProfile;
   }
 
   // Google sign in
