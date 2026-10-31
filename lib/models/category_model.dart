@@ -10,6 +10,7 @@ class CategoryModel {
   final DateTime createdAt;
   final DateTime updatedAt;
 
+  // Constructor
   const CategoryModel({
     required this.categoryId,
     required this.name,
@@ -23,7 +24,7 @@ class CategoryModel {
     required this.updatedAt,
   });
 
-  // Convert CategoryModel into a Map.
+  // Serialization
   Map<String, dynamic> toMap() {
     return {
       'categoryId': categoryId,
@@ -39,7 +40,7 @@ class CategoryModel {
     };
   }
 
-  // Create CategoryModel from a Map.
+  // Deserialization
   factory CategoryModel.fromMap(Map<String, dynamic> map) {
     return CategoryModel(
       categoryId: map['categoryId'] as String? ?? '',
@@ -55,7 +56,7 @@ class CategoryModel {
     );
   }
 
-  // Create an updated copy of the category.
+  // Copy
   CategoryModel copyWith({
     String? name,
     String? nameHindi,
@@ -80,7 +81,7 @@ class CategoryModel {
     );
   }
 
-  // Convert stored date values into DateTime.
+  // Helper
   static DateTime? _parseDate(dynamic value) {
     if (value == null) return null;
 
