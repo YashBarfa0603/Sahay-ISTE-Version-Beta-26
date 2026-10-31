@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sahay/core/theme/app_colors.dart';
 import 'package:sahay/core/theme/app_text_styles.dart';
+import 'package:sahay/providers/auth_provider.dart';
 import 'package:sahay/providers/eligibility_provider.dart';
 import 'package:sahay/providers/locale_provider.dart';
 import 'package:sahay/providers/user_profile_provider.dart';
-import 'package:sahay/screens/home_screen.dart';
+import 'package:sahay/screens/welcome_screen.dart';
 import 'package:sahay/services/privacy_service.dart';
 
 class PrivacyDialog {
@@ -99,6 +100,7 @@ class PrivacyDialog {
               context.read<UserProfileProvider>().clearAllAnswers();
               context.read<EligibilityProvider>().clearResults();
               PrivacyService().clearSessionData();
+              context.read<AuthProvider>().exitGuestMode();
 
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -113,9 +115,9 @@ class PrivacyDialog {
                 ),
               );
 
-              // Navigate to fresh HomeScreen
+              // Navigate to WelcomeScreen and completely clear stack
               Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (_) => const HomeScreen()),
+                MaterialPageRoute(builder: (_) => const WelcomeScreen()),
                 (route) => false,
               );
             },

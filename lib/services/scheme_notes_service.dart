@@ -1,3 +1,5 @@
+import 'package:sahay/models/scheme_model.dart';
+
 /// Represents structured official guidance and cautionary rules for a scheme.
 class SchemeNotesData {
   final String schemeId;
@@ -378,7 +380,7 @@ class SchemeNotesService {
 
   /// Fetch notes data for a scheme by ID
   static SchemeNotesData? getNotesForScheme(String schemeId) {
-    final cleanId = schemeId.toLowerCase().trim();
+    final cleanId = schemeId.toLowerCase().trim().replaceAll('-', '_');
     if (_notesMap.containsKey(cleanId)) {
       return _notesMap[cleanId];
     }
@@ -388,6 +390,69 @@ class SchemeNotesService {
       }
     }
     return null;
+  }
+
+  /// Fetch notes data for a scheme by ID, falling back to grounded schema rules if unmapped
+  static SchemeNotesData getNotesForSchemeOrGrounded(SchemeModel scheme) {
+    final specific = getNotesForScheme(scheme.schemeId);
+    if (specific != null) return specific;
+
+    // Build grounded notes from scheme's official data
+    final critical = <String>[];
+    final criticalHi = <String>[];
+    for (final rule in scheme.eligibilityRules) {
+      if (rule.description != null && rule.description!.isNotEmpty) {
+        critical.add(rule.description!);
+        criticalHi.add(rule.descriptionHindi ?? rule.description!);
+      }
+    }
+    if (critical.isEmpty) {
+      critical.add('Must meet all statutory eligibility criteria specified by the ${scheme.ministry}.');
+      criticalHi.add('${scheme.ministry} द्वारा निर्धारित सभी वैधानिक पात्रता मानदंडों को पूरा करना अनिवार्य है।');
+    }
+
+    final disqualifications = <String>[
+      'Submission of forged, expired, or non-verifiable certificates/documents.',
+      'Providing conflicting family income or identity data across departmental databases.',
+      'Active income tax filing or government service status where income/deprivation caps apply.',
+      'Simultaneous fraudulent benefit draw from conflicting identical Central/State welfare schemes.',
+    ];
+    final disqualificationsHi = <String>[
+      'जाली, अमान्य या असत्यापित प्रमाणपत्र अथवा दस्तावेज प्रस्तुत करना।',
+      'विभागीय डेटाबेस में परस्पर विरोधी पारिवारिक आय अथवा पहचान विवरण दर्ज होना।',
+      'आय सीमा लागू होने पर आयकर दाता या सरकारी सेवा में होना।',
+      'समान प्रकृति की अन्य केंद्रीय/राज्य योजनाओं से अवैध रूप से दोहरा लाभ प्राप्त करना।',
+    ];
+
+    final docs = scheme.requiredDocuments.isNotEmpty
+        ? scheme.requiredDocuments
+        : ['Aadhaar Card', 'Bank Account Passbook / Statement', 'Proof of Residence / Domicile'];
+    final docsHi = docs;
+
+    final precautions = <String>[
+      'Verify that the spelling of the applicant\'s name on Aadhaar matches bank records and official identity documents exactly.',
+      'Ensure the bank account is an individual account (not joint) with active Aadhaar DBT / NPCI mapper enabled.',
+      'Ensure an active mobile number is linked to both Aadhaar and bank account for mandatory OTP and biometric verification.',
+      'All government registration portals and CSC centers charge only statutory or zero fees; do not pay unauthorized agents.',
+    ];
+    final precautionsHi = <String>[
+      'आधार कार्ड, बैंक खाते और आधिकारिक पहचान पत्रों पर नाम की वर्तनी (Spelling) पूरी तरह समान होनी चाहिए।',
+      'बैंक खाता अनिवार्य रूप से सक्रिय आधार डीबीटी/NPCI मैपर से जुड़ा व्यक्तिगत एकल खाता होना चाहिए।',
+      'ओटीपी और बायोमेट्रिक सत्यापन के लिए आधार व बैंक खाते में सक्रिय मोबाइल नंबर लिंक होना चाहिए।',
+      'शासकीय पोर्टलों व सीएससी पर निर्धारित अथवा शून्य शुल्क लागू है; किसी अनधिकृत बिचौलिए को अतिरिक्त भुगतान न करें।',
+    ];
+
+    return SchemeNotesData(
+      schemeId: scheme.schemeId,
+      criticalConditions: critical,
+      criticalConditionsHindi: criticalHi,
+      disqualificationReasons: disqualifications,
+      disqualificationReasonsHindi: disqualificationsHi,
+      documentRequirements: docs,
+      documentRequirementsHindi: docsHi,
+      applicationPrecautions: precautions,
+      applicationPrecautionsHindi: precautionsHi,
+    );
   }
 }
 

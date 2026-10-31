@@ -15,7 +15,12 @@ import 'package:sahay/widgets/question_card.dart';
 import 'package:sahay/widgets/sahay_app_bar.dart';
 
 class QuestionnaireScreen extends StatefulWidget {
-  const QuestionnaireScreen({super.key});
+  final String? targetSchemeId;
+
+  const QuestionnaireScreen({
+    super.key,
+    this.targetSchemeId,
+  });
 
   @override
   State<QuestionnaireScreen> createState() => _QuestionnaireScreenState();

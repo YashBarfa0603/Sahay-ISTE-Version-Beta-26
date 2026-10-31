@@ -17,6 +17,12 @@ enum VerificationStatus {
   rejected,
 }
 
+enum VerificationBadgeStatus {
+  verified,
+  partiallyVerified,
+  unverified,
+}
+
 enum SchemeSourceType {
   curated,
   discovered,
@@ -257,8 +263,11 @@ class SchemeModel {
 
       applicationUrl: map['applicationUrl'] as String?,
 
-      officialSourceUrl:
-          map['officialSourceUrl'] as String? ?? '',
+      officialSourceUrl: (map['officialSourceUrl'] as String? ?? '').isNotEmpty
+          ? (map['officialSourceUrl'] as String)
+          : ((map['sourceUrls'] is List && (map['sourceUrls'] as List).isNotEmpty)
+              ? (map['sourceUrls'] as List).first.toString()
+              : (map['applicationUrl'] as String? ?? '')),
 
       sourceName: map['sourceName'] as String?,
 
@@ -345,6 +354,22 @@ class SchemeModel {
       createdAt: createdAt,
       updatedAt: updatedAt ?? DateTime.now(),
     );
+  }
+
+  /// Resolves the display badge status (VERIFIED, PARTIALLY VERIFIED, UNVERIFIED)
+  VerificationBadgeStatus get badgeStatus {
+    if (verificationStatus == VerificationStatus.verified) {
+      return VerificationBadgeStatus.verified;
+    }
+    final url = officialSourceUrl.toLowerCase();
+    final isGovDomain = url.contains('.gov.in') || url.contains('.nic.in');
+    if (sourceType == SchemeSourceType.curated && isGovDomain) {
+      return VerificationBadgeStatus.verified;
+    }
+    if (isGovDomain || sourceType == SchemeSourceType.curated) {
+      return VerificationBadgeStatus.partiallyVerified;
+    }
+    return VerificationBadgeStatus.unverified;
   }
 
   // Date conversion helper

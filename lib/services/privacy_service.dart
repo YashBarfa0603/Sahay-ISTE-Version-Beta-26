@@ -1,6 +1,10 @@
 import 'dart:async';
 
 class PrivacyService {
+  static final PrivacyService _instance = PrivacyService._internal();
+  factory PrivacyService() => _instance;
+  PrivacyService._internal();
+
   // Session memory
   final Map<String, dynamic> _sessionAnswers = {};
   final List<String> _assessedSchemeIds = [];

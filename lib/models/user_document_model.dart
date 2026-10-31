@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 /// Represents a citizen's private document metadata stored in Firestore.
@@ -14,6 +15,7 @@ class UserDocumentModel {
   final DateTime updatedAt;
   final String verificationStatus; // 'uploaded', 'unverified'
   final String? notes;
+  final Uint8List? cachedBytes;
 
   const UserDocumentModel({
     required this.documentId,
@@ -28,6 +30,7 @@ class UserDocumentModel {
     required this.updatedAt,
     this.verificationStatus = 'unverified',
     this.notes,
+    this.cachedBytes,
   });
 
   /// Formatted file size string (e.g. "1.2 MB", "450 KB")
@@ -103,6 +106,7 @@ class UserDocumentModel {
     DateTime? updatedAt,
     String? verificationStatus,
     String? notes,
+    Uint8List? cachedBytes,
   }) {
     return UserDocumentModel(
       documentId: documentId ?? this.documentId,
@@ -117,6 +121,7 @@ class UserDocumentModel {
       updatedAt: updatedAt ?? this.updatedAt,
       verificationStatus: verificationStatus ?? this.verificationStatus,
       notes: notes ?? this.notes,
+      cachedBytes: cachedBytes ?? this.cachedBytes,
     );
   }
 }
