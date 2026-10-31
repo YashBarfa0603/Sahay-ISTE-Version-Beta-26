@@ -7,6 +7,7 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
 from backend.app.database.db_interface import SchemeDatabaseInterface, get_scheme_db
+from backend.app.dependencies.auth import AuthenticatedUser, get_current_user
 from backend.app.models.scheme_schemas import EligibilityRuleSchema
 from backend.app.services.versioning_service import (
     CandidateRuleProposal,
@@ -21,14 +22,14 @@ _versioning_service = SchemeVersioningService()
 
 class ApprovalRequest(BaseModel):
     proposal_id: str
-    reviewer_id: str
+    reviewer_id: Optional[str] = None
     review_notes: str
 
 
 class RollbackRequest(BaseModel):
     scheme_id: str
     target_version: int
-    operator_id: str
+    operator_id: Optional[str] = None
     reason: str
 
 
@@ -56,8 +57,12 @@ async def list_pending_rule_proposals(
 
 
 @router.post("/proposals", response_model=str)
-async def submit_candidate_rule_proposal(proposal: CandidateRuleProposal):
-    """Submits a candidate rule update. Does NOT modify production rules without human approval."""
+async def submit_candidate_rule_proposal(
+    proposal: CandidateRuleProposal,
+    user: AuthenticatedUser = Depends(get_current_user),
+):
+    """Submits a candidate rule update. Protected endpoint requiring authenticated token."""
+    proposal.proposedBy = user.uid
     return _versioning_service.submit_candidate_proposal(proposal)
 
 
@@ -65,11 +70,13 @@ async def submit_candidate_rule_proposal(proposal: CandidateRuleProposal):
 async def approve_rule_proposal(
     request: ApprovalRequest,
     db: SchemeDatabaseInterface = Depends(get_scheme_db),
+    user: AuthenticatedUser = Depends(get_current_user),
 ):
-    """Approves a candidate proposal, minting a new active rule version for the scheme."""
+    """Approves a candidate proposal, minting a new active rule version for the scheme. Protected endpoint."""
+    reviewer = user.uid if user.uid else (request.reviewer_id or "authenticated_verifier")
     record = _versioning_service.approve_proposal(
         proposal_id=request.proposal_id,
-        reviewer_id=request.reviewer_id,
+        reviewer_id=reviewer,
         notes=request.review_notes,
     )
     if not record:
@@ -89,12 +96,14 @@ async def approve_rule_proposal(
 async def rollback_scheme_rules(
     request: RollbackRequest,
     db: SchemeDatabaseInterface = Depends(get_scheme_db),
+    user: AuthenticatedUser = Depends(get_current_user),
 ):
-    """Rolls back scheme eligibility rules to a specified prior verified version."""
+    """Rolls back scheme eligibility rules to a specified prior verified version. Protected endpoint."""
+    operator = user.uid if user.uid else (request.operator_id or "authenticated_admin")
     record = _versioning_service.rollback_to_version(
         scheme_id=request.scheme_id,
         target_version=request.target_version,
-        operator_id=request.operator_id,
+        operator_id=operator,
         reason=request.reason,
     )
     if not record:

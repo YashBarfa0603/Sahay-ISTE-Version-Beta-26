@@ -47,11 +47,78 @@ class SchemeEvaluationReport(BaseModel):
 class EligibilityEvaluationService:
     """Evaluates citizen eligibility against verified scheme rules deterministically."""
 
+    def _normalize_answers(self, user_answers: Dict[str, Any]) -> Dict[str, Any]:
+        """Normalizes and synthesizes answer attributes from citizen profile."""
+        norm = dict(user_answers)
+
+        # 1. Synthesize ownsCultivableLand from landOwnership if present
+        if "ownsCultivableLand" not in norm and "landOwnership" in norm:
+            try:
+                if float(norm["landOwnership"]) > 0:
+                    norm["ownsCultivableLand"] = True
+            except (ValueError, TypeError):
+                pass
+
+        # 2. Synthesize isDependentOfExServiceman from isExServiceman
+        if "isDependentOfExServiceman" not in norm and "isExServiceman" in norm:
+            norm["isDependentOfExServiceman"] = bool(norm["isExServiceman"])
+
+        # 3. Synthesize isVulnerableCategory from caste or priority ration card
+        if "isVulnerableCategory" not in norm:
+            caste = str(norm.get("casteCategory", "")).lower()
+            has_priority = norm.get("hasPriorityRationCard") is True or norm.get("bplCard") is True
+            if caste in ["sc", "st"] or has_priority:
+                norm["isVulnerableCategory"] = True
+
+        # 4. Synthesize hasAadhaarOrIdProof from bank account or explicit aadhaar
+        if "hasAadhaarOrIdProof" not in norm:
+            if norm.get("hasBankAccount") is True or norm.get("hasAadhaar") is True:
+                norm["hasAadhaarOrIdProof"] = True
+
+        # 5. Senior citizen 70+ qualifies for PM-JAY under Ayushman Vay Vandana
+        if "hasPriorityRationCard" not in norm and "age" in norm:
+            try:
+                if float(norm["age"]) >= 70:
+                    norm["hasPriorityRationCard"] = True
+            except (ValueError, TypeError):
+                pass
+
+        # 6. Legally exempt from income tax if declared income is <= ₹2.5L
+        if "isIncomeTaxPayer" not in norm and "annualIncome" in norm:
+            try:
+                if float(norm["annualIncome"]) <= 250000:
+                    norm["isIncomeTaxPayer"] = False
+            except (ValueError, TypeError):
+                pass
+
+        # 7. Non-government employee inference from declared non-government occupation
+        if "isGovernmentEmployee" not in norm and "occupation" in norm:
+            occ = str(norm["occupation"]).lower()
+            if occ != "government_employee":
+                norm["isGovernmentEmployee"] = False
+
+        # 8. Individual citizen applicant is not an institutional landholder
+        if "isInstitutionalLandholder" not in norm:
+            norm["isInstitutionalLandholder"] = False
+
+        # 9. Unify motorized vehicle and four-wheeler flags
+        if "hasFourWheeler" not in norm and "hasMotorizedVehicle" in norm:
+            norm["hasFourWheeler"] = norm["hasMotorizedVehicle"]
+        if "hasMotorizedVehicle" not in norm and "hasFourWheeler" in norm:
+            norm["hasMotorizedVehicle"] = norm["hasFourWheeler"]
+        if "hasFourWheeler" not in norm and "ownsFourWheeler" in norm:
+            norm["hasFourWheeler"] = norm["ownsFourWheeler"]
+        if "ownsFourWheeler" not in norm and "hasFourWheeler" in norm:
+            norm["ownsFourWheeler"] = norm["hasFourWheeler"]
+
+        return norm
+
     def evaluate_scheme(
         self,
         scheme: SchemeModelSchema,
         user_answers: Dict[str, Any],
     ) -> SchemeEvaluationReport:
+        norm_answers = self._normalize_answers(user_answers)
         rules = scheme.eligibilityRules
         if not rules:
             return SchemeEvaluationReport(
@@ -76,8 +143,8 @@ class EligibilityEvaluationService:
 
         for rule in rules:
             field = rule.field
-            has_val = field in user_answers and user_answers[field] is not None
-            actual_val = user_answers.get(field)
+            has_val = field in norm_answers and norm_answers[field] is not None
+            actual_val = norm_answers.get(field)
 
             if not has_val:
                 missing_fields.append(field)
@@ -191,6 +258,16 @@ class EligibilityEvaluationService:
             sat = bool(actual) is False
             return sat, False, f"Requirement satisfied (not excluded)" if sat else f"Condition triggers exclusion ({desc})"
 
+        if operator == EligibilityOperator.inList:
+            expected_list = expected if isinstance(expected, list) else [expected]
+            sat = any(str(actual).strip().lower() == str(e).strip().lower() for e in expected_list)
+            return sat, False, f"Found in eligible list" if sat else f"Value '{actual}' not in eligible categories"
+
+        if operator == EligibilityOperator.notInList:
+            expected_list = expected if isinstance(expected, list) else [expected]
+            sat = not any(str(actual).strip().lower() == str(e).strip().lower() for e in expected_list)
+            return sat, False, f"Not in excluded list" if sat else f"Value '{actual}' is in excluded list"
+
         # Numeric comparisons
         try:
             num_actual = float(actual)
@@ -216,16 +293,6 @@ class EligibilityEvaluationService:
         if operator == EligibilityOperator.greaterThanOrEqual:
             sat = num_actual >= num_expected
             return sat, is_borderline, f"{actual} satisfies minimum {expected}" if sat else f"{actual} below minimum required {expected}"
-
-        if operator == EligibilityOperator.inList:
-            expected_list = expected if isinstance(expected, list) else [expected]
-            sat = any(str(actual).strip().lower() == str(e).strip().lower() for e in expected_list)
-            return sat, False, f"Found in eligible list" if sat else f"Value '{actual}' not in eligible categories"
-
-        if operator == EligibilityOperator.notInList:
-            expected_list = expected if isinstance(expected, list) else [expected]
-            sat = not any(str(actual).strip().lower() == str(e).strip().lower() for e in expected_list)
-            return sat, False, f"Not in excluded list" if sat else f"Value '{actual}' is in excluded list"
 
         return False, False, "Unknown comparison operator"
 

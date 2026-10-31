@@ -58,6 +58,26 @@ class QuestionItem {
   }
 }
 
+class AssessmentContradiction {
+  final String conflictId;
+  final List<String> conflictingFields;
+  final String messageEn;
+  final String messageHi;
+  final String remedyEn;
+  final String remedyHi;
+  final bool isBlocking;
+
+  const AssessmentContradiction({
+    required this.conflictId,
+    required this.conflictingFields,
+    required this.messageEn,
+    required this.messageHi,
+    required this.remedyEn,
+    required this.remedyHi,
+    this.isBlocking = true,
+  });
+}
+
 class QuestionEngine {
   final EligibilityEngine _eligibilityEngine;
 
@@ -286,13 +306,196 @@ class QuestionEngine {
           labelHindi: 'क्या आपके पास आधार से जुड़ा सक्रिय बैंक खाता है?',
           helperText: 'Necessary for direct benefit cash transfers (DBT) under almost all government schemes.',
         ),
+
+        // 17. Income Tax Payer
+        QuestionItem(
+          id: 'isIncomeTaxPayer',
+          type: 'boolean',
+          label: 'Has any member of your household paid Income Tax in the last assessment year?',
+          labelHindi: 'क्या आपके परिवार के किसी सदस्य ने पिछले वित्तीय वर्ष में आयकर का भुगतान किया है?',
+          helperText: 'Statutory exclusion parameter under PM-KISAN, Ladli Behna, and PMAY-G schemes.',
+        ),
+
+        // 18. Government Employee Status
+        QuestionItem(
+          id: 'isGovernmentEmployee',
+          type: 'boolean',
+          label: 'Is any member of your household a regular government employee or pensioner?',
+          labelHindi: 'क्या आपके परिवार का कोई सदस्य नियमित सरकारी कर्मचारी या पेंशनभोगी है?',
+          helperText: 'Exclusion criterion for PM-KISAN, Ladli Behna, and PMAY-G (Group D/MTS staff exempted for PM-KISAN).',
+        ),
+
+        // 19. Priority / Antyodaya Ration Card
+        QuestionItem(
+          id: 'hasPriorityRationCard',
+          type: 'boolean',
+          label: 'Does your household hold an Antyodaya (AAY), BPL, or NFSA Priority Ration Card?',
+          labelHindi: 'क्या आपके परिवार के पास अंत्योदय (AAY), बीपीएल या प्राथमिकता राशन कार्ड है?',
+          helperText: 'Primary beneficiary entitlement record for Ayushman Bharat (PM-JAY) and Ujjwala 2.0.',
+        ),
+
+        // 20. Motorized Vehicle
+        QuestionItem(
+          id: 'hasMotorizedVehicle',
+          type: 'boolean',
+          label: 'Does your household own a motorized 2/3/4-wheeler or agricultural equipment?',
+          labelHindi: 'क्या आपके परिवार के पास दो/तीन/चार पहिया वाहन या कृषि मशीनरी है?',
+          helperText: 'Statutory exclusion parameter under PMAY-G rural housing guidelines.',
+        ),
+
+        // 21. Four Wheeler
+        QuestionItem(
+          id: 'hasFourWheeler',
+          type: 'boolean',
+          label: 'Does your family own a motorized four-wheeler (car/jeep, excluding tractor)?',
+          labelHindi: 'क्या आपके परिवार के पास चार पहिया वाहन (कार/जीप, ट्रैक्टर को छोड़कर) है?',
+          helperText: 'Statutory exclusion criterion for Mukhyamantri Ladli Behna Yojana.',
+        ),
+
+        // 22. Professional Degree Course (for PMSS)
+        QuestionItem(
+          id: 'isProfessionalCourse',
+          type: 'boolean',
+          isConditional: true,
+          dependsOn: 'isExServiceman',
+          dependsOnValue: true,
+          label: 'Are you enrolled in an approved technical/professional degree (Engineering, Medical, MBA, MCA)?',
+          labelHindi: 'क्या आप मान्यता प्राप्त व्यावसायिक/तकनीकी डिग्री (इंजीनियरिंग, मेडिकल, एमबीए) में नामांकित हैं?',
+          helperText: 'PMSS exclusively covers approved professional courses. General BA/BSc/BCom are excluded.',
+        ),
+
+        // 23. MEQ Marks Percentage (for PMSS)
+        QuestionItem(
+          id: 'meqMarksPercentage',
+          type: 'number',
+          isConditional: true,
+          dependsOn: 'isExServiceman',
+          dependsOnValue: true,
+          label: 'What was your percentage in the Minimum Entry Qualification marksheet (Class 12 / Diploma / Degree)?',
+          labelHindi: 'न्यूनतम प्रवेश योग्यता परीक्षा (12वीं/डिप्लोमा) में आपके कितने प्रतिशत अंक हैं?',
+          helperText: 'PMSS requires at least 60% aggregate marks in entry qualification.',
+          unit: '%',
+        ),
       ];
+
+  // Contradiction Detection (Phase 5)
+  List<AssessmentContradiction> detectContradictions(Map<String, dynamic> answers) {
+    final contradictions = <AssessmentContradiction>[];
+
+    final age = _parseNum(answers['age']);
+    final occupation = answers['occupation']?.toString().toLowerCase();
+    final maritalStatus = answers['maritalStatus']?.toString().toLowerCase();
+    final isGovEmployee = answers['isGovernmentEmployee'];
+    final income = _parseNum(answers['annualIncome']);
+    final hasPriorityCard = answers['hasPriorityRationCard'] == true || answers['bplCard'] == true;
+    final land = _parseNum(answers['landOwnership']);
+
+    // 1. Age vs Occupation
+    if (age != null && occupation != null) {
+      if (age < 18 && (occupation == 'salaried_private' || occupation == 'government_employee' || occupation == 'retired')) {
+        contradictions.add(
+          const AssessmentContradiction(
+            conflictId: 'age_minor_formal_employment',
+            conflictingFields: ['age', 'occupation'],
+            messageEn: 'Age is recorded as under 18, but occupation indicates formal employment or retirement.',
+            messageHi: 'आपकी आयु 18 वर्ष से कम दर्ज है, लेकिन व्यवसाय औपचारिक रोजगार या सेवानिवृत्त चुना गया है।',
+            remedyEn: 'Please verify your birth year/age or select Student / Other.',
+            remedyHi: 'कृपया अपनी सही आयु या उपयुक्त व्यवसाय चुनें।',
+            isBlocking: true,
+          ),
+        );
+      }
+      if (age > 65 && occupation == 'student') {
+        contradictions.add(
+          const AssessmentContradiction(
+            conflictId: 'age_senior_student',
+            conflictingFields: ['age', 'occupation'],
+            messageEn: 'Age is recorded as over 65 with full-time student status.',
+            messageHi: 'आपकी आयु 65 वर्ष से अधिक है और व्यवसाय छात्र चुना गया है।',
+            remedyEn: 'Please verify if you are currently enrolled in a recognized degree or retired/senior citizen.',
+            remedyHi: 'कृपया सत्यापित करें कि क्या आप नियमित छात्र हैं या सेवानिवृत्त/वरिष्ठ नागरिक।',
+            isBlocking: false,
+          ),
+        );
+      }
+    }
+
+    // 2. Age vs Marital Status
+    if (age != null && maritalStatus != null) {
+      if (age < 18 && (maritalStatus == 'married' || maritalStatus == 'widowed' || maritalStatus == 'divorced')) {
+        contradictions.add(
+          const AssessmentContradiction(
+            conflictId: 'age_minor_marriage',
+            conflictingFields: ['age', 'maritalStatus'],
+            messageEn: 'Under statutory welfare guidelines, formal applicant profiles require age 18+ for married welfare benefits.',
+            messageHi: 'कल्याणकारी योजनाओं के वैधानिक नियमों के तहत वैवाहिक योजनाओं के लिए न्यूनतम आयु 18 वर्ष आवश्यक है।',
+            remedyEn: 'Please review your age or marital status answer.',
+            remedyHi: 'कृपया अपनी आयु या वैवाहिक स्थिति की समीक्षा करें।',
+            isBlocking: true,
+          ),
+        );
+      }
+    }
+
+    // 3. Occupation vs Government Employee Exclusion
+    if (occupation == 'government_employee' && isGovEmployee == false) {
+      contradictions.add(
+        const AssessmentContradiction(
+          conflictId: 'occupation_gov_emp_mismatch',
+          conflictingFields: ['occupation', 'isGovernmentEmployee'],
+          messageEn: 'Occupation is selected as government employee, but household government employment status is marked No.',
+          messageHi: 'व्यवसाय में सरकारी कर्मचारी चुना गया है, लेकिन परिवार में सरकारी कर्मचारी होने से मना किया गया है।',
+          remedyEn: 'Please align your occupation with the government employee exclusion declaration.',
+          remedyHi: 'कृपया अपने व्यवसाय और सरकारी कर्मचारी घोषणा का मिलान करें।',
+          isBlocking: true,
+        ),
+      );
+    }
+
+    // 4. High Income vs Priority/BPL Card (NFSA/BPL threshold is under ₹2.5L-3.0L)
+    if (income != null && income > 300000 && hasPriorityCard) {
+      contradictions.add(
+        AssessmentContradiction(
+          conflictId: 'high_income_bpl_card',
+          conflictingFields: const ['annualIncome', 'hasPriorityRationCard'],
+          messageEn: 'Annual family income is entered as ₹${income.toStringAsFixed(0)}, which exceeds BPL/Priority Ration Card income thresholds.',
+          messageHi: 'वार्षिक पारिवारिक आय ₹${income.toStringAsFixed(0)} दर्ज है, जो बीपीएल/प्राथमिकता राशन कार्ड सीमा से काफी अधिक है।',
+          remedyEn: 'Please verify your annual family income or ration card category.',
+          remedyHi: 'कृपया अपनी वार्षिक आय या राशन कार्ड श्रेणी की पुष्टि करें।',
+          isBlocking: false,
+        ),
+      );
+    }
+
+    // 5. Land Ownership vs Non-Agricultural Student/Homemaker with large land
+    if (land != null && land > 5.0 && (occupation == 'student')) {
+      contradictions.add(
+        const AssessmentContradiction(
+          conflictId: 'student_large_landholding',
+          conflictingFields: ['occupation', 'landOwnership'],
+          messageEn: 'Student profile lists individual agricultural landholding over 5 hectares.',
+          messageHi: 'छात्र प्रोफाइल में 5 हेक्टेयर से अधिक व्यक्तिगत कृषि भूमि दर्ज की गई है।',
+          remedyEn: 'Please verify if the land is registered under household farmer head.',
+          remedyHi: 'कृपया सत्यापित करें कि क्या भूमि परिवार के मुखिया किसान के नाम पर पंजीकृत है।',
+          isBlocking: false,
+        ),
+      );
+    }
+
+    return contradictions;
+  }
 
   // Next question
   QuestionItem? getNextQuestion(
     Map<String, dynamic> currentAnswers,
     List<SchemeModel> schemes,
   ) {
+    // If a blocking contradiction is detected, halt questionnaire until resolved
+    final blockingContradictions = detectContradictions(currentAnswers).where((c) => c.isBlocking);
+    if (blockingContradictions.isNotEmpty) {
+      return null;
+    }
+
     // Active schemes
     final activeSchemes = schemes.where((scheme) {
       final evaluation = _eligibilityEngine.evaluateScheme(scheme, currentAnswers);
@@ -441,5 +644,11 @@ class QuestionEngine {
     }
 
     return true;
+  }
+
+  num? _parseNum(dynamic v) {
+    if (v == null) return null;
+    if (v is num) return v;
+    return num.tryParse(v.toString().trim());
   }
 }

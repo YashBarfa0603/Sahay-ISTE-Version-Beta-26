@@ -197,14 +197,26 @@ class _CscLocatorScreenState extends State<CscLocatorScreen> {
               color: AppColors.paleSage,
               child: Row(
                 children: [
-                  const Icon(Icons.verified_user_rounded, color: AppColors.forestGreen, size: 20),
+                  const Icon(Icons.info_outline_rounded, color: AppColors.forestGreen, size: 20),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
                       isHi
-                          ? 'सभी केंद्र डिजिटल इंडिया के अंतर्गत अधिकृत हैं। आवेदन हेतु आधार एवं बैंक पासबुक साथ ले जाएं।'
-                          : 'Official Digital India CSC partners. Carry Aadhaar and Bank Passbook for scheme enrollment.',
+                          ? 'प्रदर्शन केंद्र नीचे दिखाए गए हैं। पूरे भारत के 5 लाख+ केंद्रों हेतु भारत सरकार के आधिकारिक पोर्टल locator.csccloud.in पर जाएं।'
+                          : 'Demonstration seed centres shown below. For live nationwide Gram Panchayat VLE search, visit official locator.csccloud.in.',
                       style: AppTextStyles.caption.copyWith(color: AppColors.forestGreen, fontSize: 11),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      final uri = Uri.parse('https://locator.csccloud.in/');
+                      if (await canLaunchUrl(uri)) {
+                        await launchUrl(uri, mode: LaunchMode.externalApplication);
+                      }
+                    },
+                    child: Text(
+                      isHi ? 'खोलें' : 'Open',
+                      style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.forestGreen),
                     ),
                   ),
                 ],
@@ -233,9 +245,45 @@ class _CscLocatorScreenState extends State<CscLocatorScreen> {
                         )
                       : _centres.isEmpty
                           ? Center(
-                              child: Text(
-                                isHi ? 'कोई केंद्र नहीं मिला।' : 'No centres found for selected filters.',
-                                style: AppTextStyles.bodyMedium,
+                              child: Padding(
+                                padding: const EdgeInsets.all(24),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(Icons.store_mall_directory_outlined, color: AppColors.textSecondary, size: 48),
+                                    const SizedBox(height: 12),
+                                    Text(
+                                      isHi
+                                          ? 'इस क्षेत्र के लिए कोई प्रदर्शन केंद्र नहीं मिला।'
+                                          : 'No demonstration seed centres found for this area.',
+                                      style: AppTextStyles.heading3.copyWith(fontSize: 16),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      isHi
+                                          ? 'कृपया भारत सरकार के आधिकारिक सीएससी लोकेटर (locator.csccloud.in) पर अपने गांव/वार्ड का केंद्र खोजें अथवा राष्ट्रीय हेल्पलाइन 1800-121-3468 पर कॉल करें।'
+                                          : 'Please find active Village Level Entrepreneurs (VLEs) via the official Government of India CSC portal or call National Helpline 1800-121-3468.',
+                                      style: AppTextStyles.caption.copyWith(color: AppColors.textSecondary),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    const SizedBox(height: 16),
+                                    ElevatedButton.icon(
+                                      icon: const Icon(Icons.open_in_new_rounded, size: 18),
+                                      label: Text(isHi ? 'आधिकारिक CSC पोर्टल खोलें' : 'Open locator.csccloud.in'),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: AppColors.indianTeal,
+                                        foregroundColor: Colors.white,
+                                      ),
+                                      onPressed: () async {
+                                        final uri = Uri.parse('https://locator.csccloud.in/');
+                                        if (await canLaunchUrl(uri)) {
+                                          await launchUrl(uri, mode: LaunchMode.externalApplication);
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
                             )
                           : ListView.separated(

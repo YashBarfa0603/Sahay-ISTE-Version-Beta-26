@@ -43,13 +43,17 @@ class CscCentreRecord(BaseModel):
     email: Optional[str] = None
     services_available: List[str]
     is_verified: bool = True
-    official_portal_url: str = "https://findmycsc.nic.in/"
+    is_demonstration_seed: bool = True
+    data_source: str = "CSC e-Governance Services India Limited (Demonstration Seed)"
+    last_verified: str = "2026-10-31"
+    official_portal_url: str = "https://locator.csccloud.in/"
 
 
 class AssistanceService:
     """Provides conflict diagnostics, CSC directory lookups, and human official referrals."""
 
-    # Curated authoritative directory of Common Service Centres across major Indian states
+    # Curated demonstration seed directory of Common Service Centres across major Indian states.
+    # Note: For nationwide coverage across 500,000+ VLEs, citizens are directed to locator.csccloud.in
     CSC_DIRECTORY: List[CscCentreRecord] = [
         # Madhya Pradesh
         CscCentreRecord(
@@ -60,9 +64,10 @@ class AssistanceService:
             district="Bhopal",
             pin_code="462011",
             address="Plot 42, Zone 1, MP Nagar, Near DB Mall, Bhopal",
-            contact_number="+91 755 2554011",
-            email="csc.bhopal01@csc.gov.in",
+            contact_number="1800-121-3468",  # Official National CSC Helpline
+            email="helpdesk@csc.gov.in",
             services_available=["PM-KISAN eKYC", "Ayushman Card", "Ladli Behna Registration", "Income Certificate"],
+            official_portal_url="https://locator.csccloud.in/",
         ),
         CscCentreRecord(
             centre_id="CSC_MP_IND_002",
@@ -72,9 +77,10 @@ class AssistanceService:
             district="Indore",
             pin_code="452002",
             address="Shop 14, Near Rajwada Palace, MG Road, Indore",
-            contact_number="+91 731 2439812",
-            email="csc.indore02@csc.gov.in",
+            contact_number="1800-121-3468",
+            email="helpdesk@csc.gov.in",
             services_available=["PMAY Application", "Ujjwala 2.0 KYC", "Aadhaar Update", "DBT Seeding"],
+            official_portal_url="https://locator.csccloud.in/",
         ),
         CscCentreRecord(
             centre_id="CSC_MP_JAB_003",
@@ -84,9 +90,10 @@ class AssistanceService:
             district="Jabalpur",
             pin_code="482002",
             address="Civic Centre Complex, Near High Court Road, Jabalpur",
-            contact_number="+91 761 2621004",
-            email="csc.jabalpur@csc.gov.in",
+            contact_number="1800-121-3468",
+            email="helpdesk@csc.gov.in",
             services_available=["PM Kisan Samman", "Caste Certificate", "E-Shram Card", "Pension Application"],
+            official_portal_url="https://locator.csccloud.in/",
         ),
         # Maharashtra
         CscCentreRecord(
@@ -97,9 +104,10 @@ class AssistanceService:
             district="Mumbai",
             pin_code="400028",
             address="Near Railway Station, Senapati Bapat Marg, Dadar West, Mumbai",
-            contact_number="+91 22 24301122",
-            email="csc.mumbai01@maharashtra.gov.in",
+            contact_number="1800-121-3468",
+            email="helpdesk@csc.gov.in",
             services_available=["MahaDBT Scholarship", "Ration Card Seeding", "Ayushman Bharat", "Land Record 7/12"],
+            official_portal_url="https://locator.csccloud.in/",
         ),
         # Uttar Pradesh
         CscCentreRecord(
@@ -110,9 +118,10 @@ class AssistanceService:
             district="Lucknow",
             pin_code="226001",
             address="Mayfair Building, MG Marg, Hazratganj, Lucknow",
-            contact_number="+91 522 2614455",
-            email="csc.lucknow@up.gov.in",
+            contact_number="1800-121-3468",
+            email="helpdesk@csc.gov.in",
             services_available=["Kanya Sumangala", "PMAY-G", "Old Age Pension", "Kisan Credit Card"],
+            official_portal_url="https://locator.csccloud.in/",
         ),
         # Tamil Nadu
         CscCentreRecord(
@@ -123,9 +132,10 @@ class AssistanceService:
             district="Chennai",
             pin_code="600040",
             address="2nd Avenue, Near Roundtana, Anna Nagar, Chennai",
-            contact_number="+91 44 26213344",
-            email="esevai.annanagar@tnesevai.tn.gov.in",
+            contact_number="1800-121-3468",
+            email="helpdesk@csc.gov.in",
             services_available=["Kalaignar Magalir Urimai Thogai", "Pudhumai Penn", "Community Certificate", "Income Certificate"],
+            official_portal_url="https://locator.csccloud.in/",
         ),
     ]
 

@@ -11,6 +11,8 @@ import 'package:sahay/providers/scheme_provider.dart';
 import 'package:sahay/providers/user_profile_provider.dart';
 import 'package:sahay/services/pdf_service.dart';
 import 'package:sahay/widgets/sahay_app_bar.dart';
+import 'package:pdf/pdf.dart';
+import 'package:printing/printing.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DocumentChecklistScreen extends StatefulWidget {
@@ -48,25 +50,29 @@ class _DocumentChecklistScreenState extends State<DocumentChecklistScreen> {
 
       if (!mounted) return;
 
+      // Invoke real native Share/Save sheet (iOS Files/AirDrop/Android Share)
+      await Printing.sharePdf(
+        bytes: pdfBytes,
+        filename: 'sahay_document_checklist.pdf',
+      );
+
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Document checklist PDF generated successfully (${(pdfBytes.lengthInBytes / 1024).toStringAsFixed(1)} KB). Ready for download.',
+            language == 'hi'
+                ? 'दस्तावेज चेकलिस्ट साझा/सहेजने के लिए तैयार है (${(pdfBytes.lengthInBytes / 1024).toStringAsFixed(1)} KB)।'
+                : 'Checklist PDF ready for saving/sharing (${(pdfBytes.lengthInBytes / 1024).toStringAsFixed(1)} KB).',
           ),
           backgroundColor: AppColors.forestGreen,
           duration: const Duration(seconds: 4),
-          action: SnackBarAction(
-            label: 'OK',
-            textColor: Colors.white,
-            onPressed: () {},
-          ),
         ),
       );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to generate PDF: $e'),
+          content: Text('Failed to share PDF: $e'),
           backgroundColor: AppColors.mutedCoral,
         ),
       );
@@ -86,7 +92,7 @@ class _DocumentChecklistScreenState extends State<DocumentChecklistScreen> {
     setState(() => _isGeneratingPdf = true);
 
     try {
-      await _pdfService.generateChecklist(
+      final pdfBytes = await _pdfService.generateChecklist(
         userName: userName,
         schemes: schemes,
         results: resultsMap,
@@ -95,11 +101,10 @@ class _DocumentChecklistScreenState extends State<DocumentChecklistScreen> {
 
       if (!mounted) return;
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Document checklist formatted and dispatched to printing service.'),
-          backgroundColor: AppColors.deepNavy,
-        ),
+      // Invoke real native print dialog
+      await Printing.layoutPdf(
+        name: 'sahay_document_checklist.pdf',
+        onLayout: (PdfPageFormat format) async => pdfBytes,
       );
     } catch (e) {
       if (!mounted) return;

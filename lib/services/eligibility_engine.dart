@@ -11,6 +11,7 @@ class EligibilityEngine {
     SchemeModel scheme,
     Map<String, dynamic> userAnswers,
   ) {
+    final normalized = _normalizeAnswers(userAnswers);
     final conditionResults = <EligibilityConditionResult>[];
     final missingInformation = <String>[];
 
@@ -18,7 +19,7 @@ class EligibilityEngine {
     bool anyMandatoryPending = false;
 
     for (final rule in scheme.eligibilityRules) {
-      final result = _evaluateRule(rule, userAnswers);
+      final result = _evaluateRule(rule, normalized);
       conditionResults.add(result);
 
       if (result.status == ConditionStatus.failed && rule.isMandatory) {
@@ -296,6 +297,84 @@ class EligibilityEngine {
     Map<String, dynamic> userAnswers,
   ) {
     return _detectBorderlineConditions(model.conditionResults, userAnswers);
+  }
+
+  Map<String, dynamic> _normalizeAnswers(Map<String, dynamic> raw) {
+    final normalized = Map<String, dynamic>.from(raw);
+
+    // 1. Synthesize ownsCultivableLand from landOwnership if present
+    if (!normalized.containsKey('ownsCultivableLand') && normalized.containsKey('landOwnership')) {
+      final land = _parseNum(normalized['landOwnership']);
+      if (land != null && land > 0) {
+        normalized['ownsCultivableLand'] = true;
+      }
+    }
+
+    // 2. Synthesize isDependentOfExServiceman from isExServiceman
+    if (!normalized.containsKey('isDependentOfExServiceman') && normalized.containsKey('isExServiceman')) {
+      normalized['isDependentOfExServiceman'] = normalized['isExServiceman'];
+    }
+
+    // 3. Synthesize isVulnerableCategory from caste or BPL/ration card
+    if (!normalized.containsKey('isVulnerableCategory')) {
+      final caste = normalized['casteCategory']?.toString().toLowerCase();
+      final hasPriority = normalized['hasPriorityRationCard'] == true || normalized['bplCard'] == true;
+      if (caste == 'sc' || caste == 'st' || hasPriority) {
+        normalized['isVulnerableCategory'] = true;
+      }
+    }
+
+    // 4. Synthesize hasAadhaarOrIdProof from bank account or explicit aadhaar
+    if (!normalized.containsKey('hasAadhaarOrIdProof')) {
+      if (normalized['hasBankAccount'] == true || normalized['hasAadhaar'] == true) {
+        normalized['hasAadhaarOrIdProof'] = true;
+      }
+    }
+
+    // 5. Ayushman Vay Vandana: Senior citizens 70+ qualify for PM-JAY regardless of ration card
+    if (!normalized.containsKey('hasPriorityRationCard') && normalized.containsKey('age')) {
+      final ageNum = _parseNum(normalized['age']);
+      if (ageNum != null && ageNum >= 70) {
+        normalized['hasPriorityRationCard'] = true;
+      }
+    }
+
+    // 6. Legally exempt from income tax if declared income is <= ₹2.5L
+    if (!normalized.containsKey('isIncomeTaxPayer') && normalized.containsKey('annualIncome')) {
+      final inc = _parseNum(normalized['annualIncome']);
+      if (inc != null && inc <= 250000) {
+        normalized['isIncomeTaxPayer'] = false;
+      }
+    }
+
+    // 7. Non-government employee inference from declared non-government occupation
+    if (!normalized.containsKey('isGovernmentEmployee') && normalized.containsKey('occupation')) {
+      final occ = normalized['occupation'].toString().toLowerCase();
+      if (occ != 'government_employee') {
+        normalized['isGovernmentEmployee'] = false;
+      }
+    }
+
+    // 8. Individual citizen applicant is not an institutional landholder
+    if (!normalized.containsKey('isInstitutionalLandholder')) {
+      normalized['isInstitutionalLandholder'] = false;
+    }
+
+    // 9. Unify motorized vehicle and four wheeler flags
+    if (!normalized.containsKey('hasFourWheeler') && normalized.containsKey('hasMotorizedVehicle')) {
+      normalized['hasFourWheeler'] = normalized['hasMotorizedVehicle'];
+    }
+    if (!normalized.containsKey('hasMotorizedVehicle') && normalized.containsKey('hasFourWheeler')) {
+      normalized['hasMotorizedVehicle'] = normalized['hasFourWheeler'];
+    }
+    if (!normalized.containsKey('hasFourWheeler') && normalized.containsKey('ownsFourWheeler')) {
+      normalized['hasFourWheeler'] = normalized['ownsFourWheeler'];
+    }
+    if (!normalized.containsKey('ownsFourWheeler') && normalized.containsKey('hasFourWheeler')) {
+      normalized['ownsFourWheeler'] = normalized['hasFourWheeler'];
+    }
+
+    return normalized;
   }
 
   // Helpers

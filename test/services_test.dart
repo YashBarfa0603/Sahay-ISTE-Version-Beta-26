@@ -57,13 +57,16 @@ void main() {
     const engine = EligibilityEngine();
     const dataService = SchemeDataService();
 
-    test('PM-KISAN qualifies for farmer with <= 2ha land and bank account', () async {
+    test('PM-KISAN qualifies for farmer with cultivable land and no disqualifications', () async {
       final scheme = (await dataService.getSchemeById('pm-kisan'))!;
       final answers = {
         'occupation': 'farmer',
-        'landOwnership': 1.5,
+        'landOwnership': 3.5, // > 2ha now qualifies (cap abolished in June 2019)
+        'ownsCultivableLand': true,
+        'isInstitutionalLandholder': false,
+        'isGovernmentEmployee': false,
+        'isIncomeTaxPayer': false,
         'hasBankAccount': true,
-        'annualIncome': 120000,
       };
 
       final result = engine.evaluateScheme(scheme, answers);
@@ -71,11 +74,14 @@ void main() {
       expect(result.missingInformation, isEmpty);
     });
 
-    test('PM-KISAN fails when land > 2ha', () async {
+    test('PM-KISAN fails when farmer is income tax payer or government employee', () async {
       final scheme = (await dataService.getSchemeById('pm-kisan'))!;
       final answers = {
         'occupation': 'farmer',
-        'landOwnership': 3.5,
+        'ownsCultivableLand': true,
+        'isIncomeTaxPayer': true,
+        'isGovernmentEmployee': false,
+        'isInstitutionalLandholder': false,
         'hasBankAccount': true,
       };
 
@@ -83,7 +89,7 @@ void main() {
       expect(result.result, EligibilityResult.doesNotQualify);
     });
 
-    test('PM-KISAN returns needsMoreInformation when mandatory fields are missing', () async {
+    test('PM-KISAN returns needsMoreInformation when mandatory exclusion fields are missing', () async {
       final scheme = (await dataService.getSchemeById('pm-kisan'))!;
       final answers = {
         'occupation': 'farmer',
@@ -91,33 +97,43 @@ void main() {
 
       final result = engine.evaluateScheme(scheme, answers);
       expect(result.result, EligibilityResult.needsMoreInformation);
-      expect(result.missingInformation, contains('landOwnership'));
-      expect(result.missingInformation, contains('hasBankAccount'));
+      expect(result.missingInformation, contains('ownsCultivableLand'));
+      expect(result.missingInformation, contains('isIncomeTaxPayer'));
     });
 
     test('Detects borderline conditions within 10% of limit', () async {
-      final scheme = (await dataService.getSchemeById('pm-kisan'))!;
-      // Limit is 2.0; 1.9 is within 10% (between 1.8 and 2.2)
+      final scheme = (await dataService.getSchemeById('ladli-behna-mp'))!;
+      // Income limit is 250,000; 245,000 is within 10%
       final answers = {
-        'occupation': 'farmer',
-        'landOwnership': 1.9,
+        'gender': 'female',
+        'state': 'Madhya Pradesh',
+        'age': 30,
+        'maritalStatus': 'married',
+        'annualIncome': 245000,
         'hasBankAccount': true,
+        'isIncomeTaxPayer': false,
+        'hasFourWheeler': false,
+        'isGovernmentEmployee': false,
       };
 
       final result = engine.evaluateScheme(scheme, answers);
       final warnings = engine.detectBorderlineConditions(result, answers);
       expect(warnings.isNotEmpty, true);
-      expect(warnings.first, contains('landOwnership'));
+      expect(warnings.first, contains('annualIncome'));
     });
 
-    test('Ladli Behna Yojana MP qualifies for 30 yo woman in MP with income <= 2.5L', () async {
+    test('Ladli Behna Yojana MP qualifies for 30 yo married woman in MP with income <= 2.5L and no exclusions', () async {
       final scheme = (await dataService.getSchemeById('ladli-behna-mp'))!;
       final answers = {
         'gender': 'female',
         'state': 'Madhya Pradesh',
         'age': 30,
+        'maritalStatus': 'married',
         'annualIncome': 150000,
         'hasBankAccount': true,
+        'isIncomeTaxPayer': false,
+        'hasFourWheeler': false,
+        'isGovernmentEmployee': false,
       };
 
       final result = engine.evaluateScheme(scheme, answers);
@@ -129,10 +145,41 @@ void main() {
     const questionEngine = QuestionEngine();
     const dataService = SchemeDataService();
 
-    test('Returns 16 base questions with labels', () {
+    test('Returns 23 base questions with labels', () {
       final questions = questionEngine.allQuestions;
-      expect(questions.length, 16);
+      expect(questions.length, 23);
       expect(questions.first.id, 'gender');
+    });
+
+    test('Detects contradiction between conflicting answers and stops question flow', () async {
+      final schemes = await dataService.getAllSchemes();
+
+      // Conflicting age and marital status (minor married)
+      final conflictingAnswers = <String, dynamic>{
+        'age': 14,
+        'maritalStatus': 'married',
+      };
+
+      final contradictions = questionEngine.detectContradictions(conflictingAnswers);
+      expect(contradictions.isNotEmpty, true);
+      expect(contradictions.first.isBlocking, true);
+      expect(contradictions.first.conflictingFields, contains('age'));
+      expect(contradictions.first.conflictingFields, contains('maritalStatus'));
+
+      // QuestionEngine must stop asking questions when a blocking contradiction occurs
+      final nextQuestion = questionEngine.getNextQuestion(conflictingAnswers, schemes);
+      expect(nextQuestion, isNull);
+    });
+
+    test('Detects contradiction between high income and BPL card', () {
+      final answers = <String, dynamic>{
+        'annualIncome': 500000,
+        'hasPriorityRationCard': true,
+      };
+
+      final contradictions = questionEngine.detectContradictions(answers);
+      expect(contradictions.isNotEmpty, true);
+      expect(contradictions.any((c) => c.conflictingFields.contains('hasPriorityRationCard')), true);
     });
 
     test('Prioritizes questions with highest elimination power', () async {

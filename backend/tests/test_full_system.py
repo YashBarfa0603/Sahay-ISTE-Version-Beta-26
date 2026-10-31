@@ -46,58 +46,82 @@ def versioning_service():
 
 
 # 1. Deterministic Eligibility Evaluation Tests
-def test_deterministic_eligibility_pm_kisan(db, eligibility_service):
-    scheme = SchemeModelSchema(
-        schemeId="pm-kisan-001",
-        name="PM Kisan Samman Nidhi",
-        description="Income support for farmers",
-        category="agriculture",
-        ministry="Ministry of Agriculture",
-        governmentLevel=GovernmentLevel.central,
-        benefits="Rs 6000 per year",
-        eligibilityRules=[
-            EligibilityRuleSchema(
-                field="occupation",
-                operator=EligibilityOperator.equals,
-                value="farmer",
-                isMandatory=True,
-            ),
-            EligibilityRuleSchema(
-                field="landOwnership",
-                operator=EligibilityOperator.lessThanOrEqual,
-                value=2.0,
-                isMandatory=True,
-            ),
-        ],
-        requiredDocuments=["Aadhaar"],
-        applicationProcess="Online",
-        officialSourceUrl="https://pmkisan.gov.in/",
-    )
+@pytest.mark.asyncio
+async def test_deterministic_eligibility_pm_kisan(db, eligibility_service):
+    scheme = await db.get_scheme("pm-kisan-001")
+    assert scheme is not None
 
-    # Qualified farmer
+    # Qualified farmer (even with > 2ha land, verifying 2-hectare cap abolition per June 2019 Cabinet decision)
     rep_qualified = eligibility_service.evaluate_scheme(
-        scheme, {"occupation": "farmer", "landOwnership": 1.5}
+        scheme,
+        {
+            "occupation": "farmer",
+            "landOwnership": 3.5,
+            "ownsCultivableLand": True,
+            "isInstitutionalLandholder": False,
+            "isGovernmentEmployee": False,
+            "isIncomeTaxPayer": False,
+            "hasBankAccount": True,
+        },
     )
     assert rep_qualified.verdict == EvaluationVerdict.mayQualify
-    assert rep_qualified.matchedRulesCount == 2
 
-    # Disqualified farmer (landholding too large)
+    # Disqualified farmer (income tax payer exclusion per official operational guidelines)
     rep_disqualified = eligibility_service.evaluate_scheme(
-        scheme, {"occupation": "farmer", "landOwnership": 3.0}
+        scheme,
+        {
+            "occupation": "farmer",
+            "ownsCultivableLand": True,
+            "isInstitutionalLandholder": False,
+            "isGovernmentEmployee": False,
+            "isIncomeTaxPayer": True,
+            "hasBankAccount": True,
+        },
     )
     assert rep_disqualified.verdict == EvaluationVerdict.doesNotQualify
 
-    # Borderline warning (within 10% of 2.0 ha = 1.9 ha)
+    # Disqualified farmer (institutional landholder)
+    rep_inst = eligibility_service.evaluate_scheme(
+        scheme,
+        {
+            "occupation": "farmer",
+            "ownsCultivableLand": True,
+            "isInstitutionalLandholder": True,
+            "isGovernmentEmployee": False,
+            "isIncomeTaxPayer": False,
+            "hasBankAccount": True,
+        },
+    )
+    assert rep_inst.verdict == EvaluationVerdict.doesNotQualify
+
+    # Missing information (missing exclusion details and land ownership)
+    rep_missing = eligibility_service.evaluate_scheme(scheme, {"occupation": "farmer"})
+    assert rep_missing.verdict == EvaluationVerdict.needsMoreInformation
+    assert "ownsCultivableLand" in rep_missing.missingFields or "isIncomeTaxPayer" in rep_missing.missingFields
+
+
+@pytest.mark.asyncio
+async def test_borderline_condition_evaluation(db, eligibility_service):
+    # Test borderline condition on Ladli Behna (age upper limit is 60; 59 is within 10%)
+    lb_scheme = await db.get_scheme("ladli-behna-006")
+    assert lb_scheme is not None
+
     rep_borderline = eligibility_service.evaluate_scheme(
-        scheme, {"occupation": "farmer", "landOwnership": 1.95}
+        lb_scheme,
+        {
+            "gender": "female",
+            "age": 59,
+            "state": "Madhya Pradesh",
+            "maritalStatus": "married",
+            "annualIncome": 150000.0,
+            "isIncomeTaxPayer": False,
+            "hasFourWheeler": False,
+            "isGovernmentEmployee": False,
+            "hasBankAccount": True,
+        },
     )
     assert rep_borderline.verdict == EvaluationVerdict.mayQualify
     assert len(rep_borderline.borderlineWarnings) >= 1
-
-    # Missing information
-    rep_missing = eligibility_service.evaluate_scheme(scheme, {"occupation": "farmer"})
-    assert rep_missing.verdict == EvaluationVerdict.needsMoreInformation
-    assert "landOwnership" in rep_missing.missingFields
 
 
 # 2. Unknown Household Income Estimation Tests

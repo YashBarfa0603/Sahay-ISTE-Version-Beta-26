@@ -47,6 +47,10 @@ class ApiClient {
 
   /// Determines default base URL based on running platform.
   static String get defaultBaseUrl {
+    const envUrl = String.fromEnvironment('BACKEND_URL');
+    if (envUrl.isNotEmpty) {
+      return envUrl;
+    }
     if (kIsWeb) {
       return 'http://127.0.0.1:8000';
     }

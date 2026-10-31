@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import List
+from pydantic import ConfigDict
 from pydantic_settings import BaseSettings
 
 _BACKEND_DIR = Path(__file__).resolve().parent.parent
@@ -37,14 +38,15 @@ class Settings(BaseSettings):
     # Minimum similarity / result count threshold to avoid Tavily search
     CATALOGUE_MIN_RESULTS: int = 3
 
-    class Config:
-        env_file = (
+    model_config = ConfigDict(
+        env_file=(
             str(_BACKEND_DIR / ".env"),
             str(_PROJECT_ROOT / ".env"),
             ".env",
-        )
-        env_file_encoding = "utf-8"
-        extra = "ignore"
+        ),
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
 
 
 settings = Settings()
