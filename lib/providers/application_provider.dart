@@ -333,7 +333,13 @@ class ApplicationProvider extends ChangeNotifier {
       schemeName: scheme.name,
       schemeCategory: scheme.category,
       officialUrl: scheme.applicationUrl ?? scheme.officialSourceUrl,
-      interactionMode: InteractionMode.guidedForm,
+      interactionMode: (scheme.schemeId == 'PM_KISAN_001' ||
+              scheme.schemeId == 'PMAY_G_001' ||
+              scheme.schemeId == 'PMAY_U_001' ||
+              scheme.schemeId == 'AICTE_PRAGATI_001' ||
+              (scheme.applicationUrl != null && scheme.applicationUrl!.contains('pmkisan.gov.in')))
+          ? InteractionMode.directWeb
+          : InteractionMode.guidedForm,
       status: ApplicationStatus.ready,
       sections: sections,
       documents: docs,
