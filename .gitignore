@@ -51,4 +51,6 @@ skills-lock.json
 # Firebase
 firebase*
 **/firebase_options.dart
+firestore.rules
+firestore.indexes.json
 
