@@ -121,6 +121,14 @@ const Map<String, String> stringsMr = {
 
   // Question Options - Occupation
   'farmer': 'शेतकरी / खातेदार',
+  'agricultural_worker': 'शेतमजूर / कृषी कामगार',
+  'unorganized_worker': 'असंघटित कामगार',
+  'construction_worker': 'बांधकाम कामगार',
+  'street_vendor': 'फेरीवाला / पथविक्रेता',
+  'artisan_craftsperson': 'कारागीर / शिल्पकार',
+  'salaried_private': 'वेतनधारक (खाजगी क्षेत्र)',
+  'government_employee': 'शासकीय कर्मचारी',
+  'self_employed_business': 'स्वयंरोजगार / व्यापारी',
   'dailyWageWorker': 'रोजंदारी मजूर / कामगार',
   'artisan': 'कारागीर / हस्तकला कामगार',
   'smallBusinessOwner': 'लहान व्यावसायिक / फेरीवाला',

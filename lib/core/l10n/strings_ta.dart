@@ -121,6 +121,14 @@ const Map<String, String> stringsTa = {
 
   // Question Options - Occupation
   'farmer': 'விவசாயி / பயிரிடுபவர்',
+  'agricultural_worker': 'விவசாய கூலித் தொழிலாளி',
+  'unorganized_worker': 'அமைப்புசாரா தொழிலாளி',
+  'construction_worker': 'கட்டுமானத் தொழிலாளி',
+  'street_vendor': 'தெருவோர வியாபாரி',
+  'artisan_craftsperson': 'கைவினைஞர் / கலைஞர்',
+  'salaried_private': 'தனியார் துறை ஊழியர்',
+  'government_employee': 'அரசு ஊழியர்',
+  'self_employed_business': 'சுயதொழில் / வணிகர்',
   'dailyWageWorker': 'தினக்கூலி தொழிலாளி',
   'artisan': 'கைவினைஞர் / கைவினை தொழிலாளி',
   'smallBusinessOwner': 'சிறு வணிகர் / வியாபாரி',

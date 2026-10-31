@@ -184,6 +184,14 @@ class SahayLocalizations {
 
   // Question Options - Occupation
   String get farmer => getString('farmer');
+  String get agriculturalWorker => getString('agricultural_worker');
+  String get unorganizedWorker => getString('unorganized_worker');
+  String get constructionWorker => getString('construction_worker');
+  String get streetVendor => getString('street_vendor');
+  String get artisanCraftsperson => getString('artisan_craftsperson');
+  String get salariedPrivateCanonical => getString('salaried_private');
+  String get governmentEmployee => getString('government_employee');
+  String get selfEmployedBusiness => getString('self_employed_business');
   String get dailyWageWorker => getString('dailyWageWorker');
   String get artisan => getString('artisan');
   String get smallBusinessOwner => getString('smallBusinessOwner');

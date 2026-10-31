@@ -121,6 +121,14 @@ const Map<String, String> stringsOr = {
 
   // Question Options - Occupation
   'farmer': 'ଚାଷୀ / କୃଷକ',
+  'agricultural_worker': 'କୃଷି ଶ୍ରମିକ',
+  'unorganized_worker': 'ଅଣସଂଗଠିତ ଶ୍ରମିକ',
+  'construction_worker': 'ନିର୍ମାଣ ଶ୍ରମିକ',
+  'street_vendor': 'ଉଠାଦୋକାନୀ / ଫେରିବାଲା',
+  'artisan_craftsperson': 'କାରିଗର / ଶିଳ୍ପୀ',
+  'salaried_private': 'ବେସରକାରୀ ଚାକିରିଆ',
+  'government_employee': 'ସରକାରୀ କର୍ମଚାରୀ',
+  'self_employed_business': 'ସ୍ୱନିୟୋଜିତ / ବ୍ୟବସାୟୀ',
   'dailyWageWorker': 'ଦୈନିକ ମଜୁରିଆ / ଶ୍ରମିକ',
   'artisan': 'କାରିଗର / ହସ୍ତଶିଳ୍ପୀ',
   'smallBusinessOwner': 'ଛୋଟ ବ୍ୟବସାୟୀ / ଉଠାଦୋକାନୀ',

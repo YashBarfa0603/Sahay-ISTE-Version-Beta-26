@@ -121,6 +121,14 @@ const Map<String, String> stringsGu = {
 
   // Question Options - Occupation
   'farmer': 'ખેડૂત / ખેતીકાર',
+  'agricultural_worker': 'ખેતમજૂર / કૃષિ શ્રમિક',
+  'unorganized_worker': 'અસંગઠિત ક્ષેત્રના શ્રમિક',
+  'construction_worker': 'બાંધકામ શ્રમિક',
+  'street_vendor': 'શેરી ફેરિયો / લારીવાળા',
+  'artisan_craftsperson': 'કારીગર / શિલ્પકાર',
+  'salaried_private': 'પગારદાર (ખાનગી ક્ષેત્ર)',
+  'government_employee': 'સરકારી કર્મચારી',
+  'self_employed_business': 'સ્વરોજગાર / વેપારી',
   'dailyWageWorker': 'દૈનિક મજૂર / શ્રમિક',
   'artisan': 'કારીગર / હસ્તકળા કારીગર',
   'smallBusinessOwner': 'નાના વેપારી / ફેરિયા',

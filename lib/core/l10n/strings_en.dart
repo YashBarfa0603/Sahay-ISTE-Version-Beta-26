@@ -121,6 +121,14 @@ const Map<String, String> stringsEn = {
 
   // Question Options - Occupation
   'farmer': 'Farmer / Cultivator',
+  'agricultural_worker': 'Agricultural Worker / Laborer',
+  'unorganized_worker': 'Unorganized / Informal Worker',
+  'construction_worker': 'Construction Worker',
+  'street_vendor': 'Street Vendor / Hawker',
+  'artisan_craftsperson': 'Artisan / Craftsperson',
+  'salaried_private': 'Salaried (Private Sector)',
+  'government_employee': 'Government Employee / PSU',
+  'self_employed_business': 'Self-Employed / Business',
   'dailyWageWorker': 'Daily Wage Worker / Laborer',
   'artisan': 'Artisan / Handicraft Worker',
   'smallBusinessOwner': 'Small Business Owner / Vendor',
