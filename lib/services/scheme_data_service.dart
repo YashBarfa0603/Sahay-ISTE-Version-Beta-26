@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:sahay/models/scheme_model.dart';
+import 'package:sahay/services/category_service.dart';
 
 class SchemeDataService {
   const SchemeDataService();
@@ -54,10 +55,9 @@ class SchemeDataService {
 
   // By category
   Future<List<SchemeModel>> getSchemesByCategory(String category, {bool fromComplete = false}) async {
-    final cleanCategory = category.trim().toLowerCase();
     final source = fromComplete ? await getCompleteCatalogue() : _curatedSchemes;
     return source
-        .where((scheme) => scheme.category.toLowerCase() == cleanCategory)
+        .where((scheme) => CategoryService.matchesCategory(scheme.category, category))
         .toList();
   }
 

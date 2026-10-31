@@ -706,10 +706,17 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label, style: AppTextStyles.caption.copyWith(color: AppColors.deepNavy.withValues(alpha: 0.7))),
-          Text(value, style: AppTextStyles.caption.copyWith(fontWeight: FontWeight.bold, color: AppColors.deepNavy)),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              value,
+              textAlign: TextAlign.end,
+              style: AppTextStyles.caption.copyWith(fontWeight: FontWeight.bold, color: AppColors.deepNavy),
+            ),
+          ),
         ],
       ),
     );
@@ -1003,7 +1010,10 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                                 ),
                               ),
                               const SizedBox(height: 4),
-                              Row(
+                              Wrap(
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                spacing: 8,
+                                runSpacing: 4,
                                 children: [
                                   Text(
                                     doc.formattedFileSize,
@@ -1012,7 +1022,6 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                                       fontSize: 11,
                                     ),
                                   ),
-                                  const SizedBox(width: 8),
                                   Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1.5),
                                     decoration: BoxDecoration(

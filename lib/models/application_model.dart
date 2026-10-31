@@ -1,5 +1,3 @@
-
-
 enum ApplicationStatus {
   preparing,
   ready,

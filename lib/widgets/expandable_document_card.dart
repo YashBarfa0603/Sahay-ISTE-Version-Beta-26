@@ -409,9 +409,12 @@ class _ExpandableDocumentCardState extends State<ExpandableDocumentCard> {
                           child: ElevatedButton.icon(
                             onPressed: widget.onUploadPressed,
                             icon: const Icon(Icons.cloud_upload_outlined, size: 18),
-                            label: Text(
-                              isHi ? 'वॉल्ट में अपलोड करें (वैकल्पिक)' : 'Upload to Vault (Optional)',
-                              style: const TextStyle(fontWeight: FontWeight.bold),
+                            label: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                isHi ? 'वॉल्ट में अपलोड करें (वैकल्पिक)' : 'Upload to Vault (Optional)',
+                                style: const TextStyle(fontWeight: FontWeight.bold),
+                              ),
                             ),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.indianTeal,

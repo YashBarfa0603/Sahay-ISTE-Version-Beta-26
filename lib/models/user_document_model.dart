@@ -16,6 +16,8 @@ class UserDocumentModel {
   final String verificationStatus; // 'uploaded', 'unverified'
   final String? notes;
   final Uint8List? cachedBytes;
+  final String? publicId; // Cloudinary private resource public_id
+  final String? signedUrl; // Backend-generated time-limited signed delivery URL
 
   const UserDocumentModel({
     required this.documentId,
@@ -31,6 +33,8 @@ class UserDocumentModel {
     this.verificationStatus = 'unverified',
     this.notes,
     this.cachedBytes,
+    this.publicId,
+    this.signedUrl,
   });
 
   /// Formatted file size string (e.g. "1.2 MB", "450 KB")
@@ -64,6 +68,8 @@ class UserDocumentModel {
       'updatedAt': Timestamp.fromDate(updatedAt),
       'verificationStatus': verificationStatus,
       'notes': notes,
+      'publicId': publicId,
+      'signedUrl': signedUrl,
     };
   }
 
@@ -90,6 +96,8 @@ class UserDocumentModel {
       updatedAt: parseDate(map['updatedAt']),
       verificationStatus: map['verificationStatus']?.toString() ?? 'unverified',
       notes: map['notes']?.toString(),
+      publicId: map['publicId']?.toString(),
+      signedUrl: map['signedUrl']?.toString(),
     );
   }
 
@@ -107,6 +115,8 @@ class UserDocumentModel {
     String? verificationStatus,
     String? notes,
     Uint8List? cachedBytes,
+    String? publicId,
+    String? signedUrl,
   }) {
     return UserDocumentModel(
       documentId: documentId ?? this.documentId,
@@ -122,6 +132,8 @@ class UserDocumentModel {
       verificationStatus: verificationStatus ?? this.verificationStatus,
       notes: notes ?? this.notes,
       cachedBytes: cachedBytes ?? this.cachedBytes,
+      publicId: publicId ?? this.publicId,
+      signedUrl: signedUrl ?? this.signedUrl,
     );
   }
 }

@@ -20,10 +20,10 @@ import 'package:sahay/widgets/expandable_document_card.dart';
 import 'package:sahay/widgets/sahay_app_bar.dart';
 import 'package:sahay/widgets/scheme_source_info.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import 'package:sahay/providers/application_provider.dart';
 import 'package:sahay/providers/user_profile_provider.dart';
 import 'package:sahay/screens/application/smart_filler_preparation_screen.dart';
+import 'package:sahay/services/youtube_tutorial_service.dart';
 
 class SchemeDetailScreen extends StatefulWidget {
   final SchemeModel scheme;
@@ -100,8 +100,7 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
   }
 
   void _startSahayApplication(BuildContext context) async {
-    final appProvider = Provider.of<ApplicationProvider?>(context, listen: false);
-    if (appProvider == null) return;
+    final appProvider = context.read<ApplicationProvider>();
     final userProfile = context.read<UserProfileProvider>();
     final locale = context.read<LocaleProvider>().languageCode;
 
@@ -1013,6 +1012,14 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
   }
 
   Widget _buildHowToApplyTab(SahayLocalizations l10n) {
+    LocaleProvider? loc;
+    try {
+      loc = Provider.of<LocaleProvider>(context);
+    } catch (_) {
+      loc = null;
+    }
+    final currentLang = loc?.languageCode ?? 'en';
+
     final hasOnlineUrl = widget.scheme.applicationUrl != null &&
         widget.scheme.applicationUrl!.trim().isNotEmpty;
 
@@ -1050,8 +1057,17 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
           // ------------------------------------
           // PROMINENT PRIMARY ACTION: APPLY WITH SAHAY (10-Scheme Smart Application Filler)
           // ------------------------------------
-          if (Provider.of<ApplicationProvider?>(context)?.isSchemeSupported(widget.scheme.schemeId) ?? false)
-            Container(
+          Builder(builder: (ctx) {
+            ApplicationProvider? appProvider;
+            try {
+              appProvider = Provider.of<ApplicationProvider>(ctx);
+            } catch (_) {
+              appProvider = null;
+            }
+            if (appProvider?.isSchemeSupported(widget.scheme.schemeId) != true) {
+              return const SizedBox.shrink();
+            }
+            return Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
@@ -1124,7 +1140,8 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
                 ),
               ],
             ),
-          ),
+          );
+          }),
           const SizedBox(height: 18),
 
           if (hasOnlineUrl) ...[
@@ -1145,8 +1162,11 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
                 ),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
           ],
+
+          // YouTube Application Tutorial Video Guide
+          _buildYouTubeTutorialSection(context, currentLang),
 
           // Offline apply notice and CSC locator shortcut
           Container(
@@ -1226,6 +1246,293 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
           const SizedBox(height: 24),
           SchemeSourceInfo(scheme: widget.scheme),
           const SizedBox(height: 20),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildYouTubeTutorialSection(BuildContext context, String currentLang) {
+    final isHi = currentLang == 'hi';
+    final tutorial = YouTubeTutorialService.getTutorialForScheme(widget.scheme.schemeId);
+
+    if (tutorial == null) {
+      return Container(
+        margin: const EdgeInsets.only(bottom: 20),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColors.border),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: AppColors.steelBlue.withValues(alpha: 0.1),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.videocam_off_outlined, color: AppColors.steelBlue, size: 22),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    isHi
+                        ? 'इस योजना के लिए वर्तमान में कोई सत्यापित आवेदन ट्यूटोरियल उपलब्ध नहीं है।'
+                        : 'No verified application tutorial is currently available for this scheme.',
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.deepNavy,
+                      height: 1.35,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    isHi
+                        ? 'हम नागरिकों की सुरक्षा हेतु केवल आधिकारिक एवं सत्यापित सरकारी वीडियो गाइड ही लिंक करते हैं।'
+                        : 'SAHAY only references verified official tutorials to prevent fraudulent guidance.',
+                    style: AppTextStyles.caption.copyWith(
+                      color: AppColors.deepNavy.withValues(alpha: 0.65),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    final title = isHi ? tutorial.videoTitleHindi : tutorial.videoTitle;
+    final desc = isHi ? tutorial.descriptionHindi : tutorial.description;
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: const Color(0xFFFF0000).withValues(alpha: 0.3), width: 1.2),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Section Header
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFF0000),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.play_arrow_rounded, color: Colors.white, size: 16),
+                      SizedBox(width: 4),
+                      Text(
+                        'YouTube',
+                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 11),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    isHi ? 'वीडियो गाइड — आवेदन कैसे करें' : 'Video Tutorial — How to Apply',
+                    style: AppTextStyles.heading3.copyWith(fontSize: 15, color: AppColors.deepNavy),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: AppColors.forestGreen.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: AppColors.forestGreen.withValues(alpha: 0.3)),
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.verified_rounded, size: 12, color: AppColors.forestGreen),
+                      SizedBox(width: 4),
+                      Text(
+                        'VERIFIED',
+                        style: TextStyle(
+                          color: AppColors.forestGreen,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 9.5,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // Video Thumbnail Card
+          InkWell(
+            onTap: () => _launchUrl(tutorial.youtubeUrl),
+            child: SizedBox(
+              height: 180,
+              width: double.infinity,
+              child: Stack(
+                fit: StackFit.expand,
+                alignment: Alignment.center,
+                children: [
+                  Image.network(
+                    tutorial.thumbnailUrl,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => Container(
+                      color: AppColors.deepNavy,
+                      child: const Center(
+                        child: Icon(Icons.video_library_rounded, size: 48, color: Colors.white54),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    color: Colors.black.withValues(alpha: 0.25),
+                  ),
+                  // Play button badge
+                  Center(
+                    child: Container(
+                      width: 58,
+                      height: 58,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFF0000).withValues(alpha: 0.9),
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.3),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.play_arrow_rounded,
+                        size: 38,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  // Duration badge in bottom corner
+                  if (tutorial.duration != null)
+                    Positioned(
+                      bottom: 10,
+                      right: 12,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.8),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          tutorial.duration!,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),
+
+          // Video Details
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.deepNavy,
+                    fontSize: 14.5,
+                    height: 1.3,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Row(
+                  children: [
+                    const Icon(Icons.account_circle_outlined, size: 14, color: AppColors.steelBlue),
+                    const SizedBox(width: 5),
+                    Expanded(
+                      child: Text(
+                        tutorial.channelName,
+                        style: AppTextStyles.caption.copyWith(
+                          color: AppColors.steelBlue,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: AppColors.paleSage,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        tutorial.language,
+                        style: AppTextStyles.caption.copyWith(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.forestGreen,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                if (desc != null && desc.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    desc,
+                    style: AppTextStyles.caption.copyWith(
+                      color: AppColors.deepNavy.withValues(alpha: 0.75),
+                      height: 1.35,
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 14),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: () => _launchUrl(tutorial.youtubeUrl),
+                    icon: const Icon(Icons.play_circle_fill_rounded, size: 18),
+                    label: Text(
+                      isHi ? 'YouTube पर पूरा वीडियो देखें' : 'Watch Step-by-Step on YouTube',
+                      style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFFF0000),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

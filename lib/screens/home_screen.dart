@@ -4,6 +4,7 @@ import 'package:sahay/core/l10n/app_localizations.dart';
 import 'package:sahay/core/theme/app_colors.dart';
 import 'package:sahay/core/theme/app_text_styles.dart';
 import 'package:sahay/models/scheme_model.dart';
+import 'package:sahay/models/user_model.dart';
 import 'package:sahay/providers/auth_provider.dart';
 import 'package:sahay/providers/eligibility_provider.dart';
 import 'package:sahay/providers/locale_provider.dart';
@@ -15,10 +16,13 @@ import 'package:sahay/screens/csc_locator_screen.dart';
 import 'package:sahay/screens/my_documents_screen.dart';
 import 'package:sahay/screens/questionnaire_screen.dart';
 import 'package:sahay/screens/results_screen.dart';
+import 'package:sahay/screens/profile/profile_setup_screen.dart';
 import 'package:sahay/screens/scheme_detail_screen.dart';
 import 'package:sahay/screens/schemes_screen.dart';
 import 'package:sahay/screens/welcome_screen.dart';
+import 'package:sahay/services/category_service.dart';
 import 'package:sahay/services/privacy_service.dart';
+import 'package:sahay/services/recommendation_service.dart';
 import 'package:sahay/services/scheme_data_service.dart';
 import 'package:sahay/utils/indian_states.dart';
 import 'package:sahay/utils/profile_options.dart';
@@ -338,6 +342,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       onPressed: () async {
                         final eligProvider = context.read<EligibilityProvider>();
                         final userProfileProvider = context.read<UserProfileProvider>();
+                        try {
+                          context.read<UserDocumentProvider>().clear();
+                        } catch (_) {}
                         final nav = Navigator.of(context);
                         Navigator.of(ctx).pop();
                         eligProvider.clearResults();
@@ -701,7 +708,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          spacing: 6,
+                          runSpacing: 4,
                           children: [
                             Text(
                               currentLang == 'hi' ? 'दस्तावेज़ वॉल्ट' : 'Document Vault',
@@ -711,7 +721,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            const SizedBox(width: 8),
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                               decoration: BoxDecoration(
@@ -734,6 +743,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           currentLang == 'hi'
                               ? (count == 0 ? 'कोई दस्तावेज़ अपलोड नहीं' : '$count दस्तावेज़ सुरक्षित रूप से संग्रहीत')
                               : (count == 0 ? 'No documents uploaded yet' : '$count document${count == 1 ? '' : 's'} saved securely'),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                           style: AppTextStyles.bodySmall.copyWith(
                             color: AppColors.deepNavy.withValues(alpha: 0.7),
                             fontSize: 12.5,
@@ -779,6 +790,334 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildPersonalizedRecommendations(
+    BuildContext context,
+    UserModel user,
+    List<SchemeModel> allSchemes,
+    String currentLang,
+  ) {
+    final isHi = currentLang == 'hi';
+    final isProfileIncomplete = user.age == null || user.occupation == null || user.state == null;
+
+    final recService = const RecommendationService();
+    final recommendations = recService.getRecommendations(
+      user: user,
+      allSchemes: allSchemes,
+      maxResults: 6,
+    );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Section Header
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    const Icon(Icons.auto_awesome_rounded, color: AppColors.softSaffron, size: 22),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        isHi ? 'आपके लिए अनुशंसित योजनाएं' : 'Recommended Schemes for You',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTextStyles.heading3.copyWith(
+                          fontSize: 17,
+                          color: AppColors.deepNavy,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (recommendations.isNotEmpty) ...[
+                const SizedBox(width: 8),
+                Text(
+                  '${recommendations.length}',
+                  style: AppTextStyles.caption.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.indianTeal,
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+
+        const SizedBox(height: 6),
+
+        // Subtitle explaining transparent matching
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Text(
+            isHi
+                ? 'आपकी प्रोफ़ाइल (आयु, राज्य, व्यवसाय) के आधार पर पारदर्शी मिलान'
+                : 'Deterministic matching based on your profile (age, state, occupation)',
+            style: AppTextStyles.bodySmall.copyWith(
+              color: AppColors.deepNavy.withValues(alpha: 0.65),
+            ),
+          ),
+        ),
+
+        // If profile is incomplete, show an invitation card
+        if (isProfileIncomplete) ...[
+          const SizedBox(height: 12),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: AppColors.softSaffron.withValues(alpha: 0.14),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: AppColors.softSaffron.withValues(alpha: 0.5)),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.assignment_ind_outlined, color: AppColors.softSaffron, size: 26),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          isHi ? 'प्रोफ़ाइल पूर्ण करें' : 'Complete Your Profile',
+                          style: AppTextStyles.bodyMedium.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.deepNavy,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          isHi
+                              ? 'अधिक सटीक योजना सुझावों के लिए अपनी आयु और व्यवसाय दर्ज करें।'
+                              : 'Add your age and occupation for 100% accurate scheme recommendations.',
+                          style: AppTextStyles.caption.copyWith(
+                            color: AppColors.deepNavy.withValues(alpha: 0.75),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const ProfileSetupScreen()),
+                      );
+                    },
+                    style: TextButton.styleFrom(
+                      foregroundColor: AppColors.indianTeal,
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    ),
+                    child: Text(
+                      isHi ? 'पूरा करें' : 'Complete',
+                      style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+
+        const SizedBox(height: 12),
+
+        // Carousel of Recommended Cards
+        if (recommendations.isEmpty)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: AppColors.warmSand),
+              ),
+              child: Text(
+                isHi
+                    ? 'वर्तमान में कोई उपयुक्त योजना नहीं मिली। सभी योजनाएं ब्राउज़ करें।'
+                    : 'No specific tailored schemes found for this profile. Browse all schemes.',
+                style: AppTextStyles.bodyMedium.copyWith(color: AppColors.deepNavy.withValues(alpha: 0.7)),
+              ),
+            ),
+          )
+        else
+          SizedBox(
+            height: 242,
+            child: ListView.separated(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              scrollDirection: Axis.horizontal,
+              physics: const BouncingScrollPhysics(),
+              itemCount: recommendations.length,
+              separatorBuilder: (_, __) => const SizedBox(width: 14),
+              itemBuilder: (context, index) {
+                final rec = recommendations[index];
+                return _buildRecommendationCard(context, rec, isHi);
+              },
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildRecommendationCard(
+    BuildContext context,
+    SchemeRecommendation rec,
+    bool isHi,
+  ) {
+    final scheme = rec.scheme;
+    final badge = rec.badge;
+    final badgeLabel = isHi ? badge.labelHi : badge.labelEn;
+    final displayName = (isHi && scheme.nameHindi != null && scheme.nameHindi!.isNotEmpty)
+        ? scheme.nameHindi!
+        : scheme.name;
+
+    final reasonsList = isHi ? rec.reasonsHindi : rec.reasons;
+
+    return Container(
+      width: 290,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: badge.color.withValues(alpha: 0.35),
+          width: 1.5,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Top Row: Badge
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: badge.color.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: badge.color.withValues(alpha: 0.3)),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(badge.icon, size: 13, color: badge.color),
+                      const SizedBox(width: 4),
+                      Flexible(
+                        child: Text(
+                          badgeLabel,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 10.5,
+                            fontWeight: FontWeight.w700,
+                            color: badge.color,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                scheme.governmentLevel == GovernmentLevel.central
+                    ? (isHi ? 'केंद्रीय' : 'Central')
+                    : (isHi ? 'राज्य' : 'State'),
+                style: AppTextStyles.caption.copyWith(
+                  color: AppColors.deepNavy.withValues(alpha: 0.6),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 11,
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 10),
+
+          // Scheme Title
+          Text(
+            displayName,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: AppTextStyles.bodyMedium.copyWith(
+              fontWeight: FontWeight.w700,
+              color: AppColors.deepNavy,
+              height: 1.25,
+            ),
+          ),
+
+          const SizedBox(height: 8),
+
+          // Explainable Reasons
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: reasonsList.take(2).map((r) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 3.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Icon(Icons.check_circle_outline_rounded, size: 13, color: AppColors.forestGreen),
+                      const SizedBox(width: 5),
+                      Expanded(
+                        child: Text(
+                          r,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTextStyles.caption.copyWith(
+                            color: AppColors.deepNavy.withValues(alpha: 0.75),
+                            fontSize: 11,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+
+          // Action Button
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => SchemeDetailScreen(scheme: scheme)),
+                );
+              },
+              style: OutlinedButton.styleFrom(
+                foregroundColor: AppColors.indianTeal,
+                side: const BorderSide(color: AppColors.indianTeal),
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+              child: Text(
+                isHi ? 'विवरण देखें' : 'View Scheme Details',
+                style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -943,56 +1282,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             : (currentLang == 'or' ? 'ନମସ୍କାର' : 'Hello'))))));
     final greeting = '$greetingPrefix$userName!';
 
-    final categories = [
-      {
-        'key': 'agriculture',
-        'title': l10n.agriculture,
-        'icon': '🌾',
-        'color': AppColors.forestGreen,
-      },
-      {
-        'key': 'health',
-        'title': l10n.health,
-        'icon': '🏥',
-        'color': AppColors.mutedCoral,
-      },
-      {
-        'key': 'housing',
-        'title': l10n.housing,
-        'icon': '🏠',
-        'color': AppColors.mutedAmber,
-      },
-      {
-        'key': 'education',
-        'title': l10n.education,
-        'icon': '📚',
-        'color': AppColors.steelBlue,
-      },
-      {
-        'key': 'women',
-        'title': l10n.women,
-        'icon': '👩',
-        'color': AppColors.mutedPurple,
-      },
-      {
-        'key': 'employment',
-        'title': l10n.employment,
-        'icon': '💼',
-        'color': AppColors.deepNavy,
-      },
-      {
-        'key': 'socialWelfare',
-        'title': l10n.socialWelfare,
-        'icon': '🤝',
-        'color': AppColors.indianTeal,
-      },
-      {
-        'key': 'financial',
-        'title': l10n.financial,
-        'icon': '💰',
-        'color': AppColors.softSaffron,
-      },
-    ];
+    final categories = CategoryService.allCategories.map((c) => {
+      'key': c.categoryId,
+      'title': CategoryService.getCategoryTitle(c.categoryId, lang: currentLang),
+      'icon': c.iconName,
+      'color': CategoryService.getCategoryColor(c.categoryId),
+    }).toList();
 
     return Scaffold(
       backgroundColor: AppColors.warmIvory,
@@ -1164,9 +1459,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
               const SizedBox(height: 24),
 
-              // For authenticated users, display Document Vault Card immediately below search
+              // For authenticated users, display Document Vault Card and Personalized Recommendations immediately below search
               if (!auth.isGuest && auth.user != null) ...[
                 _buildDocumentVaultCard(context, l10n, currentLang),
+                const SizedBox(height: 20),
+                _buildPersonalizedRecommendations(context, auth.user!, schemeProvider.schemes, currentLang),
                 const SizedBox(height: 20),
               ],
 

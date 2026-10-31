@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sahay/core/theme/app_colors.dart';
-
 import 'package:sahay/models/application_model.dart';
 import 'package:sahay/models/scheme_model.dart';
 import 'package:sahay/providers/application_provider.dart';
