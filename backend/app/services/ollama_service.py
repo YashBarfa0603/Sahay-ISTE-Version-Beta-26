@@ -216,3 +216,65 @@ class OllamaService:
             popularityRank=99,
         )
 
+    async def explain_eligibility(
+        self,
+        report: Any,
+        language: str = "en",
+    ) -> Optional[str]:
+        """
+        Synthesizes a conversational explanation of deterministic evaluation results using Qwen2.5.
+        Strictly bounded by verified condition differences; never alters verdict.
+        """
+        try:
+            verdict_str = getattr(report, "verdict", "needs_more_information")
+            if hasattr(verdict_str, "value"):
+                verdict_str = verdict_str.value
+
+            scheme_name = getattr(report, "schemeName", "Government Scheme")
+            satisfied = getattr(report, "satisfiedConditions", [])
+            unsatisfied = getattr(report, "unsatisfiedConditions", [])
+            missing = getattr(report, "missingConditions", [])
+
+            sat_lines = [f"- {c.label}: Your value '{c.formattedUserValue}' satisfied requirement '{c.required}' ({c.reason})" for c in satisfied]
+            unsat_lines = [f"- {c.label}: Your value '{c.formattedUserValue}' FAILED requirement '{c.required}'. Reason: {c.reason}" for c in unsatisfied]
+            miss_lines = [f"- {c.label}: Not provided. Required for: {c.required}" for c in missing]
+
+            lang_name = "Hindi" if language == "hi" else "English"
+
+            prompt = (
+                f"You are SAHAY's transparent Government Scheme Eligibility Explainer.\n"
+                f"Translate and explain the following deterministic eligibility results to an Indian citizen in clear, respectful {lang_name}.\n\n"
+                f"STRICT RULES:\n"
+                f"1. Overall Decision: '{verdict_str}'. DO NOT CHANGE THIS DECISION.\n"
+                f"2. DO NOT state that the government has approved anything.\n"
+                f"3. Explain why the user qualified or did not qualify using ONLY these verified conditions:\n"
+                f"Scheme: {scheme_name}\n"
+                f"Satisfied conditions:\n{chr(10).join(sat_lines) if sat_lines else 'None'}\n"
+                f"Failed conditions:\n{chr(10).join(unsat_lines) if unsat_lines else 'None'}\n"
+                f"Missing details needed:\n{chr(10).join(miss_lines) if miss_lines else 'None'}\n\n"
+                f"Provide a concise, 2-3 sentence conversational summary in {lang_name}."
+            )
+
+            async with httpx.AsyncClient(timeout=3.0) as client:
+                res = await client.post(
+                    f"{self.base_url}/api/generate",
+                    json={
+                        "model": self.model,
+                        "prompt": prompt,
+                        "stream": False,
+                        "options": {"temperature": 0.2},
+                    },
+                )
+                if res.status_code == 200:
+                    data = res.json()
+                    text = data.get("response", "").strip()
+                    if verdict_str == "does_not_appear_to_qualify":
+                        lower_text = text.lower()
+                        if "congratulations" in lower_text or "you are eligible" in lower_text or "बधाई" in lower_text:
+                            logger.warning("LLM hallucinated approval on rejected scheme. Discarding output.")
+                            return None
+                    return text
+        except Exception as e:
+            logger.debug(f"Ollama Qwen2.5 explanation call failed: {e}")
+            return None
+

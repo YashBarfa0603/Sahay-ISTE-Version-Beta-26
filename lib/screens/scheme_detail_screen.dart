@@ -477,45 +477,85 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
             const SizedBox(height: 20),
           ],
 
-          Text(
-            'Rule-by-Rule Breakdown',
-            style: AppTextStyles.heading3.copyWith(fontSize: 17, color: AppColors.deepNavy),
-          ),
-          const SizedBox(height: 12),
-
-          // Condition Results (if assessed) or Eligibility Rules
           if (assessment != null && assessment.conditionResults.isNotEmpty) ...[
-            ...assessment.conditionResults.map((condition) {
-              return _ConditionResultCard(condition: condition);
-            }),
+            // 1. Failed Mandatory Conditions (Why you do not qualify)
+            if (assessment.conditionResults.any((c) => c.status == ConditionStatus.failed && c.isMandatory)) ...[
+              Text(
+                '✕ Conditions Not Satisfied',
+                style: AppTextStyles.heading3.copyWith(fontSize: 17, color: AppColors.mutedCoral),
+              ),
+              const SizedBox(height: 8),
+              ...assessment.conditionResults
+                  .where((c) => c.status == ConditionStatus.failed && c.isMandatory)
+                  .map((condition) => _ConditionResultCard(condition: condition)),
+              const SizedBox(height: 16),
+            ],
+
+            // 2. Satisfied Mandatory Conditions (Why you may qualify)
+            if (assessment.conditionResults.any((c) => c.status == ConditionStatus.passed && c.isMandatory)) ...[
+              Text(
+                '✓ Conditions Satisfied',
+                style: AppTextStyles.heading3.copyWith(fontSize: 17, color: AppColors.forestGreen),
+              ),
+              const SizedBox(height: 8),
+              ...assessment.conditionResults
+                  .where((c) => c.status == ConditionStatus.passed && c.isMandatory)
+                  .map((condition) => _ConditionResultCard(condition: condition)),
+              const SizedBox(height: 16),
+            ],
+
+            // 3. Missing Information
+            if (assessment.conditionResults.any((c) => c.status == ConditionStatus.pending)) ...[
+              Text(
+                '? Additional Information Required',
+                style: AppTextStyles.heading3.copyWith(fontSize: 17, color: AppColors.steelBlue),
+              ),
+              const SizedBox(height: 8),
+              ...assessment.conditionResults
+                  .where((c) => c.status == ConditionStatus.pending)
+                  .map((condition) => _ConditionResultCard(condition: condition)),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const QuestionnaireScreen()),
+                    );
+                  },
+                  icon: const Icon(Icons.edit_note_rounded),
+                  label: const Text('Provide Missing Information'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.steelBlue,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
+
+            // 4. Optional Conditions
+            if (assessment.conditionResults.any((c) => !c.isMandatory)) ...[
+              Text(
+                'Optional Priorities & Criteria',
+                style: AppTextStyles.heading3.copyWith(fontSize: 16, color: AppColors.deepNavy),
+              ),
+              const SizedBox(height: 8),
+              ...assessment.conditionResults
+                  .where((c) => !c.isMandatory)
+                  .map((condition) => _ConditionResultCard(condition: condition)),
+              const SizedBox(height: 16),
+            ],
           ] else ...[
+            Text(
+              'Official Eligibility Criteria',
+              style: AppTextStyles.heading3.copyWith(fontSize: 17, color: AppColors.deepNavy),
+            ),
+            const SizedBox(height: 12),
             ...widget.scheme.eligibilityRules.map((rule) {
               return _GenericRuleCard(rule: rule);
             }),
-          ],
-
-          if (assessment != null && assessment.missingInformation.isNotEmpty) ...[
-            const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: AppColors.steelBlue.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.steelBlue.withValues(alpha: 0.4)),
-              ),
-              child: Row(
-                children: [
-                  const Icon(Icons.info_outline_rounded, color: AppColors.steelBlue, size: 22),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      'Missing information required: ${assessment.missingInformation.join(", ")}',
-                      style: AppTextStyles.caption.copyWith(color: AppColors.deepNavy, fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ],
 
           const SizedBox(height: 24),
@@ -852,13 +892,23 @@ class _ConditionResultCard extends StatelessWidget {
         break;
     }
 
+    final displayLabel = (condition.label != null && condition.label!.isNotEmpty)
+        ? condition.label!
+        : condition.field.replaceAll('_', ' ').toUpperCase();
+
+    final requiredText = condition.requiredDescription ??
+        (condition.expectedValue != null ? 'Requirement: ${condition.expectedValue}' : condition.condition);
+
+    final userValueText = condition.formattedUserValue ??
+        (condition.actualValue != null ? condition.actualValue.toString() : 'Not Provided');
+
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: AppColors.warmSand,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: statusColor.withValues(alpha: 0.35)),
+        border: Border.all(color: statusColor.withValues(alpha: 0.4), width: 1.2),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -869,75 +919,168 @@ class _ConditionResultCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Top row: Label & Mandatory / Borderline pills
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
                       child: Text(
-                        condition.field.toUpperCase(),
+                        displayLabel.toUpperCase(),
                         style: AppTextStyles.label.copyWith(
                           fontSize: 12,
                           color: AppColors.deepNavy,
                           fontWeight: FontWeight.w800,
+                          letterSpacing: 0.3,
                         ),
                       ),
                     ),
-                    if (condition.isMandatory)
+                    if (condition.isBorderline)
                       Container(
+                        margin: const EdgeInsets.only(right: 6),
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
-                          color: AppColors.softSaffron.withValues(alpha: 0.3),
+                          color: Colors.amber.withValues(alpha: 0.25),
                           borderRadius: BorderRadius.circular(4),
+                          border: Border.all(color: Colors.amber.shade700, width: 0.8),
                         ),
                         child: Text(
-                          'MANDATORY',
+                          'BORDERLINE',
                           style: AppTextStyles.caption.copyWith(
-                            color: AppColors.deepNavy,
+                            color: Colors.amber.shade900,
                             fontSize: 9,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
                       ),
-                  ],
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  condition.condition,
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.deepNavy,
-                  ),
-                ),
-                if (condition.explanation != null) ...[
-                  const SizedBox(height: 4),
-                  Text(
-                    condition.explanation!,
-                    style: AppTextStyles.caption.copyWith(
-                      color: AppColors.deepNavy.withValues(alpha: 0.75),
-                      height: 1.35,
-                    ),
-                  ),
-                ],
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    if (condition.expectedValue != null)
-                      Text(
-                        'Target: ${condition.expectedValue}',
-                        style: AppTextStyles.caption.copyWith(color: AppColors.textSecondary),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: condition.isMandatory
+                            ? AppColors.softSaffron.withValues(alpha: 0.3)
+                            : AppColors.steelBlue.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(4),
                       ),
-                    if (condition.actualValue != null) ...[
-                      const SizedBox(width: 12),
-                      Text(
-                        'Your value: ${condition.actualValue}',
+                      child: Text(
+                        condition.isMandatory ? 'MANDATORY' : 'OPTIONAL',
                         style: AppTextStyles.caption.copyWith(
-                          color: statusColor,
+                          color: AppColors.deepNavy,
+                          fontSize: 9,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                    ],
+                    ),
                   ],
                 ),
+                const SizedBox(height: 6),
+
+                // Understandable Reason / Explanation
+                if (condition.explanation != null)
+                  Text(
+                    condition.explanation!,
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      color: AppColors.deepNavy,
+                      fontSize: 13.5,
+                      fontWeight: FontWeight.w500,
+                      height: 1.35,
+                    ),
+                  ),
+
+                const SizedBox(height: 8),
+
+                // Comparison Box: Required vs User Value
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.7),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: AppColors.border.withValues(alpha: 0.5)),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Required:', style: AppTextStyles.caption.copyWith(color: AppColors.textSecondary)),
+                          Text(
+                            requiredText,
+                            style: AppTextStyles.caption.copyWith(fontWeight: FontWeight.w600, color: AppColors.deepNavy),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Your Profile:', style: AppTextStyles.caption.copyWith(color: AppColors.textSecondary)),
+                          Text(
+                            userValueText,
+                            style: AppTextStyles.caption.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: statusColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                      if (condition.differenceDescription != null) ...[
+                        const SizedBox(height: 4),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Difference:', style: AppTextStyles.caption.copyWith(color: AppColors.mutedCoral)),
+                            Text(
+                              condition.differenceDescription!,
+                              style: AppTextStyles.caption.copyWith(
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.mutedCoral,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+
+                // Verifying Document & Verification Status
+                if (condition.verifyingDocument != null) ...[
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      const Icon(Icons.description_outlined, size: 14, color: AppColors.steelBlue),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          'Verifying Document: ${condition.verifyingDocument!}',
+                          style: AppTextStyles.caption.copyWith(
+                            color: AppColors.steelBlue,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1.5),
+                        decoration: BoxDecoration(
+                          color: AppColors.warmSand,
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(color: AppColors.border),
+                        ),
+                        child: Text(
+                          condition.verificationStatus == 'document_verified'
+                              ? 'Verified'
+                              : 'Self-Reported',
+                          style: AppTextStyles.caption.copyWith(
+                            color: condition.verificationStatus == 'document_verified'
+                                ? AppColors.forestGreen
+                                : AppColors.textSecondary,
+                            fontSize: 9.5,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ],
             ),
           ),

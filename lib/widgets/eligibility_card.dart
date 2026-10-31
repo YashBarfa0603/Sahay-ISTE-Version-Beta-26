@@ -159,55 +159,191 @@ class EligibilityCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
 
-                        // Explanation text
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.65),
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: AppColors.border.withValues(alpha: 0.4),
-                              width: 0.5,
-                            ),
-                          ),
-                          child: Text(
-                            eligibility.explanation,
-                            style: AppTextStyles.bodySmall.copyWith(
-                              color: AppColors.deepNavy,
-                              height: 1.4,
-                              fontSize: 12.5,
-                            ),
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
+                        // Evidence & Condition Breakdown Summary
+                        Builder(
+                          builder: (context) {
+                            final conditions = eligibility.conditionResults;
+                            final passed = conditions.where((c) => c.status == ConditionStatus.passed).toList();
+                            final failed = conditions.where((c) => c.status == ConditionStatus.failed).toList();
+                            final pending = conditions.where((c) => c.status == ConditionStatus.pending).toList();
 
-                        // Missing info indicator if any
-                        if (eligibility.result == EligibilityResult.needsMoreInformation &&
-                            eligibility.missingInformation.isNotEmpty) ...[
-                          const SizedBox(height: 8),
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.info_outline_rounded,
-                                size: 14,
-                                color: AppColors.steelBlue,
-                              ),
-                              const SizedBox(width: 4),
-                              Expanded(
-                                child: Text(
-                                  'Missing: ${eligibility.missingInformation.join(", ")}',
-                                  style: AppTextStyles.caption.copyWith(
-                                    color: AppColors.steelBlue,
-                                    fontWeight: FontWeight.w600,
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Condition Status Summary Pill
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    color: statusColor.withValues(alpha: 0.08),
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                      color: statusColor.withValues(alpha: 0.3),
+                                      width: 0.8,
+                                    ),
                                   ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        eligibility.result == EligibilityResult.mayQualify
+                                            ? Icons.check_circle_rounded
+                                            : eligibility.result == EligibilityResult.doesNotQualify
+                                                ? Icons.cancel_rounded
+                                                : Icons.help_outline_rounded,
+                                        size: 15,
+                                        color: statusColor,
+                                      ),
+                                      const SizedBox(width: 6),
+                                      Expanded(
+                                        child: Text(
+                                          eligibility.result == EligibilityResult.mayQualify
+                                              ? (langCode == 'hi'
+                                                  ? 'सभी ${passed.isNotEmpty ? "${passed.length} " : ""}आवश्यक शर्तें पूरी हैं'
+                                                  : 'Meets all ${passed.isNotEmpty ? "${passed.length} " : ""}mandatory criteria')
+                                              : eligibility.result == EligibilityResult.doesNotQualify
+                                                  ? (langCode == 'hi'
+                                                      ? '${failed.length} अनिवार्य शर्त${failed.length > 1 ? "ें" : ""} पूरी नहीं हुई'
+                                                      : '${failed.length} mandatory criteria not satisfied')
+                                                  : (langCode == 'hi'
+                                                      ? 'पात्रता तय करने हेतु अतिरिक्त जानकारी आवश्यक'
+                                                      : 'Additional information required for assessment'),
+                                          style: AppTextStyles.caption.copyWith(
+                                            color: statusColor,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 11.5,
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+
+                                // Highlight first failed condition with specific difference
+                                if (failed.isNotEmpty) ...[
+                                  const SizedBox(height: 6),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                        color: AppColors.mutedCoral.withValues(alpha: 0.25),
+                                        width: 0.8,
+                                      ),
+                                    ),
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        const Padding(
+                                          padding: EdgeInsets.only(top: 2),
+                                          child: Icon(
+                                            Icons.close_rounded,
+                                            size: 13,
+                                            color: AppColors.mutedCoral,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 6),
+                                        Expanded(
+                                          child: RichText(
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            text: TextSpan(
+                                              style: AppTextStyles.caption.copyWith(
+                                                color: AppColors.deepNavy,
+                                                fontSize: 11.5,
+                                                height: 1.3,
+                                              ),
+                                              children: [
+                                                TextSpan(
+                                                  text: '${(langCode == 'hi' ? failed.first.labelHindi : null) ?? failed.first.label ?? failed.first.field}: ',
+                                                  style: const TextStyle(fontWeight: FontWeight.w700),
+                                                ),
+                                                TextSpan(
+                                                  text: failed.first.differenceDescription ??
+                                                      failed.first.explanation ??
+                                                      'Does not meet required condition.',
+                                                  style: const TextStyle(color: AppColors.mutedCoral),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+
+                                // Missing information indicator
+                                if (eligibility.result == EligibilityResult.needsMoreInformation &&
+                                    (eligibility.missingInformation.isNotEmpty || pending.isNotEmpty)) ...[
+                                  const SizedBox(height: 6),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                        color: AppColors.steelBlue.withValues(alpha: 0.25),
+                                        width: 0.8,
+                                      ),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.help_outline_rounded,
+                                          size: 13,
+                                          color: AppColors.steelBlue,
+                                        ),
+                                        const SizedBox(width: 6),
+                                        Expanded(
+                                          child: Text(
+                                            langCode == 'hi'
+                                                ? 'आवश्यक: ${(eligibility.missingInformation.isNotEmpty ? eligibility.missingInformation : pending.map((p) => p.labelHindi ?? p.label ?? p.field)).join(", ")}'
+                                                : 'Missing: ${(eligibility.missingInformation.isNotEmpty ? eligibility.missingInformation : pending.map((p) => p.label ?? p.field)).join(", ")}',
+                                            style: AppTextStyles.caption.copyWith(
+                                              color: AppColors.steelBlue,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 11.5,
+                                            ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+
+                                const SizedBox(height: 8),
+
+                                // General Explanation container
+                                Container(
+                                  width: double.infinity,
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withValues(alpha: 0.65),
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: AppColors.border.withValues(alpha: 0.4),
+                                      width: 0.5,
+                                    ),
+                                  ),
+                                  child: Text(
+                                    eligibility.explanation,
+                                    style: AppTextStyles.bodySmall.copyWith(
+                                      color: AppColors.deepNavy,
+                                      height: 1.35,
+                                      fontSize: 12,
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
 
                         const SizedBox(height: 12),
 

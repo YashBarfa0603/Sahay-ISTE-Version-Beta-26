@@ -204,4 +204,92 @@ class BackendSchemeService {
       officialDirectoryUrl: 'https://findmycsc.nic.in/',
     );
   }
+
+  /// Evaluates scheme eligibility with evidence and transparent explanation from backend.
+  Future<EligibilityModel?> evaluateSchemeDetailed({
+    required String schemeId,
+    required Map<String, dynamic> userAnswers,
+    String language = 'en',
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '/api/eligibility/assess',
+        data: {
+          'schemeId': schemeId,
+          'user_answers': userAnswers,
+          'language': language,
+        },
+      );
+
+      if (response.statusCode == 200 && response.data is Map) {
+        final data = Map<String, dynamic>.from(response.data as Map);
+        final verdictStr = data['verdict']?.toString() ?? 'needs_more_information';
+        final EligibilityResult result;
+        if (verdictStr == 'may_qualify' || verdictStr == 'mayQualify') {
+          result = EligibilityResult.mayQualify;
+        } else if (verdictStr == 'does_not_appear_to_qualify' || verdictStr == 'doesNotQualify') {
+          result = EligibilityResult.doesNotQualify;
+        } else {
+          result = EligibilityResult.needsMoreInformation;
+        }
+
+        final rawConditions = (data['conditions'] as List? ?? []);
+        final conditionResults = rawConditions.map((cMap) {
+          final m = Map<String, dynamic>.from(cMap as Map);
+          final statusStr = m['status']?.toString() ?? 'pending';
+          final ConditionStatus cStatus;
+          if (statusStr == 'satisfied' || statusStr == 'passed') {
+            cStatus = ConditionStatus.passed;
+          } else if (statusStr == 'not_satisfied' || statusStr == 'failed') {
+            cStatus = ConditionStatus.failed;
+          } else {
+            cStatus = ConditionStatus.pending;
+          }
+
+          final diffObj = m['difference'] is Map ? Map<String, dynamic>.from(m['difference'] as Map) : null;
+
+          return EligibilityConditionResult(
+            field: m['field']?.toString() ?? '',
+            condition: m['required']?.toString() ?? '',
+            expectedValue: m['required'],
+            actualValue: m['userValue'],
+            status: cStatus,
+            isMandatory: m['isMandatory'] as bool? ?? true,
+            explanation: m['reason']?.toString(),
+            label: m['label']?.toString(),
+            labelHindi: m['labelHindi']?.toString(),
+            requiredDescription: m['required']?.toString(),
+            requiredDescriptionHindi: m['requiredHindi']?.toString(),
+            formattedUserValue: m['formattedUserValue']?.toString(),
+            differenceDescription: diffObj?['description']?.toString(),
+            verifyingDocument: m['verifyingDocument']?.toString(),
+            verifyingDocumentHindi: m['verifyingDocumentHindi']?.toString(),
+            sourceUrl: m['sourceUrl']?.toString(),
+            sourceQuote: m['sourceQuote']?.toString(),
+            isBorderline: m['isBorderline'] as bool? ?? false,
+            verificationStatus: m['verificationStatus']?.toString() ?? 'self_reported',
+          );
+        }).toList();
+
+        final missingList = (data['missingConditions'] as List? ?? [])
+            .map((c) => (c is Map ? c['field']?.toString() : c.toString()) ?? '')
+            .where((s) => s.isNotEmpty)
+            .toList();
+
+        return EligibilityModel(
+          assessmentId: 'backend_${DateTime.now().millisecondsSinceEpoch}',
+          userId: userAnswers['uid']?.toString() ?? 'session_user',
+          schemeId: schemeId,
+          result: result,
+          explanation: data['summaryExplanation']?.toString() ?? 'Assessment complete.',
+          conditionResults: conditionResults,
+          missingInformation: missingList,
+          assessedAt: DateTime.now(),
+        );
+      }
+    } catch (e) {
+      debugPrint('BackendSchemeService: Detailed eligibility assessment call failed ($e). Operating in offline local mode.');
+    }
+    return null;
+  }
 }

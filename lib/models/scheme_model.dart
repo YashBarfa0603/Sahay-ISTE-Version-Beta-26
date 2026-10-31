@@ -39,6 +39,11 @@ class EligibilityRule {
   final dynamic value;
   final bool isMandatory;
   final String? description;
+  final String? descriptionHindi;
+  final String? sourceUrl;
+  final String? sourceQuote;
+  final String? verifyingDocument;
+  final String? verifyingDocumentHindi;
 
   const EligibilityRule({
     required this.field,
@@ -46,6 +51,11 @@ class EligibilityRule {
     required this.value,
     this.isMandatory = true,
     this.description,
+    this.descriptionHindi,
+    this.sourceUrl,
+    this.sourceQuote,
+    this.verifyingDocument,
+    this.verifyingDocumentHindi,
   });
 
   Map<String, dynamic> toMap() {
@@ -55,6 +65,11 @@ class EligibilityRule {
       'value': value,
       'isMandatory': isMandatory,
       'description': description,
+      'descriptionHindi': descriptionHindi,
+      'sourceUrl': sourceUrl,
+      'sourceQuote': sourceQuote,
+      'verifyingDocument': verifyingDocument,
+      'verifyingDocumentHindi': verifyingDocumentHindi,
     };
   }
 
@@ -68,6 +83,11 @@ class EligibilityRule {
       value: map['value'],
       isMandatory: map['isMandatory'] as bool? ?? true,
       description: map['description'] as String?,
+      descriptionHindi: map['descriptionHindi'] as String?,
+      sourceUrl: map['sourceUrl'] as String?,
+      sourceQuote: map['sourceQuote'] as String?,
+      verifyingDocument: map['verifyingDocument'] as String?,
+      verifyingDocumentHindi: map['verifyingDocumentHindi'] as String?,
     );
   }
 }

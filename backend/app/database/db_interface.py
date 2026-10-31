@@ -9,6 +9,8 @@ with the 6 verified core schemes) which can be swapped with FirestoreSchemeDatab
 by implementing this abstract base class.
 """
 
+import json
+from pathlib import Path
 from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import List, Optional
@@ -63,6 +65,72 @@ class InMemorySchemeDatabase(SchemeDatabaseInterface):
     def __init__(self):
         self._schemes: dict[str, SchemeModelSchema] = {}
         self._preload_baseline_schemes()
+        self._preload_seed_schemes_from_disk()
+
+
+    def _preload_seed_schemes_from_disk(self):
+        """Loads curated SchemeDocument JSON seed files from data/schemes_seed directory."""
+        seed_dir = Path(__file__).resolve().parent.parent.parent.parent / "data" / "schemes_seed"
+        if not seed_dir.exists():
+            seed_dir = Path("data/schemes_seed")
+        if not seed_dir.exists():
+            return
+
+        for json_file in seed_dir.glob("*.json"):
+            if json_file.name.startswith("_"):
+                continue
+            try:
+                data = json.loads(json_file.read_text(encoding="utf-8"))
+                scheme_id = data.get("schemeId")
+                if not scheme_id or scheme_id in self._schemes:
+                    continue
+
+                rules = []
+                for r in data.get("eligibilityRules", []):
+                    try:
+                        rules.append(
+                            EligibilityRuleSchema(
+                                field=r["field"],
+                                operator=EligibilityOperator(r["operator"]),
+                                value=r.get("value"),
+                                isMandatory=r.get("isMandatory", True),
+                                description=r.get("description"),
+                            )
+                        )
+                    except Exception:
+                        continue
+
+                gov_lvl = GovernmentLevel.central
+                if str(data.get("governmentLevel", "")).lower() == "state":
+                    gov_lvl = GovernmentLevel.state
+
+                model = SchemeModelSchema(
+                    schemeId=scheme_id,
+                    name=data.get("name", ""),
+                    nameHindi=data.get("nameHindi"),
+                    description=data.get("description", ""),
+                    descriptionHindi=data.get("descriptionHindi"),
+                    category=data.get("category", "socialWelfare"),
+                    ministry=data.get("ministry", "Government of India"),
+                    governmentLevel=gov_lvl,
+                    applicableStates=data.get("applicableStates", []),
+                    benefits=data.get("benefits", ""),
+                    benefitsHindi=data.get("benefitsHindi"),
+                    eligibilityRules=rules,
+                    requiredDocuments=data.get("requiredDocuments", []),
+                    applicationProcess=data.get("applicationProcess", ""),
+                    applicationUrl=data.get("applicationUrl"),
+                    officialSourceUrl=data.get("officialSourceUrl", "https://india.gov.in"),
+                    sourceName=data.get("sourceName"),
+                    sourceType=SchemeSourceType.curated,
+                    verificationStatus=VerificationStatus.verified,
+                    status=SchemeStatus.active,
+                    isPopular=data.get("isPopular", False),
+                    popularityRank=data.get("popularityRank", 50),
+                )
+                self._schemes[scheme_id] = model
+            except Exception:
+                continue
 
     def _preload_baseline_schemes(self):
         baseline = [

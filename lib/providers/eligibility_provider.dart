@@ -1,3 +1,4 @@
+import 'package:sahay/services/backend_scheme_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sahay/models/eligibility_model.dart';
 import 'package:sahay/models/scheme_model.dart';
@@ -101,6 +102,32 @@ class EligibilityProvider extends ChangeNotifier {
     final result = getResultForScheme(schemeId);
     if (result == null) return const [];
     return _engine.detectBorderlineConditions(result, userAnswers);
+  }
+
+
+  // Evaluate single with optional backend explanation
+  Future<EligibilityModel> evaluateSingleWithBackend(
+    SchemeModel scheme,
+    Map<String, dynamic> userAnswers, {
+    BackendSchemeService? service,
+    String language = 'en',
+  }) async {
+    final backendService = service ?? BackendSchemeService();
+    final backendResult = await backendService.evaluateSchemeDetailed(
+      schemeId: scheme.schemeId,
+      userAnswers: userAnswers,
+      language: language,
+    );
+    final result = backendResult ?? _engine.evaluateScheme(scheme, userAnswers);
+    final existingIndex = _results.indexWhere((r) => r.schemeId == scheme.schemeId);
+    if (existingIndex >= 0) {
+      _results[existingIndex] = result;
+    } else {
+      _results.add(result);
+    }
+    _hasEvaluated = true;
+    notifyListeners();
+    return result;
   }
 
   // Reset

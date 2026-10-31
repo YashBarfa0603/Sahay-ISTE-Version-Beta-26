@@ -32,7 +32,7 @@ def verifier():
 async def test_database_preload_and_search(db):
     # Verify preloaded baseline count
     schemes = await db.list_all_schemes()
-    assert len(schemes) == 6
+    assert len(schemes) >= 6
 
     # Verify search by keyword (farmer / PM-KISAN)
     results = await db.search_schemes("farmer")
@@ -136,7 +136,7 @@ async def test_discovery_pipeline_fallback_tavily(db):
 
     # Query for scheme not in 6 baseline schemes with forced discovery
     response = await pipeline.execute_search(
-        SchemeSearchQuery(query="Atal Pension Yojana", forceDynamicDiscovery=True)
+        SchemeSearchQuery(query="Namo Drone Didi", forceDynamicDiscovery=True)
     )
     assert response.total >= 1
     assert response.isDynamicDiscovery is True

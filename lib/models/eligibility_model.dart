@@ -19,6 +19,20 @@ class EligibilityConditionResult {
   final bool isMandatory;
   final String? explanation;
 
+  // Evidence additions
+  final String? label;
+  final String? labelHindi;
+  final String? requiredDescription;
+  final String? requiredDescriptionHindi;
+  final String? formattedUserValue;
+  final String? differenceDescription;
+  final String? verifyingDocument;
+  final String? verifyingDocumentHindi;
+  final String? sourceUrl;
+  final String? sourceQuote;
+  final bool isBorderline;
+  final String verificationStatus; // 'self_reported', 'document_uploaded', 'document_verified'
+
   const EligibilityConditionResult({
     required this.field,
     required this.condition,
@@ -27,6 +41,18 @@ class EligibilityConditionResult {
     required this.status,
     this.isMandatory = true,
     this.explanation,
+    this.label,
+    this.labelHindi,
+    this.requiredDescription,
+    this.requiredDescriptionHindi,
+    this.formattedUserValue,
+    this.differenceDescription,
+    this.verifyingDocument,
+    this.verifyingDocumentHindi,
+    this.sourceUrl,
+    this.sourceQuote,
+    this.isBorderline = false,
+    this.verificationStatus = 'self_reported',
   });
 
   Map<String, dynamic> toMap() {
@@ -38,6 +64,18 @@ class EligibilityConditionResult {
       'status': status.name,
       'isMandatory': isMandatory,
       'explanation': explanation,
+      'label': label,
+      'labelHindi': labelHindi,
+      'requiredDescription': requiredDescription,
+      'requiredDescriptionHindi': requiredDescriptionHindi,
+      'formattedUserValue': formattedUserValue,
+      'differenceDescription': differenceDescription,
+      'verifyingDocument': verifyingDocument,
+      'verifyingDocumentHindi': verifyingDocumentHindi,
+      'sourceUrl': sourceUrl,
+      'sourceQuote': sourceQuote,
+      'isBorderline': isBorderline,
+      'verificationStatus': verificationStatus,
     };
   }
 
@@ -55,6 +93,18 @@ class EligibilityConditionResult {
       ),
       isMandatory: map['isMandatory'] as bool? ?? true,
       explanation: map['explanation'] as String?,
+      label: map['label'] as String?,
+      labelHindi: map['labelHindi'] as String?,
+      requiredDescription: map['requiredDescription'] as String?,
+      requiredDescriptionHindi: map['requiredDescriptionHindi'] as String?,
+      formattedUserValue: map['formattedUserValue'] as String?,
+      differenceDescription: map['differenceDescription'] as String?,
+      verifyingDocument: map['verifyingDocument'] as String?,
+      verifyingDocumentHindi: map['verifyingDocumentHindi'] as String?,
+      sourceUrl: map['sourceUrl'] as String?,
+      sourceQuote: map['sourceQuote'] as String?,
+      isBorderline: map['isBorderline'] as bool? ?? false,
+      verificationStatus: map['verificationStatus'] as String? ?? 'self_reported',
     );
   }
 }
