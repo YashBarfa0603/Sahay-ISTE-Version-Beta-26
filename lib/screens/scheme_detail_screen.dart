@@ -448,6 +448,11 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
 
           const SizedBox(height: 24),
 
+          // Phase 5: Dedicated Edge Cases & Important Precautions Section
+          _buildEdgeCasesAndPrecautionsSection(langCode),
+
+          const SizedBox(height: 24),
+
           // Official Scheme Source Info Footer
           SchemeSourceInfo(scheme: widget.scheme),
 
@@ -652,8 +657,8 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
             ),
           ],
 
-          // Phase 5: Important Notes & Grounded Official Eligibility Conditions
-          _buildImportantNotesSection(langCode),
+          // Edge Cases & Important Precautions Section
+          _buildEdgeCasesAndPrecautionsSection(langCode),
 
           const SizedBox(height: 24),
           SchemeSourceInfo(scheme: widget.scheme),
@@ -663,16 +668,14 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
     );
   }
 
-  Widget _buildImportantNotesSection(String currentLang) {
-    final notes = SchemeNotesService.getNotesForScheme(widget.scheme.schemeId);
-    if (notes == null) return const SizedBox.shrink();
-
+  Widget _buildEdgeCasesAndPrecautionsSection(String currentLang) {
+    final notes = SchemeNotesService.getNotesForSchemeOrGrounded(widget.scheme);
     final isHi = currentLang == 'hi';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 24),
+        const SizedBox(height: 12),
         Row(
           children: [
             Container(
@@ -682,7 +685,7 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
                 shape: BoxShape.circle,
               ),
               child: const Icon(
-                Icons.rule_folder_outlined,
+                Icons.gavel_rounded,
                 size: 20,
                 color: AppColors.deepNavy,
               ),
@@ -690,7 +693,7 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
             const SizedBox(width: 10),
             Expanded(
               child: Text(
-                isHi ? 'महत्वपूर्ण नियम एवं पात्रता शर्तें' : 'Important Notes & Eligibility Conditions',
+                isHi ? 'विशेष सावधानियां एवं अपवर्जन नियम' : 'Edge Cases & Important Precautions',
                 style: AppTextStyles.heading3.copyWith(
                   fontSize: 17,
                   color: AppColors.deepNavy,
@@ -702,8 +705,8 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
         const SizedBox(height: 6),
         Text(
           isHi
-              ? 'आधिकारिक सरकारी दिशानिर्देशों के अनुसार आवश्यक शर्तें व अपात्रता नियम:'
-              : 'Authoritative rules and disqualification criteria per official scheme guidelines:',
+              ? 'आधिकारिक अपवर्जन नियम, पात्रता शर्तें एवं आवेदन सावधानियां:'
+              : 'Authoritative disqualifications, grounded conditions, and application safeguards:',
           style: AppTextStyles.bodySmall.copyWith(
             color: AppColors.deepNavy.withValues(alpha: 0.75),
           ),
@@ -973,7 +976,9 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
                 },
                 onUploadPressed: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const MyDocumentsScreen()),
+                    MaterialPageRoute(
+                      builder: (_) => MyDocumentsScreen(preselectedType: canonicalId),
+                    ),
                   );
                 },
                 onViewInVaultPressed: () {

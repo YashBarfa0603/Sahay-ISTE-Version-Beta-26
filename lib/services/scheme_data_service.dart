@@ -1,19 +1,62 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:sahay/models/scheme_model.dart';
 
 class SchemeDataService {
   const SchemeDataService();
 
-  // All schemes
+  static List<SchemeModel>? _completeCatalogue;
+
+  // Baseline 6 core schemes with complete rule definitions
   Future<List<SchemeModel>> getAllSchemes() async {
     return List<SchemeModel>.unmodifiable(_curatedSchemes);
   }
 
+  /// Complete ~100 scheme catalogue loaded from seed data
+  Future<List<SchemeModel>> getCompleteCatalogue() async {
+    if (_completeCatalogue != null && _completeCatalogue!.isNotEmpty) {
+      return List<SchemeModel>.unmodifiable(_completeCatalogue!);
+    }
+
+    try {
+      String jsonStr = '';
+      try {
+        jsonStr = await rootBundle.loadString('assets/schemes_seed.json');
+      } catch (_) {
+        // Fallback for tests or local execution
+        final file = File('assets/schemes_seed.json');
+        if (await file.exists()) {
+          jsonStr = await file.readAsString();
+        }
+      }
+
+      if (jsonStr.isNotEmpty) {
+        final decoded = json.decode(jsonStr) as List;
+        final list = decoded
+            .map((item) => SchemeModel.fromMap(Map<String, dynamic>.from(item as Map)))
+            .toList();
+
+        if (list.isNotEmpty) {
+          _completeCatalogue = list;
+          return List<SchemeModel>.unmodifiable(_completeCatalogue!);
+        }
+      }
+    } catch (e) {
+      debugPrint('SchemeDataService: Failed to load complete catalogue ($e)');
+    }
+
+    return List<SchemeModel>.unmodifiable(_curatedSchemes);
+  }
+
   // By category
-  Future<List<SchemeModel>> getSchemesByCategory(String category) async {
+  Future<List<SchemeModel>> getSchemesByCategory(String category, {bool fromComplete = false}) async {
     final cleanCategory = category.trim().toLowerCase();
-    return _curatedSchemes
+    final source = fromComplete ? await getCompleteCatalogue() : _curatedSchemes;
+    return source
         .where((scheme) => scheme.category.toLowerCase() == cleanCategory)
         .toList();
   }
@@ -21,22 +64,26 @@ class SchemeDataService {
   // By ID
   Future<SchemeModel?> getSchemeById(String schemeId) async {
     try {
-      return _curatedSchemes.firstWhere(
-        (scheme) => scheme.schemeId == schemeId,
-      );
+      final curated = _curatedSchemes.where((scheme) => scheme.schemeId == schemeId);
+      if (curated.isNotEmpty) {
+        return curated.first;
+      }
+      final complete = await getCompleteCatalogue();
+      return complete.firstWhere((scheme) => scheme.schemeId == schemeId);
     } catch (_) {
       return null;
     }
   }
 
   // Search
-  Future<List<SchemeModel>> searchSchemes(String query) async {
+  Future<List<SchemeModel>> searchSchemes(String query, {bool searchComplete = false}) async {
     final cleanQuery = query.trim().toLowerCase();
+    final source = searchComplete ? await getCompleteCatalogue() : _curatedSchemes;
     if (cleanQuery.isEmpty) {
-      return getAllSchemes();
+      return List<SchemeModel>.unmodifiable(source);
     }
 
-    return _curatedSchemes.where((scheme) {
+    return source.where((scheme) {
       final matchesEnglishName =
           scheme.name.toLowerCase().contains(cleanQuery);
       final matchesHindiName =

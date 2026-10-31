@@ -3,6 +3,7 @@ import 'package:sahay/models/api_response_models.dart';
 import 'package:sahay/models/scheme_model.dart';
 import 'package:sahay/services/backend_scheme_service.dart';
 import 'package:sahay/services/scheme_data_service.dart';
+import 'package:sahay/utils/indian_states.dart';
 
 class SchemeProvider extends ChangeNotifier {
   List<SchemeModel> _schemes = [];
@@ -12,6 +13,7 @@ class SchemeProvider extends ChangeNotifier {
   String _searchQuery = '';
   String? _categoryFilter;
   GovernmentLevel? _levelFilter;
+  String? _stateFilter;
 
   // Getters
   List<SchemeModel> get schemes => List.unmodifiable(_schemes);
@@ -21,13 +23,14 @@ class SchemeProvider extends ChangeNotifier {
   String get searchQuery => _searchQuery;
   String? get categoryFilter => _categoryFilter;
   GovernmentLevel? get levelFilter => _levelFilter;
+  String? get stateFilter => _stateFilter;
   int get totalSchemesCount => _schemes.length;
   int get filteredSchemesCount => _filteredSchemes.length;
 
   List<SchemeModel> get popularSchemes =>
       _schemes.where((scheme) => scheme.isPopular).toList();
 
-  // Load
+  // Load baseline curated schemes (for backward compatibility)
   Future<void> loadSchemes(SchemeDataService dataService) async {
     _isLoading = true;
     _error = null;
@@ -38,6 +41,26 @@ class SchemeProvider extends ChangeNotifier {
       _applyFilters();
     } catch (e, stackTrace) {
       debugPrint('SchemeProvider error: $e\n$stackTrace');
+      _error = e.toString();
+      _filteredSchemes = [];
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  // Load complete ~100 scheme catalogue
+  Future<void> loadFullCatalogue([SchemeDataService? dataService]) async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+
+    final service = dataService ?? const SchemeDataService();
+    try {
+      _schemes = await service.getCompleteCatalogue();
+      _applyFilters();
+    } catch (e, stackTrace) {
+      debugPrint('SchemeProvider.loadFullCatalogue error: $e\n$stackTrace');
       _error = e.toString();
       _filteredSchemes = [];
     } finally {
@@ -107,16 +130,30 @@ class SchemeProvider extends ChangeNotifier {
     }
   }
 
+  void filterByState(String? state) {
+    final normalized = (state == null || state.trim().isEmpty || state.toLowerCase() == 'all')
+        ? null
+        : state.trim();
+
+    if (_stateFilter != normalized) {
+      _stateFilter = normalized;
+      _applyFilters();
+      notifyListeners();
+    }
+  }
+
   // Reset
   void clearFilters() {
     bool hasActiveFilter = _searchQuery.isNotEmpty ||
         _categoryFilter != null ||
-        _levelFilter != null;
+        _levelFilter != null ||
+        _stateFilter != null;
 
     if (hasActiveFilter) {
       _searchQuery = '';
       _categoryFilter = null;
       _levelFilter = null;
+      _stateFilter = null;
       _applyFilters();
       notifyListeners();
     }
@@ -146,6 +183,19 @@ class SchemeProvider extends ChangeNotifier {
       result = result
           .where((scheme) => scheme.category.toLowerCase() == categoryLower)
           .toList();
+    }
+
+    if (_stateFilter != null && _stateFilter!.isNotEmpty) {
+      final stateUpper = _stateFilter!.trim().toUpperCase();
+      result = result.where((scheme) {
+        if (scheme.applicableStates.contains('ALL_INDIA') ||
+            scheme.governmentLevel == GovernmentLevel.central) {
+          return true;
+        }
+        return scheme.applicableStates.any((s) =>
+            s.toUpperCase() == stateUpper ||
+            (IndianStates.findByCode(s)?.nameEnglish.toUpperCase() == stateUpper));
+      }).toList();
     }
 
     final query = _searchQuery.trim().toLowerCase();

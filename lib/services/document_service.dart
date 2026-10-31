@@ -1,21 +1,54 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sahay/models/user_document_model.dart';
 
-/// Service managing user document metadata stored in Firestore under:
+/// Result from uploading a document to storage.
+class DocumentUploadResult {
+  final String storagePath;
+  final String? downloadUrl;
+  final Uint8List? fileBytes;
+  final String fileName;
+  final String fileType;
+  final int fileSize;
+
+  const DocumentUploadResult({
+    required this.storagePath,
+    this.downloadUrl,
+    this.fileBytes,
+    required this.fileName,
+    required this.fileType,
+    required this.fileSize,
+  });
+}
+
+/// Service managing user document files in Firebase Storage and metadata in Firestore under:
 /// `users/{userId}/documents/{documentId}`
 class DocumentService {
   final FirebaseFirestore? _injectedFirestore;
+  final FirebaseStorage? _injectedStorage;
 
   // In-memory fallback for testing, offline resilience, and guest mode
   static final Map<String, Map<String, UserDocumentModel>> _memoryStore = {};
+  static final Map<String, Uint8List> _fileBytesStore = {};
 
-  DocumentService({FirebaseFirestore? firestore})
-      : _injectedFirestore = firestore;
+  DocumentService({
+    FirebaseFirestore? firestore,
+    FirebaseStorage? storage,
+  })  : _injectedFirestore = firestore,
+        _injectedStorage = storage;
 
   FirebaseFirestore? get _firestore {
     try {
       return _injectedFirestore ?? FirebaseFirestore.instance;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  FirebaseStorage? get _storage {
+    try {
+      return _injectedStorage ?? FirebaseStorage.instance;
     } catch (_) {
       return null;
     }
@@ -50,6 +83,114 @@ class DocumentService {
     return fs.collection('users').doc(userId).collection('documents');
   }
 
+  /// Upload a document file to Firebase Storage under the private path:
+  /// `users/{userId}/documents/{documentType}/{fileName}`
+  /// Falls back gracefully to local in-memory storage if Firebase Storage is unavailable.
+  Future<DocumentUploadResult> uploadDocumentFile({
+    required String userId,
+    required String documentType,
+    required String fileName,
+    required Uint8List fileBytes,
+    void Function(double progress)? onProgress,
+  }) async {
+    final ext = fileName.split('.').last.toLowerCase().replaceAll('.', '').trim();
+    final validationError = validateFile(fileType: ext, fileSize: fileBytes.length);
+    if (validationError != null) {
+      throw ArgumentError(validationError);
+    }
+
+    final sanitizedName = fileName.replaceAll(RegExp(r'[^\w\.-]'), '_');
+    final storagePath = 'users/$userId/documents/$documentType/$sanitizedName';
+    String? downloadUrl;
+
+    // Cache locally for resilient preview and offline access
+    _fileBytesStore[storagePath] = fileBytes;
+
+    final storage = _storage;
+    if (storage != null) {
+      try {
+        final ref = storage.ref().child(storagePath);
+        final mime = ext == 'pdf'
+            ? 'application/pdf'
+            : (ext == 'png' ? 'image/png' : 'image/jpeg');
+
+        final metadata = SettableMetadata(
+          contentType: mime,
+          customMetadata: {
+            'userId': userId,
+            'documentType': documentType,
+            'originalFileName': fileName,
+          },
+        );
+
+        final uploadTask = ref.putData(fileBytes, metadata);
+        if (onProgress != null) {
+          uploadTask.snapshotEvents.listen((event) {
+            if (event.totalBytes > 0) {
+              final pct = event.bytesTransferred / event.totalBytes;
+              onProgress(pct);
+            }
+          });
+        }
+
+        final snapshot = await uploadTask;
+        downloadUrl = await snapshot.ref.getDownloadURL();
+      } catch (e) {
+        debugPrint('DocumentService: Storage upload fallback notice ($e)');
+        onProgress?.call(1.0);
+      }
+    } else {
+      onProgress?.call(1.0);
+    }
+
+    return DocumentUploadResult(
+      storagePath: storagePath,
+      downloadUrl: downloadUrl,
+      fileBytes: fileBytes,
+      fileName: sanitizedName,
+      fileType: ext,
+      fileSize: fileBytes.length,
+    );
+  }
+
+  /// Delete a file from Firebase Storage
+  Future<void> deleteStorageFile(String storagePath) async {
+    if (storagePath.isEmpty) return;
+    _fileBytesStore.remove(storagePath);
+    final storage = _storage;
+    if (storage != null) {
+      try {
+        final ref = storage.ref().child(storagePath);
+        await ref.delete();
+      } catch (e) {
+        debugPrint('DocumentService: Storage delete non-fatal error ($e)');
+      }
+    }
+  }
+
+  /// Retrieve file bytes from cache or Firebase Storage
+  Future<Uint8List?> getDocumentBytes(String storagePath) async {
+    if (storagePath.isEmpty) return null;
+    if (_fileBytesStore.containsKey(storagePath)) {
+      return _fileBytesStore[storagePath];
+    }
+
+    final storage = _storage;
+    if (storage != null) {
+      try {
+        final ref = storage.ref().child(storagePath);
+        final data = await ref.getData(maxFileSizeBytes);
+        if (data != null) {
+          _fileBytesStore[storagePath] = data;
+          return data;
+        }
+      } catch (e) {
+        debugPrint('DocumentService: getDocumentBytes error ($e)');
+      }
+    }
+    return null;
+  }
+
   /// Fetch all documents owned by user
   Future<List<UserDocumentModel>> getUserDocuments(String userId) async {
     if (userId.isEmpty) return [];
@@ -59,7 +200,12 @@ class DocumentService {
       try {
         final querySnapshot = await ref.orderBy('uploadedAt', descending: true).get();
         final docs = querySnapshot.docs.map((doc) {
-          return UserDocumentModel.fromMap(doc.data(), doc.id);
+          final model = UserDocumentModel.fromMap(doc.data(), doc.id);
+          // Attach cached bytes if available
+          if (_fileBytesStore.containsKey(model.storagePath)) {
+            return model.copyWith(cachedBytes: _fileBytesStore[model.storagePath]);
+          }
+          return model;
         }).toList();
 
         // Sync with local memory cache
@@ -92,8 +238,11 @@ class DocumentService {
         if (query.docs.isNotEmpty) {
           final doc = query.docs.first;
           final model = UserDocumentModel.fromMap(doc.data(), doc.id);
-          _memoryStore.putIfAbsent(userId, () => {})[documentType] = model;
-          return model;
+          final fullModel = _fileBytesStore.containsKey(model.storagePath)
+              ? model.copyWith(cachedBytes: _fileBytesStore[model.storagePath])
+              : model;
+          _memoryStore.putIfAbsent(userId, () => {})[documentType] = fullModel;
+          return fullModel;
         }
       } catch (e) {
         debugPrint('DocumentService: getDocument error ($e)');
@@ -129,11 +278,15 @@ class DocumentService {
     return doc;
   }
 
-  /// Delete document by ID
-  Future<void> deleteDocument(String userId, String documentId, String documentType) async {
+  /// Delete document by ID and canonical type
+  Future<void> deleteDocument(String userId, String documentId, String documentType, {String? storagePath}) async {
     if (userId.isEmpty) return;
 
-    _memoryStore[userId]?.remove(documentType);
+    final doc = _memoryStore[userId]?.remove(documentType);
+    final targetPath = storagePath ?? doc?.storagePath;
+    if (targetPath != null && targetPath.isNotEmpty) {
+      await deleteStorageFile(targetPath);
+    }
 
     final ref = _documentsRef(userId);
     if (ref != null) {
@@ -149,13 +302,23 @@ class DocumentService {
   Future<void> deleteAllUserDocuments(String userId) async {
     if (userId.isEmpty) return;
 
-    _memoryStore.remove(userId);
+    final docs = _memoryStore.remove(userId)?.values.toList() ?? [];
+    for (final doc in docs) {
+      if (doc.storagePath.isNotEmpty) {
+        await deleteStorageFile(doc.storagePath);
+      }
+    }
 
     final ref = _documentsRef(userId);
     if (ref != null) {
       try {
         final snapshots = await ref.get();
         for (final doc in snapshots.docs) {
+          final data = doc.data();
+          final path = data['storagePath']?.toString();
+          if (path != null && path.isNotEmpty) {
+            await deleteStorageFile(path);
+          }
           await doc.reference.delete();
         }
       } catch (e) {
@@ -168,6 +331,6 @@ class DocumentService {
   @visibleForTesting
   static void clearMemoryStore() {
     _memoryStore.clear();
+    _fileBytesStore.clear();
   }
 }
-

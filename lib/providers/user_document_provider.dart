@@ -8,6 +8,7 @@ class UserDocumentProvider extends ChangeNotifier {
 
   List<UserDocumentModel> _documents = [];
   bool _isLoading = false;
+  double _uploadProgress = 0.0;
   String? _errorMessage;
   String? _currentUserId;
 
@@ -16,6 +17,7 @@ class UserDocumentProvider extends ChangeNotifier {
 
   List<UserDocumentModel> get documents => List.unmodifiable(_documents);
   bool get isLoading => _isLoading;
+  double get uploadProgress => _uploadProgress;
   String? get errorMessage => _errorMessage;
   String? get currentUserId => _currentUserId;
   int get documentCount => _documents.length;
@@ -61,6 +63,11 @@ class UserDocumentProvider extends ChangeNotifier {
     }
   }
 
+  /// Fetch document file bytes for preview
+  Future<Uint8List?> getDocumentBytes(String storagePath) async {
+    return _service.getDocumentBytes(storagePath);
+  }
+
   /// Upload/register a new document in the vault
   Future<bool> uploadDocument({
     required String userId,
@@ -68,14 +75,17 @@ class UserDocumentProvider extends ChangeNotifier {
     required String documentName,
     required String fileName,
     required int fileSize,
+    Uint8List? fileBytes,
     String? notes,
+    void Function(double progress)? onProgress,
   }) async {
     _isLoading = true;
+    _uploadProgress = 0.0;
     _errorMessage = null;
     notifyListeners();
 
     try {
-      final ext = fileName.split('.').last.toLowerCase();
+      final ext = fileName.split('.').last.toLowerCase().replaceAll('.', '').trim();
       final validationError = DocumentService.validateFile(
         fileType: ext,
         fileSize: fileSize,
@@ -87,9 +97,29 @@ class UserDocumentProvider extends ChangeNotifier {
         return false;
       }
 
+      String storagePath = 'users/$userId/documents/$documentType/$fileName';
+      String? downloadUrl;
+      Uint8List? cachedBytes = fileBytes;
+
+      if (fileBytes != null) {
+        final result = await _service.uploadDocumentFile(
+          userId: userId,
+          documentType: documentType,
+          fileName: fileName,
+          fileBytes: fileBytes,
+          onProgress: (p) {
+            _uploadProgress = p;
+            onProgress?.call(p);
+            notifyListeners();
+          },
+        );
+        storagePath = result.storagePath;
+        downloadUrl = result.downloadUrl;
+        cachedBytes = result.fileBytes;
+      }
+
       final docId = '${userId}_${documentType}_${DateTime.now().millisecondsSinceEpoch}';
       final now = DateTime.now();
-      final storagePath = 'users/$userId/documents/$docId.$ext';
 
       final newDoc = UserDocumentModel(
         documentId: docId,
@@ -97,13 +127,14 @@ class UserDocumentProvider extends ChangeNotifier {
         documentType: documentType,
         documentName: documentName,
         storagePath: storagePath,
-        downloadUrl: null,
+        downloadUrl: downloadUrl,
         fileType: ext,
         fileSize: fileSize,
         uploadedAt: now,
         updatedAt: now,
         verificationStatus: 'uploaded',
         notes: notes,
+        cachedBytes: cachedBytes,
       );
 
       final saved = await _service.saveDocument(newDoc);
@@ -113,6 +144,7 @@ class UserDocumentProvider extends ChangeNotifier {
       _documents.insert(0, saved);
 
       _isLoading = false;
+      _uploadProgress = 1.0;
       notifyListeners();
       return true;
     } catch (e) {
@@ -131,14 +163,18 @@ class UserDocumentProvider extends ChangeNotifier {
     required String documentName,
     required String fileName,
     required int fileSize,
+    Uint8List? fileBytes,
+    String? oldStoragePath,
     String? notes,
+    void Function(double progress)? onProgress,
   }) async {
     _isLoading = true;
+    _uploadProgress = 0.0;
     _errorMessage = null;
     notifyListeners();
 
     try {
-      final ext = fileName.split('.').last.toLowerCase();
+      final ext = fileName.split('.').last.toLowerCase().replaceAll('.', '').trim();
       final validationError = DocumentService.validateFile(
         fileType: ext,
         fileSize: fileSize,
@@ -150,23 +186,52 @@ class UserDocumentProvider extends ChangeNotifier {
         return false;
       }
 
+      String storagePath = 'users/$userId/documents/$documentType/$fileName';
+      String? downloadUrl;
+      Uint8List? cachedBytes = fileBytes;
+
+      // 1. Upload new file first
+      if (fileBytes != null) {
+        final result = await _service.uploadDocumentFile(
+          userId: userId,
+          documentType: documentType,
+          fileName: fileName,
+          fileBytes: fileBytes,
+          onProgress: (p) {
+            _uploadProgress = p;
+            onProgress?.call(p);
+            notifyListeners();
+          },
+        );
+        storagePath = result.storagePath;
+        downloadUrl = result.downloadUrl;
+        cachedBytes = result.fileBytes;
+      }
+
       final now = DateTime.now();
       final updated = UserDocumentModel(
         documentId: documentId,
         userId: userId,
         documentType: documentType,
         documentName: documentName,
-        storagePath: 'users/$userId/documents/$documentId.$ext',
-        downloadUrl: null,
+        storagePath: storagePath,
+        downloadUrl: downloadUrl,
         fileType: ext,
         fileSize: fileSize,
         uploadedAt: now,
         updatedAt: now,
         verificationStatus: 'uploaded',
         notes: notes,
+        cachedBytes: cachedBytes,
       );
 
+      // 2. Save metadata to Firestore
       final saved = await _service.saveDocument(updated);
+
+      // 3. Delete old file from storage only after new upload succeeds
+      if (oldStoragePath != null && oldStoragePath.isNotEmpty && oldStoragePath != storagePath) {
+        await _service.deleteStorageFile(oldStoragePath);
+      }
 
       final index = _documents.indexWhere((d) => d.documentId == documentId);
       if (index >= 0) {
@@ -177,6 +242,7 @@ class UserDocumentProvider extends ChangeNotifier {
       }
 
       _isLoading = false;
+      _uploadProgress = 1.0;
       notifyListeners();
       return true;
     } catch (e) {
@@ -192,9 +258,10 @@ class UserDocumentProvider extends ChangeNotifier {
     required String userId,
     required String documentId,
     required String documentType,
+    String? storagePath,
   }) async {
     try {
-      await _service.deleteDocument(userId, documentId, documentType);
+      await _service.deleteDocument(userId, documentId, documentType, storagePath: storagePath);
       _documents.removeWhere((d) => d.documentId == documentId);
       notifyListeners();
       return true;
@@ -211,6 +278,7 @@ class UserDocumentProvider extends ChangeNotifier {
     _currentUserId = null;
     _errorMessage = null;
     _isLoading = false;
+    _uploadProgress = 0.0;
     notifyListeners();
   }
 

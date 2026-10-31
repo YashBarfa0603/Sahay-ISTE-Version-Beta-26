@@ -8,6 +8,7 @@ import 'package:sahay/providers/auth_provider.dart';
 import 'package:sahay/providers/eligibility_provider.dart';
 import 'package:sahay/providers/locale_provider.dart';
 import 'package:sahay/providers/scheme_provider.dart';
+import 'package:sahay/providers/user_document_provider.dart';
 import 'package:sahay/providers/user_profile_provider.dart';
 import 'package:sahay/screens/auth/login_screen.dart';
 import 'package:sahay/screens/csc_locator_screen.dart';
@@ -16,6 +17,8 @@ import 'package:sahay/screens/questionnaire_screen.dart';
 import 'package:sahay/screens/results_screen.dart';
 import 'package:sahay/screens/scheme_detail_screen.dart';
 import 'package:sahay/screens/schemes_screen.dart';
+import 'package:sahay/screens/welcome_screen.dart';
+import 'package:sahay/services/privacy_service.dart';
 import 'package:sahay/services/scheme_data_service.dart';
 import 'package:sahay/utils/indian_states.dart';
 import 'package:sahay/utils/profile_options.dart';
@@ -40,7 +43,13 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final schemeProvider = context.read<SchemeProvider>();
       if (schemeProvider.schemes.isEmpty && !schemeProvider.isLoading) {
-        schemeProvider.loadSchemes(SchemeDataService());
+        schemeProvider.loadFullCatalogue(SchemeDataService());
+      }
+      final auth = context.read<AuthProvider>();
+      if (!auth.isGuest && auth.currentUser != null) {
+        try {
+          context.read<UserDocumentProvider>().loadDocuments(auth.currentUser!.uid);
+        } catch (_) {}
       }
     });
   }
@@ -327,8 +336,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: double.infinity,
                     child: ElevatedButton.icon(
                       onPressed: () async {
+                        final eligProvider = context.read<EligibilityProvider>();
+                        final userProfileProvider = context.read<UserProfileProvider>();
+                        final nav = Navigator.of(context);
                         Navigator.of(ctx).pop();
+                        eligProvider.clearResults();
+                        userProfileProvider.clearAllAnswers();
+                        await PrivacyService().clearSessionData();
                         await auth.signOut();
+                        nav.pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (_) => const WelcomeScreen()),
+                          (route) => false,
+                        );
                       },
                       icon: const Icon(Icons.logout_rounded, size: 18),
                       label: Text(isHi ? 'लॉग आउट करें' : 'Log Out'),
@@ -497,11 +516,24 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           ElevatedButton(
             onPressed: () async {
+              final eligProvider = context.read<EligibilityProvider>();
+              final userProfileProvider = context.read<UserProfileProvider>();
+              final nav = Navigator.of(context);
+              final messenger = ScaffoldMessenger.of(context);
+
               Navigator.of(dialogCtx).pop();
               Navigator.of(sheetCtx).pop();
               final ok = await auth.deleteAccount();
-              if (context.mounted && !ok) {
-                ScaffoldMessenger.of(context).showSnackBar(
+              if (ok) {
+                eligProvider.clearResults();
+                userProfileProvider.clearAllAnswers();
+                await PrivacyService().clearSessionData();
+                nav.pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (_) => const WelcomeScreen()),
+                  (route) => false,
+                );
+              } else {
+                messenger.showSnackBar(
                   SnackBar(
                     content: Text(auth.errorMessage ?? 'Delete failed'),
                     backgroundColor: AppColors.mutedCoral,
@@ -603,6 +635,151 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         );
       },
+    );
+  }
+
+  Widget _buildDocumentVaultCard(
+    BuildContext context,
+    SahayLocalizations l10n,
+    String currentLang,
+  ) {
+    UserDocumentProvider? userDocProvider;
+    try {
+      userDocProvider = Provider.of<UserDocumentProvider>(context);
+    } catch (_) {
+      userDocProvider = null;
+    }
+    final count = userDocProvider?.documentCount ?? 0;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: AppColors.warmSand,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(
+            color: AppColors.border.withValues(alpha: 0.8),
+            width: 1,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.04),
+              blurRadius: 10,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(18),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const MyDocumentsScreen()),
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: AppColors.indianTeal.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(
+                      Icons.folder_shared_rounded,
+                      color: AppColors.indianTeal,
+                      size: 26,
+                    ),
+                  ),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              currentLang == 'hi' ? 'दस्तावेज़ वॉल्ट' : 'Document Vault',
+                              style: AppTextStyles.heading3.copyWith(
+                                fontSize: 16,
+                                color: AppColors.deepNavy,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                              decoration: BoxDecoration(
+                                color: AppColors.paleSage,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                currentLang == 'hi' ? 'निजी एवं सुरक्षित' : 'Private & Encrypted',
+                                style: AppTextStyles.caption.copyWith(
+                                  color: AppColors.indianTeal,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          currentLang == 'hi'
+                              ? (count == 0 ? 'कोई दस्तावेज़ अपलोड नहीं' : '$count दस्तावेज़ सुरक्षित रूप से संग्रहीत')
+                              : (count == 0 ? 'No documents uploaded yet' : '$count document${count == 1 ? '' : 's'} saved securely'),
+                          style: AppTextStyles.bodySmall.copyWith(
+                            color: AppColors.deepNavy.withValues(alpha: 0.7),
+                            fontSize: 12.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  FilledButton.tonal(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const MyDocumentsScreen()),
+                      );
+                    },
+                    style: FilledButton.styleFrom(
+                      backgroundColor: AppColors.indianTeal.withValues(alpha: 0.15),
+                      foregroundColor: AppColors.indianTeal,
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.add_rounded, size: 16),
+                        const SizedBox(width: 4),
+                        Text(
+                          currentLang == 'hi' ? 'जोड़ें' : 'Add',
+                          style: AppTextStyles.caption.copyWith(
+                            color: AppColors.indianTeal,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -725,6 +902,26 @@ class _HomeScreenState extends State<HomeScreen> {
     final currentLang = localeProvider.languageCode;
     final schemeProvider = context.watch<SchemeProvider>();
     final auth = context.watch<AuthProvider>();
+
+    // Route guard: if unauthenticated and not in guest mode, redirect immediately to WelcomeScreen
+    if (!auth.isLoading && !auth.isAuthenticated && !auth.isGuest) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (_) => const WelcomeScreen()),
+            (route) => false,
+          );
+        }
+      });
+      return const Scaffold(
+        backgroundColor: AppColors.warmIvory,
+        body: Center(
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.indianTeal),
+          ),
+        ),
+      );
+    }
     final user = auth.currentUser;
     final userName = (user != null && user.fullName.trim().isNotEmpty)
         ? ' ${user.fullName.trim().split(' ').first}'
@@ -967,10 +1164,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
               const SizedBox(height: 24),
 
-              // For authenticated users, display Eligibility Check near top
-              if (!auth.isGuest) ...[
-                _buildEligibilityCtaCard(context, l10n, currentLang),
-                const SizedBox(height: 28),
+              // For authenticated users, display Document Vault Card immediately below search
+              if (!auth.isGuest && auth.user != null) ...[
+                _buildDocumentVaultCard(context, l10n, currentLang),
+                const SizedBox(height: 20),
               ],
 
               // Popular Schemes Horizontal Carousel
@@ -1176,11 +1373,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
-              // For guest users, display the Check Eligibility CTA card at the bottom of the landing page
-              if (auth.isGuest) ...[
-                const SizedBox(height: 24),
-                _buildEligibilityCtaCard(context, l10n, currentLang),
-              ],
+              // Check Eligibility CTA card at the bottom of the home screen for all users
+              const SizedBox(height: 24),
+              _buildEligibilityCtaCard(context, l10n, currentLang),
 
               const SizedBox(height: 28),
             ],

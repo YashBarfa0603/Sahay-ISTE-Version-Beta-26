@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sahay/core/theme/app_colors.dart';
@@ -15,7 +17,8 @@ import 'package:sahay/widgets/sahay_app_bar.dart';
 /// Screen allowing registered citizens to view, manage, replace, and delete
 /// their private documents in their personal document vault.
 class MyDocumentsScreen extends StatefulWidget {
-  const MyDocumentsScreen({super.key});
+  final String? preselectedType;
+  const MyDocumentsScreen({super.key, this.preselectedType});
 
   @override
   State<MyDocumentsScreen> createState() => _MyDocumentsScreenState();
@@ -32,6 +35,9 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
       if (!auth.isGuest && auth.user != null) {
         context.read<UserDocumentProvider>().loadDocuments(auth.user!.uid);
       }
+      if (widget.preselectedType != null) {
+        _showUploadDialog(preselectedType: widget.preselectedType);
+      }
     });
   }
 
@@ -44,13 +50,14 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
     final auth = context.read<AuthProvider>();
 
     String selectedType = existingDoc?.documentType ?? preselectedType ?? 'aadhaar_card';
-    String fileFormat = existingDoc?.fileType ?? 'pdf';
-    int simulatedFileSize = existingDoc?.fileSize != null && existingDoc!.fileSize > 0
-        ? existingDoc.fileSize
-        : 1450000; // ~1.4 MB
+    String? selectedFileName;
+    Uint8List? selectedFileBytes = existingDoc?.cachedBytes;
+    int selectedFileSize = existingDoc?.fileSize ?? 0;
+    String selectedFileFormat = existingDoc?.fileType ?? '';
     final notesController = TextEditingController(text: existingDoc?.notes ?? '');
     String? localError;
     bool isUploading = false;
+    double progressValue = 0.0;
 
     showModalBottomSheet(
       context: context,
@@ -60,6 +67,37 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
         return StatefulBuilder(
           builder: (modalCtx, setModalState) {
             final docInfo = DocumentCatalogueService.getDocumentByType(selectedType);
+
+            Future<void> pickRealFile() async {
+              try {
+                final result = await FilePicker.platform.pickFiles(
+                  type: FileType.custom,
+                  allowedExtensions: ['pdf', 'jpg', 'jpeg', 'png'],
+                  withData: true,
+                );
+
+                if (result != null && result.files.isNotEmpty) {
+                  final file = result.files.first;
+                  final ext = (file.extension ?? '').toLowerCase().replaceAll('.', '').trim();
+                  final err = DocumentService.validateFile(
+                    fileType: ext,
+                    fileSize: file.size,
+                  );
+
+                  setModalState(() {
+                    selectedFileName = file.name;
+                    selectedFileBytes = file.bytes;
+                    selectedFileSize = file.size;
+                    selectedFileFormat = ext;
+                    localError = err;
+                  });
+                }
+              } catch (e) {
+                setModalState(() {
+                  localError = 'File picker error: $e';
+                });
+              }
+            }
 
             return Container(
               padding: EdgeInsets.only(
@@ -180,52 +218,123 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                               }
                             },
                     ),
-                    const SizedBox(height: 14),
+                    const SizedBox(height: 16),
 
-                    // File Format Selector
+                    // Real File Selection from Device
                     Text(
-                      isHi ? 'फ़ाइल प्रारूप (स्वीकार्य: PDF, JPG, PNG):' : 'File Format (Accepted: PDF, JPG, PNG):',
+                      isHi ? 'फ़ाइल चयन (PDF, JPG, PNG — अधिकतम 5 MB):' : 'Select File (PDF, JPG, PNG — Max 5.0 MB):',
                       style: AppTextStyles.label,
                     ),
-                    const SizedBox(height: 6),
-                    SegmentedButton<String>(
-                      segments: const [
-                        ButtonSegment(value: 'pdf', label: Text('PDF')),
-                        ButtonSegment(value: 'jpg', label: Text('JPG')),
-                        ButtonSegment(value: 'png', label: Text('PNG')),
-                      ],
-                      selected: {fileFormat},
-                      onSelectionChanged: (set) {
-                        setModalState(() => fileFormat = set.first);
-                      },
-                    ),
-                    const SizedBox(height: 14),
+                    const SizedBox(height: 8),
 
-                    // Simulated File Size Slider (to test <= 5MB limit)
-                    Text(
-                      isHi
-                          ? 'फ़ाइल आकार: ${(simulatedFileSize / (1024 * 1024)).toStringAsFixed(2)} MB (अधिकतम 5.0 MB)'
-                          : 'Simulated File Size: ${(simulatedFileSize / (1024 * 1024)).toStringAsFixed(2)} MB (Max 5.0 MB)',
-                      style: AppTextStyles.label,
-                    ),
-                    Slider(
-                      value: simulatedFileSize.toDouble(),
-                      min: 100 * 1024,
-                      max: 6 * 1024 * 1024, // allows simulating > 5MB to test validation
-                      divisions: 60,
-                      activeColor: simulatedFileSize > DocumentService.maxFileSizeBytes
-                          ? AppColors.mutedCoral
-                          : AppColors.indianTeal,
-                      onChanged: (val) {
-                        setModalState(() {
-                          simulatedFileSize = val.toInt();
-                          localError = DocumentService.validateFile(
-                            fileType: fileFormat,
-                            fileSize: simulatedFileSize,
-                          );
-                        });
-                      },
-                    ),
+                    if (selectedFileName == null && existingDoc == null)
+                      InkWell(
+                        onTap: isUploading ? null : pickRealFile,
+                        borderRadius: BorderRadius.circular(14),
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(color: AppColors.indianTeal, style: BorderStyle.solid),
+                          ),
+                          child: Column(
+                            children: [
+                              const Icon(Icons.upload_file_rounded, size: 36, color: AppColors.indianTeal),
+                              const SizedBox(height: 8),
+                              Text(
+                                isHi ? 'डिवाइस से फ़ाइल चुनें' : 'Choose File from Device',
+                                style: AppTextStyles.buttonText.copyWith(
+                                  color: AppColors.indianTeal,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                isHi ? 'समर्थित प्रारूप: PDF, JPG, PNG (अधिकतम 5 MB)' : 'Supported formats: PDF, JPG, PNG (Max 5.0 MB)',
+                                style: AppTextStyles.caption.copyWith(color: AppColors.textSecondary),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    else
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: AppColors.border),
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: (selectedFileFormat == 'pdf')
+                                    ? AppColors.mutedCoral.withValues(alpha: 0.15)
+                                    : AppColors.indianTeal.withValues(alpha: 0.15),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Icon(
+                                (selectedFileFormat == 'pdf')
+                                    ? Icons.picture_as_pdf_rounded
+                                    : Icons.image_rounded,
+                                color: (selectedFileFormat == 'pdf')
+                                    ? AppColors.mutedCoral
+                                    : AppColors.indianTeal,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    selectedFileName ?? existingDoc?.documentName ?? 'document.$selectedFileFormat',
+                                    style: AppTextStyles.bodyMedium.copyWith(fontWeight: FontWeight.w700),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Text(
+                                    '${(selectedFileSize / (1024 * 1024)).toStringAsFixed(2)} MB • ${selectedFileFormat.toUpperCase()}',
+                                    style: AppTextStyles.caption.copyWith(color: AppColors.deepNavy.withValues(alpha: 0.6)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            TextButton.icon(
+                              onPressed: isUploading ? null : pickRealFile,
+                              icon: const Icon(Icons.refresh_rounded, size: 16),
+                              label: Text(isHi ? 'बदलें' : 'Change'),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                    // Upload Progress Indicator
+                    if (isUploading) ...[
+                      const SizedBox(height: 14),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(6),
+                        child: LinearProgressIndicator(
+                          value: progressValue > 0 ? progressValue : null,
+                          backgroundColor: AppColors.border,
+                          valueColor: const AlwaysStoppedAnimation<Color>(AppColors.indianTeal),
+                          minHeight: 6,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        isHi
+                            ? 'निजी वॉल्ट में सुरक्षित अपलोड हो रहा है...'
+                            : 'Uploading securely to private vault...',
+                        style: AppTextStyles.caption.copyWith(color: AppColors.indianTeal, fontWeight: FontWeight.w600),
+                      ),
+                    ],
+
+                    const SizedBox(height: 14),
 
                     // Optional Notes
                     Text(
@@ -246,11 +355,27 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
 
                     if (localError != null) ...[
                       const SizedBox(height: 10),
-                      Text(
-                        localError!,
-                        style: AppTextStyles.caption.copyWith(
-                          color: AppColors.mutedCoral,
-                          fontWeight: FontWeight.bold,
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: AppColors.mutedCoral.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: AppColors.mutedCoral),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.error_outline_rounded, color: AppColors.mutedCoral, size: 18),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                localError!,
+                                style: AppTextStyles.caption.copyWith(
+                                  color: AppColors.mutedCoral,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -265,9 +390,22 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                         onPressed: isUploading
                             ? null
                             : () async {
+                                if (selectedFileName == null && existingDoc == null) {
+                                  setModalState(() {
+                                    localError = isHi
+                                        ? 'कृपया जारी रखने के लिए अपने डिवाइस से एक फ़ाइल चुनें।'
+                                        : 'Please select a file from your device to proceed.';
+                                  });
+                                  return;
+                                }
+
+                                final fileExt = selectedFileFormat.isNotEmpty
+                                    ? selectedFileFormat
+                                    : (existingDoc?.fileType ?? 'pdf');
+
                                 final err = DocumentService.validateFile(
-                                  fileType: fileFormat,
-                                  fileSize: simulatedFileSize,
+                                  fileType: fileExt,
+                                  fileSize: selectedFileSize,
                                 );
                                 if (err != null) {
                                   setModalState(() => localError = err);
@@ -277,6 +415,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                                 setModalState(() {
                                   isUploading = true;
                                   localError = null;
+                                  progressValue = 0.1;
                                 });
 
                                 final provider = context.read<UserDocumentProvider>();
@@ -286,28 +425,37 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                                     : (docInfo?.displayName ?? selectedType);
 
                                 bool success = false;
+                                final fileName = selectedFileName ??
+                                    existingDoc?.documentName ??
+                                    '$selectedType.$fileExt';
+
                                 if (existingDoc != null) {
                                   success = await provider.replaceDocument(
                                     documentId: existingDoc.documentId,
                                     userId: uid,
                                     documentType: selectedType,
                                     documentName: docName,
-                                    fileName: '$selectedType.$fileFormat',
-                                    fileSize: simulatedFileSize,
+                                    fileName: fileName,
+                                    fileSize: selectedFileSize,
+                                    fileBytes: selectedFileBytes,
+                                    oldStoragePath: existingDoc.storagePath,
                                     notes: notesController.text.trim().isNotEmpty
                                         ? notesController.text.trim()
                                         : null,
+                                    onProgress: (p) => setModalState(() => progressValue = p),
                                   );
                                 } else {
                                   success = await provider.uploadDocument(
                                     userId: uid,
                                     documentType: selectedType,
                                     documentName: docName,
-                                    fileName: '$selectedType.$fileFormat',
-                                    fileSize: simulatedFileSize,
+                                    fileName: fileName,
+                                    fileSize: selectedFileSize,
+                                    fileBytes: selectedFileBytes,
                                     notes: notesController.text.trim().isNotEmpty
                                         ? notesController.text.trim()
                                         : null,
+                                    onProgress: (p) => setModalState(() => progressValue = p),
                                   );
                                 }
 
@@ -389,6 +537,24 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // In-App Image Preview if Image bytes are available
+                if (doc.isImage && doc.cachedBytes != null)
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 12),
+                    height: 180,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.black12,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppColors.border),
+                    ),
+                    clipBehavior: Clip.antiAlias,
+                    child: Image.memory(
+                      doc.cachedBytes!,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+
                 // Metadata block
                 Container(
                   padding: const EdgeInsets.all(12),
@@ -430,7 +596,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
             ElevatedButton.icon(
               onPressed: () {
                 Navigator.of(dCtx).pop();
-                _showUploadDialog(existingDoc: doc);
+                _confirmReplaceDocument(doc, isHi);
               },
               icon: const Icon(Icons.sync_rounded, size: 16),
               label: Text(isHi ? 'बदलें' : 'Replace'),
@@ -442,6 +608,43 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
           ],
         );
       },
+    );
+  }
+
+  void _confirmReplaceDocument(UserDocumentModel doc, bool isHi) {
+    showDialog(
+      context: context,
+      builder: (confirmCtx) => AlertDialog(
+        backgroundColor: AppColors.warmIvory,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(
+          isHi ? 'दस्तावेज़ बदलें?' : 'Replace Document?',
+          style: AppTextStyles.heading3.copyWith(fontSize: 18),
+        ),
+        content: Text(
+          isHi
+              ? 'नया दस्तावेज़ अपलोड करने पर पिछला दस्तावेज़ सुरक्षित रूप से बदल दिया जाएगा।'
+              : 'Uploading a new version will replace the current file in your vault once the new upload succeeds.',
+          style: AppTextStyles.bodyMedium,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(confirmCtx).pop(),
+            child: Text(isHi ? 'रद्द करें' : 'Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(confirmCtx).pop();
+              _showUploadDialog(existingDoc: doc);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.indianTeal,
+              foregroundColor: Colors.white,
+            ),
+            child: Text(isHi ? 'आगे बढ़ें' : 'Proceed'),
+          ),
+        ],
+      ),
     );
   }
 
@@ -476,6 +679,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                   userId: auth.user?.uid ?? 'guest_user',
                   documentId: doc.documentId,
                   documentType: doc.documentType,
+                  storagePath: doc.storagePath,
                 );
                 if (mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -837,7 +1041,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                             if (val == 'preview') {
                               _showDocumentPreview(doc, isHi);
                             } else if (val == 'replace') {
-                              _showUploadDialog(existingDoc: doc);
+                              _confirmReplaceDocument(doc, isHi);
                             } else if (val == 'delete') {
                               _confirmDeleteDocument(doc, isHi);
                             }
