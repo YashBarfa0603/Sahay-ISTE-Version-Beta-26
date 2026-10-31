@@ -113,6 +113,7 @@ void main() {
         final l10n = SahayLocalizations(locale);
 
         expect(l10n.appName, isNotEmpty);
+        expect(l10n.namaste, isNotEmpty);
         expect(l10n.welcomeTitle, isNotEmpty);
         expect(l10n.welcomeSubtitle, isNotEmpty);
         expect(l10n.getStarted, isNotEmpty);
@@ -144,6 +145,17 @@ void main() {
         expect(l10n.benefits, isNotEmpty);
         expect(l10n.youMayQualifyBecause, isNotEmpty);
       }
+    });
+
+    test('SahayLocalizations returns correct localized namaste/greeting for all 8 languages', () {
+      expect(SahayLocalizations(const Locale('en')).namaste, equals('Namaste'));
+      expect(SahayLocalizations(const Locale('hi')).namaste, equals('नमस्ते'));
+      expect(SahayLocalizations(const Locale('ta')).namaste, equals('வணக்கம்'));
+      expect(SahayLocalizations(const Locale('mr')).namaste, equals('नमस्कार'));
+      expect(SahayLocalizations(const Locale('bn')).namaste, equals('নমস্কার'));
+      expect(SahayLocalizations(const Locale('gu')).namaste, equals('નમસ્તે'));
+      expect(SahayLocalizations(const Locale('kn')).namaste, equals('ನಮಸ್ಕಾರ'));
+      expect(SahayLocalizations(const Locale('or')).namaste, equals('ନମସ୍କାର'));
     });
   });
 }

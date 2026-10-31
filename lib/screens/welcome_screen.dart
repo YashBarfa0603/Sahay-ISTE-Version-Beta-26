@@ -19,6 +19,22 @@ class WelcomeScreen extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     // Headings
+    final namasteText = l10n.namaste.isNotEmpty && l10n.namaste != 'namaste'
+        ? l10n.namaste
+        : (currentLang == 'hi'
+            ? 'नमस्ते'
+            : (currentLang == 'ta'
+                ? 'வணக்கம்'
+                : (currentLang == 'mr'
+                    ? 'नमस्कार'
+                    : (currentLang == 'bn'
+                        ? 'নমস্কার'
+                        : (currentLang == 'gu'
+                            ? 'નમસ્તે'
+                            : (currentLang == 'kn'
+                                ? 'ನಮಸ್ಕಾರ'
+                                : (currentLang == 'or' ? 'ନମସ୍କାର' : 'Namaste')))))));
+
     final welcomeTitle = l10n.welcomeTitle.isNotEmpty && l10n.welcomeTitle != 'welcomeTitle'
         ? l10n.welcomeTitle
         : (currentLang == 'hi' ? 'सहाय में आपका स्वागत है' : 'Welcome to SAHAY');
@@ -26,8 +42,8 @@ class WelcomeScreen extends StatelessWidget {
     final welcomeSubtitle = l10n.welcomeSubtitle.isNotEmpty && l10n.welcomeSubtitle != 'welcomeSubtitle'
         ? l10n.welcomeSubtitle
         : (currentLang == 'hi'
-            ? 'आपके लिए बनाई गई सरकारी योजनाओं की खोज करें'
-            : 'Discover government schemes made for you');
+            ? 'सहाय (SAHAY) एक बहुभाषी सहायक है जो नागरिकों को उन सरकारी योजनाओं की खोज करने और उपलब्ध लाभों को समझने में मदद करता है जिनके वे पात्र हो सकते हैं।'
+            : 'SAHAY is a multilingual assistant that helps citizens discover government schemes they may be eligible for and understand the benefits available to them.');
 
     final getStartedText = l10n.getStarted.isNotEmpty && l10n.getStarted != 'getStarted'
         ? l10n.getStarted
@@ -115,21 +131,22 @@ class WelcomeScreen extends StatelessWidget {
 
                       // Badge
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                         decoration: BoxDecoration(
                           color: AppColors.softSaffron.withValues(alpha: 0.25),
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(
                             color: AppColors.softSaffron,
-                            width: 1,
+                            width: 1.2,
                           ),
                         ),
                         child: Text(
-                          'भारत सरकार कल्याण पोर्टल | GOVT OF INDIA',
-                          style: AppTextStyles.caption.copyWith(
+                          namasteText,
+                          style: AppTextStyles.label.copyWith(
                             color: AppColors.deepNavy,
+                            fontSize: 18,
                             fontWeight: FontWeight.w700,
-                            letterSpacing: 0.8,
+                            letterSpacing: 0.5,
                           ),
                         ),
                       ),

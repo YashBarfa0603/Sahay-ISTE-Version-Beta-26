@@ -68,6 +68,7 @@ class SahayLocalizations {
   String get appName => getString('appName');
   String get appNameNative => getString('appNameNative');
   String get appTagline => getString('appTagline');
+  String get namaste => getString('namaste');
   String get welcomeTitle => getString('welcomeTitle');
   String get welcomeSubtitle => getString('welcomeSubtitle');
   String get getStarted => getString('getStarted');

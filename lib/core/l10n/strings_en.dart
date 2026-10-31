@@ -4,9 +4,10 @@ const Map<String, String> stringsEn = {
   'appName': 'SAHAY',
   'appNameNative': 'SAHAY',
   'appTagline': 'Empowering Citizens, Enabling Benefits',
+  'namaste': 'Namaste',
   'welcomeTitle': 'Welcome to SAHAY',
   'welcomeSubtitle':
-      'Check your eligibility for Central and State government welfare schemes easily and privately.',
+      'SAHAY is a multilingual assistant that helps citizens discover government schemes they may be eligible for and understand the benefits available to them.',
   'getStarted': 'Get Started',
 
   // Navigation & Sections
