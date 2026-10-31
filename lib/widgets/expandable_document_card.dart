@@ -41,9 +41,15 @@ class _ExpandableDocumentCardState extends State<ExpandableDocumentCard> {
     final docInfo = DocumentCatalogueService.getDocumentByType(canonicalId);
     final isUploaded = widget.uploadedDoc != null;
 
-    final displayName = (isHi && docInfo != null)
-        ? docInfo.displayNameHindi
-        : (docInfo?.displayName ?? widget.documentTitle);
+    final isGeneric = canonicalId == 'other_document' || docInfo == null;
+    final String displayName;
+    if (isGeneric) {
+      displayName = widget.documentTitle;
+    } else if (isHi) {
+      displayName = docInfo.displayNameHindi;
+    } else {
+      displayName = widget.documentTitle.contains('_') ? docInfo.displayName : widget.documentTitle;
+    }
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),

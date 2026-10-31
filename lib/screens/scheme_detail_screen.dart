@@ -51,6 +51,18 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
   }
 
   @override
+  void didUpdateWidget(SchemeDetailScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.scheme.schemeId != widget.scheme.schemeId) {
+      _checkedDocuments.clear();
+      if (_isSpeaking) {
+        _voiceService.stopSpeaking();
+        setState(() => _isSpeaking = false);
+      }
+    }
+  }
+
+  @override
   void dispose() {
     _tabController.dispose();
     _voiceService.stopSpeaking();
@@ -886,7 +898,12 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
                 color: AppColors.paleSage,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Text('No specialized documents mandated beyond standard Aadhaar KYC.'),
+              child: Text(
+                isHi
+                    ? 'मानक आधार सत्यापन के अतिरिक्त कोई विशेष दस्तावेज अनिवार्य नहीं है।'
+                    : 'No specialized documents mandated beyond standard Aadhaar KYC.',
+                style: AppTextStyles.bodyMedium.copyWith(color: AppColors.deepNavy),
+              ),
             )
           else
             ...docs.map((docName) {

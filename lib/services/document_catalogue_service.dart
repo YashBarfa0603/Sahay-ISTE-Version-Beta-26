@@ -763,6 +763,58 @@ class DocumentCatalogueService {
           'Discom Header, Consumer Account Number (CA), Billing Cycle, Meter Address, Payment receipt barcode.',
     ),
     const DocumentInfoModel(
+      documentType: 'birth_certificate',
+      displayName: 'Birth Certificate',
+      displayNameHindi: 'जन्म प्रमाण पत्र',
+      category: 'Identity',
+      categoryHindi: 'पहचान',
+      description:
+          'Official record of a person\'s birth registered with municipal or local registrar under Registration of Births and Deaths Act.',
+      descriptionHindi:
+          'जन्म और मृत्यु पंजीकरण अधिनियम के तहत नगर पालिका या स्थानीय रजिस्ट्रार द्वारा जारी आधिकारिक जन्म प्रमाण पत्र।',
+      purpose:
+          'Conclusive legal proof of age, date of birth, and parentage for government schemes.',
+      purposeHindi:
+          'सरकारी योजनाओं के लिए आयु, जन्म तिथि और माता-पिता के नाम का निर्णायक कानूनी प्रमाण।',
+      provesInfo: [
+        'Date of Birth & Legal Age',
+        'Place of Birth',
+        'Mother and Father Names',
+        'Registration Number & Issue Date',
+      ],
+      provesInfoHindi: [
+        'जन्म तिथि एवं कानूनी आयु',
+        'जन्म स्थान',
+        'माता एवं पिता का नाम',
+        'पंजीकरण संख्या एवं जारी तिथि',
+      ],
+      issuingAuthority: 'Municipal Corporation / Gram Panchayat / Registrar of Births and Deaths',
+      issuingAuthorityHindi: 'नगर निगम / ग्राम पंचायत / जन्म एवं मृत्यु रजिस्ट्रार',
+      howToObtain: [
+        'Apply online via state Civil Registration System (CRS) portal or state portal.',
+        'Submit hospital discharge slip / birth notification slip within 21 days.',
+        'Download digitally verified birth certificate with QR code.',
+        'Alternatively, visit the local Municipal Ward office or Gram Panchayat.',
+      ],
+      howToObtainHindi: [
+        'नागरिक पंजीकरण प्रणाली (CRS) पोर्टल या राज्य पोर्टल के माध्यम से ऑनलाइन आवेदन करें।',
+        '21 दिनों के भीतर अस्पताल की डिस्चार्ज पर्ची / जन्म सूचना जमा करें।',
+        'क्यूआर कोड युक्त डिजिटल रूप से सत्यापित जन्म प्रमाण पत्र डाउनलोड करें।',
+        'अथवा स्थानीय नगर निगम वार्ड कार्यालय या ग्राम पंचायत में संपर्क करें।',
+      ],
+      importantChecks: [
+        'Spellings of child and parents\' names must match Aadhaar card and school records.',
+        'Ensure the certificate contains a valid registration number and digital or official seal.',
+      ],
+      importantChecksHindi: [
+        'बच्चे और माता-पिता के नाम की वर्तनी आधार और स्कूल रिकॉर्ड से मेल खानी चाहिए।',
+        'सुनिश्चित करें कि प्रमाण पत्र पर वैध पंजीकरण संख्या और आधिकारिक मुहर मौजूद हो।',
+      ],
+      specimenTitle: 'SPECIMEN: Certificate of Birth',
+      specimenDescription:
+          'Government header with State/Registrar crest, Registration Number, Child\'s Full Name, Sex, Date of Birth, Place of Birth, Parents\' Names, and Registrar Seal.',
+    ),
+    const DocumentInfoModel(
       documentType: 'other_document',
       displayName: 'Other Supporting Document / Affidavit',
       displayNameHindi: 'अन्य समर्थक दस्तावेज / शपथ पत्र',
@@ -800,15 +852,16 @@ class DocumentCatalogueService {
     ),
   ];
 
-  /// Returns all 17 canonical document models
+  /// Returns all 18 canonical document models
   static List<DocumentInfoModel> getAllDocuments() =>
       List.unmodifiable(_allDocuments);
 
   /// Find document by canonical document type ID
   static DocumentInfoModel? getDocumentByType(String documentType) {
     try {
+      final clean = documentType.toLowerCase().trim();
       return _allDocuments.firstWhere(
-        (d) => d.documentType.toLowerCase().trim() == documentType.toLowerCase().trim(),
+        (d) => d.documentType.toLowerCase().trim() == clean,
       );
     } catch (_) {
       return null;
@@ -824,61 +877,146 @@ class DocumentCatalogueService {
     return map;
   }
 
+  /// Normalizes and deduplicates a list of scheme required document strings.
+  /// 
+  /// 1. Strips leading/trailing whitespace and collapses internal multiple spaces.
+  /// 2. Skips empty strings.
+  /// 3. Matches each document string against supported canonical document types.
+  /// 4. Documents sharing a canonical type (e.g. 'Aadhaar Card' and 'Aadhaar Card of applicant')
+  ///    are deduplicated to a single canonical entry.
+  /// 5. Non-canonical/custom documents (canonicalId == 'other_document') are preserved
+  ///    as distinct requirements unless their normalized names are byte-for-byte identical
+  ///    (case-insensitive, whitespace-normalized).
+  static List<String> deduplicateDocuments(List<String> rawDocuments) {
+    if (rawDocuments.isEmpty) return const [];
+
+    final List<String> result = [];
+    final Set<String> seenKeys = {};
+
+    for (final raw in rawDocuments) {
+      final clean = raw.trim().replaceAll(RegExp(r'\s+'), ' ');
+      if (clean.isEmpty) continue;
+
+      final canonicalId = matchCanonicalId(clean);
+
+      // If mapped to a recognized canonical document type, deduplicate by canonicalId
+      final dedupeKey = canonicalId != 'other_document'
+          ? canonicalId
+          : clean.toLowerCase();
+
+      if (seenKeys.add(dedupeKey)) {
+        result.add(clean);
+      }
+    }
+
+    return List.unmodifiable(result);
+  }
+
   /// Fuzzy and semantic matcher that maps scheme requirement strings to canonical document IDs
   static String matchCanonicalId(String documentName) {
-    final s = documentName.toLowerCase().trim();
+    final s = documentName.toLowerCase().trim().replaceAll(RegExp(r'\s+'), ' ');
 
+    // 1. Direct canonical identifier check (e.g. 'aadhaar_card', 'birth_certificate')
+    final normalizedId = s.replaceAll('-', '_').replaceAll(' ', '_');
+    for (final d in _allDocuments) {
+      if (d.documentType == normalizedId || d.documentType == s) {
+        return d.documentType;
+      }
+    }
+
+    // 2. High-precedence compound/context-sensitive checks:
+    // If it's a bank account / passbook / statement / cheque (even if "Aadhaar-linked" or "Aadhaar-seeded"),
+    // its primary document category is bank_passbook.
+    if (s.contains('passbook') ||
+        s.contains('cheque') ||
+        s.contains('bank account') ||
+        s.contains('bank statement') ||
+        s.contains('पासबुक') ||
+        s.contains('खाता विवरण') ||
+        (s.contains('bank') && !s.contains('land'))) {
+      return 'bank_passbook';
+    }
+
+    // If it's a mobile/phone number verification, it is contact verification, not an identity doc.
+    if (s.contains('mobile') || s.contains('phone') || s.contains('मोबाइल')) {
+      return 'other_document';
+    }
+
+    // 3. Primary identity: Aadhaar
     if (s.contains('aadhaar') || s.contains('aadhar') || s.contains('आधार')) {
       return 'aadhaar_card';
     }
+
+    // 4. Land ownership & revenue records
     if (s.contains('khatauni') ||
         s.contains('khasra') ||
         s.contains('land') ||
         s.contains('ror') ||
+        s.contains('patta') ||
         s.contains('भूलेख') ||
         s.contains('खतौनी') ||
         s.contains('खसरा') ||
         s.contains('जमीन')) {
       return 'land_ownership_record';
     }
-    if (s.contains('passbook') ||
-        s.contains('bank') ||
-        s.contains('cheque') ||
-        s.contains('पासबुक') ||
-        s.contains('खाता') ||
-        s.contains('बैंक')) {
-      return 'bank_passbook';
-    }
+
+    // 5. Samagra ID
     if (s.contains('samagra') ||
         s.contains('sssm') ||
         s.contains('समग्र')) {
       return 'samagra_id';
     }
-    if (s.contains('ration') ||
-        s.contains('bpl') ||
-        s.contains('aay') ||
-        s.contains('राशन')) {
-      return 'ration_card';
+
+    // 6. Birth Certificate
+    if (s.contains('birth certificate') ||
+        s.contains('date of birth proof') ||
+        s.contains('जन्म प्रमाण') ||
+        (s.contains('birth') && !s.contains('death'))) {
+      return 'birth_certificate';
     }
-    if (s.contains('income') ||
-        s.contains('आय प्रमाण')) {
+
+    // 7. Income Certificate (Checked before BPL to avoid misclassifying "Income Certificate or BPL Card")
+    if (s.contains('income certificate') ||
+        s.contains('income proof') ||
+        s.contains('आय प्रमाण') ||
+        (s.contains('income') && !s.contains('tax') && !s.contains('declaration'))) {
       return 'income_certificate';
     }
+
+    // 8. Ration Card / BPL / NFSA / AAY
+    // CRITICAL: Must NOT match 'declaration' or 'affidavit' (which contain 'ration' as substring)!
+    final isDeclaration = s.contains('declaration') || s.contains('affidavit') || s.contains('शपथ पत्र');
+    if (!isDeclaration &&
+        (s.contains('ration') ||
+         s.contains('bpl') ||
+         s.contains('aay') ||
+         s.contains('nfsa') ||
+         s.contains('राशन'))) {
+      return 'ration_card';
+    }
+
+    // 9. Domicile / Residence Certificate
     if (s.contains('domicile') ||
         s.contains('residence') ||
         s.contains('निवास') ||
         s.contains('अधिवास')) {
       return 'domicile_certificate';
     }
+
+    // 10. Caste Certificate
     if (s.contains('caste') ||
         s.contains('जाति') ||
         s.contains('sc/st') ||
-        s.contains('obc')) {
+        s.contains('obc certificate')) {
       return 'caste_certificate';
     }
-    if (s.contains('ews') || s.contains('ईडब्ल्यूएस')) {
+
+    // 11. EWS Certificate
+    if (s.contains('ews') || s.contains('ईडब्ल्यूएस') || s.contains('economically weaker')) {
       return 'ews_certificate';
     }
+
+    // 12. Educational Marksheets
     if (s.contains('12th') ||
         s.contains('intermediate') ||
         s.contains('10+2') ||
@@ -891,24 +1029,32 @@ class DocumentCatalogueService {
         s.contains('10वीं')) {
       return 'marksheet_10th';
     }
+
+    // 13. MGNREGA Job Card
     if (s.contains('mgnrega') ||
         s.contains('nrega') ||
         s.contains('job card') ||
         s.contains('मनरेगा')) {
       return 'mgnrega_job_card';
     }
+
+    // 14. Disability Certificate
     if (s.contains('disability') ||
         s.contains('udid') ||
         s.contains('handicapped') ||
         s.contains('दिव्यांग')) {
       return 'disability_certificate';
     }
+
+    // 15. Voter ID
     if (s.contains('voter') ||
         s.contains('epic') ||
         s.contains('मतदाता')) {
       return 'voter_id';
     }
-    if (s.contains('pan') || s.contains('पैन')) {
+
+    // 16. PAN Card
+    if (RegExp(r'\bpan\b|\bpan card\b|पैन').hasMatch(s)) {
       return 'pan_card';
     }
 

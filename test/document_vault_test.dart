@@ -89,9 +89,9 @@ void main() {
   });
 
   group('DocumentCatalogueService Tests', () {
-    test('Contains all 17 canonical document types with rich guides', () {
+    test('Contains all 18 canonical document types with rich guides', () {
       final docs = DocumentCatalogueService.getAllDocuments();
-      expect(docs.length, 17);
+      expect(docs.length, 18);
 
       for (final doc in docs) {
         expect(doc.documentType, isNotEmpty);
@@ -159,6 +159,18 @@ void main() {
       expect(
         DocumentCatalogueService.matchCanonicalId('PAN Card'),
         'pan_card',
+      );
+      expect(
+        DocumentCatalogueService.matchCanonicalId('Birth Certificate issued by Registrar'),
+        'birth_certificate',
+      );
+      expect(
+        DocumentCatalogueService.matchCanonicalId('Aadhaar-seeded Bank Account Passbook'),
+        'bank_passbook',
+      );
+      expect(
+        DocumentCatalogueService.matchCanonicalId('Self-declaration / Affidavit of residency'),
+        'other_document',
       );
       expect(
         DocumentCatalogueService.matchCanonicalId('Unrecognized custom affidavit'),
