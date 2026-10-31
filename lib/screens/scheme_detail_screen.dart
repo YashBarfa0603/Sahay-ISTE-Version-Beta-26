@@ -9,9 +9,14 @@ import 'package:sahay/providers/eligibility_provider.dart';
 import 'package:sahay/providers/locale_provider.dart';
 import 'package:sahay/screens/csc_locator_screen.dart';
 import 'package:sahay/screens/document_checklist_screen.dart';
+import 'package:sahay/screens/my_documents_screen.dart';
 import 'package:sahay/screens/questionnaire_screen.dart';
+import 'package:sahay/providers/user_document_provider.dart';
+import 'package:sahay/services/document_catalogue_service.dart';
+import 'package:sahay/services/scheme_notes_service.dart';
 import 'package:sahay/services/voice_service.dart';
 import 'package:sahay/widgets/confidence_badge.dart';
+import 'package:sahay/widgets/expandable_document_card.dart';
 import 'package:sahay/widgets/sahay_app_bar.dart';
 import 'package:sahay/widgets/scheme_source_info.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -48,6 +53,18 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
     _tabController = TabController(length: 4, vsync: this);
     _voiceService = VoiceService();
     _voiceService.initialize();
+  }
+
+  @override
+  void didUpdateWidget(SchemeDetailScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.scheme.schemeId != widget.scheme.schemeId) {
+      _checkedDocuments.clear();
+      if (_isSpeaking) {
+        _voiceService.stopSpeaking();
+        setState(() => _isSpeaking = false);
+      }
+    }
   }
 
   @override
@@ -226,27 +243,34 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
                       const SizedBox(width: 8),
 
                       // Category Pill
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Text(
-                          widget.scheme.category.toUpperCase(),
-                          style: AppTextStyles.caption.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 10,
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.15),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              widget.scheme.category.toUpperCase(),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTextStyles.caption.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 10,
+                              ),
+                            ),
                           ),
                         ),
                       ),
 
-                      const Spacer(),
-
                       // Confidence Badge if assessed
-                      if (assessment != null)
+                      if (assessment != null) ...[
+                        const SizedBox(width: 8),
                         ConfidenceBadge(result: assessment.result),
+                      ],
                     ],
                   ),
                   const SizedBox(height: 12),
@@ -604,6 +628,33 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
             }),
           ],
 
+          if (assessment != null && assessment.missingInformation.isNotEmpty) ...[
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: AppColors.steelBlue.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.steelBlue.withValues(alpha: 0.4)),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.info_outline_rounded, color: AppColors.steelBlue, size: 22),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      'Missing information required: ${assessment.missingInformation.join(", ")}',
+                      style: AppTextStyles.caption.copyWith(color: AppColors.deepNavy, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+
+          // Phase 5: Important Notes & Grounded Official Eligibility Conditions
+          _buildImportantNotesSection(langCode),
+
           const SizedBox(height: 24),
           SchemeSourceInfo(scheme: widget.scheme),
           const SizedBox(height: 20),
@@ -612,8 +663,183 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
     );
   }
 
+  Widget _buildImportantNotesSection(String currentLang) {
+    final notes = SchemeNotesService.getNotesForScheme(widget.scheme.schemeId);
+    if (notes == null) return const SizedBox.shrink();
+
+    final isHi = currentLang == 'hi';
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 24),
+        Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                color: AppColors.softSaffron.withValues(alpha: 0.25),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.rule_folder_outlined,
+                size: 20,
+                color: AppColors.deepNavy,
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                isHi ? 'महत्वपूर्ण नियम एवं पात्रता शर्तें' : 'Important Notes & Eligibility Conditions',
+                style: AppTextStyles.heading3.copyWith(
+                  fontSize: 17,
+                  color: AppColors.deepNavy,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 6),
+        Text(
+          isHi
+              ? 'आधिकारिक सरकारी दिशानिर्देशों के अनुसार आवश्यक शर्तें व अपात्रता नियम:'
+              : 'Authoritative rules and disqualification criteria per official scheme guidelines:',
+          style: AppTextStyles.bodySmall.copyWith(
+            color: AppColors.deepNavy.withValues(alpha: 0.75),
+          ),
+        ),
+        const SizedBox(height: 16),
+
+        // 1. Critical Eligibility Conditions
+        _buildNotesCard(
+          title: isHi ? 'अनिवार्य पात्रता शर्तें' : 'Critical Eligibility Conditions',
+          items: isHi ? notes.criticalConditionsHindi : notes.criticalConditions,
+          icon: Icons.verified_outlined,
+          borderColor: AppColors.indianTeal,
+          headerColor: AppColors.indianTeal,
+          bulletIcon: Icons.check_circle_outline_rounded,
+          bulletColor: AppColors.forestGreen,
+        ),
+        const SizedBox(height: 12),
+
+        // 2. Reasons Leading to Disqualification
+        _buildNotesCard(
+          title: isHi ? 'अपात्रता एवं अस्वीकृति के कारण' : 'Reasons Leading to Disqualification',
+          items: isHi ? notes.disqualificationReasonsHindi : notes.disqualificationReasons,
+          icon: Icons.warning_amber_rounded,
+          borderColor: AppColors.mutedCoral,
+          headerColor: AppColors.mutedCoral,
+          bulletIcon: Icons.cancel_outlined,
+          bulletColor: AppColors.mutedCoral,
+        ),
+        const SizedBox(height: 12),
+
+        // 3. Important Document Requirements
+        _buildNotesCard(
+          title: isHi ? 'महत्वपूर्ण दस्तावेज आवश्यकताएं' : 'Important Document Requirements',
+          items: isHi ? notes.documentRequirementsHindi : notes.documentRequirements,
+          icon: Icons.assignment_outlined,
+          borderColor: AppColors.steelBlue,
+          headerColor: AppColors.steelBlue,
+          bulletIcon: Icons.description_outlined,
+          bulletColor: AppColors.steelBlue,
+        ),
+        const SizedBox(height: 12),
+
+        // 4. Application Precautions
+        _buildNotesCard(
+          title: isHi ? 'आवेदन करते समय सावधानियां' : 'Application Precautions',
+          items: isHi ? notes.applicationPrecautionsHindi : notes.applicationPrecautions,
+          icon: Icons.shield_outlined,
+          borderColor: AppColors.softSaffron,
+          headerColor: const Color(0xFFC77800),
+          bulletIcon: Icons.info_outline_rounded,
+          bulletColor: const Color(0xFFC77800),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildNotesCard({
+    required String title,
+    required List<String> items,
+    required IconData icon,
+    required Color borderColor,
+    required Color headerColor,
+    required IconData bulletIcon,
+    required Color bulletColor,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: borderColor.withValues(alpha: 0.4), width: 1.2),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.03),
+            blurRadius: 6,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Theme(
+        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+        child: Material(
+          color: Colors.transparent,
+          child: ExpansionTile(
+            initiallyExpanded: true,
+            tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            leading: Icon(icon, color: headerColor, size: 22),
+            title: Text(
+              title,
+              style: AppTextStyles.bodyMedium.copyWith(
+                fontWeight: FontWeight.w700,
+                color: AppColors.deepNavy,
+                fontSize: 14.5,
+              ),
+            ),
+            childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            children: items.map((item) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(bulletIcon, size: 16, color: bulletColor),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        item,
+                        style: AppTextStyles.bodySmall.copyWith(
+                          color: AppColors.deepNavy.withValues(alpha: 0.9),
+                          height: 1.45,
+                          fontSize: 12.5,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildDocumentsTab(SahayLocalizations l10n) {
     final docs = widget.scheme.requiredDocuments;
+    final userDocProvider = context.watch<UserDocumentProvider>();
+    final isHi = context.watch<LocaleProvider>().languageCode == 'hi';
+
+    // Count how many required docs are currently present in user's vault
+    int vaultMatchedCount = 0;
+    for (final docName in docs) {
+      final canonicalId = DocumentCatalogueService.matchCanonicalId(docName);
+      if (userDocProvider.hasDocument(canonicalId)) {
+        vaultMatchedCount++;
+      }
+    }
 
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
@@ -621,17 +847,18 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Header Row
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
                 child: Text(
-                  'Required Documents Checklist',
+                  isHi ? 'आवश्यक दस्तावेज चेकलिस्ट' : 'Required Documents Checklist',
                   style: AppTextStyles.heading3.copyWith(fontSize: 17, color: AppColors.deepNavy),
                 ),
               ),
               Text(
-                '${_checkedDocuments.length}/${docs.length} Ready',
+                '${_checkedDocuments.length}/${docs.length} ${isHi ? "तैयार" : "Ready"}',
                 style: AppTextStyles.caption.copyWith(
                   color: AppColors.indianTeal,
                   fontWeight: FontWeight.w700,
@@ -641,8 +868,72 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
           ),
           const SizedBox(height: 8),
           Text(
-            'Check off documents you have in hand to prepare for application:',
+            isHi
+                ? 'आवेदन से पूर्व अपने पास उपलब्ध दस्तावेजों की जांच करें और विवरण देखने के लिए कार्ड पर टैप करें:'
+                : 'Check off certificates you have ready in hand. Tap any document card to view guidelines and specimen.',
             style: AppTextStyles.bodySmall.copyWith(color: AppColors.deepNavy.withValues(alpha: 0.7)),
+          ),
+          const SizedBox(height: 14),
+
+          // Vault Matching Summary Banner
+          Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: AppColors.paleSage,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: AppColors.forestGreen.withValues(alpha: 0.3)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const Icon(Icons.shield_outlined, color: AppColors.forestGreen, size: 20),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        isHi
+                            ? 'निजी वॉल्ट स्थिति: $vaultMatchedCount/${docs.length} दस्तावेज़ वॉल्ट में उपलब्ध'
+                            : 'Personal Vault Match: $vaultMatchedCount/${docs.length} documents in vault',
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          color: AppColors.deepNavy,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => const MyDocumentsScreen()),
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: Text(
+                        isHi ? 'वॉल्ट खोलें' : 'Open Vault',
+                        style: const TextStyle(
+                          color: AppColors.forestGreen,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  isHi
+                      ? 'स्पष्टीकरण: वॉल्ट में अपलोड पूरी तरह से वैकल्पिक है। सरकारी अधिकारी मूल प्रमाणपत्रों का ही आधिकारिक सत्यापन करेंगे।'
+                      : 'Notice: Upload to vault is 100% optional. Government authorities verify physical/portal certificates during official processing.',
+                  style: AppTextStyles.caption.copyWith(
+                    color: AppColors.deepNavy.withValues(alpha: 0.75),
+                    fontSize: 10.5,
+                  ),
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 16),
 
@@ -653,47 +944,43 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
                 color: AppColors.paleSage,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Text('No specialized documents mandated beyond standard Aadhaar KYC.'),
+              child: Text(
+                isHi
+                    ? 'मानक आधार सत्यापन के अतिरिक्त कोई विशेष दस्तावेज अनिवार्य नहीं है।'
+                    : 'No specialized documents mandated beyond standard Aadhaar KYC.',
+                style: AppTextStyles.bodyMedium.copyWith(color: AppColors.deepNavy),
+              ),
             )
           else
             ...docs.map((docName) {
               final isChecked = _checkedDocuments.contains(docName);
-              return Container(
-                margin: const EdgeInsets.only(bottom: 10),
-                decoration: BoxDecoration(
-                  color: isChecked ? AppColors.paleSage : AppColors.warmSand,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: isChecked ? AppColors.forestGreen : AppColors.border,
-                    width: 1,
-                  ),
-                ),
-                child: CheckboxListTile(
-                  value: isChecked,
-                  activeColor: AppColors.forestGreen,
-                  checkColor: Colors.white,
-                  title: Text(
-                    docName,
-                    style: AppTextStyles.bodyMedium.copyWith(
-                      color: AppColors.deepNavy,
-                      fontWeight: isChecked ? FontWeight.w600 : FontWeight.w400,
-                      decoration: isChecked ? TextDecoration.lineThrough : null,
-                    ),
-                  ),
-                  secondary: Icon(
-                    Icons.description_outlined,
-                    color: isChecked ? AppColors.forestGreen : AppColors.deepNavy,
-                  ),
-                  onChanged: (val) {
-                    setState(() {
-                      if (val == true) {
-                        _checkedDocuments.add(docName);
-                      } else {
-                        _checkedDocuments.remove(docName);
-                      }
-                    });
-                  },
-                ),
+              final canonicalId = DocumentCatalogueService.matchCanonicalId(docName);
+              final uploadedDoc = userDocProvider.getDocument(canonicalId);
+
+              return ExpandableDocumentCard(
+                documentTitle: docName,
+                isChecked: isChecked,
+                uploadedDoc: uploadedDoc,
+                language: isHi ? 'hi' : 'en',
+                onChecked: (val) {
+                  setState(() {
+                    if (val == true) {
+                      _checkedDocuments.add(docName);
+                    } else {
+                      _checkedDocuments.remove(docName);
+                    }
+                  });
+                },
+                onUploadPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const MyDocumentsScreen()),
+                  );
+                },
+                onViewInVaultPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const MyDocumentsScreen()),
+                  );
+                },
               );
             }),
 
@@ -712,7 +999,10 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
                 );
               },
               icon: const Icon(Icons.picture_as_pdf_rounded, color: Colors.white),
-              label: const Text('Download Checklist as PDF'),
+              label: Text(
+                isHi ? 'चेकलिस्ट पीडीएफ डाउनलोड करें' : 'Download Checklist as PDF',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.indianTeal,
                 foregroundColor: Colors.white,
@@ -1126,9 +1416,13 @@ class _ConditionResultCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('Required:', style: AppTextStyles.caption.copyWith(color: AppColors.textSecondary)),
-                          Text(
-                            requiredText,
-                            style: AppTextStyles.caption.copyWith(fontWeight: FontWeight.w600, color: AppColors.deepNavy),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              requiredText,
+                              textAlign: TextAlign.end,
+                              style: AppTextStyles.caption.copyWith(fontWeight: FontWeight.w600, color: AppColors.deepNavy),
+                            ),
                           ),
                         ],
                       ),
@@ -1137,11 +1431,15 @@ class _ConditionResultCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('Your Profile:', style: AppTextStyles.caption.copyWith(color: AppColors.textSecondary)),
-                          Text(
-                            userValueText,
-                            style: AppTextStyles.caption.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: statusColor,
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              userValueText,
+                              textAlign: TextAlign.end,
+                              style: AppTextStyles.caption.copyWith(
+                                fontWeight: FontWeight.w700,
+                                color: statusColor,
+                              ),
                             ),
                           ),
                         ],
@@ -1152,11 +1450,15 @@ class _ConditionResultCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Difference:', style: AppTextStyles.caption.copyWith(color: AppColors.mutedCoral)),
-                            Text(
-                              condition.differenceDescription!,
-                              style: AppTextStyles.caption.copyWith(
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.mutedCoral,
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                condition.differenceDescription!,
+                                textAlign: TextAlign.end,
+                                style: AppTextStyles.caption.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.mutedCoral,
+                                ),
                               ),
                             ),
                           ],

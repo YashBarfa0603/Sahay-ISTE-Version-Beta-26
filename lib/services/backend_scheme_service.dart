@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:sahay/models/api_response_models.dart';
+import 'package:sahay/models/eligibility_model.dart';
 import 'package:sahay/models/scheme_model.dart';
 import 'package:sahay/services/api_client.dart';
 import 'package:sahay/services/scheme_data_service.dart';

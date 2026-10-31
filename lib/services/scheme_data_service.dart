@@ -132,9 +132,8 @@ class SchemeDataService {
       requiredDocuments: const [
         'Aadhaar Card of the applicant farmer',
         'Land Ownership Records (Khasra/Khatauni/Record of Rights - RoR)',
-        'Active Aadhaar-linked Bank Account Passbook / Statement',
+        'Active Bank Account Passbook (Aadhaar-seeded)',
         'Citizenship / Domicile Certificate',
-        'Mobile Number linked with Aadhaar',
       ],
       applicationProcess:
           'Farmers can register online through the PM-KISAN portal under the "Farmer Corner" > "New Farmer Registration" section, or visit the nearest Common Service Centre (CSC) or local Agriculture Nodal Officer with land records.',
@@ -337,9 +336,8 @@ class SchemeDataService {
         ),
       ],
       requiredDocuments: const [
-        'Aadhaar Card of the female applicant (proof of identity & address)',
+        'Aadhaar Card of the female applicant and adult family members',
         'Ration Card issued by State Government / Family Composition certificate',
-        'Aadhaar Cards of all adult family members listed in the ration card',
         'Bank Passbook showing Account Number and IFSC',
         'Supplementary 14-Point Declaration / Self-declaration of no prior LPG connection',
       ],
@@ -533,7 +531,6 @@ class SchemeDataService {
       requiredDocuments: const [
         'Samagra Family ID and Member ID (with e-KYC completed)',
         'Aadhaar Card of the applicant woman',
-        'Active Mobile Number linked with Samagra and Aadhaar',
         'Individual Bank Account Passbook (Aadhaar linked and DBT active)',
         'Self-declaration of residency in Madhya Pradesh and income limit compliance',
       ],

@@ -1,3 +1,5 @@
+import 'package:sahay/services/document_catalogue_service.dart';
+
 enum GovernmentLevel {
   central,
   state,
@@ -120,6 +122,20 @@ class SchemeModel {
   final String applicationProcess;
   final String? applicationUrl;
 
+  /// Returns deduplicated canonical document IDs matched against DocumentCatalogueService
+  List<String> get requiredDocumentIds {
+    final seen = <String>{};
+    final ids = <String>[];
+    for (final doc in requiredDocuments) {
+      final cid = DocumentCatalogueService.matchCanonicalId(doc);
+      if (seen.add(cid)) {
+        ids.add(cid);
+      }
+    }
+    return List.unmodifiable(ids);
+  }
+
+
   // Source information
   final String officialSourceUrl;
   final String? sourceName;
@@ -139,7 +155,7 @@ class SchemeModel {
   final DateTime createdAt;
   final DateTime updatedAt;
 
-  const SchemeModel({
+  SchemeModel({
     required this.schemeId,
     required this.name,
     this.nameHindi,
@@ -152,7 +168,7 @@ class SchemeModel {
     required this.benefits,
     this.benefitsHindi,
     this.eligibilityRules = const [],
-    this.requiredDocuments = const [],
+    List<String> requiredDocuments = const [],
     required this.applicationProcess,
     this.applicationUrl,
     required this.officialSourceUrl,
@@ -166,7 +182,7 @@ class SchemeModel {
     this.popularityRank = 0,
     required this.createdAt,
     required this.updatedAt,
-  });
+  }) : requiredDocuments = DocumentCatalogueService.deduplicateDocuments(requiredDocuments);
 
   // Convert object into Map
   Map<String, dynamic> toMap() {
@@ -232,8 +248,9 @@ class SchemeModel {
               )
               .toList(),
 
-      requiredDocuments:
-          List<String>.from(map['requiredDocuments'] ?? []),
+      requiredDocuments: DocumentCatalogueService.deduplicateDocuments(
+        (map['requiredDocuments'] as List? ?? []).map((e) => e.toString()).toList(),
+      ),
 
       applicationProcess:
           map['applicationProcess'] as String? ?? '',

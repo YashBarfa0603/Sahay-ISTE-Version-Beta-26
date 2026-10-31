@@ -58,7 +58,10 @@ skills-lock.json
 
 # Firebase
 firebase*
+!docs/FIREBASE_DOCUMENT_SECURITY.md
 !lib/firebase_options.dart
+!**/google-services.json.example
+!**/GoogleService-Info.plist.example
 firestore.rules
 firestore.indexes.json
 
