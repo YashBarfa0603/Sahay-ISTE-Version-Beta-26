@@ -305,3 +305,4 @@ class _SmartFillerInfoReviewScreenState extends State<SmartFillerInfoReviewScree
     return const SizedBox.shrink();
   }
 }
+

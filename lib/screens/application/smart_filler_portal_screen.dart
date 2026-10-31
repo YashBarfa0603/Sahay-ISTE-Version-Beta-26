@@ -274,3 +274,4 @@ class _SmartFillerPortalScreenState extends State<SmartFillerPortalScreen> {
     );
   }
 }
+

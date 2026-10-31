@@ -110,3 +110,4 @@ def test_archetype_smart_filler_lifecycle(archetype):
     assert confirmed.status == ApplicationStatus.SUBMITTED_CONFIRMED
     assert confirmed.submission_confirmed is True
     assert confirmed.submission_reference.startswith("ACK-ARCHETYPE-")
+

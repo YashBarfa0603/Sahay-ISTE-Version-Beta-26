@@ -146,3 +146,4 @@ class SmartFillerStatusScreen extends StatelessWidget {
     );
   }
 }
+

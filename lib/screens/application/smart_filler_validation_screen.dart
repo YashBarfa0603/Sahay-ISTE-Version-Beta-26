@@ -241,3 +241,4 @@ class SmartFillerValidationScreen extends StatelessWidget {
     );
   }
 }
+
