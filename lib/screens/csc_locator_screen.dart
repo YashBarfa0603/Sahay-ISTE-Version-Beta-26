@@ -289,7 +289,7 @@ class _CscLocatorScreenState extends State<CscLocatorScreen> {
                           : ListView.separated(
                               padding: const EdgeInsets.all(16),
                               itemCount: _centres.length,
-                              separatorBuilder: (_, _) => const SizedBox(height: 14),
+                              separatorBuilder: (_, __) => const SizedBox(height: 14),
                               itemBuilder: (context, index) {
                                 final centre = _centres[index];
                                 return _buildCscCard(centre, isHi);
