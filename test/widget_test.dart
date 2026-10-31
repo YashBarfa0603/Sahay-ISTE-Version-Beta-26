@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:sahay/main.dart';
+import 'package:sahay/providers/auth_provider.dart';
 import 'package:sahay/providers/eligibility_provider.dart';
 import 'package:sahay/providers/locale_provider.dart';
 import 'package:sahay/providers/scheme_provider.dart';
@@ -10,6 +11,7 @@ void main() {
   testWidgets('SahayApp smoke test and renders welcome screen', (WidgetTester tester) async {
     final localeProvider = LocaleProvider();
     final schemeProvider = SchemeProvider();
+    final authProvider = AuthProvider();
 
     await tester.pumpWidget(
       MultiProvider(
@@ -18,6 +20,7 @@ void main() {
           ChangeNotifierProvider.value(value: schemeProvider),
           ChangeNotifierProvider(create: (_) => UserProfileProvider()),
           ChangeNotifierProvider(create: (_) => EligibilityProvider()),
+          ChangeNotifierProvider.value(value: authProvider),
         ],
         child: const SahayApp(),
       ),
@@ -25,7 +28,7 @@ void main() {
 
     await tester.pump();
 
-    // Verify WelcomeScreen loads
+    // Verify SahayApp loads
     expect(find.byType(SahayApp), findsOneWidget);
   });
 }

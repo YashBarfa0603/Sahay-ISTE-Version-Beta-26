@@ -1,36 +1,339 @@
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // -------------------------------------------------------------------------
-    // SAHAY Scheme Catalogue Public Read-Only Collections
-    // -------------------------------------------------------------------------
-    
-    // Schemes catalogue: Read-only for authenticated & guest citizens.
-    // Writes are strictly restricted to the Firebase Admin SDK / backend workers.
+    // ============================================================
+    // 1. SCHEME CATALOGUE
+    // Public read, no client writes.
+    // ============================================================
+
     match /schemes/{schemeId} {
       allow read: if true;
       allow write: if false;
     }
 
-    // Controlled Categories: Read-only for all clients
+    // ============================================================
+    // 2. CATEGORIES
+    // ============================================================
+
     match /categories/{categoryId} {
       allow read: if true;
       allow write: if false;
     }
 
-    // App Configuration & Controlled Vocabulary: Read-only for all clients
+    // ============================================================
+    // 3. APP CONFIGURATION
+    // Only non-sensitive public configuration.
+    // ============================================================
+
     match /appConfig/{configId} {
       allow read: if true;
       allow write: if false;
     }
 
-    // -------------------------------------------------------------------------
-    // Teammate-Owned Collections (Auth, Users, Assessments)
-    // -------------------------------------------------------------------------
-    // users and eligibility_assessments rules: owned by teammate
-    // DO NOT write or modify rules for /users or /eligibility_assessments here.
-    // -------------------------------------------------------------------------
+    // ============================================================
+    // 4. USER PROFILES
+    // ============================================================
+
+    match /users/{uid} {
+
+      function isOwner() {
+        return request.auth != null
+          && request.auth.uid == uid;
+      }
+
+      function allowedFields() {
+        return [
+          'uid',
+          'fullName',
+          'email',
+          'mobileNumber',
+          'age',
+          'state',
+          'district',
+          'occupation',
+          'preferredLanguage',
+          'gender',
+          'residenceType',
+          'profileComplete',
+          'authProvider',
+          'consentAcceptedAt',
+          'consentVersion',
+          'createdAt',
+          'updatedAt'
+        ];
+      }
+
+      function requiredFields() {
+        return [
+          'uid',
+          'fullName',
+          'createdAt',
+          'updatedAt'
+        ];
+      }
+
+      function hasOnlyAllowedFields(data) {
+        return data.keys().hasOnly(allowedFields());
+      }
+
+      function hasRequiredFields(data) {
+        return data.keys().hasAll(requiredFields());
+      }
+
+      function hasNoForbiddenFields(data) {
+        return !data.keys().hasAny([
+          'aadhaar',
+          'aadhaarNumber',
+          'pan',
+          'panNumber',
+          'bank',
+          'bankAccount',
+          'bankDetails',
+          'accountNumber',
+          'ifsc',
+          'income',
+          'annualIncome',
+          'salary'
+        ]);
+      }
+
+      // ------------------------------------------------------------
+      // EMAIL VALIDATION
+      // Supports email and phone-based authentication.
+      // ------------------------------------------------------------
+
+      function hasValidEmail(data) {
+        return !data.keys().hasAny(['email'])
+          || data.email == null
+          || (
+            request.auth.token.email != null
+            && data.email is string
+            && data.email == request.auth.token.email
+          );
+      }
+
+      // ------------------------------------------------------------
+      // OCCUPATION VALIDATION
+      // ------------------------------------------------------------
+
+      function isValidOccupation(value) {
+        return value in [
+          'farmer',
+          'agricultural_worker',
+          'unorganized_worker',
+          'construction_worker',
+          'street_vendor',
+          'artisan_craftsperson',
+          'student',
+          'salaried_private',
+          'government_employee',
+          'self_employed_business',
+          'homemaker',
+          'unemployed',
+          'retired'
+        ];
+      }
+
+      // ------------------------------------------------------------
+      // LANGUAGE VALIDATION
+      // ------------------------------------------------------------
+
+      function isValidLanguage(value) {
+        return value in [
+          'en',
+          'hi',
+          'ta',
+          'mr',
+          'bn',
+          'gu',
+          'kn',
+          'or'
+        ];
+      }
+
+      // ------------------------------------------------------------
+      // OPTIONAL FIELD VALIDATION
+      // ------------------------------------------------------------
+
+      function hasValidOptionalTypes(data) {
+        return
+
+          (!data.keys().hasAny(['mobileNumber'])
+            || data.mobileNumber == null
+            || data.mobileNumber is string)
+
+          &&
+
+          (!data.keys().hasAny(['age'])
+            || data.age == null
+            || (
+              data.age is int
+              && data.age >= 0
+              && data.age <= 120
+            ))
+
+          &&
+
+          (!data.keys().hasAny(['state'])
+            || data.state == null
+            || data.state is string)
+
+          &&
+
+          (!data.keys().hasAny(['district'])
+            || data.district == null
+            || data.district is string)
+
+          &&
+
+          (!data.keys().hasAny(['occupation'])
+            || data.occupation == null
+            || (
+              data.occupation is string
+              && isValidOccupation(data.occupation)
+            ))
+
+          &&
+
+          (!data.keys().hasAny(['preferredLanguage'])
+            || data.preferredLanguage == null
+            || (
+              data.preferredLanguage is string
+              && isValidLanguage(data.preferredLanguage)
+            ))
+
+          &&
+
+          (!data.keys().hasAny(['gender'])
+            || data.gender == null
+            || data.gender is string)
+
+          &&
+
+          (!data.keys().hasAny(['residenceType'])
+            || data.residenceType == null
+            || data.residenceType is string)
+
+          &&
+
+          (!data.keys().hasAny(['profileComplete'])
+            || data.profileComplete is bool)
+
+          &&
+
+          (!data.keys().hasAny(['authProvider'])
+            || data.authProvider in [
+              'google',
+              'phone',
+              'email',
+              'apple'
+            ])
+
+          &&
+
+          (!data.keys().hasAny(['consentAcceptedAt'])
+            || data.consentAcceptedAt == null
+            || data.consentAcceptedAt is timestamp)
+
+          &&
+
+          (!data.keys().hasAny(['consentVersion'])
+            || data.consentVersion == null
+            || data.consentVersion is string);
+      }
+
+      // ------------------------------------------------------------
+      // REQUIRED FIELD VALIDATION
+      // ------------------------------------------------------------
+
+      function hasValidRequiredTypes(data) {
+        return data.uid is string
+          && data.fullName is string
+          && data.fullName.size() > 0
+          && data.createdAt is timestamp
+          && data.updatedAt is timestamp;
+      }
+
+      // ------------------------------------------------------------
+      // READ PROFILE
+      // ------------------------------------------------------------
+
+      allow read: if isOwner();
+
+      // ------------------------------------------------------------
+      // CREATE PROFILE
+      // ------------------------------------------------------------
+
+      allow create: if isOwner()
+        && request.resource.data.uid == uid
+        && hasOnlyAllowedFields(request.resource.data)
+        && hasRequiredFields(request.resource.data)
+        && hasNoForbiddenFields(request.resource.data)
+        && hasValidRequiredTypes(request.resource.data)
+        && hasValidEmail(request.resource.data)
+        && hasValidOptionalTypes(request.resource.data)
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.updatedAt == request.time;
+
+      // ------------------------------------------------------------
+      // UPDATE PROFILE
+      // Immutable:
+      // uid, email, authProvider, consentAcceptedAt,
+      // consentVersion, createdAt.
+      // ------------------------------------------------------------
+
+      allow update: if isOwner()
+        && request.resource.data.uid == uid
+        && request.resource.data.createdAt == resource.data.createdAt
+        && hasOnlyAllowedFields(request.resource.data)
+        && hasRequiredFields(request.resource.data)
+        && hasNoForbiddenFields(request.resource.data)
+        && hasValidRequiredTypes(request.resource.data)
+        && hasValidEmail(request.resource.data)
+        && hasValidOptionalTypes(request.resource.data)
+        && request.resource.data.updatedAt == request.time
+        && request.resource.data.diff(resource.data)
+          .affectedKeys()
+          .hasOnly([
+            'fullName',
+            'mobileNumber',
+            'age',
+            'state',
+            'district',
+            'occupation',
+            'preferredLanguage',
+            'gender',
+            'residenceType',
+            'profileComplete',
+            'updatedAt'
+          ]);
+
+      // ------------------------------------------------------------
+      // DELETE PROFILE
+      // Handle account deletion through trusted backend
+      // to prevent orphaned subcollection documents.
+      // ------------------------------------------------------------
+
+      allow delete: if false;
+
+      // ------------------------------------------------------------
+      // 5. NESTED ELIGIBILITY ASSESSMENTS
+      // Users can read their own assessments.
+      // Client-side writes are prohibited.
+      // ------------------------------------------------------------
+
+      match /eligibilityAssessments/{assessmentId} {
+        allow read: if isOwner();
+        allow write: if false;
+      }
+    }
+
+    // ============================================================
+    // 6. DEFAULT DENY
+    // Unmatched documents are denied by default.
+    // ============================================================
+
   }
 }
-

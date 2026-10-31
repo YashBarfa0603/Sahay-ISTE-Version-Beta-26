@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 // User model
 class UserModel {
   final String uid;
@@ -34,7 +36,7 @@ class UserModel {
     this.gender,
     this.residenceType,
     this.profileComplete = false,
-    this.authProvider = 'password',
+    this.authProvider = 'email',
     this.consentAcceptedAt,
     this.consentVersion,
     this.createdAt,
@@ -83,7 +85,7 @@ class UserModel {
       profileComplete: map['profileComplete'] is bool
           ? map['profileComplete'] as bool
           : (map['profileComplete'] == 'true' || map['profileComplete'] == 1),
-      authProvider: map['authProvider']?.toString() ?? 'password',
+      authProvider: map['authProvider']?.toString() ?? 'email',
       consentAcceptedAt: _parseDateTime(map['consentAcceptedAt']),
       consentVersion: map['consentVersion']?.toString() ?? '1.0',
       createdAt: _parseDateTime(map['createdAt']),
@@ -95,6 +97,7 @@ class UserModel {
   static DateTime? _parseDateTime(dynamic value) {
     if (value == null) return null;
     if (value is DateTime) return value;
+    if (value is Timestamp) return value.toDate();
     if (value is String) return DateTime.tryParse(value);
     if (value is int) return DateTime.fromMillisecondsSinceEpoch(value);
     try {

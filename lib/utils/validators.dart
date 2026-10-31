@@ -99,6 +99,9 @@ class Validators {
     return null;
   }
 
+  static String? validateMobileNumber(String? value, [String lang = 'en']) =>
+      validateMobile(value, lang);
+
   // Sanitize mobile: strips spaces, +91, 0 prefix, returns 10 digits
   static String? sanitizeMobile(String? value) {
     if (value == null) return null;

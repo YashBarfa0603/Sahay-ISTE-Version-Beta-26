@@ -80,6 +80,10 @@ class IndianStates {
     return state.getLocalizedName(lang);
   }
 
+  // Aliases
+  static List<IndianState> get states => allStates;
+  static String getStateName(String code, [String lang = 'en']) => getName(code, lang);
+
   // Validity
   static bool isValidCode(String code) {
     final upper = code.trim().toUpperCase();

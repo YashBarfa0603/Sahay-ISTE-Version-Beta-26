@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "422697540080",
+    "project_id": "sahay-8e9b3",
+    "storage_bucket": "sahay-8e9b3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:422697540080:android:e99753f9e0b92285b32535",
+        "android_client_info": {
+          "package_name": "SAHAY_1.manit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "422697540080-j4kb6cduona4rh0jbbou9fqu9ph7r11j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "SAHAY_1.manit",
+            "certificate_hash": "a7ef0b7b6036def501813b5affb45db76a6b1216"
+          }
+        },
+        {
+          "client_id": "422697540080-gg3pj4hbanjdbnj3c35pkhrh4d3vbn81.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfhkzSHzoZizlPWquzSaCv5PjupsZzJvg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "422697540080-gg3pj4hbanjdbnj3c35pkhrh4d3vbn81.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "422697540080-meudmu7m9g2vvs24m60h8ankloijtor4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.sahay"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:422697540080:android:26ff8f902946b7e1b32535",
+        "android_client_info": {
+          "package_name": "com.example.sahay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "422697540080-gg3pj4hbanjdbnj3c35pkhrh4d3vbn81.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfhkzSHzoZizlPWquzSaCv5PjupsZzJvg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "422697540080-gg3pj4hbanjdbnj3c35pkhrh4d3vbn81.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "422697540080-meudmu7m9g2vvs24m60h8ankloijtor4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.sahay"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

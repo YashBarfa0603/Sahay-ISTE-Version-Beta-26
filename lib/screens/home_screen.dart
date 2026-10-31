@@ -4,15 +4,19 @@ import 'package:sahay/core/l10n/app_localizations.dart';
 import 'package:sahay/core/theme/app_colors.dart';
 import 'package:sahay/core/theme/app_text_styles.dart';
 import 'package:sahay/models/scheme_model.dart';
+import 'package:sahay/providers/auth_provider.dart';
 import 'package:sahay/providers/eligibility_provider.dart';
 import 'package:sahay/providers/locale_provider.dart';
 import 'package:sahay/providers/scheme_provider.dart';
 import 'package:sahay/providers/user_profile_provider.dart';
+import 'package:sahay/screens/auth/login_screen.dart';
 import 'package:sahay/screens/questionnaire_screen.dart';
 import 'package:sahay/screens/results_screen.dart';
 import 'package:sahay/screens/scheme_detail_screen.dart';
 import 'package:sahay/screens/schemes_screen.dart';
 import 'package:sahay/services/scheme_data_service.dart';
+import 'package:sahay/utils/indian_states.dart';
+import 'package:sahay/utils/profile_options.dart';
 import 'package:sahay/widgets/sahay_app_bar.dart';
 import 'package:sahay/widgets/voice_input_button.dart';
 
@@ -90,8 +94,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _showProfileSheet(BuildContext context) {
     final l10n = SahayLocalizations.of(context);
+    final isHi = context.read<LocaleProvider>().languageCode == 'hi';
+    final lang = context.read<LocaleProvider>().languageCode;
+    final auth = context.read<AuthProvider>();
+    final user = auth.currentUser;
     final userProfile = context.read<UserProfileProvider>();
-    final answers = userProfile.answers;
 
     showModalBottomSheet(
       context: context,
@@ -101,8 +108,10 @@ class _HomeScreenState extends State<HomeScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       builder: (ctx) {
+        final isSignedIn = auth.isAuthenticated && user != null;
+
         return SafeArea(
-          child: Padding(
+          child: SingleChildScrollView(
             padding: const EdgeInsets.all(24.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -119,79 +128,376 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 28,
-                      backgroundColor: AppColors.indianTeal,
-                      child: const Icon(Icons.person_rounded, color: Colors.white, size: 30),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            answers['fullName']?.toString() ?? 'Citizen User',
-                            style: AppTextStyles.heading3,
+
+                if (isSignedIn) ...[
+                  // Signed in user
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 28,
+                        backgroundColor: AppColors.indianTeal,
+                        child: Text(
+                          (user.fullName.isNotEmpty ? user.fullName[0] : 'U').toUpperCase(),
+                          style: const TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              user.fullName.isNotEmpty ? user.fullName : (isHi ? 'नागरिक उपयोगकर्ता' : 'Citizen User'),
+                              style: AppTextStyles.heading3,
+                            ),
+                            if (user.email.isNotEmpty)
+                              Text(user.email, style: AppTextStyles.caption.copyWith(color: Colors.grey[700])),
+                            if (user.mobileNumber.isNotEmpty)
+                              Text(user.mobileNumber, style: AppTextStyles.caption.copyWith(color: Colors.grey[600])),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  const Divider(),
+                  const SizedBox(height: 12),
+
+                  Text(
+                    isHi ? 'आपकी प्रोफ़ाइल जानकारी' : 'Profile Details',
+                    style: AppTextStyles.label.copyWith(color: AppColors.deepNavy),
+                  ),
+                  const SizedBox(height: 10),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      if (user.age != null)
+                        Chip(
+                          backgroundColor: AppColors.paleSage,
+                          avatar: const Icon(Icons.cake_outlined, size: 16, color: AppColors.indianTeal),
+                          label: Text('${isHi ? "आयु" : "Age"}: ${user.age}', style: AppTextStyles.caption),
+                        ),
+                      if (user.state != null)
+                        Chip(
+                          backgroundColor: AppColors.paleSage,
+                          avatar: const Icon(Icons.location_on_outlined, size: 16, color: AppColors.indianTeal),
+                          label: Text(
+                            IndianStates.getStateName(user.state!, lang),
+                            style: AppTextStyles.caption,
                           ),
-                          Text(
-                            'Session-only Profile (No cloud tracking)',
-                            style: AppTextStyles.caption.copyWith(color: AppColors.forestGreen),
+                        ),
+                      if (user.district != null && user.district!.isNotEmpty)
+                        Chip(
+                          backgroundColor: AppColors.paleSage,
+                          avatar: const Icon(Icons.map_outlined, size: 16, color: AppColors.indianTeal),
+                          label: Text(user.district!, style: AppTextStyles.caption),
+                        ),
+                      if (user.occupation != null)
+                        Chip(
+                          backgroundColor: AppColors.paleSage,
+                          avatar: const Icon(Icons.work_outline_rounded, size: 16, color: AppColors.indianTeal),
+                          label: Text(
+                            ProfileOptions.getOccupationLabel(user.occupation!, lang),
+                            style: AppTextStyles.caption,
                           ),
-                        ],
+                        ),
+                      if (user.gender != null)
+                        Chip(
+                          backgroundColor: AppColors.paleSage,
+                          label: Text(
+                            '${isHi ? "लिंग" : "Gender"}: ${ProfileOptions.getGenderLabel(user.gender!, lang)}',
+                            style: AppTextStyles.caption,
+                          ),
+                        ),
+                      if (user.residenceType != null)
+                        Chip(
+                          backgroundColor: AppColors.paleSage,
+                          label: Text(
+                            '${isHi ? "निवास" : "Residence"}: ${ProfileOptions.getResidenceLabel(user.residenceType!, lang)}',
+                            style: AppTextStyles.caption,
+                          ),
+                        ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Edit optional
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: () => _showEditOptionalDetailsDialog(context, user, lang, isHi),
+                      icon: const Icon(Icons.edit_outlined, size: 18, color: AppColors.indianTeal),
+                      label: Text(
+                        isHi ? 'वैकल्पिक विवरण बदलें' : 'Edit Optional Details',
+                        style: AppTextStyles.label.copyWith(color: AppColors.indianTeal),
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: AppColors.indianTeal),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                const Divider(),
-                const SizedBox(height: 10),
-                Text(
-                  'Profile Details Answered: ${answers.length}',
-                  style: AppTextStyles.label,
-                ),
-                const SizedBox(height: 12),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: answers.entries.map((e) {
-                    return Chip(
-                      backgroundColor: AppColors.paleSage,
-                      label: Text('${e.key}: ${e.value}', style: AppTextStyles.caption),
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(height: 24),
-                SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton.icon(
-                    onPressed: () {
-                      userProfile.clearAllAnswers();
-                      context.read<EligibilityProvider>().clearResults();
-                      Navigator.of(ctx).pop();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(l10n.dataCleared),
-                          backgroundColor: AppColors.deepNavy,
-                        ),
-                      );
-                    },
-                    icon: const Icon(Icons.delete_outline_rounded, color: AppColors.mutedCoral),
-                    label: Text(
-                      l10n.clearData,
-                      style: AppTextStyles.label.copyWith(color: AppColors.mutedCoral),
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: AppColors.mutedCoral),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Sign out button
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () async {
+                        Navigator.of(ctx).pop();
+                        await auth.signOut();
+                      },
+                      icon: const Icon(Icons.logout_rounded, size: 18),
+                      label: Text(isHi ? 'लॉग आउट करें' : 'Log Out'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.indianTeal,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
                     ),
                   ),
-                ),
+                  const SizedBox(height: 12),
+
+                  // Danger zone: Delete account
+                  SizedBox(
+                    width: double.infinity,
+                    child: TextButton.icon(
+                      onPressed: () => _confirmDeleteAccount(context, auth, ctx, isHi),
+                      icon: const Icon(Icons.delete_forever_rounded, color: AppColors.mutedCoral, size: 20),
+                      label: Text(
+                        isHi ? 'खाता हमेशा के लिए हटाएं' : 'Delete Account Permanently',
+                        style: AppTextStyles.caption.copyWith(
+                          color: AppColors.mutedCoral,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ] else ...[
+                  // Guest mode card
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: AppColors.softSaffron.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: AppColors.softSaffron),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const Icon(Icons.person_outline_rounded, color: AppColors.deepNavy, size: 26),
+                            const SizedBox(width: 10),
+                            Text(
+                              isHi ? 'अतिथि के रूप में ब्राउज़ कर रहे हैं' : 'Browsing as a Guest',
+                              style: AppTextStyles.heading3.copyWith(fontSize: 18),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          isHi
+                              ? 'अपने उत्तरों को सहेजने और व्यक्तिगत अनुशंसाएं प्राप्त करने के लिए साइन अप करें।'
+                              : 'Sign up to save your eligibility answers and get personalised recommendations.',
+                          style: AppTextStyles.bodyMedium.copyWith(color: AppColors.deepNavy.withValues(alpha: 0.8)),
+                        ),
+                        const SizedBox(height: 16),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(ctx).pop();
+                              Navigator.of(context).push(
+                                MaterialPageRoute(builder: (_) => const LoginScreen()),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.indianTeal,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            ),
+                            child: Text(
+                              isHi ? 'साइन इन / साइन अप करें' : 'Sign In / Sign Up',
+                              style: AppTextStyles.buttonText,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    'Session-only Answers: ${userProfile.answeredCount}',
+                    style: AppTextStyles.label,
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: () {
+                        userProfile.clearAllAnswers();
+                        context.read<EligibilityProvider>().clearResults();
+                        Navigator.of(ctx).pop();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(l10n.dataCleared),
+                            backgroundColor: AppColors.deepNavy,
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.delete_outline_rounded, color: AppColors.mutedCoral),
+                      label: Text(
+                        l10n.clearData,
+                        style: AppTextStyles.label.copyWith(color: AppColors.mutedCoral),
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: AppColors.mutedCoral),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                    ),
+                  ),
+                ],
               ],
             ),
           ),
+        );
+      },
+    );
+  }
+
+  void _confirmDeleteAccount(BuildContext context, AuthProvider auth, BuildContext sheetCtx, bool isHi) {
+    showDialog(
+      context: context,
+      builder: (dialogCtx) => AlertDialog(
+        backgroundColor: AppColors.warmIvory,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(
+          isHi ? 'खाता हटाएं?' : 'Delete Account?',
+          style: AppTextStyles.heading3.copyWith(color: AppColors.mutedCoral),
+        ),
+        content: Text(
+          isHi
+              ? 'क्या आप वाकई अपना खाता हटाना चाहते हैं? यह क्रिया स्थायी है और आपकी प्रोफ़ाइल का सभी डेटा हटा देगी।'
+              : 'Are you sure you want to permanently delete your account and profile data? This action cannot be undone.',
+          style: AppTextStyles.bodyMedium,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogCtx).pop(),
+            child: Text(isHi ? 'रद्द करें' : 'Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.of(dialogCtx).pop();
+              Navigator.of(sheetCtx).pop();
+              final ok = await auth.deleteAccount();
+              if (context.mounted && !ok) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(auth.errorMessage ?? 'Delete failed'),
+                    backgroundColor: AppColors.mutedCoral,
+                  ),
+                );
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.mutedCoral,
+              foregroundColor: Colors.white,
+            ),
+            child: Text(isHi ? 'हटाएं' : 'Delete Permanently'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showEditOptionalDetailsDialog(BuildContext context, dynamic user, String lang, bool isHi) {
+    String? gender = user.gender;
+    String? residence = user.residenceType;
+
+    showDialog(
+      context: context,
+      builder: (dCtx) {
+        return StatefulBuilder(
+          builder: (dialogContext, setDialogState) {
+            return AlertDialog(
+              backgroundColor: AppColors.warmIvory,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              title: Text(
+                isHi ? 'वैकल्पिक विवरण संपादित करें' : 'Edit Optional Details',
+                style: AppTextStyles.heading3,
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(isHi ? 'लिंग' : 'Gender', style: AppTextStyles.label),
+                  const SizedBox(height: 6),
+                  DropdownButtonFormField<String>(
+                    initialValue: gender,
+                    isExpanded: true,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                    ),
+                    items: ProfileOptions.genders.map((g) {
+                      return DropdownMenuItem(
+                        value: g.key,
+                        child: Text(ProfileOptions.getGenderLabel(g.key, lang)),
+                      );
+                    }).toList(),
+                    onChanged: (val) => setDialogState(() => gender = val),
+                  ),
+                  const SizedBox(height: 14),
+                  Text(isHi ? 'निवास प्रकार' : 'Residence Type', style: AppTextStyles.label),
+                  const SizedBox(height: 6),
+                  DropdownButtonFormField<String>(
+                    initialValue: residence,
+                    isExpanded: true,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                    ),
+                    items: ProfileOptions.residenceTypes.map((r) {
+                      return DropdownMenuItem(
+                        value: r.key,
+                        child: Text(ProfileOptions.getResidenceLabel(r.key, lang)),
+                      );
+                    }).toList(),
+                    onChanged: (val) => setDialogState(() => residence = val),
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(dCtx).pop(),
+                  child: Text(isHi ? 'रद्द करें' : 'Cancel'),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    Navigator.of(dCtx).pop();
+                    await context.read<AuthProvider>().updateProfile({
+                      'gender': gender,
+                      'residenceType': residence,
+                    }, lang: lang);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.indianTeal,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: Text(isHi ? 'सहेजें' : 'Save'),
+                ),
+              ],
+            );
+          },
         );
       },
     );
@@ -203,21 +509,27 @@ class _HomeScreenState extends State<HomeScreen> {
     final localeProvider = context.watch<LocaleProvider>();
     final currentLang = localeProvider.languageCode;
     final schemeProvider = context.watch<SchemeProvider>();
+    final auth = context.watch<AuthProvider>();
+    final user = auth.currentUser;
+    final userName = (user != null && user.fullName.trim().isNotEmpty)
+        ? ' ${user.fullName.trim().split(' ').first}'
+        : '';
 
     // Localized greeting
-    final greeting = currentLang == 'hi'
-        ? 'नमस्ते!'
+    final greetingPrefix = currentLang == 'hi'
+        ? 'नमस्ते'
         : (currentLang == 'ta'
-            ? 'வணக்கம்!'
+            ? 'வணக்கம்'
             : (currentLang == 'mr'
-                ? 'नमस्कार!'
+                ? 'नमस्कार'
                 : (currentLang == 'bn'
-                    ? 'নমস্কার!'
+                    ? 'নমস্কার'
                     : (currentLang == 'gu'
-                        ? 'નમસ્તે!'
+                        ? 'નમસ્તે'
                         : (currentLang == 'kn'
-                            ? 'ನಮಸ್ಕಾರ!'
-                            : (currentLang == 'or' ? 'ନମସ୍କାର!' : 'Hello!'))))));
+                            ? 'ನಮಸ್ಕಾರ'
+                            : (currentLang == 'or' ? 'ନମସ୍କାର' : 'Hello'))))));
+    final greeting = '$greetingPrefix$userName!';
 
     final categories = [
       {
@@ -311,6 +623,58 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
 
               const SizedBox(height: 12),
+
+              // Guest Mode Banner
+              if (auth.isGuest) ...[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 4.0),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 10.0),
+                    decoration: BoxDecoration(
+                      color: AppColors.softSaffron.withValues(alpha: 0.18),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppColors.softSaffron.withValues(alpha: 0.6)),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.info_outline_rounded, color: AppColors.deepNavy, size: 20),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            currentLang == 'hi'
+                                ? 'अतिथि मोड: व्यक्तिगत योजनाओं को सहेजने के लिए साइन इन करें'
+                                : 'Guest mode: Sign in to save your eligible schemes',
+                            style: AppTextStyles.caption.copyWith(
+                              color: AppColors.deepNavy,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (_) => const LoginScreen()),
+                            );
+                          },
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            minimumSize: Size.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          child: Text(
+                            currentLang == 'hi' ? 'साइन इन' : 'Sign In',
+                            style: AppTextStyles.caption.copyWith(
+                              color: AppColors.indianTeal,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+              ],
 
               // Search Bar with Voice Input
               Padding(

@@ -56,6 +56,14 @@ class AuthStrings {
       'en': 'Google sign-in was cancelled.',
       'hi': 'गूगल साइन-इन रद्द कर दिया गया।',
     },
+    'consent-required': {
+      'en': 'Please accept the Terms of Service and Privacy Policy to create an account.',
+      'hi': 'खाता बनाने के लिए कृपया सेवा की शर्तों और गोपनीयता नीति को स्वीकार करें।',
+    },
+    'google-sign-in-failed': {
+      'en': 'Google sign-in could not be completed. Please try again.',
+      'hi': 'गूगल साइन-इन पूरा नहीं हो सका। कृपया पुनः प्रयास करें।',
+    },
     'reset-email-sent': {
       'en': 'If this email is registered, a password reset link has been sent to it.',
       'hi': 'यदि यह ईमेल पंजीकृत है, तो उस पर पासवर्ड रीसेट लिंक भेज दिया गया है।',

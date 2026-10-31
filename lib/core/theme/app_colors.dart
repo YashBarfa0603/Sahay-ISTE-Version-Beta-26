@@ -38,6 +38,7 @@ class AppColors {
 
   static const Color border = Color(0xFFDCD6CA);
   static const Color borderLight = Color(0xFFEBE6DC);
+  static const Color cardBorder = border;
   static const Color divider = Color(0xFFE2DDD3);
 
   static const Color success = forestGreen;

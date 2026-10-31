@@ -58,7 +58,7 @@ void main() {
 
       expect(minimal.uid, equals('user_min'));
       expect(minimal.profileComplete, isFalse);
-      expect(minimal.authProvider, equals('password'));
+      expect(minimal.authProvider, equals('email'));
       expect(minimal.age, isNull);
       expect(minimal.state, isNull);
     });
