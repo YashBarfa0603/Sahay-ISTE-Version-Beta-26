@@ -1,5 +1,9 @@
-from pydantic_settings import BaseSettings
+from pathlib import Path
 from typing import List
+from pydantic_settings import BaseSettings
+
+_BACKEND_DIR = Path(__file__).resolve().parent.parent
+_PROJECT_ROOT = _BACKEND_DIR.parent
 
 
 class Settings(BaseSettings):
@@ -19,6 +23,7 @@ class Settings(BaseSettings):
         "myscheme.gov.in",
         "india.gov.in",
         "data.gov.in",
+        "pib.gov.in",
         "pmkisan.gov.in",
         "pmjay.gov.in",
         "pmayg.nic.in",
@@ -33,8 +38,13 @@ class Settings(BaseSettings):
     CATALOGUE_MIN_RESULTS: int = 3
 
     class Config:
-        env_file = ".env"
+        env_file = (
+            str(_BACKEND_DIR / ".env"),
+            str(_PROJECT_ROOT / ".env"),
+            ".env",
+        )
         env_file_encoding = "utf-8"
+        extra = "ignore"
 
 
 settings = Settings()

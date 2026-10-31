@@ -14,6 +14,10 @@ migrate_working_dir/
 .venv/
 venv/
 __pycache__/
+.env
+*.env
+.env.*
+!.env.example
 
 
 # IntelliJ related
