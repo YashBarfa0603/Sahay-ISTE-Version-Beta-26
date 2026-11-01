@@ -47,7 +47,7 @@ class _QuestionCardState extends State<QuestionCard>
     _advanceTimer?.cancel();
     widget.onAnswerChanged(value);
     // Give brief visual feedback so user sees their selection, then auto-transfer to next question
-    _advanceTimer = Timer(const Duration(milliseconds: 260), () {
+    _advanceTimer = Timer(const Duration(milliseconds: 180), () {
       if (mounted) {
         widget.onNext();
       }

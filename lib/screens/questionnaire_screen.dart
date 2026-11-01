@@ -89,7 +89,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   void _onNext() {
     if (_currentQuestion == null || _isEvaluating || _isTransitioning) return;
     _isTransitioning = true;
-    Future.delayed(const Duration(milliseconds: 320), () {
+    Future.delayed(const Duration(milliseconds: 240), () {
       if (mounted) _isTransitioning = false;
     });
 
