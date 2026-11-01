@@ -38,13 +38,14 @@ class YouTubeTutorialModel {
     String? duration,
     String? description,
     String? descriptionHindi,
+    String? customUrl,
   }) {
     return YouTubeTutorialModel(
       schemeId: schemeId,
       videoId: videoId,
       videoTitle: videoTitle,
       videoTitleHindi: videoTitleHindi,
-      youtubeUrl: 'https://www.youtube.com/watch?v=$videoId',
+      youtubeUrl: customUrl ?? 'https://www.youtube.com/watch?v=$videoId',
       thumbnailUrl: 'https://img.youtube.com/vi/$videoId/hqdefault.jpg',
       channelName: channelName,
       language: language,

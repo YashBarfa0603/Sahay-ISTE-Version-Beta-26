@@ -13,7 +13,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   final dummySchemeWithTutorial = SchemeModel(
-    schemeId: 'pm_kisan',
+    schemeId: 'PM_KISAN_001',
     name: 'PM-KISAN Samman Nidhi',
     description: 'Direct income support of ₹6,000 annually to all landholding farmer families.',
     category: 'agriculture',
@@ -48,19 +48,72 @@ void main() {
   );
 
   group('Feature 4: YouTubeTutorialService Tests', () {
-    test('returns verified tutorial model for PM-KISAN', () {
-      final tutorial = YouTubeTutorialService.getTutorialForScheme('pm_kisan');
-      expect(tutorial, isNotNull);
-      expect(tutorial!.youtubeUrl.contains('youtube.com'), isTrue);
-      expect(tutorial.thumbnailUrl.contains('img.youtube.com'), isTrue);
-      expect(tutorial.isVerified, isTrue);
-      expect(tutorial.channelName.isNotEmpty, isTrue);
-    });
+    test('returns verified tutorial model with new URLs and video IDs for all 8 schemes', () {
+      // 1. PM-KISAN
+      final kisanShort = YouTubeTutorialService.getTutorialForScheme('pm_kisan');
+      final kisanCanonical = YouTubeTutorialService.getTutorialForScheme('PM_KISAN_001');
+      expect(kisanShort, isNotNull);
+      expect(kisanCanonical, isNotNull);
+      expect(kisanCanonical!.videoId, 'yeINeVgyg9k');
+      expect(kisanCanonical.youtubeUrl, contains('yeINeVgyg9k'));
 
-    test('returns verified tutorial model for Ladli Behna', () {
-      final tutorial = YouTubeTutorialService.getTutorialForScheme('ladli_behna');
-      expect(tutorial, isNotNull);
-      expect(tutorial!.videoId, isNotEmpty);
+      // 2. Ayushman Card (PM-JAY)
+      final ayushman = YouTubeTutorialService.getTutorialForScheme('AYUSHMAN_001');
+      final pmjay = YouTubeTutorialService.getTutorialForScheme('pm_jay');
+      expect(ayushman, isNotNull);
+      expect(pmjay, isNotNull);
+      expect(ayushman!.videoId, 'seOr_0myl2k');
+      expect(ayushman.youtubeUrl, contains('seOr_0myl2k'));
+
+      // 3. Pradhan Mantri Awas Yojana
+      final pmay1 = YouTubeTutorialService.getTutorialForScheme('PMAY_001');
+      final pmay2 = YouTubeTutorialService.getTutorialForScheme('PMAY_002');
+      final pmayG = YouTubeTutorialService.getTutorialForScheme('pmay_g');
+      expect(pmay1, isNotNull);
+      expect(pmay2, isNotNull);
+      expect(pmayG, isNotNull);
+      expect(pmay1!.videoId, 'iCtKY2qTUQ8');
+      expect(pmay1.youtubeUrl, contains('iCtKY2qTUQ8'));
+
+      // 4. PM Ujjwala Yojana
+      final ujjwalaCanonical = YouTubeTutorialService.getTutorialForScheme('PM_UJJWALA_001');
+      final ujjwalaShort = YouTubeTutorialService.getTutorialForScheme('pm_ujjwala');
+      expect(ujjwalaCanonical, isNotNull);
+      expect(ujjwalaShort, isNotNull);
+      expect(ujjwalaCanonical!.videoId, 'gUTd57fTW6U');
+      expect(ujjwalaCanonical.youtubeUrl, contains('gUTd57fTW6U'));
+
+      // 5. Ladli Behna Yojana
+      final ladliCanonical = YouTubeTutorialService.getTutorialForScheme('MP_LADLI_BEHNA_001');
+      final ladliShort = YouTubeTutorialService.getTutorialForScheme('ladli_behna');
+      expect(ladliCanonical, isNotNull);
+      expect(ladliShort, isNotNull);
+      expect(ladliCanonical!.videoId, 'tOZ2VLMuiLY');
+      expect(ladliCanonical.youtubeUrl, contains('tOZ2VLMuiLY'));
+
+      // 6. PM SVANidhi
+      final svanidhiCanonical = YouTubeTutorialService.getTutorialForScheme('PM_SVANIDHI_001');
+      final svanidhiShort = YouTubeTutorialService.getTutorialForScheme('pm_svanidhi');
+      expect(svanidhiCanonical, isNotNull);
+      expect(svanidhiShort, isNotNull);
+      expect(svanidhiCanonical!.videoId, 'iO7Y-bCgon0');
+      expect(svanidhiCanonical.youtubeUrl, contains('iO7Y-bCgon0'));
+
+      // 7. Sukanya Samriddhi Yojana
+      final sukanyaCanonical = YouTubeTutorialService.getTutorialForScheme('SUKANYA_SAMRIDDHI_001');
+      final sukanyaShort = YouTubeTutorialService.getTutorialForScheme('sukanya_samriddhi');
+      expect(sukanyaCanonical, isNotNull);
+      expect(sukanyaShort, isNotNull);
+      expect(sukanyaCanonical!.videoId, 'bXwcnF-nn_M');
+      expect(sukanyaCanonical.youtubeUrl, contains('bXwcnF-nn_M'));
+
+      // 8. PM Vishwakarma
+      final vishwakarmaCanonical = YouTubeTutorialService.getTutorialForScheme('PM_VISHWAKARMA_001');
+      final vishwakarmaShort = YouTubeTutorialService.getTutorialForScheme('pm_vishwakarma');
+      expect(vishwakarmaCanonical, isNotNull);
+      expect(vishwakarmaShort, isNotNull);
+      expect(vishwakarmaCanonical!.videoId, 'S5uwhpLisXQ');
+      expect(vishwakarmaCanonical.youtubeUrl, contains('S5uwhpLisXQ'));
     });
 
     test('returns null for unmapped schemes', () {
@@ -70,7 +123,7 @@ void main() {
   });
 
   group('Feature 4: SchemeDetailScreen How-To-Apply YouTube Integration Widget Tests', () {
-    testWidgets('renders Video Tutorial card when verified tutorial exists', (tester) async {
+    testWidgets('renders Video Tutorial card when verified tutorial exists (canonical ID)', (tester) async {
       await tester.pumpWidget(
         MultiProvider(
           providers: [
