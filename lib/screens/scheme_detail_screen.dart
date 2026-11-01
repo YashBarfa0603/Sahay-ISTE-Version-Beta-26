@@ -24,6 +24,8 @@ import 'package:sahay/providers/application_provider.dart';
 import 'package:sahay/providers/user_profile_provider.dart';
 import 'package:sahay/screens/application/smart_filler_preparation_screen.dart';
 import 'package:sahay/services/youtube_tutorial_service.dart';
+import 'package:sahay/widgets/sahay_assistance_fab.dart';
+import 'package:sahay/screens/sahay_assistance_screen.dart';
 
 class SchemeDetailScreen extends StatefulWidget {
   final SchemeModel scheme;
@@ -100,7 +102,13 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
   }
 
   void _startSahayApplication(BuildContext context) async {
-    final appProvider = context.read<ApplicationProvider>();
+    ApplicationProvider? appProvider;
+    try {
+      appProvider = Provider.of<ApplicationProvider>(context, listen: false);
+    } catch (_) {
+      appProvider = null;
+    }
+    if (appProvider == null) return;
     final userProfile = context.read<UserProfileProvider>();
     final locale = context.read<LocaleProvider>().languageCode;
 
@@ -173,6 +181,11 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
 
     return Scaffold(
       backgroundColor: AppColors.warmIvory,
+      floatingActionButton: SahayAssistanceFAB(
+        currentScreen: 'scheme_detail',
+        selectedSchemeId: widget.scheme.schemeId,
+        selectedSchemeName: widget.scheme.name,
+      ),
       appBar: SahayAppBar(
         title: displayName,
         showBackButton: true,
@@ -195,6 +208,22 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
             icon: const Icon(Icons.share_rounded, color: Colors.white),
             tooltip: 'Share Scheme',
             onPressed: () => _shareScheme(context),
+          ),
+          // SAHAY Assistance Chatbot Action
+          IconButton(
+            icon: const Icon(Icons.support_agent_rounded, color: AppColors.softSaffron),
+            tooltip: 'Ask SAHAY Assistance',
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => SahayAssistanceScreen(
+                    currentScreen: 'scheme_detail',
+                    selectedSchemeId: widget.scheme.schemeId,
+                    selectedSchemeName: widget.scheme.name,
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -1059,7 +1088,7 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
           const SizedBox(height: 24),
 
           // ------------------------------------
-          // PROMINENT PRIMARY ACTION: APPLY WITH SAHAY (10-Scheme Smart Application Filler)
+          // PROMINENT PRIMARY ACTION: FILL WITH SAHAY (10-Scheme Smart Application Filler)
           // ------------------------------------
           Builder(builder: (ctx) {
             ApplicationProvider? appProvider;
@@ -1068,83 +1097,182 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
             } catch (_) {
               appProvider = null;
             }
-            if (appProvider?.isSchemeSupported(widget.scheme.schemeId) != true) {
-              return const SizedBox.shrink();
-            }
-            return Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [AppColors.deepNavy, Color(0xFF1E3A5F)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.circular(18),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.deepNavy.withValues(alpha: 0.2),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
+            final isSupported = appProvider?.isSchemeSupported(widget.scheme.schemeId) ?? false;
+
+            if (!isSupported) {
+              // Guided Preparation Notice for schemes with direct manual submission
+              return Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppColors.border),
                 ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: AppColors.softSaffron,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Icon(Icons.auto_awesome, color: AppColors.deepNavy, size: 22),
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: AppColors.steelBlue.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: const Icon(Icons.description_outlined, color: AppColors.steelBlue, size: 20),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                currentLang == 'hi' ? 'आवेदन तैयारी (Guided Preparation)' : 'Application Preparation',
+                                style: AppTextStyles.heading3.copyWith(fontSize: 15),
+                              ),
+                              Text(
+                                currentLang == 'hi' ? 'आधिकारिक पोर्टल पर सीधा आवेदन' : 'Direct Official Portal Submission',
+                                style: AppTextStyles.caption.copyWith(color: AppColors.steelBlue, fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Apply with SAHAY',
-                            style: AppTextStyles.heading3.copyWith(color: Colors.white, fontSize: 18),
-                          ),
-                          Text(
-                            'AI-Powered Application Assistant',
-                            style: AppTextStyles.caption.copyWith(color: AppColors.softSaffron, fontWeight: FontWeight.w700),
-                          ),
-                        ],
-                      ),
+                    const SizedBox(height: 10),
+                    Text(
+                      currentLang == 'hi'
+                          ? 'इस पोर्टल के लिए स्वचालित फॉर्म भरना उपलब्ध नहीं है। कृपया आवश्यक दस्तावेज़ तैयार करें और नीचे दिए गए आधिकारिक पोर्टल लिंक पर सीधे आवेदन करें।'
+                          : 'Automated browser form filling is not supported for this portal. Please prepare your required documents and submit directly on the official government portal below.',
+                      style: AppTextStyles.bodyMedium.copyWith(color: AppColors.deepNavy.withValues(alpha: 0.8), fontSize: 13, height: 1.4),
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
-                Text(
-                  'Let SAHAY help you complete this application using your profile and documents.',
-                  style: AppTextStyles.bodyMedium.copyWith(color: Colors.white.withValues(alpha: 0.9), height: 1.4, fontSize: 13.5),
+              );
+            }
+
+            return Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [AppColors.deepNavy, Color(0xFF1E3A5F)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
-                const SizedBox(height: 16),
-                SizedBox(
-                  width: double.infinity,
-                  height: 48,
-                  child: ElevatedButton.icon(
-                    onPressed: () => _startSahayApplication(context),
-                    icon: const Icon(Icons.arrow_forward_rounded, color: AppColors.deepNavy),
-                    label: const Text(
-                      'Start Application with SAHAY',
-                      style: TextStyle(fontWeight: FontWeight.w800, fontSize: 14),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.softSaffron,
-                      foregroundColor: AppColors.deepNavy,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                borderRadius: BorderRadius.circular(18),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.deepNavy.withValues(alpha: 0.2),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: AppColors.softSaffron,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Icon(Icons.auto_awesome, color: AppColors.deepNavy, size: 22),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              currentLang == 'hi' ? 'Fill with SAHAY (सहाय से फॉर्म भरें)' : 'Fill with SAHAY',
+                              style: AppTextStyles.heading3.copyWith(color: Colors.white, fontSize: 18),
+                            ),
+                            Text(
+                              currentLang == 'hi' ? 'स्मार्ट फॉर्म फिलिंग असिस्टेंट' : 'Intelligent Application Form Assistant',
+                              style: AppTextStyles.caption.copyWith(color: AppColors.softSaffron, fontWeight: FontWeight.w700),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    currentLang == 'hi'
+                        ? 'सहाय को अपनी प्रोफ़ाइल और दस्तावेज़ों का उपयोग करके आवेदन तैयार करने और आधिकारिक पोर्टल फ़ील्ड्स भरने दें।'
+                        : 'Let SAHAY help you prepare your application, retrieve your documents and fill supported application fields.',
+                    style: AppTextStyles.bodyMedium.copyWith(color: Colors.white.withValues(alpha: 0.9), height: 1.4, fontSize: 13.5),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Portal Capability & Manual Requirements Badges
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 6,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: AppColors.paleSage,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.check_circle_rounded, size: 14, color: AppColors.forestGreen),
+                            const SizedBox(width: 5),
+                            Text(
+                              currentLang == 'hi' ? 'पोर्टल ऑटो-फिल समर्थित' : 'Automated Portal Autofill',
+                              style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: AppColors.forestGreen),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: AppColors.softSaffron.withValues(alpha: 0.25),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.fingerprint_rounded, size: 14, color: AppColors.softSaffron),
+                            const SizedBox(width: 5),
+                            Text(
+                              currentLang == 'hi' ? 'ओटीपी और कैप्चा व्यक्तिगत' : 'Citizen enters OTP & CAPTCHA',
+                              style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 48,
+                    child: ElevatedButton.icon(
+                      onPressed: () => _startSahayApplication(context),
+                      icon: const Icon(Icons.arrow_forward_rounded, color: AppColors.deepNavy),
+                      label: Text(
+                        currentLang == 'hi' ? 'Fill with SAHAY शुरू करें' : 'Fill with SAHAY',
+                        style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 14),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.softSaffron,
+                        foregroundColor: AppColors.deepNavy,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          );
+                ],
+              ),
+            );
           }),
           const SizedBox(height: 18),
 

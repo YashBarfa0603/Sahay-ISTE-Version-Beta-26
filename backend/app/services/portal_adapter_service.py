@@ -557,6 +557,62 @@ class PortalAdapterService:
     # Registry Resolution & Helper Methods
     # ==========================================
 
+    ID_ALIASES: Dict[str, str] = {
+        "pm-kisan": "PM_KISAN_001",
+        "pmkisan": "PM_KISAN_001",
+        "pm_kisan": "PM_KISAN_001",
+        "pm_kisan_001": "PM_KISAN_001",
+        "pmay-u": "PMAY_002",
+        "pmayu": "PMAY_002",
+        "pmay_u": "PMAY_002",
+        "pmay-u-2": "PMAY_002",
+        "pmay_002": "PMAY_002",
+        "eshram": "E_SHRAM_001",
+        "e-shram": "E_SHRAM_001",
+        "e_shram": "E_SHRAM_001",
+        "e_shram_001": "E_SHRAM_001",
+        "udyam": "UDYAM_001",
+        "udyam_001": "UDYAM_001",
+        "pm-surya-ghar": "PM_SURYA_GHAR_001",
+        "pmsuryaghar": "PM_SURYA_GHAR_001",
+        "pm_surya_ghar": "PM_SURYA_GHAR_001",
+        "pm_surya_ghar_001": "PM_SURYA_GHAR_001",
+        "pm-svanidhi": "PM_SVANIDHI_001",
+        "pmsvanidhi": "PM_SVANIDHI_001",
+        "pm_svanidhi": "PM_SVANIDHI_001",
+        "pm_svanidhi_001": "PM_SVANIDHI_001",
+        "pmegp": "PMEGP_001",
+        "pmegp_001": "PMEGP_001",
+        "mp-post-matric": "MP_POST_MATRIC_SCHOLARSHIP_SC_ST_001",
+        "mp_post_matric": "MP_POST_MATRIC_SCHOLARSHIP_SC_ST_001",
+        "mp_post_matric_scholarship_sc_st_001": "MP_POST_MATRIC_SCHOLARSHIP_SC_ST_001",
+        "aicte-pragati": "AICTE_PRAGATI_001",
+        "aicte_pragati": "AICTE_PRAGATI_001",
+        "aicte_pragati_001": "AICTE_PRAGATI_001",
+        "aicte-saksham": "AICTE_SAKSHAM_001",
+        "aicte_saksham": "AICTE_SAKSHAM_001",
+        "aicte_saksham_001": "AICTE_SAKSHAM_001",
+    }
+
+    @classmethod
+    def normalize_scheme_id(cls, scheme_id: str) -> str:
+        """Normalizes any scheme ID or alias to canonical 10-scheme registry ID."""
+        if not scheme_id:
+            return ""
+        clean = scheme_id.strip()
+        if clean in cls.SCHEME_REGISTRY:
+            return clean
+        lower = clean.lower()
+        if lower in cls.ID_ALIASES:
+            return cls.ID_ALIASES[lower]
+        lower_underscore = lower.replace("-", "_")
+        if lower_underscore in cls.ID_ALIASES:
+            return cls.ID_ALIASES[lower_underscore]
+        for alias_key, target_id in cls.ID_ALIASES.items():
+            if alias_key in lower or lower in alias_key:
+                return target_id
+        return clean
+
     @classmethod
     def get_supported_schemes_registry(cls) -> List[SchemeRegistryEntry]:
         """Returns the list of all 10 verified and supported schemes."""
@@ -565,17 +621,17 @@ class PortalAdapterService:
     @classmethod
     def is_scheme_supported(cls, scheme_id: str) -> bool:
         """Determines whether a scheme is one of the 10 verified smart application schemes."""
-        return scheme_id in cls.SCHEME_REGISTRY
+        return cls.normalize_scheme_id(scheme_id) in cls.SCHEME_REGISTRY
 
     @classmethod
     def get_entry_for_scheme(cls, scheme_id: str) -> Optional[SchemeRegistryEntry]:
         """Retrieves registry metadata for a given scheme ID."""
-        return cls.SCHEME_REGISTRY.get(scheme_id)
+        return cls.SCHEME_REGISTRY.get(cls.normalize_scheme_id(scheme_id))
 
     @classmethod
     def get_fields_config(cls, scheme_id: str) -> List[Dict[str, Any]]:
         """Returns the specific form field configurations for a given scheme."""
-        return cls.SCHEME_FORM_CONFIGS.get(scheme_id, [])
+        return cls.SCHEME_FORM_CONFIGS.get(cls.normalize_scheme_id(scheme_id), [])
 
     # ==========================================
     # Sandboxed Declarative JavaScript Bridge

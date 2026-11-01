@@ -12,6 +12,7 @@ import 'package:sahay/providers/scheme_provider.dart';
 import 'package:sahay/providers/eligibility_provider.dart';
 import 'package:sahay/providers/application_provider.dart';
 import 'package:sahay/providers/user_document_provider.dart';
+import 'package:sahay/providers/chatbot_provider.dart';
 import 'package:sahay/screens/auth/auth_gate.dart';
 import 'package:sahay/services/scheme_data_service.dart';
 
@@ -48,6 +49,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => ApplicationProvider()),
         ChangeNotifierProvider(create: (_) => UserDocumentProvider()),
+        ChangeNotifierProvider(create: (_) => ChatbotProvider()),
       ],
       child: SahayApp(initializationError: initializationError),
     ),

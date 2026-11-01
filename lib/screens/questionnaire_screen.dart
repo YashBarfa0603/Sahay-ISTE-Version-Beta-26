@@ -14,6 +14,7 @@ import 'package:sahay/services/question_engine.dart';
 import 'package:sahay/services/scheme_data_service.dart';
 import 'package:sahay/widgets/question_card.dart';
 import 'package:sahay/widgets/sahay_app_bar.dart';
+import 'package:sahay/widgets/sahay_assistance_fab.dart';
 
 class QuestionnaireScreen extends StatefulWidget {
   final String? targetSchemeId;
@@ -221,6 +222,13 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
         showBackButton: true,
         onBack: _onBack,
         showLanguageToggle: true,
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 60),
+        child: const SahayAssistanceFAB(
+          currentScreen: 'eligibility',
+          mini: true,
+        ),
       ),
       body: SafeArea(
         child: _isEvaluating

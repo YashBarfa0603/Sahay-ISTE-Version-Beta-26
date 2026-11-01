@@ -13,6 +13,7 @@ import 'package:sahay/services/document_catalogue_service.dart';
 import 'package:sahay/services/document_service.dart';
 import 'package:sahay/widgets/document_specimen_viewer.dart';
 import 'package:sahay/widgets/sahay_app_bar.dart';
+import 'package:sahay/widgets/sahay_assistance_fab.dart';
 
 /// Screen allowing registered citizens to view, manage, replace, and delete
 /// their private documents in their personal document vault.
@@ -151,8 +152,8 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                         Expanded(
                           child: Text(
                             existingDoc != null
-                                ? (isHi ? 'दस्तावेज़ बदलें' : 'Replace Document')
-                                : (isHi ? 'दस्तावेज़ जोड़ें (वैकल्पिक)' : 'Upload Document (Optional)'),
+                                ? (isHi ? 'à¤¦à¤¸à¥à¤¤à¤¾à¤µà¥‡à¤œà¤¼ à¤¬à¤¦à¤²à¥‡à¤‚' : 'Replace Document')
+                                : (isHi ? 'à¤¦à¤¸à¥à¤¤à¤¾à¤µà¥‡à¤œà¤¼ à¤œà¥‹à¤¡à¤¼à¥‡à¤‚ (à¤µà¥ˆà¤•à¤²à¥à¤ªà¤¿à¤•)' : 'Upload Document (Optional)'),
                             style: AppTextStyles.heading3.copyWith(
                               fontSize: 18,
                               color: AppColors.deepNavy,
@@ -178,7 +179,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                           Expanded(
                             child: Text(
                               isHi
-                                  ? 'दस्तावेज़ अपलोड पूरी तरह से वैकल्पिक है। यह केवल आपके निजी संदर्भ हेतु संग्रहीत होता है।'
+                                  ? 'à¤¦à¤¸à¥à¤¤à¤¾à¤µà¥‡à¤œà¤¼ à¤…à¤ªà¤²à¥‹à¤¡ à¤ªà¥‚à¤°à¥€ à¤¤à¤°à¤¹ à¤¸à¥‡ à¤µà¥ˆà¤•à¤²à¥à¤ªà¤¿à¤• à¤¹à¥ˆà¥¤ à¤¯à¤¹ à¤•à¥‡à¤µà¤² à¤†à¤ªà¤•à¥‡ à¤¨à¤¿à¤œà¥€ à¤¸à¤‚à¤¦à¤°à¥à¤­ à¤¹à¥‡à¤¤à¥ à¤¸à¤‚à¤—à¥à¤°à¤¹à¥€à¤¤ à¤¹à¥‹à¤¤à¤¾ à¤¹à¥ˆà¥¤'
                                   : 'Document upload is strictly optional. It is stored exclusively in your private vault for reference.',
                               style: AppTextStyles.caption.copyWith(
                                 color: AppColors.deepNavy,
@@ -284,7 +285,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                isHi ? 'समर्थित प्रारूप: PDF, JPG, PNG (अधिकतम 5 MB)' : 'Supported formats: PDF, JPG, PNG (Max 5.0 MB)',
+                                isHi ? 'à¤¸à¤®à¤°à¥à¤¥à¤¿à¤¤ à¤ªà¥à¤°à¤¾à¤°à¥‚à¤ª: PDF, JPG, PNG (à¤…à¤§à¤¿à¤•à¤¤à¤® 5 MB)' : 'Supported formats: PDF, JPG, PNG (Max 5.0 MB)',
                                 style: AppTextStyles.caption.copyWith(color: AppColors.textSecondary),
                               ),
                             ],
@@ -330,7 +331,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   Text(
-                                    '${(selectedFileSize / (1024 * 1024)).toStringAsFixed(2)} MB • ${selectedFileFormat.toUpperCase()}',
+                                    '${(selectedFileSize / (1024 * 1024)).toStringAsFixed(2)} MB â€¢ ${selectedFileFormat.toUpperCase()}',
                                     style: AppTextStyles.caption.copyWith(color: AppColors.deepNavy.withValues(alpha: 0.6)),
                                   ),
                                 ],
@@ -360,7 +361,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                       const SizedBox(height: 6),
                       Text(
                         isHi
-                            ? 'निजी वॉल्ट में सुरक्षित अपलोड हो रहा है...'
+                            ? 'à¤¨à¤¿à¤œà¥€ à¤µà¥‰à¤²à¥à¤Ÿ à¤®à¥‡à¤‚ à¤¸à¥à¤°à¤•à¥à¤·à¤¿à¤¤ à¤…à¤ªà¤²à¥‹à¤¡ à¤¹à¥‹ à¤°à¤¹à¤¾ à¤¹à¥ˆ...'
                             : 'Uploading securely to private vault...',
                         style: AppTextStyles.caption.copyWith(color: AppColors.indianTeal, fontWeight: FontWeight.w600),
                       ),
@@ -435,7 +436,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                                 if (selectedFileName == null && existingDoc == null) {
                                   setModalState(() {
                                     localError = isHi
-                                        ? 'कृपया जारी रखने के लिए अपने डिवाइस से एक फ़ाइल चुनें।'
+                                        ? 'à¤•à¥ƒà¤ªà¤¯à¤¾ à¤œà¤¾à¤°à¥€ à¤°à¤–à¤¨à¥‡ à¤•à¥‡ à¤²à¤¿à¤ à¤…à¤ªà¤¨à¥‡ à¤¡à¤¿à¤µà¤¾à¤‡à¤¸ à¤¸à¥‡ à¤à¤• à¤«à¤¼à¤¾à¤‡à¤² à¤šà¥à¤¨à¥‡à¤‚à¥¤'
                                         : 'Please select a file from your device to proceed.';
                                   });
                                   return;
@@ -510,7 +511,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                                       content: Text(
                                         success
                                             ? (isHi
-                                                ? 'दस्तावेज़ वॉल्ट में सुरक्षित सहेजा गया।'
+                                                ? 'à¤¦à¤¸à¥à¤¤à¤¾à¤µà¥‡à¤œà¤¼ à¤µà¥‰à¤²à¥à¤Ÿ à¤®à¥‡à¤‚ à¤¸à¥à¤°à¤•à¥à¤·à¤¿à¤¤ à¤¸à¤¹à¥‡à¤œà¤¾ à¤—à¤¯à¤¾à¥¤'
                                                 : 'Document securely saved to vault.')
                                             : (provider.errorMessage ?? 'Upload failed'),
                                       ),
@@ -668,7 +669,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
         ),
         content: Text(
           l10n.locale.languageCode == 'hi'
-              ? 'नया दस्तावेज़ अपलोड करने पर पिछला दस्तावेज़ सुरक्षित रूप से बदल दिया जाएगा।'
+              ? 'à¤¨à¤¯à¤¾ à¤¦à¤¸à¥à¤¤à¤¾à¤µà¥‡à¤œà¤¼ à¤…à¤ªà¤²à¥‹à¤¡ à¤•à¤°à¤¨à¥‡ à¤ªà¤° à¤ªà¤¿à¤›à¤²à¤¾ à¤¦à¤¸à¥à¤¤à¤¾à¤µà¥‡à¤œà¤¼ à¤¸à¥à¤°à¤•à¥à¤·à¤¿à¤¤ à¤°à¥‚à¤ª à¤¸à¥‡ à¤¬à¤¦à¤² à¤¦à¤¿à¤¯à¤¾ à¤œà¤¾à¤à¤—à¤¾à¥¤'
               : 'Uploading a new version will replace the current file in your vault once the new upload succeeds.',
           style: AppTextStyles.bodyMedium,
         ),
@@ -706,7 +707,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
           ),
           content: Text(
             l10n.locale.languageCode == 'hi'
-                ? 'क्या आप वाकई "${doc.documentName}" को अपने निजी वॉल्ट से हटाना चाहते हैं?'
+                ? 'à¤•à¥à¤¯à¤¾ à¤†à¤ª à¤µà¤¾à¤•à¤ˆ "${doc.documentName}" à¤•à¥‹ à¤…à¤ªà¤¨à¥‡ à¤¨à¤¿à¤œà¥€ à¤µà¥‰à¤²à¥à¤Ÿ à¤¸à¥‡ à¤¹à¤Ÿà¤¾à¤¨à¤¾ à¤šà¤¾à¤¹à¤¤à¥‡ à¤¹à¥ˆà¤‚?'
                 : 'Are you sure you want to permanently delete "${doc.documentName}" from your vault?',
             style: AppTextStyles.bodyMedium,
           ),
@@ -731,7 +732,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                     SnackBar(
                       content: Text(
                         l10n.locale.languageCode == 'hi'
-                            ? 'दस्तावेज़ हटा दिया गया।'
+                            ? 'à¤¦à¤¸à¥à¤¤à¤¾à¤µà¥‡à¤œà¤¼ à¤¹à¤Ÿà¤¾ à¤¦à¤¿à¤¯à¤¾ à¤—à¤¯à¤¾à¥¤'
                             : 'Document deleted.',
                       ),
                       backgroundColor: AppColors.deepNavy,
@@ -794,15 +795,27 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
         showBackButton: true,
         showLanguageToggle: true,
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _showUploadDialog(),
-        backgroundColor: AppColors.indianTeal,
-        foregroundColor: Colors.white,
-        icon: const Icon(Icons.add_rounded),
-        label: Text(
-          l10n.uploadDocument,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          const SahayAssistanceFAB(
+            currentScreen: 'document_vault',
+            mini: true,
+          ),
+          const SizedBox(height: 12),
+          FloatingActionButton.extended(
+            heroTag: 'my_documents_add_fab',
+            onPressed: () => _showUploadDialog(),
+            backgroundColor: AppColors.indianTeal,
+            foregroundColor: Colors.white,
+            icon: const Icon(Icons.add_rounded),
+            label: Text(
+              l10n.uploadDocument,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -829,7 +842,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              isHi ? 'अतिथि मोड — सत्र वॉल्ट' : 'Guest Mode — Session Vault',
+                              isHi ? 'à¤…à¤¤à¤¿à¤¥à¤¿ à¤®à¥‹à¤¡ â€” à¤¸à¤¤à¥à¤° à¤µà¥‰à¤²à¥à¤Ÿ' : 'Guest Mode â€” Session Vault',
                               style: AppTextStyles.heading3.copyWith(fontSize: 16),
                             ),
                           ),
@@ -838,7 +851,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                       const SizedBox(height: 6),
                       Text(
                         isHi
-                            ? 'आप अतिथि के रूप में वॉल्ट का परीक्षण कर रहे हैं। स्थायी रूप से अपने दस्तावेज़ सहेजने के लिए एक निःशुल्क खाता बनाएं।'
+                            ? 'à¤†à¤ª à¤…à¤¤à¤¿à¤¥à¤¿ à¤•à¥‡ à¤°à¥‚à¤ª à¤®à¥‡à¤‚ à¤µà¥‰à¤²à¥à¤Ÿ à¤•à¤¾ à¤ªà¤°à¥€à¤•à¥à¤·à¤£ à¤•à¤° à¤°à¤¹à¥‡ à¤¹à¥ˆà¤‚à¥¤ à¤¸à¥à¤¥à¤¾à¤¯à¥€ à¤°à¥‚à¤ª à¤¸à¥‡ à¤…à¤ªà¤¨à¥‡ à¤¦à¤¸à¥à¤¤à¤¾à¤µà¥‡à¤œà¤¼ à¤¸à¤¹à¥‡à¤œà¤¨à¥‡ à¤•à¥‡ à¤²à¤¿à¤ à¤à¤• à¤¨à¤¿à¤ƒà¤¶à¥à¤²à¥à¤• à¤–à¤¾à¤¤à¤¾ à¤¬à¤¨à¤¾à¤à¤‚à¥¤'
                             : 'You are viewing the vault in guest mode. Sign in to permanently save your document metadata across devices.',
                         style: AppTextStyles.bodySmall,
                       ),
@@ -904,11 +917,11 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                isHi ? 'निजी सुरक्षा वॉल्ट' : 'Private Security Vault',
+                                isHi ? 'à¤¨à¤¿à¤œà¥€ à¤¸à¥à¤°à¤•à¥à¤·à¤¾ à¤µà¥‰à¤²à¥à¤Ÿ' : 'Private Security Vault',
                                 style: AppTextStyles.heading3.copyWith(color: Colors.white, fontSize: 16),
                               ),
                               Text(
-                                '${docProvider.documentCount} ${isHi ? "दस्तावेज़ सुरक्षित" : "documents stored"}',
+                                '${docProvider.documentCount} ${isHi ? "à¤¦à¤¸à¥à¤¤à¤¾à¤µà¥‡à¤œà¤¼ à¤¸à¥à¤°à¤•à¥à¤·à¤¿à¤¤" : "documents stored"}',
                                 style: AppTextStyles.caption.copyWith(color: AppColors.softSaffron),
                               ),
                             ],
@@ -919,7 +932,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                     const SizedBox(height: 12),
                     Text(
                       isHi
-                          ? 'जीरो-रिटेंशन सिद्धांत: आपके दस्तावेज़ केवल आपके निजी संदर्भ हेतु हैं। अपलोड पूरी तरह से वैकल्पिक है।'
+                          ? 'à¤œà¥€à¤°à¥‹-à¤°à¤¿à¤Ÿà¥‡à¤‚à¤¶à¤¨ à¤¸à¤¿à¤¦à¥à¤§à¤¾à¤‚à¤¤: à¤†à¤ªà¤•à¥‡ à¤¦à¤¸à¥à¤¤à¤¾à¤µà¥‡à¤œà¤¼ à¤•à¥‡à¤µà¤² à¤†à¤ªà¤•à¥‡ à¤¨à¤¿à¤œà¥€ à¤¸à¤‚à¤¦à¤°à¥à¤­ à¤¹à¥‡à¤¤à¥ à¤¹à¥ˆà¤‚à¥¤ à¤…à¤ªà¤²à¥‹à¤¡ à¤ªà¥‚à¤°à¥€ à¤¤à¤°à¤¹ à¤¸à¥‡ à¤µà¥ˆà¤•à¤²à¥à¤ªà¤¿à¤• à¤¹à¥ˆà¥¤'
                           : 'Zero-retention architecture: Documents are encrypted and accessible exclusively by you. Uploads remain strictly optional.',
                       style: AppTextStyles.caption.copyWith(
                         color: Colors.white.withValues(alpha: 0.85),
@@ -983,13 +996,13 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                       Icon(Icons.folder_open_rounded, size: 54, color: AppColors.indianTeal.withValues(alpha: 0.5)),
                       const SizedBox(height: 14),
                       Text(
-                        isHi ? 'कोई दस्तावेज़ अपलोड नहीं है' : 'No Documents Uploaded Yet',
+                        isHi ? 'à¤•à¥‹à¤ˆ à¤¦à¤¸à¥à¤¤à¤¾à¤µà¥‡à¤œà¤¼ à¤…à¤ªà¤²à¥‹à¤¡ à¤¨à¤¹à¥€à¤‚ à¤¹à¥ˆ' : 'No Documents Uploaded Yet',
                         style: AppTextStyles.heading3.copyWith(fontSize: 16),
                       ),
                       const SizedBox(height: 6),
                       Text(
                         isHi
-                            ? 'दस्तावेज़ जोड़ना 100% वैकल्पिक है। आप बिना किसी दस्तावेज़ के भी योजनाओं की पात्रता जांच सकते हैं।'
+                            ? 'à¤¦à¤¸à¥à¤¤à¤¾à¤µà¥‡à¤œà¤¼ à¤œà¥‹à¤¡à¤¼à¤¨à¤¾ 100% à¤µà¥ˆà¤•à¤²à¥à¤ªà¤¿à¤• à¤¹à¥ˆà¥¤ à¤†à¤ª à¤¬à¤¿à¤¨à¤¾ à¤•à¤¿à¤¸à¥€ à¤¦à¤¸à¥à¤¤à¤¾à¤µà¥‡à¤œà¤¼ à¤•à¥‡ à¤­à¥€ à¤¯à¥‹à¤œà¤¨à¤¾à¤“à¤‚ à¤•à¥€ à¤ªà¤¾à¤¤à¥à¤°à¤¤à¤¾ à¤œà¤¾à¤‚à¤š à¤¸à¤•à¤¤à¥‡ à¤¹à¥ˆà¤‚à¥¤'
                             : 'Document upload is 100% optional. You can still check scheme eligibility and generate PDF checklists without uploading.',
                         textAlign: TextAlign.center,
                         style: AppTextStyles.bodySmall.copyWith(

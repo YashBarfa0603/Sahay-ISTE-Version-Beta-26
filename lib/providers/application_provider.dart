@@ -36,16 +36,34 @@ class ApplicationProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 
+  /// Normalizes any scheme ID or alias to canonical 10-scheme registry ID.
+  static String normalizeSchemeId(String schemeId) {
+    final lower = schemeId.toLowerCase().trim();
+    if (lower == 'pm-kisan' || lower == 'pmkisan' || lower == 'pm_kisan' || lower == 'pm_kisan_001') return 'PM_KISAN_001';
+    if (lower == 'pmay-u' || lower == 'pmayu' || lower == 'pmay_u' || lower == 'pmay_002' || lower == 'pmay-u-2' || lower == 'pmay_u_2') return 'PMAY_002';
+    if (lower == 'eshram' || lower == 'e-shram' || lower == 'e_shram' || lower == 'e_shram_001') return 'E_SHRAM_001';
+    if (lower == 'udyam' || lower == 'udyam_001') return 'UDYAM_001';
+    if (lower == 'pm-surya-ghar' || lower == 'pmsuryaghar' || lower == 'pm_surya_ghar' || lower == 'pm_surya_ghar_001') return 'PM_SURYA_GHAR_001';
+    if (lower == 'pm-svanidhi' || lower == 'pmsvanidhi' || lower == 'pm_svanidhi' || lower == 'pm_svanidhi_001') return 'PM_SVANIDHI_001';
+    if (lower == 'pmegp' || lower == 'pmegp_001') return 'PMEGP_001';
+    if (lower.contains('mp_post_matric') || lower.contains('mp-post-matric') || lower == 'mp_post_matric_scholarship_sc_st_001') return 'MP_POST_MATRIC_SCHOLARSHIP_SC_ST_001';
+    if (lower.contains('aicte_pragati') || lower.contains('aicte-pragati') || lower == 'aicte_pragati_001') return 'AICTE_PRAGATI_001';
+    if (lower.contains('aicte_saksham') || lower.contains('aicte-saksham') || lower == 'aicte_saksham_001') return 'AICTE_SAKSHAM_001';
+    return schemeId;
+  }
+
   /// Determines if a given scheme is supported by the SAHAY Smart Application Filler.
   bool isSchemeSupported(String schemeId) {
-    if (_targetSchemeIds.contains(schemeId)) return true;
-    return _supportedSchemes.any((s) => s.schemeId == schemeId);
+    final canonical = normalizeSchemeId(schemeId);
+    if (_targetSchemeIds.contains(canonical) || _targetSchemeIds.contains(schemeId)) return true;
+    return _supportedSchemes.any((s) => s.schemeId == canonical || s.schemeId == schemeId);
   }
 
   /// Gets registry entry metadata for a supported scheme.
   SchemeRegistryEntryModel? getRegistryEntry(String schemeId) {
+    final canonical = normalizeSchemeId(schemeId);
     try {
-      return _supportedSchemes.firstWhere((s) => s.schemeId == schemeId);
+      return _supportedSchemes.firstWhere((s) => s.schemeId == canonical || s.schemeId == schemeId);
     } catch (_) {
       return null;
     }
@@ -88,7 +106,7 @@ class ApplicationProvider extends ChangeNotifier {
 
     try {
       final session = await _apiService.startApplication(
-        schemeId: scheme.schemeId,
+        schemeId: normalizeSchemeId(scheme.schemeId),
         profileAnswers: userProfileAnswers,
         language: language,
       );
@@ -504,7 +522,7 @@ class ApplicationProvider extends ChangeNotifier {
 
     return ApplicationSession(
       sessionId: 'local_sess_${DateTime.now().millisecondsSinceEpoch}',
-      schemeId: scheme.schemeId,
+      schemeId: normalizeSchemeId(scheme.schemeId),
       schemeName: scheme.name,
       schemeCategory: scheme.category,
       officialUrl: scheme.applicationUrl,

@@ -23,6 +23,7 @@ import 'package:sahay/screens/scheme_detail_screen.dart';
 import 'package:sahay/screens/schemes_screen.dart';
 import 'package:sahay/screens/welcome_screen.dart';
 import 'package:sahay/services/category_service.dart';
+import 'package:sahay/widgets/sahay_assistance_fab.dart';
 import 'package:sahay/services/privacy_service.dart';
 import 'package:sahay/services/recommendation_service.dart';
 import 'package:sahay/services/scheme_data_service.dart';
@@ -1320,6 +1321,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.warmIvory,
+      floatingActionButton: const SahayAssistanceFAB(currentScreen: 'home'),
       appBar: SahayAppBar(
         title: 'SAHAY (सहाय)',
         showBackButton: false,
