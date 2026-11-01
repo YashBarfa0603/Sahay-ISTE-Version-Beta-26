@@ -13,6 +13,7 @@ import 'package:sahay/services/document_catalogue_service.dart';
 import 'package:sahay/services/document_service.dart';
 import 'package:sahay/widgets/document_specimen_viewer.dart';
 import 'package:sahay/widgets/sahay_app_bar.dart';
+import 'package:sahay/widgets/sahay_assistance_fab.dart';
 
 /// Screen allowing registered citizens to view, manage, replace, and delete
 /// their private documents in their personal document vault.
@@ -792,15 +793,27 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
         showBackButton: true,
         showLanguageToggle: true,
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _showUploadDialog(),
-        backgroundColor: AppColors.indianTeal,
-        foregroundColor: Colors.white,
-        icon: const Icon(Icons.add_rounded),
-        label: Text(
-          isHi ? 'दस्तावेज़ जोड़ें' : 'Add Document',
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          const SahayAssistanceFAB(
+            currentScreen: 'document_vault',
+            mini: true,
+          ),
+          const SizedBox(height: 12),
+          FloatingActionButton.extended(
+            heroTag: 'my_documents_add_fab',
+            onPressed: () => _showUploadDialog(),
+            backgroundColor: AppColors.indianTeal,
+            foregroundColor: Colors.white,
+            icon: const Icon(Icons.add_rounded),
+            label: Text(
+              isHi ? 'दस्तावेज़ जोड़ें' : 'Add Document',
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(

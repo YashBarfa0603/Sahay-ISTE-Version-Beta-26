@@ -371,7 +371,7 @@ class ApplicationService:
 
         # Check for existing resumable session
         for existing in self._sessions.values():
-            if existing.user_id == user_id and existing.scheme_id == scheme_id and existing.status != ApplicationStatus.CANCELLED:
+            if existing.user_id == user_id and (existing.scheme_id == scheme_id or existing.scheme_id == entry.schemeId) and existing.status != ApplicationStatus.CANCELLED:
                 logger.info(f"Resuming existing session {existing.session_id} for user {user_id}")
                 return existing
 
@@ -405,7 +405,7 @@ class ApplicationService:
         session = ApplicationSessionModel(
             session_id=session_id,
             user_id=user_id,
-            scheme_id=scheme_id,
+            scheme_id=entry.schemeId,
             scheme_name=entry.schemeName,
             scheme_category=entry.category,
             official_application_url=entry.officialApplicationUrl,
