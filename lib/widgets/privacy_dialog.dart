@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sahay/core/l10n/app_localizations.dart';
 import 'package:sahay/core/theme/app_colors.dart';
 import 'package:sahay/core/theme/app_text_styles.dart';
 import 'package:sahay/providers/application_provider.dart';
 import 'package:sahay/providers/auth_provider.dart';
 import 'package:sahay/providers/eligibility_provider.dart';
-import 'package:sahay/providers/locale_provider.dart';
 import 'package:sahay/providers/user_document_provider.dart';
 import 'package:sahay/providers/user_profile_provider.dart';
 import 'package:sahay/screens/auth/auth_gate.dart';
@@ -16,7 +16,8 @@ class PrivacyDialog {
 
   /// Shows confirmation dialog before clearing all temporary session data on shared phones.
   static Future<void> showEndSessionConfirmation(BuildContext context) {
-    final lang = context.read<LocaleProvider>().languageCode;
+    final l10n = SahayLocalizations.of(context);
+    final lang = l10n.locale.languageCode;
     final isHi = lang == 'hi';
 
     return showDialog(
@@ -37,7 +38,7 @@ class PrivacyDialog {
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                isHi ? 'सत्र समाप्त करें एवं डेटा हटाएं' : 'End Session & Clear Data',
+                l10n.endSessionConfirmationTitle,
                 style: AppTextStyles.heading3.copyWith(color: AppColors.deepNavy, fontSize: 18),
               ),
             ),
@@ -67,13 +68,13 @@ class PrivacyDialog {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    isHi ? 'तत्काल हटा दी जाने वाली जानकारी:' : 'Data that will be cleared immediately:',
+                    l10n.dataClearedPointsHeading,
                     style: AppTextStyles.caption.copyWith(fontWeight: FontWeight.bold, color: AppColors.forestGreen),
                   ),
                   const SizedBox(height: 6),
-                  Text('• ${isHi ? "पात्रता प्रश्नावली के सभी उत्तर" : "Questionnaire answers & income estimates"}', style: AppTextStyles.caption),
-                  Text('• ${isHi ? "योजना परिणाम एवं पात्रता स्थिति" : "Scheme eligibility results & breakdown"}', style: AppTextStyles.caption),
-                  Text('• ${isHi ? "अस्थायी दस्तावेज चेकलिस्ट" : "Active document checklists"}', style: AppTextStyles.caption),
+                  Text('• ${l10n.clearedPointAnswers}', style: AppTextStyles.caption),
+                  Text('• ${l10n.clearedPointResults}', style: AppTextStyles.caption),
+                  Text('• ${l10n.clearedPointChecklists}', style: AppTextStyles.caption),
                 ],
               ),
             ),
@@ -90,7 +91,7 @@ class PrivacyDialog {
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
             child: Text(
-              isHi ? 'रद्द करें' : 'Cancel',
+              l10n.cancel,
               style: AppTextStyles.label.copyWith(color: AppColors.textSecondary),
             ),
           ),

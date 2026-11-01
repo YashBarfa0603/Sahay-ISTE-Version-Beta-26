@@ -372,6 +372,88 @@ class SchemeModel {
     return VerificationBadgeStatus.unverified;
   }
 
+  static const Map<String, Map<String, String>> _curatedIndicSchemeNames = {
+    'pm-kisan': {
+      'ta': 'பிரதமர் கிசான் சம்மான் நிதி',
+      'mr': 'पीएम किसान सन्मान निधी',
+      'bn': 'পিএম কিষাণ সম্মান নিধি',
+      'gu': 'પીએમ કિસાન સન્માન નિધિ',
+      'kn': 'ಪಿಎಂ ಕಿಸಾನ್ ಸಮ್ಮಾನ್ ನಿಧಿ',
+      'or': 'ପିଏମ୍ କିଷାନ ସମ୍ମାନ ନିଧି',
+    },
+    'pm-jay': {
+      'ta': 'ஆயுஷ்மான் பாரத் - பிரதம மந்திரி ஜன் ஆரோக்கிய திட்டம்',
+      'mr': 'आयुष्मान भारत - प्रधानमंत्री जन आरोग्य योजना',
+      'bn': 'আয়ুষ্মান ভারত - প্রধানমন্ত্রী জন আরোগ্য যোজনা',
+      'gu': 'આયુષ્માન ભારત - પ્રધાનમંત્રી જન આરોગ્ય યોજના',
+      'kn': 'ಆಯುಷ್ಮಾನ್ ಭಾರತ್ - ಪ್ರಧಾನ ಮಂತ್ರಿ ಜನ ಆರೋಗ್ಯ ಯೋಜನೆ',
+      'or': 'ଆୟୁଷ୍ମାନ ଭାରତ - ପ୍ରଧାନମନ୍ତ୍ରୀ ଜନ ଆରୋଗ୍ୟ ଯୋଜନା',
+    },
+    'pmay-g': {
+      'ta': 'பிரதம மந்திரி ஆவாஸ் யோஜனா - கிராமப்புறம்',
+      'mr': 'प्रधानमंत्री आवास योजना - ग्रामीण',
+      'bn': 'প্রধানমন্ত্রী আবাস যোজনা - গ্রামীণ',
+      'gu': 'પ્રધાનમંત્રી આવાસ યોજના - ગ્રામીણ',
+      'kn': 'ಪ್ರಧಾನ ಮಂತ್ರಿ ಆವಾಸ್ ಯೋಜನೆ - ಗ್ರಾಮೀಣ',
+      'or': 'ପ୍ରଧାନମନ୍ତ୍ରୀ ଆବାସ ଯୋଜନା - ଗ୍ରାମୀଣ',
+    },
+    'ujjwala-2': {
+      'ta': 'பிரதம மந்திரி உஜ்வாலா திட்டம் 2.0',
+      'mr': 'प्रधानमंत्री उज्ज्वला योजना २.०',
+      'bn': 'প্রধানমন্ত্রী উজ্জ্বলা যোজনা ২.০',
+      'gu': 'પ્રધાનમંત્રી ઉજ્જવલા યોજના 2.0',
+      'kn': 'ಪ್ರಧಾನ ಮಂತ್ರಿ ಉಜ್ವಲಾ ಯೋಜನೆ 2.0',
+      'or': 'ପ୍ରଧାନମନ୍ତ୍ରୀ ଉଜ୍ଜ୍ୱଳା ଯୋଜନା ୨.୦',
+    },
+    'pm-scholarship': {
+      'ta': 'பிரதமரின் உதவித்தொகை திட்டம் (PMSS)',
+      'mr': 'पंतप्रधान शिष्यवृत्ती योजना (PMSS)',
+      'bn': 'প্রধানমন্ত্রীর বৃত্তি প্রকল্প (PMSS)',
+      'gu': 'પ્રધાનમંત્રી શિષ્યવૃત્તિ યોજના (PMSS)',
+      'kn': 'ಪ್ರಧಾನ ಮಂತ್ರಿ ವಿದ್ಯಾರ್ಥಿವೇತನ ಯೋಜನೆ (PMSS)',
+      'or': 'ପ୍ରଧାନମନ୍ତ୍ରୀ ଛାତ୍ରବୃତ୍ତି ଯୋଜନା (PMSS)',
+    },
+    'ladli-behna-mp': {
+      'ta': 'முதலமைச்சர் லாட்லி பெஹ்னா திட்டம்',
+      'mr': 'मुख्यमंत्री लाडकी बहीण योजना',
+      'bn': 'মুখ্যমন্ত্রী লাডলি বেহনা যোজনা',
+      'gu': 'મુખ્યમંત્રી લાડલી બહેના યોજના',
+      'kn': 'ಮುಖ್ಯಮಂತ್ರಿ ಲಾಡ್ಲಿ ಬೆಹನಾ ಯೋಜನೆ',
+      'or': 'ମୁଖ୍ୟମନ୍ତ୍ରୀ ଲାଡଲି ବେହେନା ଯୋଜନା',
+    },
+  };
+
+  /// Localized scheme name across all 8 Indic languages with fallback
+  String getLocalizedName(String languageCode) {
+    final lang = languageCode.toLowerCase();
+    if (lang == 'hi' && nameHindi != null && nameHindi!.isNotEmpty) {
+      return nameHindi!;
+    }
+    final indicName = _curatedIndicSchemeNames[schemeId]?[lang];
+    if (indicName != null && indicName.isNotEmpty) {
+      return indicName;
+    }
+    return name;
+  }
+
+  /// Localized scheme description across languages with fallback
+  String getLocalizedDescription(String languageCode) {
+    final lang = languageCode.toLowerCase();
+    if (lang == 'hi' && descriptionHindi != null && descriptionHindi!.isNotEmpty) {
+      return descriptionHindi!;
+    }
+    return description;
+  }
+
+  /// Localized scheme benefits across languages with fallback
+  String getLocalizedBenefits(String languageCode) {
+    final lang = languageCode.toLowerCase();
+    if (lang == 'hi' && benefitsHindi != null && benefitsHindi!.isNotEmpty) {
+      return benefitsHindi!;
+    }
+    return benefits;
+  }
+
   // Date conversion helper
   static DateTime? _parseDate(dynamic value) {
     if (value == null) return null;

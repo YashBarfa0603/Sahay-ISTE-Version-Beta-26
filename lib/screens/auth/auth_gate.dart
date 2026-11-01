@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sahay/core/theme/app_colors.dart';
 import 'package:sahay/providers/auth_provider.dart';
+import 'package:sahay/providers/locale_provider.dart';
 import 'package:sahay/screens/home_screen.dart';
 import 'package:sahay/screens/profile/profile_setup_screen.dart';
 import 'package:sahay/screens/welcome_screen.dart';
@@ -28,6 +29,14 @@ class AuthGate extends StatelessWidget {
 
     // Authenticated state
     if (authProvider.isAuthenticated) {
+      final userLang = authProvider.currentUser?.preferredLanguage;
+      if (userLang != null && userLang.isNotEmpty) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (context.mounted) {
+            context.read<LocaleProvider>().syncWithUserLanguage(userLang);
+          }
+        });
+      }
       if (authProvider.isProfileComplete) {
         return const HomeScreen();
       } else {

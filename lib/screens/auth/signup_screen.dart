@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sahay/core/l10n/app_localizations.dart';
 import 'package:sahay/core/theme/app_colors.dart';
 import 'package:sahay/core/theme/app_text_styles.dart';
 import 'package:sahay/providers/auth_provider.dart';
@@ -87,7 +88,8 @@ class _SignupScreenState extends State<SignupScreen> {
     }
   }
 
-  void _showTermsDialog(BuildContext context, bool isHi) {
+  void _showTermsDialog(BuildContext context, SahayLocalizations l10n, String lang) {
+    final isHi = lang == 'hi';
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -115,7 +117,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  isHi ? 'सेवा की शर्तें एवं गोपनीयता नीति' : 'Terms of Service & Privacy Policy',
+                  l10n.termsAndPrivacy,
                   style: AppTextStyles.heading3.copyWith(color: AppColors.deepNavy),
                 ),
                 const SizedBox(height: 12),
@@ -142,7 +144,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
-                    child: Text(isHi ? 'समझ गया' : 'I Understand'),
+                    child: Text(l10n.iUnderstand),
                   ),
                 ),
               ],
@@ -156,8 +158,8 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     final auth = context.watch<AuthProvider>();
-    final isHi = context.watch<LocaleProvider>().languageCode == 'hi';
     final lang = context.watch<LocaleProvider>().languageCode;
+    final l10n = SahayLocalizations.of(context);
 
     return Scaffold(
       backgroundColor: AppColors.warmIvory,
@@ -186,7 +188,7 @@ class _SignupScreenState extends State<SignupScreen> {
               children: [
                 // Title
                 Text(
-                  isHi ? 'खाता बनाएं' : 'Create Account',
+                  l10n.createAccount,
                   style: AppTextStyles.heading1.copyWith(
                     color: AppColors.deepNavy,
                     fontSize: 28,
@@ -195,9 +197,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  isHi
-                      ? 'अपनी योजनाओं की खोज और लाभ सुरक्षित करने के लिए पंजीकरण करें।'
-                      : 'Sign up to discover schemes and track benefits privately.',
+                  l10n.profileSetupSubtitle,
                   style: AppTextStyles.bodyMedium.copyWith(
                     color: AppColors.deepNavy.withValues(alpha: 0.7),
                   ),
@@ -234,7 +234,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
                 // Full Name
                 Text(
-                  isHi ? 'पूरा नाम' : 'Full Name',
+                  l10n.fullName,
                   style: AppTextStyles.label.copyWith(color: AppColors.deepNavy),
                 ),
                 const SizedBox(height: 6),
@@ -242,7 +242,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   controller: _fullNameController,
                   textCapitalization: TextCapitalization.words,
                   decoration: InputDecoration(
-                    hintText: isHi ? 'उदा. राहुल शर्मा' : 'e.g. Rahul Sharma',
+                    hintText: l10n.fullNameHint,
                     prefixIcon: const Icon(Icons.person_outline_rounded, color: AppColors.indianTeal),
                     filled: true,
                     fillColor: Colors.white,
@@ -257,7 +257,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
                 // Mobile Number
                 Text(
-                  isHi ? 'मोबाइल नंबर (10 अंक)' : 'Mobile Number (10 digits)',
+                  l10n.mobileNumber,
                   style: AppTextStyles.label.copyWith(color: AppColors.deepNavy),
                 ),
                 const SizedBox(height: 6),
@@ -280,7 +280,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
                 // Email
                 Text(
-                  isHi ? 'ईमेल पता' : 'Email Address',
+                  l10n.emailAddress,
                   style: AppTextStyles.label.copyWith(color: AppColors.deepNavy),
                 ),
                 const SizedBox(height: 6),
@@ -289,7 +289,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   keyboardType: TextInputType.emailAddress,
                   autocorrect: false,
                   decoration: InputDecoration(
-                    hintText: 'name@example.com',
+                    hintText: l10n.emailHint,
                     prefixIcon: const Icon(Icons.email_outlined, color: AppColors.indianTeal),
                     filled: true,
                     fillColor: Colors.white,
@@ -304,7 +304,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
                 // Password
                 Text(
-                  isHi ? 'पासवर्ड (कम से कम 8 अक्षर)' : 'Password (min 8 characters)',
+                  '${l10n.password} (min 8)',
                   style: AppTextStyles.label.copyWith(color: AppColors.deepNavy),
                 ),
                 const SizedBox(height: 6),
@@ -334,7 +334,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
                 // Confirm Password
                 Text(
-                  isHi ? 'पासवर्ड की पुष्टि करें' : 'Confirm Password',
+                  l10n.confirmPassword,
                   style: AppTextStyles.label.copyWith(color: AppColors.deepNavy),
                 ),
                 const SizedBox(height: 6),
@@ -379,20 +379,16 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     Expanded(
                       child: GestureDetector(
-                        onTap: () => _showTermsDialog(context, isHi),
+                        onTap: () => _showTermsDialog(context, l10n, lang),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Text.rich(
                             TextSpan(
-                              text: isHi
-                                  ? 'मैं सेवा की शर्तों एवं '
-                                  : 'I agree to the ',
+                              text: '${l10n.termsAndPrivacy}: ',
                               style: AppTextStyles.caption.copyWith(color: AppColors.deepNavy),
                               children: [
                                 TextSpan(
-                                  text: isHi
-                                      ? 'गोपनीयता नीति से सहमत हूँ।'
-                                      : 'Terms of Service & Privacy Policy.',
+                                  text: l10n.termsAndPrivacy,
                                   style: AppTextStyles.caption.copyWith(
                                     color: AppColors.indianTeal,
                                     fontWeight: FontWeight.bold,
@@ -431,7 +427,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             ),
                           )
                         : Text(
-                            isHi ? 'खाता बनाएं' : 'Create Account',
+                            l10n.createAccount,
                             style: AppTextStyles.buttonText.copyWith(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -448,7 +444,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Text(
-                        isHi ? 'या' : 'OR',
+                        l10n.orSeparator,
                         style: AppTextStyles.caption.copyWith(color: Colors.grey[600]),
                       ),
                     ),
@@ -473,7 +469,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         const Icon(Icons.g_mobiledata_rounded, color: Colors.redAccent, size: 28),
                         const SizedBox(width: 8),
                         Text(
-                          isHi ? 'गूगल से जारी रखें' : 'Continue with Google',
+                          l10n.continueWithGoogle,
                           style: AppTextStyles.bodyMedium.copyWith(
                             color: AppColors.deepNavy,
                             fontWeight: FontWeight.w600,
@@ -490,7 +486,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      isHi ? 'पहले से खाता है? ' : 'Already have an account? ',
+                      '${l10n.alreadyHaveAccount.split('?').first}? ',
                       style: AppTextStyles.bodyMedium.copyWith(color: AppColors.deepNavy),
                     ),
                     GestureDetector(
@@ -499,7 +495,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         Navigator.of(context).pop();
                       },
                       child: Text(
-                        isHi ? 'साइन इन करें' : 'Sign In',
+                        l10n.signIn,
                         style: AppTextStyles.bodyMedium.copyWith(
                           color: AppColors.indianTeal,
                           fontWeight: FontWeight.bold,

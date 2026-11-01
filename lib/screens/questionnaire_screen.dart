@@ -217,7 +217,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     return Scaffold(
       backgroundColor: AppColors.warmIvory,
       appBar: SahayAppBar(
-        title: currentLang == 'hi' ? 'पात्रता जांच' : 'Eligibility Check',
+        title: l10n.eligibilityCheck,
         showBackButton: true,
         onBack: _onBack,
         showLanguageToggle: true,

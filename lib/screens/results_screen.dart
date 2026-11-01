@@ -153,13 +153,13 @@ class _ResultsScreenState extends State<ResultsScreen> {
     return Scaffold(
       backgroundColor: AppColors.warmIvory,
       appBar: SahayAppBar(
-        title: currentLang == 'hi' ? 'पात्रता परिणाम' : 'Assessment Results',
+        title: l10n.assessmentResults,
         showBackButton: true,
         showLanguageToggle: true,
         extraActions: [
           IconButton(
             icon: const Icon(Icons.storefront_rounded, color: Colors.white),
-            tooltip: currentLang == 'hi' ? 'जन सेवा केंद्र खोजें' : 'Find CSC',
+            tooltip: l10n.cscLocatorTitle,
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (_) => const CscLocatorScreen()),
@@ -168,7 +168,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
           ),
           IconButton(
             icon: const Icon(Icons.shield_outlined, color: AppColors.mutedCoral),
-            tooltip: currentLang == 'hi' ? 'सत्र समाप्त करें' : 'End Session',
+            tooltip: l10n.clearData,
             onPressed: () => PrivacyDialog.showEndSessionConfirmation(context),
           ),
         ],
@@ -205,7 +205,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            currentLang == 'hi' ? 'पात्रता सारांश' : 'Eligibility Summary',
+                            l10n.assessmentResults,
                             style: AppTextStyles.heading3.copyWith(
                               fontSize: 16,
                               color: AppColors.deepNavy,

@@ -116,6 +116,7 @@ class SahayLocalizations {
   String get age => getString('age');
   String get state => getString('state');
   String get stateUnionTerritory => getString('stateUnionTerritory');
+  String get selectState => getString('selectState');
   String get district => getString('district');
   String get occupation => getString('occupation');
   String get annualIncome => getString('annualIncome');
@@ -285,6 +286,150 @@ class SahayLocalizations {
   String get borderlineWarning => getString('borderlineWarning');
   String get verifyWithOfficial => getString('verifyWithOfficial');
   String get disclaimerText => getString('disclaimerText');
+
+  // Auth & Onboarding
+  String get continueAsGuest => getString('continueAsGuest');
+  String get signIn => getString('signIn');
+  String get signUp => getString('signUp');
+  String get createAccount => getString('createAccount');
+  String get loginTitle => getString('loginTitle');
+  String get loginSubtitle => getString('loginSubtitle');
+  String get fullName => getString('fullName');
+  String get fullNameHint => getString('fullNameHint');
+  String get emailAddress => getString('emailAddress');
+  String get emailHint => getString('emailHint');
+  String get password => getString('password');
+  String get passwordHint => getString('passwordHint');
+  String get confirmPassword => getString('confirmPassword');
+  String get forgotPassword => getString('forgotPassword');
+  String get mobileNumber => getString('mobileNumber');
+  String get alreadyHaveAccount => getString('alreadyHaveAccount');
+  String get dontHaveAccount => getString('dontHaveAccount');
+  String get orSeparator => getString('or');
+  String get continueWithGoogle => getString('continueWithGoogle');
+  String get termsAndPrivacy => getString('termsAndPrivacy');
+  String get iUnderstand => getString('iUnderstand');
+  String get guestMode => getString('guestMode');
+  String get guestSessionNotice => getString('guestSessionNotice');
+
+  // Profile
+  String get completeProfile => getString('completeProfile');
+  String get profileDetails => getString('profileDetails');
+  String get profileSetupSubtitle => getString('profileSetupSubtitle');
+  String get ageYears => getString('ageYears');
+  String get selectStatePrompt => getString('selectStatePrompt');
+  String get selectDistrict => getString('selectDistrict');
+  String get enterDistrictPrompt => getString('enterDistrictPrompt');
+  String get selectOccupation => getString('selectOccupation');
+  String get selectOccupationPrompt => getString('selectOccupationPrompt');
+  String get selectGender => getString('selectGender');
+  String get selectResidenceType => getString('selectResidenceType');
+  String get preferredLanguage => getString('preferredLanguage');
+  String get saveProfile => getString('saveProfile');
+
+  // Home & Dashboard
+  String get popularSchemes => getString('popularSchemes');
+  String get exploreByCategory => getString('exploreByCategory');
+  String get recommendedForYou => getString('recommendedForYou');
+  String get recommendedSubtitle => getString('recommendedSubtitle');
+  String get completeProfileCardDesc => getString('completeProfileCardDesc');
+  String get completeButton => getString('complete');
+  String get documentVault => getString('documentVault');
+  String get privateEncrypted => getString('privateEncrypted');
+  String get noDocumentsUploaded => getString('noDocumentsUploaded');
+  String get documentsStoredSecurely => getString('documentsStoredSecurely');
+  String get add => getString('add');
+  String get findCscCenter => getString('findCscCenter');
+  String get endSession => getString('endSession');
+
+  // Discovery & Schemes
+  String get allLevels => getString('allLevels');
+  String get allStates => getString('allStates');
+  String get stateAll => getString('stateAll');
+  String get searchState => getString('searchState');
+  String get verifiedBadge => getString('verifiedBadge');
+  String get partiallyVerifiedBadge => getString('partiallyVerifiedBadge');
+  String get unverifiedBadge => getString('unverifiedBadge');
+  String get clearCategory => getString('clearCategory');
+  String get aiDeepDiscovery => getString('aiDeepDiscovery');
+
+  // Vault & Documents
+  String get myDocumentsVault => getString('myDocumentsVault');
+  String get uploadDocument => getString('uploadDocument');
+  String get replaceDocument => getString('replaceDocument');
+  String get deleteDocument => getString('deleteDocument');
+  String get additionalDocument => getString('additionalDocument');
+  String get documentName => getString('documentName');
+  String get customDocumentNameHint => getString('customDocumentNameHint');
+  String get customDocumentNameRequired => getString('customDocumentNameRequired');
+  String get inVault => getString('inVault');
+  String get missing => getString('missing');
+  String get downloadPdfChecklist => getString('downloadPdfChecklist');
+  String get checklistTitle => getString('checklistTitle');
+
+  // Scheme Details & Edge Cases
+  String get edgeCasesPrecautions => getString('edgeCasesPrecautions');
+  String get criticalConditions => getString('criticalConditions');
+  String get disqualificationReasons => getString('disqualificationReasons');
+  String get howToApply => getString('howToApply');
+  String get applyOnline => getString('applyOnline');
+  String get videoTutorial => getString('videoTutorial');
+  String get watchTutorial => getString('watchTutorial');
+  String get overview => getString('overview');
+
+  // Specimen & Inspection
+  String get chooseFileFromDevice => getString('chooseFileFromDevice');
+  String get selectDocumentType => getString('selectDocumentType');
+  String get selectFilePrompt => getString('selectFilePrompt');
+  String get saveToVault => getString('saveToVault');
+  String get updateDocument => getString('updateDocument');
+  String get change => getString('change');
+  String get optionalNotes => getString('optionalNotes');
+  String get optionalNotesHint => getString('optionalNotesHint');
+  String get previewInfo => getString('previewInfo');
+  String get replaceFile => getString('replaceFile');
+  String get delete => getString('delete');
+  String get proceed => getString('proceed');
+  String get fileType => getString('fileType');
+  String get fileSize => getString('fileSize');
+  String get uploadDate => getString('uploadDate');
+  String get status => getString('status');
+  String get notes => getString('notes');
+  String get uploadedToVault => getString('uploadedToVault');
+  String get zoom => getString('zoom');
+  String get fullScreenSpecimen => getString('fullScreenSpecimen');
+  String get pinchToZoom => getString('pinchToZoom');
+  String get issuingAuthority => getString('issuingAuthority');
+  String get howToObtain => getString('howToObtain');
+  String get importantChecks => getString('importantChecks');
+  String get whyDocumentRequired => getString('whyDocumentRequired');
+  String get whatDoesItProve => getString('whatDoesItProve');
+  String get viewInVault => getString('viewInVault');
+  String get uploadToVaultOptional => getString('uploadToVaultOptional');
+
+  // CSC & Results
+  String get cscLocatorTitle => getString('cscLocatorTitle');
+  String get callCenter => getString('callCenter');
+  String get getDirections => getString('getDirections');
+  String get assessmentResults => getString('assessmentResults');
+  String get operator => getString('operator');
+
+  // Income & Privacy
+  String get householdIncomeEstimation => getString('householdIncomeEstimation');
+  String get incomeEstimationSubtitle => getString('incomeEstimationSubtitle');
+  String get livelihoodSource => getString('livelihoodSource');
+  String get earningMembers => getString('earningMembers');
+  String get seasonalHarvestIncome => getString('seasonalHarvestIncome');
+  String get calculateEstimate => getString('calculateEstimate');
+  String get estimatedAnnualIncome => getString('estimatedAnnualIncome');
+  String get assumptions => getString('assumptions');
+  String get recalculate => getString('recalculate');
+  String get applyThisEstimate => getString('applyThisEstimate');
+  String get endSessionConfirmationTitle => getString('endSessionConfirmationTitle');
+  String get dataClearedPointsHeading => getString('dataClearedPointsHeading');
+  String get clearedPointAnswers => getString('clearedPointAnswers');
+  String get clearedPointResults => getString('clearedPointResults');
+  String get clearedPointChecklists => getString('clearedPointChecklists');
 }
 
 // Delegate

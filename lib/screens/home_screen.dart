@@ -165,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              user.fullName.isNotEmpty ? user.fullName : (isHi ? 'नागरिक उपयोगकर्ता' : 'Citizen User'),
+                              user.fullName.isNotEmpty ? user.fullName : l10n.appNameNative,
                               style: AppTextStyles.heading3,
                             ),
                             if (user.email.isNotEmpty)
@@ -182,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(height: 12),
 
                   Text(
-                    isHi ? 'आपकी प्रोफ़ाइल जानकारी' : 'Profile Details',
+                    l10n.profileDetails,
                     style: AppTextStyles.label.copyWith(color: AppColors.deepNavy),
                   ),
                   const SizedBox(height: 10),
@@ -194,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Chip(
                           backgroundColor: AppColors.paleSage,
                           avatar: const Icon(Icons.cake_outlined, size: 16, color: AppColors.indianTeal),
-                          label: Text('${isHi ? "आयु" : "Age"}: ${user.age}', style: AppTextStyles.caption),
+                          label: Text('${l10n.ageYears}: ${user.age}', style: AppTextStyles.caption),
                         ),
                       if (user.state != null)
                         Chip(
@@ -224,7 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Chip(
                           backgroundColor: AppColors.paleSage,
                           label: Text(
-                            '${isHi ? "लिंग" : "Gender"}: ${ProfileOptions.getGenderLabel(user.gender!, lang)}',
+                            '${l10n.gender}: ${ProfileOptions.getGenderLabel(user.gender!, lang)}',
                             style: AppTextStyles.caption,
                           ),
                         ),
@@ -232,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Chip(
                           backgroundColor: AppColors.paleSage,
                           label: Text(
-                            '${isHi ? "निवास" : "Residence"}: ${ProfileOptions.getResidenceLabel(user.residenceType!, lang)}',
+                            '${l10n.residenceType}: ${ProfileOptions.getResidenceLabel(user.residenceType!, lang)}',
                             style: AppTextStyles.caption,
                           ),
                         ),
@@ -273,7 +273,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                       icon: const Icon(Icons.folder_shared_outlined, size: 18),
                       label: Text(
-                        isHi ? 'मेरे दस्तावेज़ (वॉल्ट)' : 'My Documents Vault',
+                        l10n.myDocumentsVault,
                         style: const TextStyle(fontWeight: FontWeight.w700),
                       ),
                       style: ElevatedButton.styleFrom(
@@ -300,7 +300,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                       icon: const Icon(Icons.edit_outlined, color: AppColors.indianTeal, size: 18),
                       label: Text(
-                        isHi ? 'प्रोफ़ाइल एवं विवरण संपादित करें' : 'Edit Profile & Details',
+                        l10n.completeProfile,
                         style: const TextStyle(color: AppColors.indianTeal, fontWeight: FontWeight.w600),
                       ),
                       style: OutlinedButton.styleFrom(
@@ -329,7 +329,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                       icon: const Icon(Icons.storefront_rounded, color: AppColors.deepNavy, size: 18),
                       label: Text(
-                        isHi ? 'नजदीकी जन सेवा केंद्र (CSC) खोजें' : 'Find Nearest CSC Centre',
+                        l10n.cscLocatorTitle,
                         style: const TextStyle(color: AppColors.deepNavy, fontWeight: FontWeight.w600),
                       ),
                       style: OutlinedButton.styleFrom(
@@ -351,7 +351,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                       icon: const Icon(Icons.shield_outlined, color: AppColors.mutedCoral, size: 18),
                       label: Text(
-                        isHi ? 'सत्र समाप्त करें (शेयर्ड डिवाइस मोड)' : 'End Session & Clear (Shared Phone)',
+                        l10n.endSession,
                         style: const TextStyle(color: AppColors.mutedCoral, fontWeight: FontWeight.w600),
                       ),
                       style: OutlinedButton.styleFrom(
@@ -388,7 +388,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       },
                       icon: const Icon(Icons.logout_rounded, size: 18),
-                      label: Text(isHi ? 'लॉग आउट करें' : 'Log Out'),
+                      label: Text(isHi ? 'लॉग आउट' : 'Log Out'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.indianTeal,
                         foregroundColor: Colors.white,
@@ -431,7 +431,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             const Icon(Icons.person_outline_rounded, color: AppColors.deepNavy, size: 26),
                             const SizedBox(width: 10),
                             Text(
-                              isHi ? 'अतिथि के रूप में ब्राउज़ कर रहे हैं' : 'Browsing as a Guest',
+                              l10n.guestMode,
                               style: AppTextStyles.heading3.copyWith(fontSize: 18),
                             ),
                           ],
@@ -460,7 +460,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                             ),
                             child: Text(
-                              isHi ? 'साइन इन / साइन अप करें' : 'Sign In / Sign Up',
+                              '${l10n.signIn} / ${l10n.signUp}',
                               style: AppTextStyles.buttonText,
                             ),
                           ),
@@ -477,7 +477,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                             icon: const Icon(Icons.folder_shared_outlined, size: 18, color: AppColors.deepNavy),
                             label: Text(
-                              isHi ? 'दस्तावेज़ वॉल्ट देखें' : 'Explore Document Vault',
+                              l10n.documentVault,
                               style: const TextStyle(color: AppColors.deepNavy, fontWeight: FontWeight.w600),
                             ),
                             style: OutlinedButton.styleFrom(
@@ -745,7 +745,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           runSpacing: 4,
                           children: [
                             Text(
-                              currentLang == 'hi' ? 'दस्तावेज़ वॉल्ट' : 'Document Vault',
+                              l10n.documentVault,
                               style: AppTextStyles.heading3.copyWith(
                                 fontSize: 16,
                                 color: AppColors.deepNavy,
@@ -759,7 +759,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
-                                currentLang == 'hi' ? 'निजी एवं सुरक्षित' : 'Private & Encrypted',
+                                l10n.privateEncrypted,
                                 style: AppTextStyles.caption.copyWith(
                                   color: AppColors.indianTeal,
                                   fontSize: 10,
@@ -771,9 +771,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          currentLang == 'hi'
-                              ? (count == 0 ? 'कोई दस्तावेज़ अपलोड नहीं' : '$count दस्तावेज़ सुरक्षित रूप से संग्रहीत')
-                              : (count == 0 ? 'No documents uploaded yet' : '$count document${count == 1 ? '' : 's'} saved securely'),
+                          count == 0 ? l10n.noDocumentsUploaded : '$count ${l10n.documentsStoredSecurely}',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: AppTextStyles.bodySmall.copyWith(
@@ -807,7 +805,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         const Icon(Icons.add_rounded, size: 16),
                         const SizedBox(width: 4),
                         Text(
-                          currentLang == 'hi' ? 'जोड़ें' : 'Add',
+                          l10n.add,
                           style: AppTextStyles.caption.copyWith(
                             color: AppColors.indianTeal,
                             fontWeight: FontWeight.w700,
@@ -832,6 +830,7 @@ class _HomeScreenState extends State<HomeScreen> {
     String currentLang,
   ) {
     final isHi = currentLang == 'hi';
+    final l10n = SahayLocalizations.of(context);
     final isProfileIncomplete = user.age == null || user.occupation == null || user.state == null;
 
     final recService = const RecommendationService();
@@ -857,7 +856,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        isHi ? 'आपके लिए अनुशंसित योजनाएं' : 'Recommended Schemes for You',
+                        l10n.recommendedForYou,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyles.heading3.copyWith(
@@ -889,9 +888,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Text(
-            isHi
-                ? 'आपकी प्रोफ़ाइल (आयु, राज्य, व्यवसाय) के आधार पर पारदर्शी मिलान'
-                : 'Deterministic matching based on your profile (age, state, occupation)',
+            l10n.recommendedSubtitle,
             style: AppTextStyles.bodySmall.copyWith(
               color: AppColors.deepNavy.withValues(alpha: 0.65),
             ),
@@ -919,7 +916,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          isHi ? 'प्रोफ़ाइल पूर्ण करें' : 'Complete Your Profile',
+                          l10n.completeProfile,
                           style: AppTextStyles.bodyMedium.copyWith(
                             fontWeight: FontWeight.w700,
                             color: AppColors.deepNavy,
@@ -927,9 +924,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          isHi
-                              ? 'अधिक सटीक योजना सुझावों के लिए अपनी आयु और व्यवसाय दर्ज करें।'
-                              : 'Add your age and occupation for 100% accurate scheme recommendations.',
+                          l10n.completeProfileCardDesc,
                           style: AppTextStyles.caption.copyWith(
                             color: AppColors.deepNavy.withValues(alpha: 0.75),
                           ),
@@ -949,7 +944,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     ),
                     child: Text(
-                      isHi ? 'पूरा करें' : 'Complete',
+                      l10n.completeButton,
                       style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
                     ),
                   ),
@@ -1211,7 +1206,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Text(
               currentLang == 'hi'
                   ? 'कुछ सरल प्रश्नों के उत्तर दें और जानें कि आप किन-किन सरकारी योजनाओं के लिए पात्र हैं।'
-                  : 'Answer a few simple questions to instantly find schemes customized to your profile.',
+                  : l10n.welcomeSubtitle,
               style: AppTextStyles.bodyMedium.copyWith(
                 color: Colors.white.withValues(alpha: 0.9),
                 fontSize: 13.5,
@@ -1243,7 +1238,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       l10n.checkEligibilityNow.isNotEmpty && l10n.checkEligibilityNow != 'checkEligibilityNow'
                           ? l10n.checkEligibilityNow
-                          : (currentLang == 'hi' ? 'अभी पात्रता जांचें' : 'Check Eligibility Now'),
+                          : l10n.checkEligibilityNow,
                       style: AppTextStyles.buttonText.copyWith(
                         color: AppColors.deepNavy,
                         fontWeight: FontWeight.w700,
@@ -1379,9 +1374,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(width: 10),
                         Expanded(
                           child: Text(
-                            currentLang == 'hi'
-                                ? 'अतिथि मोड: व्यक्तिगत योजनाओं को सहेजने के लिए साइन इन करें'
-                                : 'Guest mode: Sign in to save your eligible schemes',
+                            l10n.guestSessionNotice,
                             style: AppTextStyles.caption.copyWith(
                               color: AppColors.deepNavy,
                               fontWeight: FontWeight.w600,
@@ -1400,7 +1393,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
                           child: Text(
-                            currentLang == 'hi' ? 'साइन इन' : 'Sign In',
+                            l10n.signIn,
                             style: AppTextStyles.caption.copyWith(
                               color: AppColors.indianTeal,
                               fontWeight: FontWeight.bold,
@@ -1506,7 +1499,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        currentLang == 'hi' ? 'लोकप्रिय योजनाएं' : 'Popular Schemes',
+                        l10n.popularSchemes,
                         style: AppTextStyles.heading3.copyWith(
                           fontSize: 18,
                           color: AppColors.deepNavy,
@@ -1597,7 +1590,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
-                                  currentLang == 'hi' ? 'जन सेवा केंद्र\n(CSC खोजें)' : 'Assistance\nCentres (CSC)',
+                                  l10n.findCscCenter,
                                   style: AppTextStyles.caption.copyWith(
                                     fontWeight: FontWeight.bold,
                                     color: AppColors.deepNavy,
@@ -1643,7 +1636,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
-                                  currentLang == 'hi' ? 'सत्र समाप्त करें\n(डेटा हटाएं)' : 'End Session\n(Clear Data)',
+                                  l10n.endSession,
                                   style: AppTextStyles.caption.copyWith(
                                     fontWeight: FontWeight.bold,
                                     color: AppColors.deepNavy,
@@ -1666,7 +1659,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text(
-                  currentLang == 'hi' ? 'श्रेणियां' : 'Explore by Category',
+                  l10n.exploreByCategory,
                   style: AppTextStyles.heading3.copyWith(
                     fontSize: 18,
                     color: AppColors.deepNavy,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sahay/core/l10n/app_localizations.dart';
 import 'package:sahay/core/theme/app_colors.dart';
 import 'package:sahay/core/theme/app_text_styles.dart';
 import 'package:sahay/providers/auth_provider.dart';
@@ -123,8 +124,8 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
   @override
   Widget build(BuildContext context) {
     final auth = context.watch<AuthProvider>();
-    final isHi = context.watch<LocaleProvider>().languageCode == 'hi';
     final lang = context.watch<LocaleProvider>().languageCode;
+    final l10n = SahayLocalizations.of(context);
 
     return Scaffold(
       backgroundColor: AppColors.warmIvory,
@@ -132,12 +133,12 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
-          isHi ? 'प्रोफ़ाइल सेटअप' : 'Complete Profile',
+          l10n.completeProfile,
           style: AppTextStyles.heading3.copyWith(color: AppColors.deepNavy),
         ),
         actions: [
           IconButton(
-            tooltip: isHi ? 'साइन आउट' : 'Sign Out',
+            tooltip: l10n.getString('logout'),
             icon: const Icon(Icons.logout_rounded, color: AppColors.mutedCoral),
             onPressed: auth.isLoading ? null : () => auth.signOut(),
           ),
@@ -157,14 +158,12 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  isHi ? 'सटीक योजनाओं की खोज के लिए जानकारी दें' : 'A few details to match eligible schemes',
+                  l10n.profileDetails,
                   style: AppTextStyles.heading2.copyWith(color: AppColors.deepNavy, fontSize: 22),
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  isHi
-                      ? 'यह जानकारी केवल सरकारी योजनाओं की पात्रता जांचने के लिए उपयोग की जाएगी।'
-                      : 'These details are strictly used to evaluate government welfare schemes.',
+                  l10n.profileSetupSubtitle,
                   style: AppTextStyles.bodyMedium.copyWith(color: AppColors.deepNavy.withValues(alpha: 0.7)),
                 ),
                 const SizedBox(height: 20),
@@ -191,7 +190,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
 
                 // Age (Mandatory)
                 Text(
-                  isHi ? 'आयु (वर्ष) *' : 'Age (Years) *',
+                  '${l10n.ageYears} *',
                   style: AppTextStyles.label.copyWith(color: AppColors.deepNavy),
                 ),
                 const SizedBox(height: 6),
@@ -199,7 +198,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                   controller: _ageController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    hintText: isHi ? 'उदा. 35' : 'e.g. 35',
+                    hintText: '35',
                     prefixIcon: const Icon(Icons.cake_outlined, color: AppColors.indianTeal),
                     filled: true,
                     fillColor: Colors.white,
@@ -214,7 +213,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
 
                 // State (Mandatory)
                 Text(
-                  isHi ? 'राज्य / केंद्र शासित प्रदेश *' : 'State / Union Territory *',
+                  '${l10n.stateUnionTerritory} *',
                   style: AppTextStyles.label.copyWith(color: AppColors.deepNavy),
                 ),
                 const SizedBox(height: 6),
@@ -230,7 +229,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                       borderSide: BorderSide(color: AppColors.cardBorder),
                     ),
                   ),
-                  hint: Text(isHi ? 'राज्य चुनें' : 'Select State'),
+                  hint: Text(l10n.selectState),
                   items: IndianStates.states.map((st) {
                     final label = IndianStates.getStateName(st.code, lang);
                     return DropdownMenuItem(
@@ -240,14 +239,14 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                   }).toList(),
                   onChanged: (val) => setState(() => _selectedState = val),
                   validator: (val) => val == null
-                      ? (isHi ? 'कृपया राज्य चुनें' : 'Please select your state')
+                      ? l10n.selectStatePrompt
                       : null,
                 ),
                 const SizedBox(height: 16),
 
                 // District (Mandatory)
                 Text(
-                  isHi ? 'ज़िला *' : 'District *',
+                  '${l10n.district} *',
                   style: AppTextStyles.label.copyWith(color: AppColors.deepNavy),
                 ),
                 const SizedBox(height: 6),
@@ -255,7 +254,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                   controller: _districtController,
                   textCapitalization: TextCapitalization.words,
                   decoration: InputDecoration(
-                    hintText: isHi ? 'उदा. भोपाल' : 'e.g. Bhopal',
+                    hintText: 'Bhopal / சென்னை / मुंबई',
                     prefixIcon: const Icon(Icons.map_outlined, color: AppColors.indianTeal),
                     filled: true,
                     fillColor: Colors.white,
@@ -266,7 +265,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                   ),
                   validator: (v) {
                     if (v == null || v.trim().isEmpty) {
-                      return isHi ? 'कृपया अपना ज़िला दर्ज करें' : 'Please enter your district';
+                      return l10n.enterDistrictPrompt;
                     }
                     return null;
                   },
@@ -275,7 +274,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
 
                 // Occupation (Mandatory - 13 canonical keys)
                 Text(
-                  isHi ? 'व्यवसाय / कार्यक्षेत्र *' : 'Occupation *',
+                  '${l10n.occupation} *',
                   style: AppTextStyles.label.copyWith(color: AppColors.deepNavy),
                 ),
                 const SizedBox(height: 6),
@@ -291,7 +290,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                       borderSide: BorderSide(color: AppColors.cardBorder),
                     ),
                   ),
-                  hint: Text(isHi ? 'व्यवसाय चुनें' : 'Select Occupation'),
+                  hint: Text(l10n.selectOccupation),
                   items: ProfileOptions.occupations.map((occ) {
                     final label = ProfileOptions.getOccupationLabel(occ.key, lang);
                     return DropdownMenuItem(
@@ -301,14 +300,14 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                   }).toList(),
                   onChanged: (val) => setState(() => _selectedOccupation = val),
                   validator: (val) => val == null
-                      ? (isHi ? 'कृपया व्यवसाय चुनें' : 'Please select your occupation')
+                      ? l10n.selectOccupationPrompt
                       : null,
                 ),
                 const SizedBox(height: 16),
 
                 // Preferred Language (Mandatory)
                 Text(
-                  isHi ? 'पसंदीदा भाषा *' : 'Preferred Language *',
+                  '${l10n.preferredLanguage} *',
                   style: AppTextStyles.label.copyWith(color: AppColors.deepNavy),
                 ),
                 const SizedBox(height: 6),
@@ -337,6 +336,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                   onChanged: (val) {
                     if (val != null) {
                       setState(() => _selectedLanguage = val);
+                      context.read<LocaleProvider>().setLocale(Locale(val));
                     }
                   },
                 ),
@@ -344,7 +344,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
 
                 // Gender (Optional)
                 Text(
-                  isHi ? 'लिंग (वैकल्पिक)' : 'Gender (Optional)',
+                  '${l10n.gender} (${l10n.getString('optional')})',
                   style: AppTextStyles.label.copyWith(color: AppColors.deepNavy),
                 ),
                 const SizedBox(height: 6),
@@ -360,7 +360,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                       borderSide: BorderSide(color: AppColors.cardBorder),
                     ),
                   ),
-                  hint: Text(isHi ? 'लिंग चुनें' : 'Select Gender'),
+                  hint: Text(l10n.selectGender),
                   items: ProfileOptions.genders.map((g) {
                     final label = ProfileOptions.getGenderLabel(g.key, lang);
                     return DropdownMenuItem(
@@ -374,7 +374,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
 
                 // Residence Type (Optional)
                 Text(
-                  isHi ? 'निवास प्रकार (वैकल्पिक)' : 'Residence Type (Optional)',
+                  '${l10n.residenceType} (${l10n.getString('optional')})',
                   style: AppTextStyles.label.copyWith(color: AppColors.deepNavy),
                 ),
                 const SizedBox(height: 6),
@@ -390,7 +390,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                       borderSide: BorderSide(color: AppColors.cardBorder),
                     ),
                   ),
-                  hint: Text(isHi ? 'निवास क्षेत्र चुनें' : 'Select Residence Type'),
+                  hint: Text(l10n.selectResidenceType),
                   items: ProfileOptions.residenceTypes.map((r) {
                     final label = ProfileOptions.getResidenceLabel(r.key, lang);
                     return DropdownMenuItem(
@@ -423,7 +423,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                             ),
                           )
                         : Text(
-                            isHi ? 'प्रोफ़ाइल सहेजें' : 'Save Profile',
+                            l10n.saveProfile,
                             style: AppTextStyles.buttonText.copyWith(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,

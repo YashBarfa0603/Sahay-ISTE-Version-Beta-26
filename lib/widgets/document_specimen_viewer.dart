@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sahay/core/l10n/app_localizations.dart';
 import 'package:sahay/core/theme/app_colors.dart';
 import 'package:sahay/core/theme/app_text_styles.dart';
 import 'package:sahay/models/document_info_model.dart';
@@ -18,6 +19,7 @@ class DocumentSpecimenViewer extends StatelessWidget {
   });
 
   void _openFullScreenZoom(BuildContext context, bool isHi) {
+    final l10n = SahayLocalizations.of(context);
     showDialog(
       context: context,
       barrierDismissible: true,
@@ -60,14 +62,14 @@ class DocumentSpecimenViewer extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              isHi ? 'पूर्ण प्रारूप निरीक्षण (ज़ूम करें)' : 'Full-Screen Specimen Inspection',
+                              l10n.fullScreenSpecimen,
                               style: AppTextStyles.bodyMedium.copyWith(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
                             Text(
-                              isHi ? 'ज़ूम करने के लिए पिंच या डबल-टैप करें (0.8x - 4x)' : 'Pinch or double-tap to zoom (0.8x - 4x)',
+                              l10n.pinchToZoom,
                               style: AppTextStyles.caption.copyWith(
                                 color: Colors.white.withValues(alpha: 0.7),
                                 fontSize: 10.5,
@@ -117,6 +119,7 @@ class DocumentSpecimenViewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = SahayLocalizations.of(context);
     final isHi = language == 'hi';
 
     return Container(
@@ -182,7 +185,7 @@ class DocumentSpecimenViewer extends StatelessWidget {
                         const Icon(Icons.zoom_in_rounded, size: 13, color: Colors.white),
                         const SizedBox(width: 4),
                         Text(
-                          isHi ? 'ज़ूम करें' : 'ZOOM',
+                          l10n.zoom,
                           style: AppTextStyles.caption.copyWith(
                             color: Colors.white,
                             fontSize: 9.5,

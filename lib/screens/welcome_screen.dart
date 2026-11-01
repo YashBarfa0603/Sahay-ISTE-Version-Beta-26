@@ -249,9 +249,7 @@ class WelcomeScreen extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
                           ),
                           child: Text(
-                            currentLang == 'hi'
-                                ? 'अतिथि के रूप में जारी रखें'
-                                : 'Continue as Guest',
+                            l10n.continueAsGuest,
                             style: AppTextStyles.bodyMedium.copyWith(
                               color: AppColors.deepNavy.withValues(alpha: 0.75),
                               fontSize: 15,

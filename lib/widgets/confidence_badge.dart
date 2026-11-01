@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:sahay/core/l10n/app_localizations.dart';
 import 'package:sahay/core/theme/app_colors.dart';
 import 'package:sahay/core/theme/app_text_styles.dart';
 import 'package:sahay/models/eligibility_model.dart';
-import 'package:sahay/providers/locale_provider.dart';
 
 class ConfidenceBadge extends StatelessWidget {
   final EligibilityResult result;
@@ -23,8 +22,12 @@ class ConfidenceBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localeProvider = context.watch<LocaleProvider?>();
-    final langCode = localeProvider?.languageCode ?? 'en';
+    SahayLocalizations? l10n;
+    try {
+      l10n = SahayLocalizations.of(context);
+    } catch (_) {
+      l10n = null;
+    }
 
     final Color backgroundColor;
     final IconData iconData;
@@ -34,17 +37,17 @@ class ConfidenceBadge extends StatelessWidget {
       case EligibilityResult.mayQualify:
         backgroundColor = AppColors.forestGreen;
         iconData = Icons.check_circle_rounded;
-        labelText = customLabel ?? (langCode == 'hi' ? 'योग्य हो सकते हैं' : 'May Qualify');
+        labelText = customLabel ?? (l10n?.mayQualify ?? 'May Qualify');
         break;
       case EligibilityResult.needsMoreInformation:
         backgroundColor = AppColors.steelBlue;
         iconData = Icons.help_outline_rounded;
-        labelText = customLabel ?? (langCode == 'hi' ? 'अधिक जानकारी आवश्यक' : 'More Info Needed');
+        labelText = customLabel ?? (l10n?.needsMoreInfo ?? 'More Info Needed');
         break;
       case EligibilityResult.doesNotQualify:
         backgroundColor = AppColors.mutedCoral;
         iconData = Icons.cancel_rounded;
-        labelText = customLabel ?? (langCode == 'hi' ? 'पात्र नहीं' : 'Not Eligible');
+        labelText = customLabel ?? (l10n?.notEligible ?? 'Not Eligible');
         break;
     }
 

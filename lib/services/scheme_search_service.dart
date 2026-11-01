@@ -376,8 +376,16 @@ class SchemeSearchService {
       titleTokens.addAll(alias.split(' '));
     }
 
+    bool matchesToken(String qt, String tt) {
+      if (tt == qt) return true;
+      if (qt.length >= 3 && tt.length >= 3) {
+        return tt.contains(qt) || qt.contains(tt);
+      }
+      return false;
+    }
+
     bool allTokensInTitle = queryTokens.isNotEmpty &&
-        queryTokens.every((qt) => titleTokens.any((tt) => tt.contains(qt) || qt.contains(tt)));
+        queryTokens.every((qt) => titleTokens.any((tt) => matchesToken(qt, tt)));
 
     if (allTokensInTitle) {
       score = max(score, 520.0);
@@ -386,7 +394,7 @@ class SchemeSearchService {
     // Individual token matching in titles
     int matchedTokens = 0;
     for (final qt in queryTokens) {
-      if (titleTokens.any((tt) => tt == qt || tt.contains(qt) || qt.contains(tt))) {
+      if (titleTokens.any((tt) => matchesToken(qt, tt))) {
         matchedTokens++;
       }
     }
@@ -434,7 +442,7 @@ class SchemeSearchService {
     }
 
     for (final qt in queryTokens) {
-      if (descNorm.contains(qt) || benefitsNorm.contains(qt)) {
+      if (qt.length >= 3 && (descNorm.contains(qt) || benefitsNorm.contains(qt))) {
         score = max(score, 120.0);
       }
     }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sahay/core/l10n/app_localizations.dart';
 import 'package:sahay/core/theme/app_colors.dart';
 import 'package:sahay/core/theme/app_text_styles.dart';
 import 'package:sahay/providers/auth_provider.dart';
@@ -78,15 +79,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _handleForgotPassword() async {
     final email = _emailController.text.trim();
-    final isHi = context.read<LocaleProvider>().languageCode == 'hi';
+    final lang = context.read<LocaleProvider>().languageCode;
 
     if (email.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            isHi
-              ? 'कृपया पहले अपना ईमेल पता दर्ज करें'
-              : 'Please enter your email address first',
+            Validators.validateEmail('', lang) ?? 'Please enter your email address',
           ),
           backgroundColor: AppColors.deepNavy,
         ),
@@ -95,7 +94,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     final auth = context.read<AuthProvider>();
-    final lang = context.read<LocaleProvider>().languageCode;
     final sent = await auth.sendPasswordReset(email, lang: lang);
 
     if (mounted) {
@@ -120,8 +118,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final auth = context.watch<AuthProvider>();
-    final isHi = context.watch<LocaleProvider>().languageCode == 'hi';
     final lang = context.watch<LocaleProvider>().languageCode;
+    final l10n = SahayLocalizations.of(context);
 
     return Scaffold(
       backgroundColor: AppColors.warmIvory,
@@ -151,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   // Title
                   Text(
-                    isHi ? 'साइन इन करें' : 'Sign In',
+                    l10n.signIn,
                     style: AppTextStyles.heading1.copyWith(
                       color: AppColors.deepNavy,
                       fontSize: 28,
@@ -160,9 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    isHi
-                        ? 'अपनी योजनाओं और जानकारी को सुरक्षित रखने के लिए प्रवेश करें।'
-                        : 'Sign in to access your eligible government schemes.',
+                    l10n.loginSubtitle,
                     style: AppTextStyles.bodyMedium.copyWith(
                       color: AppColors.deepNavy.withValues(alpha: 0.7),
                     ),
@@ -199,7 +195,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   // Email
                   Text(
-                    isHi ? 'ईमेल पता' : 'Email Address',
+                    l10n.emailAddress,
                     style: AppTextStyles.label.copyWith(color: AppColors.deepNavy),
                   ),
                   const SizedBox(height: 6),
@@ -208,7 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     keyboardType: TextInputType.emailAddress,
                     autocorrect: false,
                     decoration: InputDecoration(
-                      hintText: isHi ? 'उदा. name@example.com' : 'e.g. name@example.com',
+                      hintText: l10n.emailHint,
                       prefixIcon: const Icon(Icons.email_outlined, color: AppColors.indianTeal),
                       filled: true,
                       fillColor: Colors.white,
@@ -231,7 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   // Password
                   Text(
-                    isHi ? 'पासवर्ड' : 'Password',
+                    l10n.password,
                     style: AppTextStyles.label.copyWith(color: AppColors.deepNavy),
                   ),
                   const SizedBox(height: 6),
@@ -239,7 +235,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: _passwordController,
                     obscureText: _obscurePassword,
                     decoration: InputDecoration(
-                      hintText: isHi ? 'पासवर्ड दर्ज करें' : 'Enter your password',
+                      hintText: l10n.passwordHint,
                       prefixIcon: const Icon(Icons.lock_outline_rounded, color: AppColors.indianTeal),
                       suffixIcon: IconButton(
                         icon: Icon(
@@ -273,7 +269,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: TextButton(
                       onPressed: auth.isLoading ? null : _handleForgotPassword,
                       child: Text(
-                        isHi ? 'पासवर्ड भूल गए?' : 'Forgot Password?',
+                        l10n.forgotPassword,
                         style: AppTextStyles.bodyMedium.copyWith(
                           color: AppColors.indianTeal,
                           fontWeight: FontWeight.w600,
@@ -306,7 +302,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             )
                           : Text(
-                              isHi ? 'साइन इन करें' : 'Sign In',
+                              l10n.signIn,
                               style: AppTextStyles.buttonText.copyWith(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -323,7 +319,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12.0),
                         child: Text(
-                          isHi ? 'या' : 'OR',
+                          l10n.orSeparator,
                           style: AppTextStyles.caption.copyWith(color: Colors.grey[600]),
                         ),
                       ),
@@ -350,7 +346,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           const Icon(Icons.g_mobiledata_rounded, color: Colors.redAccent, size: 28),
                           const SizedBox(width: 8),
                           Text(
-                            isHi ? 'गूगल से जारी रखें' : 'Continue with Google',
+                            l10n.continueWithGoogle,
                             style: AppTextStyles.bodyMedium.copyWith(
                               color: AppColors.deepNavy,
                               fontWeight: FontWeight.w600,
@@ -367,7 +363,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        isHi ? 'खाता नहीं है? ' : "Don't have an account? ",
+                        '${l10n.dontHaveAccount} ',
                         style: AppTextStyles.bodyMedium.copyWith(color: AppColors.deepNavy),
                       ),
                       GestureDetector(
@@ -378,7 +374,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
                         },
                         child: Text(
-                          isHi ? 'साइन अप करें' : 'Sign Up',
+                          l10n.signUp,
                           style: AppTextStyles.bodyMedium.copyWith(
                             color: AppColors.indianTeal,
                             fontWeight: FontWeight.bold,
@@ -393,7 +389,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   TextButton(
                     onPressed: auth.isLoading ? null : _continueAsGuest,
                     child: Text(
-                      isHi ? 'अतिथि के रूप में जारी रखें' : 'Continue as Guest',
+                      l10n.continueAsGuest,
                       style: AppTextStyles.bodyMedium.copyWith(
                         color: AppColors.deepNavy.withValues(alpha: 0.65),
                         fontWeight: FontWeight.w600,

@@ -657,6 +657,7 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
 
   Widget _buildEdgeCasesAndPrecautionsSection(String currentLang) {
     final notes = SchemeNotesService.getNotesForSchemeOrGrounded(widget.scheme);
+    final l10n = SahayLocalizations.of(context);
     final isHi = currentLang == 'hi';
 
     return Column(
@@ -680,7 +681,7 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
             const SizedBox(width: 10),
             Expanded(
               child: Text(
-                isHi ? 'विशेष सावधानियां एवं अपवर्जन नियम' : 'Edge Cases & Important Precautions',
+                l10n.edgeCasesPrecautions,
                 style: AppTextStyles.heading3.copyWith(
                   fontSize: 17,
                   color: AppColors.deepNavy,
@@ -820,7 +821,8 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
   Widget _buildDocumentsTab(SahayLocalizations l10n) {
     final docs = widget.scheme.requiredDocuments;
     final userDocProvider = context.watch<UserDocumentProvider>();
-    final isHi = context.watch<LocaleProvider>().languageCode == 'hi';
+    final currentLang = l10n.locale.languageCode;
+    final isHi = currentLang == 'hi';
 
     // Count how many required docs are currently present in user's vault
     int vaultMatchedCount = 0;
@@ -843,7 +845,7 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
             children: [
               Expanded(
                 child: Text(
-                  isHi ? 'आवश्यक दस्तावेज चेकलिस्ट' : 'Required Documents Checklist',
+                  l10n.checklistTitle,
                   style: AppTextStyles.heading3.copyWith(fontSize: 17, color: AppColors.deepNavy),
                 ),
               ),
@@ -902,7 +904,7 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
                       child: Text(
-                        isHi ? 'वॉल्ट खोलें' : 'Open Vault',
+                        l10n.viewInVault,
                         style: const TextStyle(
                           color: AppColors.forestGreen,
                           fontWeight: FontWeight.bold,
@@ -951,7 +953,7 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
                 documentTitle: docName,
                 isChecked: isChecked,
                 uploadedDoc: uploadedDoc,
-                language: isHi ? 'hi' : 'en',
+                language: currentLang,
                 onChecked: (val) {
                   setState(() {
                     if (val == true) {
@@ -992,7 +994,7 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
               },
               icon: const Icon(Icons.picture_as_pdf_rounded, color: Colors.white),
               label: Text(
-                isHi ? 'चेकलिस्ट पीडीएफ डाउनलोड करें' : 'Download Checklist as PDF',
+                l10n.downloadPdfChecklist,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               style: ElevatedButton.styleFrom(

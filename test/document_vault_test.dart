@@ -91,7 +91,7 @@ void main() {
   group('DocumentCatalogueService Tests', () {
     test('Contains all 18 canonical document types with rich guides', () {
       final docs = DocumentCatalogueService.getAllDocuments();
-      expect(docs.length, 18);
+      expect(docs.length, 19);
 
       for (final doc in docs) {
         expect(doc.documentType, isNotEmpty);

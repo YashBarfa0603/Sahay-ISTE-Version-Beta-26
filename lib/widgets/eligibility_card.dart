@@ -41,10 +41,8 @@ class EligibilityCard extends StatelessWidget {
 
     final statusColor = _getStatusColor(eligibility.result);
 
-    // Title: use Hindi name if available and active language is Hindi
-    final displayName = (langCode == 'hi' && scheme.nameHindi != null && scheme.nameHindi!.isNotEmpty)
-        ? scheme.nameHindi!
-        : scheme.name;
+    // Title: use localized scheme name
+    final displayName = scheme.getLocalizedName(langCode);
 
     final actionCallback = onViewDetails ?? onTap;
 

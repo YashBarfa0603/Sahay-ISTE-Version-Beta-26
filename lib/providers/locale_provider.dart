@@ -97,6 +97,15 @@ class LocaleProvider extends ChangeNotifier {
     return _characterAssets[langCode.toLowerCase()] ?? 'assets/English.jpeg';
   }
 
+  /// Syncs app locale with user's stored preferred language
+  Future<void> syncWithUserLanguage(String? userPreferredLanguage) async {
+    if (userPreferredLanguage == null) return;
+    final code = userPreferredLanguage.toLowerCase().trim();
+    if (_supportedCodes.contains(code) && _locale.languageCode != code) {
+      await setLocale(Locale(code));
+    }
+  }
+
   String get currentCharacterAsset => getCharacterAsset(_locale.languageCode);
 
   // Names

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:sahay/core/l10n/app_localizations.dart';
 import 'package:sahay/core/theme/app_colors.dart';
 import 'package:sahay/core/theme/app_text_styles.dart';
 import 'package:sahay/models/api_response_models.dart';
-import 'package:sahay/providers/locale_provider.dart';
 import 'package:sahay/services/backend_scheme_service.dart';
 
 class IncomeEstimationModal extends StatefulWidget {
@@ -76,7 +75,8 @@ class _IncomeEstimationModalState extends State<IncomeEstimationModal> {
 
   @override
   Widget build(BuildContext context) {
-    final lang = context.watch<LocaleProvider>().languageCode;
+    final l10n = SahayLocalizations.of(context);
+    final lang = l10n.locale.languageCode;
     final isHi = lang == 'hi';
 
     return Container(
@@ -113,11 +113,11 @@ class _IncomeEstimationModalState extends State<IncomeEstimationModal> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        isHi ? 'पारिवारिक आय का सुरक्षित अनुमान' : 'Household Income Estimation',
+                        l10n.householdIncomeEstimation,
                         style: AppTextStyles.heading3.copyWith(color: AppColors.deepNavy, fontSize: 17),
                       ),
                       Text(
-                        isHi ? 'अनौपचारिक आय के लिए विश्वसनीय गणना' : 'Conservative estimation for informal earners',
+                        l10n.incomeEstimationSubtitle,
                         style: AppTextStyles.caption.copyWith(color: AppColors.textSecondary),
                       ),
                     ],
@@ -130,7 +130,7 @@ class _IncomeEstimationModalState extends State<IncomeEstimationModal> {
             if (_calculationResult == null) ...[
               // Step 1: Livelihood Source
               Text(
-                isHi ? '1. मुख्य आजीविका का साधन चुनें' : '1. Select primary livelihood source',
+                l10n.livelihoodSource,
                 style: AppTextStyles.label.copyWith(color: AppColors.deepNavy),
               ),
               const SizedBox(height: 8),
@@ -181,7 +181,7 @@ class _IncomeEstimationModalState extends State<IncomeEstimationModal> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    isHi ? '3. परिवार में कुल कमाने वाले सदस्य' : '3. Total earning members in family',
+                    l10n.earningMembers,
                     style: AppTextStyles.label.copyWith(color: AppColors.deepNavy),
                   ),
                   Row(
@@ -211,7 +211,7 @@ class _IncomeEstimationModalState extends State<IncomeEstimationModal> {
                   contentPadding: EdgeInsets.zero,
                   activeColor: AppColors.forestGreen,
                   title: Text(
-                    isHi ? 'कृषि / मौसमी फसल से अतिरिक्त आय' : 'Additional seasonal agricultural harvest income',
+                    l10n.seasonalHarvestIncome,
                     style: AppTextStyles.bodySmall.copyWith(color: AppColors.deepNavy),
                   ),
                   value: _hasAgriIncome,
@@ -229,7 +229,7 @@ class _IncomeEstimationModalState extends State<IncomeEstimationModal> {
                       ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
                       : const Icon(Icons.check_circle_outline, color: Colors.white),
                   label: Text(
-                    isHi ? 'अनुमानित आय की गणना करें' : 'Calculate Conservative Estimate',
+                    l10n.calculateEstimate,
                     style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                   ),
                   style: ElevatedButton.styleFrom(
@@ -252,7 +252,7 @@ class _IncomeEstimationModalState extends State<IncomeEstimationModal> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      isHi ? 'अनुमानित वार्षिक पारिवारिक आय:' : 'Estimated Annual Household Income Range:',
+                      l10n.estimatedAnnualIncome,
                       style: AppTextStyles.caption.copyWith(color: AppColors.forestGreen, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 6),
@@ -269,7 +269,7 @@ class _IncomeEstimationModalState extends State<IncomeEstimationModal> {
                     const Divider(height: 1),
                     const SizedBox(height: 10),
                     Text(
-                      isHi ? 'मुख्य आधार एवं शर्तें:' : 'Assumptions:',
+                      l10n.assumptions,
                       style: AppTextStyles.caption.copyWith(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 4),
@@ -295,7 +295,7 @@ class _IncomeEstimationModalState extends State<IncomeEstimationModal> {
                   Expanded(
                     child: OutlinedButton(
                       onPressed: () => setState(() => _calculationResult = null),
-                      child: Text(isHi ? 'बदलाव करें' : 'Recalculate'),
+                      child: Text(l10n.recalculate),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -311,7 +311,7 @@ class _IncomeEstimationModalState extends State<IncomeEstimationModal> {
                         foregroundColor: Colors.white,
                       ),
                       child: Text(
-                        isHi ? 'यह अनुमान लागू करें' : 'Apply This Estimate',
+                        l10n.applyThisEstimate,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),

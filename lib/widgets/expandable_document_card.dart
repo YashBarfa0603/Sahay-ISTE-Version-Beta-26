@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sahay/core/l10n/app_localizations.dart';
 import 'package:sahay/core/theme/app_colors.dart';
 import 'package:sahay/core/theme/app_text_styles.dart';
 import 'package:sahay/models/user_document_model.dart';
@@ -36,20 +37,16 @@ class _ExpandableDocumentCardState extends State<ExpandableDocumentCard> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = SahayLocalizations.of(context);
     final isHi = widget.language == 'hi';
     final canonicalId = DocumentCatalogueService.matchCanonicalId(widget.documentTitle);
     final docInfo = DocumentCatalogueService.getDocumentByType(canonicalId);
     final isUploaded = widget.uploadedDoc != null;
 
     final isGeneric = canonicalId == 'other_document' || docInfo == null;
-    final String displayName;
-    if (isGeneric) {
-      displayName = widget.documentTitle;
-    } else if (isHi) {
-      displayName = docInfo.displayNameHindi;
-    } else {
-      displayName = widget.documentTitle.contains('_') ? docInfo.displayName : widget.documentTitle;
-    }
+    final String displayName = isGeneric
+        ? widget.documentTitle
+        : DocumentCatalogueService.getDisplayName(canonicalId, widget.language);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -231,7 +228,7 @@ class _ExpandableDocumentCardState extends State<ExpandableDocumentCard> {
 
                   // Purpose Section
                   _buildSectionHeader(
-                    isHi ? 'यह दस्तावेज़ क्यों आवश्यक है?' : 'Why is this document required?',
+                    l10n.whyDocumentRequired,
                     Icons.help_outline_rounded,
                   ),
                   const SizedBox(height: 4),
@@ -246,7 +243,7 @@ class _ExpandableDocumentCardState extends State<ExpandableDocumentCard> {
 
                   // Proves Section
                   _buildSectionHeader(
-                    isHi ? 'यह क्या प्रमाणित करता है?' : 'What does this document prove?',
+                    l10n.whatDoesItProve,
                     Icons.fact_check_outlined,
                   ),
                   const SizedBox(height: 6),
@@ -276,7 +273,7 @@ class _ExpandableDocumentCardState extends State<ExpandableDocumentCard> {
 
                   // Issuing Authority
                   _buildSectionHeader(
-                    isHi ? 'जारीकर्ता प्राधिकरण:' : 'Issuing Authority:',
+                    l10n.issuingAuthority,
                     Icons.account_balance_outlined,
                   ),
                   const SizedBox(height: 4),
@@ -291,7 +288,7 @@ class _ExpandableDocumentCardState extends State<ExpandableDocumentCard> {
 
                   // How to Obtain
                   _buildSectionHeader(
-                    isHi ? 'इसे कैसे प्राप्त करें?' : 'How to obtain this document?',
+                    l10n.howToObtain,
                     Icons.alt_route_rounded,
                   ),
                   const SizedBox(height: 6),
@@ -329,7 +326,7 @@ class _ExpandableDocumentCardState extends State<ExpandableDocumentCard> {
 
                   // Important Checks (Pitfalls)
                   _buildSectionHeader(
-                    isHi ? 'आवेदन से पूर्व महत्वपूर्ण जांच:' : 'Important checks before applying:',
+                    l10n.importantChecks,
                     Icons.warning_amber_rounded,
                     headerColor: AppColors.mutedCoral,
                   ),
@@ -383,7 +380,7 @@ class _ExpandableDocumentCardState extends State<ExpandableDocumentCard> {
                           child: OutlinedButton.icon(
                             onPressed: widget.onViewInVaultPressed,
                             icon: const Icon(Icons.folder_shared_outlined, size: 16),
-                            label: Text(isHi ? 'वॉल्ट में देखें' : 'View in Vault'),
+                            label: Text(l10n.viewInVault),
                             style: OutlinedButton.styleFrom(
                               foregroundColor: AppColors.indianTeal,
                               side: const BorderSide(color: AppColors.indianTeal),
@@ -396,7 +393,7 @@ class _ExpandableDocumentCardState extends State<ExpandableDocumentCard> {
                           child: ElevatedButton.icon(
                             onPressed: widget.onUploadPressed,
                             icon: const Icon(Icons.sync_rounded, size: 16),
-                            label: Text(isHi ? 'बदलें' : 'Replace'),
+                            label: Text(l10n.replaceDocument),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.indianTeal,
                               foregroundColor: Colors.white,
@@ -412,7 +409,7 @@ class _ExpandableDocumentCardState extends State<ExpandableDocumentCard> {
                             label: FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(
-                                isHi ? 'वॉल्ट में अपलोड करें (वैकल्पिक)' : 'Upload to Vault (Optional)',
+                                l10n.uploadToVaultOptional,
                                 style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),

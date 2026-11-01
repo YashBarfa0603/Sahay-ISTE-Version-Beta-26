@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:sahay/core/l10n/app_localizations.dart';
 import 'package:sahay/core/theme/app_colors.dart';
 import 'package:sahay/core/theme/app_text_styles.dart';
 import 'package:sahay/models/api_response_models.dart';
-import 'package:sahay/providers/locale_provider.dart';
 import 'package:sahay/services/backend_scheme_service.dart';
 import 'package:sahay/utils/indian_states.dart';
 import 'package:sahay/widgets/sahay_app_bar.dart';
@@ -97,13 +96,14 @@ class _CscLocatorScreenState extends State<CscLocatorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final lang = context.watch<LocaleProvider>().languageCode;
+    final l10n = SahayLocalizations.of(context);
+    final lang = l10n.locale.languageCode;
     final isHi = lang == 'hi';
 
     return Scaffold(
       backgroundColor: AppColors.warmIvory,
       appBar: SahayAppBar(
-        title: isHi ? 'जन सेवा केंद्र खोजें (CSC)' : 'Find Assistance Centre (CSC)',
+        title: l10n.cscLocatorTitle,
         showBackButton: true,
         showLanguageToggle: true,
       ),
@@ -139,7 +139,7 @@ class _CscLocatorScreenState extends State<CscLocatorScreen> {
                               value: IndianStates.states.any((s) => s.nameEnglish == _selectedState)
                                   ? _selectedState
                                   : null,
-                              hint: Text(isHi ? 'राज्य चुनें' : 'Select State', style: AppTextStyles.caption),
+                              hint: Text(l10n.selectState, style: AppTextStyles.caption),
                               isExpanded: true,
                               items: IndianStates.states.map((st) {
                                 return DropdownMenuItem<String>(
@@ -238,7 +238,7 @@ class _CscLocatorScreenState extends State<CscLocatorScreen> {
                               const SizedBox(height: 12),
                               ElevatedButton(
                                 onPressed: _searchCentres,
-                                child: Text(isHi ? 'पुनः प्रयास करें' : 'Retry'),
+                                child: Text(l10n.tryAgain),
                               ),
                             ],
                           ),
@@ -292,7 +292,7 @@ class _CscLocatorScreenState extends State<CscLocatorScreen> {
                               separatorBuilder: (_, __) => const SizedBox(height: 14),
                               itemBuilder: (context, index) {
                                 final centre = _centres[index];
-                                return _buildCscCard(centre, isHi);
+                                return _buildCscCard(centre, l10n);
                               },
                             ),
             ),
@@ -302,7 +302,7 @@ class _CscLocatorScreenState extends State<CscLocatorScreen> {
     );
   }
 
-  Widget _buildCscCard(CscCentreModel centre, bool isHi) {
+  Widget _buildCscCard(CscCentreModel centre, SahayLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -342,7 +342,7 @@ class _CscLocatorScreenState extends State<CscLocatorScreen> {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      '${isHi ? 'संचालक' : 'Operator'}: ${centre.vleName}',
+                      '${l10n.operator}: ${centre.vleName}',
                       style: AppTextStyles.caption.copyWith(color: AppColors.indianTeal, fontWeight: FontWeight.w600),
                     ),
                   ],
@@ -402,7 +402,7 @@ class _CscLocatorScreenState extends State<CscLocatorScreen> {
                 OutlinedButton.icon(
                   onPressed: () => _launchCall(centre.contactNumber!),
                   icon: const Icon(Icons.call_rounded, size: 16, color: AppColors.forestGreen),
-                  label: Text(isHi ? 'कॉल करें' : 'Call', style: const TextStyle(color: AppColors.forestGreen, fontSize: 12)),
+                  label: Text(l10n.callCenter, style: const TextStyle(color: AppColors.forestGreen, fontSize: 12)),
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: AppColors.forestGreen),
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -414,7 +414,7 @@ class _CscLocatorScreenState extends State<CscLocatorScreen> {
                 child: ElevatedButton.icon(
                   onPressed: () => _launchDirections(centre.address),
                   icon: const Icon(Icons.directions_rounded, size: 16, color: Colors.white),
-                  label: Text(isHi ? 'रास्ता देखें' : 'Directions', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                  label: Text(l10n.getDirections, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.indianTeal,
                     foregroundColor: Colors.white,

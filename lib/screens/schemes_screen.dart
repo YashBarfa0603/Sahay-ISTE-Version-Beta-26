@@ -92,7 +92,7 @@ class _SchemesScreenState extends State<SchemesScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            currentLang == 'hi' ? 'राज्य चुनें' : 'Select State',
+                            SahayLocalizations.of(context).selectState,
                             style: AppTextStyles.heading3.copyWith(
                               color: AppColors.deepNavy,
                               fontWeight: FontWeight.w700,
@@ -110,7 +110,7 @@ class _SchemesScreenState extends State<SchemesScreen> {
                       child: TextField(
                         onChanged: (val) => setModalState(() => searchQuery = val),
                         decoration: InputDecoration(
-                          hintText: currentLang == 'hi' ? 'राज्य खोजें...' : 'Search state...',
+                          hintText: SahayLocalizations.of(context).searchState,
                           prefixIcon: const Icon(Icons.search_rounded, color: AppColors.deepNavy),
                           filled: true,
                           fillColor: AppColors.paleSage,
@@ -125,7 +125,7 @@ class _SchemesScreenState extends State<SchemesScreen> {
                     ListTile(
                       leading: const Icon(Icons.all_inclusive_rounded, color: AppColors.indianTeal),
                       title: Text(
-                        currentLang == 'hi' ? 'सभी राज्य (All States)' : 'All States',
+                        SahayLocalizations.of(context).allStates,
                         style: AppTextStyles.bodyMedium.copyWith(
                           fontWeight: _selectedState == null ? FontWeight.w700 : FontWeight.w500,
                           color: _selectedState == null ? AppColors.indianTeal : AppColors.deepNavy,
@@ -148,9 +148,7 @@ class _SchemesScreenState extends State<SchemesScreen> {
                         itemBuilder: (context, index) {
                           final state = filteredStates[index];
                           final isSelected = _selectedState == state.code;
-                          final displayName = currentLang == 'hi'
-                              ? '${state.nameHindi} (${state.nameEnglish})'
-                              : state.nameEnglish;
+                          final displayName = state.getLocalizedName(currentLang);
 
                           return ListTile(
                             title: Text(
@@ -326,7 +324,7 @@ class _SchemesScreenState extends State<SchemesScreen> {
                 children: [
                   // Level Filter: All
                   _FilterChip(
-                    label: currentLang == 'hi' ? 'सभी' : 'All Levels',
+                    label: SahayLocalizations.of(context).allLevels,
                     isSelected: _selectedLevel == null,
                     onSelected: () => _onLevelFilterChanged(null),
                   ),
@@ -357,7 +355,7 @@ class _SchemesScreenState extends State<SchemesScreen> {
                   // State Selector Chip
                   _FilterChip(
                     label: _selectedState == null
-                        ? (currentLang == 'hi' ? 'राज्य: सभी' : 'State: All')
+                        ? SahayLocalizations.of(context).stateAll
                         : 'State: $_selectedState',
                     isSelected: _selectedState != null,
                     color: AppColors.softSaffron,
@@ -530,7 +528,7 @@ class _SchemesScreenState extends State<SchemesScreen> {
                   icon: const Icon(Icons.close_rounded, size: 18, color: AppColors.deepNavy),
                   constraints: const BoxConstraints(),
                   padding: EdgeInsets.zero,
-                  tooltip: currentLang == 'hi' ? 'श्रेणी हटाएं' : 'Clear Category',
+                  tooltip: SahayLocalizations.of(context).clearCategory,
                   onPressed: () => _onCategoryFilterChanged('all'),
                 ),
               ],
@@ -624,7 +622,7 @@ class _SchemesScreenState extends State<SchemesScreen> {
                 },
                 icon: const Icon(Icons.auto_awesome_rounded, color: AppColors.softSaffron, size: 18),
                 label: Text(
-                  currentLang == 'hi' ? 'AI खोज व नई योजनाएं खोजें' : 'AI Deep Scheme Discovery',
+                  SahayLocalizations.of(context).aiDeepDiscovery,
                   style: AppTextStyles.label.copyWith(color: AppColors.deepNavy),
                 ),
                 style: OutlinedButton.styleFrom(
@@ -709,16 +707,12 @@ class _SchemeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = SahayLocalizations.of(context);
     final isCentral = scheme.governmentLevel == GovernmentLevel.central;
     final stripColor = isCentral ? AppColors.softSaffron : AppColors.indianTeal;
 
-    final displayName = (langCode == 'hi' && scheme.nameHindi != null && scheme.nameHindi!.isNotEmpty)
-        ? scheme.nameHindi!
-        : scheme.name;
-
-    final displayDesc = (langCode == 'hi' && scheme.descriptionHindi != null && scheme.descriptionHindi!.isNotEmpty)
-        ? scheme.descriptionHindi!
-        : scheme.description;
+    final displayName = scheme.getLocalizedName(langCode);
+    final displayDesc = scheme.getLocalizedDescription(langCode);
 
     return Container(
       decoration: BoxDecoration(
@@ -805,7 +799,7 @@ class _SchemeCard extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  _buildVerificationPill(scheme, langCode),
+                                  _buildVerificationPill(scheme, l10n),
                                 ],
                               ),
                             ),
@@ -915,7 +909,7 @@ class _SchemeCard extends StatelessWidget {
                                   visualDensity: VisualDensity.compact,
                                 ),
                                 child: Text(
-                                  langCode == 'hi' ? 'पात्रता जांचें' : 'Check Eligibility',
+                                  SahayLocalizations.of(context).checkEligibility,
                                   style: AppTextStyles.caption.copyWith(
                                     fontWeight: FontWeight.w700,
                                     color: AppColors.indianTeal,
@@ -937,7 +931,7 @@ class _SchemeCard extends StatelessWidget {
                                   visualDensity: VisualDensity.compact,
                                 ),
                                 child: Text(
-                                  langCode == 'hi' ? 'विवरण देखें' : 'View Details',
+                                  SahayLocalizations.of(context).viewDetails,
                                   style: AppTextStyles.caption.copyWith(
                                     fontWeight: FontWeight.w700,
                                     color: Colors.white,
@@ -959,7 +953,7 @@ class _SchemeCard extends StatelessWidget {
     );
   }
 
-  Widget _buildVerificationPill(SchemeModel scheme, String langCode) {
+  Widget _buildVerificationPill(SchemeModel scheme, SahayLocalizations l10n) {
     final status = scheme.badgeStatus;
     Color bg;
     Color fg;
@@ -971,19 +965,19 @@ class _SchemeCard extends StatelessWidget {
         bg = const Color(0xFFE8F5E9);
         fg = const Color(0xFF2E7D32);
         icon = Icons.verified_rounded;
-        label = langCode == 'hi' ? 'प्रमाणित' : 'VERIFIED';
+        label = l10n.verifiedBadge;
         break;
       case VerificationBadgeStatus.partiallyVerified:
         bg = const Color(0xFFFFF3E0);
         fg = const Color(0xFFE65100);
         icon = Icons.warning_amber_rounded;
-        label = langCode == 'hi' ? 'आंशिक' : 'PARTIALLY VERIFIED';
+        label = l10n.partiallyVerifiedBadge;
         break;
       case VerificationBadgeStatus.unverified:
         bg = const Color(0xFFFFEBEE);
         fg = const Color(0xFFC62828);
         icon = Icons.help_outline_rounded;
-        label = langCode == 'hi' ? 'गैर-प्रमाणित' : 'UNVERIFIED';
+        label = l10n.unverifiedBadge;
         break;
     }
 

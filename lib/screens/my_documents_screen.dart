@@ -2,11 +2,11 @@ import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sahay/core/l10n/app_localizations.dart';
 import 'package:sahay/core/theme/app_colors.dart';
 import 'package:sahay/core/theme/app_text_styles.dart';
 import 'package:sahay/models/user_document_model.dart';
 import 'package:sahay/providers/auth_provider.dart';
-import 'package:sahay/providers/locale_provider.dart';
 import 'package:sahay/providers/user_document_provider.dart';
 import 'package:sahay/screens/auth/login_screen.dart';
 import 'package:sahay/services/document_catalogue_service.dart';
@@ -45,7 +45,9 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
     UserDocumentModel? existingDoc,
     String? preselectedType,
   }) {
-    final isHi = context.read<LocaleProvider>().languageCode == 'hi';
+    final l10n = SahayLocalizations.of(context);
+    final currentLang = l10n.locale.languageCode;
+    final isHi = currentLang == 'hi';
     final allDocs = DocumentCatalogueService.getAllDocuments();
     final auth = context.read<AuthProvider>();
 
@@ -71,8 +73,6 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
       builder: (bottomSheetCtx) {
         return StatefulBuilder(
           builder: (modalCtx, setModalState) {
-            final docInfo = DocumentCatalogueService.getDocumentByType(selectedType);
-
             Future<void> pickRealFile() async {
               try {
                 final result = await FilePicker.platform.pickFiles(
@@ -193,7 +193,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
 
                     // Document Type Selector
                     Text(
-                      isHi ? 'दस्तावेज़ का प्रकार चुनें:' : 'Select Document Type:',
+                      l10n.selectDocumentType,
                       style: AppTextStyles.label,
                     ),
                     const SizedBox(height: 6),
@@ -210,7 +210,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                         return DropdownMenuItem(
                           value: d.documentType,
                           child: Text(
-                            isHi ? d.displayNameHindi : d.displayName,
+                            DocumentCatalogueService.getDisplayName(d.documentType, currentLang),
                             style: AppTextStyles.bodyMedium,
                           ),
                         );
@@ -228,7 +228,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                       Row(
                         children: [
                           Text(
-                            isHi ? 'दस्तावेज़ का नाम:' : 'Document Name:',
+                            l10n.documentName,
                             style: AppTextStyles.label,
                           ),
                           const SizedBox(width: 4),
@@ -242,9 +242,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                       TextFormField(
                         controller: customNameController,
                         decoration: InputDecoration(
-                          hintText: isHi
-                              ? 'उदा. जन्म प्रमाण पत्र, मृत्यु प्रमाण पत्र'
-                              : 'e.g. Birth Certificate, Death Certificate',
+                          hintText: l10n.customDocumentNameHint,
                           filled: true,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
@@ -256,7 +254,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
 
                     // Real File Selection from Device
                     Text(
-                      isHi ? 'फ़ाइल चयन (PDF, JPG, PNG — अधिकतम 5 MB):' : 'Select File (PDF, JPG, PNG — Max 5.0 MB):',
+                      l10n.selectFilePrompt,
                       style: AppTextStyles.label,
                     ),
                     const SizedBox(height: 8),
@@ -278,7 +276,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                               const Icon(Icons.upload_file_rounded, size: 36, color: AppColors.indianTeal),
                               const SizedBox(height: 8),
                               Text(
-                                isHi ? 'डिवाइस से फ़ाइल चुनें' : 'Choose File from Device',
+                                l10n.chooseFileFromDevice,
                                 style: AppTextStyles.buttonText.copyWith(
                                   color: AppColors.indianTeal,
                                   fontWeight: FontWeight.bold,
@@ -341,7 +339,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                             TextButton.icon(
                               onPressed: isUploading ? null : pickRealFile,
                               icon: const Icon(Icons.refresh_rounded, size: 16),
-                              label: Text(isHi ? 'बदलें' : 'Change'),
+                              label: Text(l10n.change),
                             ),
                           ],
                         ),
@@ -372,14 +370,14 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
 
                     // Optional Notes
                     Text(
-                      isHi ? 'वैकल्पिक टिप्पणी (जैसे जारी होने का वर्ष):' : 'Optional Notes (e.g. Issue Year):',
+                      l10n.optionalNotes,
                       style: AppTextStyles.label,
                     ),
                     const SizedBox(height: 6),
                     TextField(
                       controller: notesController,
                       decoration: InputDecoration(
-                        hintText: isHi ? 'उदा. 2024 में नवीनीकृत' : 'e.g. Renewed in 2024',
+                        hintText: l10n.optionalNotesHint,
                         filled: true,
                         fillColor: Colors.white,
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
@@ -429,9 +427,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
 
                                 if (isCustomType && customName.isEmpty) {
                                   setModalState(() {
-                                    localError = isHi
-                                        ? 'कृपया दस्तावेज़ का नाम दर्ज करें।'
-                                        : 'Please enter the document name.';
+                                    localError = l10n.customDocumentNameRequired;
                                   });
                                   return;
                                 }
@@ -468,9 +464,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                                 final uid = auth.user?.uid ?? 'guest_user';
                                 final docName = isCustomType
                                     ? customName
-                                    : (isHi
-                                        ? (docInfo?.displayNameHindi ?? selectedType)
-                                        : (docInfo?.displayName ?? selectedType));
+                                    : DocumentCatalogueService.getDisplayName(selectedType, currentLang);
 
                                 bool success = false;
                                 final fileName = selectedFileName ??
@@ -535,8 +529,8 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                             : const Icon(Icons.check_rounded, color: Colors.white),
                         label: Text(
                           existingDoc != null
-                              ? (isHi ? 'दस्तावेज़ अपडेट करें' : 'Update Document')
-                              : (isHi ? 'वॉल्ट में सहेजें' : 'Save to Vault'),
+                              ? l10n.updateDocument
+                              : l10n.saveToVault,
                           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                         ),
                         style: ElevatedButton.styleFrom(
@@ -556,7 +550,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
     );
   }
 
-  void _showDocumentPreview(UserDocumentModel doc, bool isHi) {
+  void _showDocumentPreview(UserDocumentModel doc, SahayLocalizations l10n) {
     final docInfo = DocumentCatalogueService.getDocumentByType(doc.documentType);
 
     showDialog(
@@ -613,15 +607,15 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                   ),
                   child: Column(
                     children: [
-                      _buildMetaRow(isHi ? 'फ़ाइल प्रकार:' : 'File Format:', doc.fileType.toUpperCase()),
-                      _buildMetaRow(isHi ? 'फ़ाइल आकार:' : 'File Size:', doc.formattedFileSize),
+                      _buildMetaRow(l10n.fileType, doc.fileType.toUpperCase()),
+                      _buildMetaRow(l10n.fileSize, doc.formattedFileSize),
                       _buildMetaRow(
-                        isHi ? 'अपलोड तिथि:' : 'Uploaded:',
+                        l10n.uploadDate,
                         '${doc.uploadedAt.day}/${doc.uploadedAt.month}/${doc.uploadedAt.year}',
                       ),
-                      _buildMetaRow(isHi ? 'स्थिति:' : 'Status:', 'Uploaded to Vault'),
+                      _buildMetaRow(l10n.status, l10n.uploadedToVault),
                       if (doc.notes != null && doc.notes!.isNotEmpty)
-                        _buildMetaRow(isHi ? 'टिप्पणी:' : 'Notes:', doc.notes!),
+                        _buildMetaRow(l10n.notes, doc.notes!),
                     ],
                   ),
                 ),
@@ -631,7 +625,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                 if (docInfo != null)
                   DocumentSpecimenViewer(
                     documentInfo: docInfo,
-                    language: isHi ? 'hi' : 'en',
+                    language: l10n.locale.languageCode,
                   ),
               ],
             ),
@@ -639,15 +633,15 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dCtx).pop(),
-              child: Text(isHi ? 'बंद करें' : 'Close'),
+              child: Text(l10n.close),
             ),
             ElevatedButton.icon(
               onPressed: () {
                 Navigator.of(dCtx).pop();
-                _confirmReplaceDocument(doc, isHi);
+                _confirmReplaceDocument(doc, l10n);
               },
               icon: const Icon(Icons.sync_rounded, size: 16),
-              label: Text(isHi ? 'बदलें' : 'Replace'),
+              label: Text(l10n.change),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.indianTeal,
                 foregroundColor: Colors.white,
@@ -659,18 +653,18 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
     );
   }
 
-  void _confirmReplaceDocument(UserDocumentModel doc, bool isHi) {
+  void _confirmReplaceDocument(UserDocumentModel doc, SahayLocalizations l10n) {
     showDialog(
       context: context,
       builder: (confirmCtx) => AlertDialog(
         backgroundColor: AppColors.warmIvory,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(
-          isHi ? 'दस्तावेज़ बदलें?' : 'Replace Document?',
+          l10n.replaceDocument,
           style: AppTextStyles.heading3.copyWith(fontSize: 18),
         ),
         content: Text(
-          isHi
+          l10n.locale.languageCode == 'hi'
               ? 'नया दस्तावेज़ अपलोड करने पर पिछला दस्तावेज़ सुरक्षित रूप से बदल दिया जाएगा।'
               : 'Uploading a new version will replace the current file in your vault once the new upload succeeds.',
           style: AppTextStyles.bodyMedium,
@@ -678,7 +672,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(confirmCtx).pop(),
-            child: Text(isHi ? 'रद्द करें' : 'Cancel'),
+            child: Text(l10n.cancel),
           ),
           ElevatedButton(
             onPressed: () {
@@ -689,14 +683,14 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
               backgroundColor: AppColors.indianTeal,
               foregroundColor: Colors.white,
             ),
-            child: Text(isHi ? 'आगे बढ़ें' : 'Proceed'),
+            child: Text(l10n.proceed),
           ),
         ],
       ),
     );
   }
 
-  void _confirmDeleteDocument(UserDocumentModel doc, bool isHi) {
+  void _confirmDeleteDocument(UserDocumentModel doc, SahayLocalizations l10n) {
     showDialog(
       context: context,
       builder: (dCtx) {
@@ -704,11 +698,11 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
           backgroundColor: AppColors.warmIvory,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: Text(
-            isHi ? 'दस्तावेज़ हटाएं?' : 'Delete Document?',
+            l10n.deleteDocument,
             style: AppTextStyles.heading3.copyWith(color: AppColors.mutedCoral),
           ),
           content: Text(
-            isHi
+            l10n.locale.languageCode == 'hi'
                 ? 'क्या आप वाकई "${doc.documentName}" को अपने निजी वॉल्ट से हटाना चाहते हैं?'
                 : 'Are you sure you want to permanently delete "${doc.documentName}" from your vault?',
             style: AppTextStyles.bodyMedium,
@@ -716,7 +710,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dCtx).pop(),
-              child: Text(isHi ? 'रद्द करें' : 'Cancel'),
+              child: Text(l10n.cancel),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -732,7 +726,11 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                 if (mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(isHi ? 'दस्तावेज़ हटा दिया गया।' : 'Document deleted.'),
+                      content: Text(
+                        l10n.locale.languageCode == 'hi'
+                            ? 'दस्तावेज़ हटा दिया गया।'
+                            : 'Document deleted.',
+                      ),
                       backgroundColor: AppColors.deepNavy,
                     ),
                   );
@@ -742,7 +740,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                 backgroundColor: AppColors.mutedCoral,
                 foregroundColor: Colors.white,
               ),
-              child: Text(isHi ? 'हटाएं' : 'Delete'),
+              child: Text(l10n.delete),
             ),
           ],
         );
@@ -772,7 +770,8 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isHi = context.watch<LocaleProvider>().languageCode == 'hi';
+    final l10n = SahayLocalizations.of(context);
+    final isHi = l10n.locale.languageCode == 'hi';
     final auth = context.watch<AuthProvider>();
     final docProvider = context.watch<UserDocumentProvider>();
     final isGuest = auth.isGuest || auth.user == null;
@@ -788,7 +787,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
     return Scaffold(
       backgroundColor: AppColors.warmIvory,
       appBar: SahayAppBar(
-        title: isHi ? 'मेरे दस्तावेज़ (वॉल्ट)' : 'My Documents Vault',
+        title: l10n.myDocumentsVault,
         showBackButton: true,
         showLanguageToggle: true,
       ),
@@ -798,7 +797,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
         foregroundColor: Colors.white,
         icon: const Icon(Icons.add_rounded),
         label: Text(
-          isHi ? 'दस्तावेज़ जोड़ें' : 'Add Document',
+          l10n.uploadDocument,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
@@ -853,7 +852,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                             backgroundColor: AppColors.indianTeal,
                             foregroundColor: Colors.white,
                           ),
-                          child: Text(isHi ? 'साइन इन / खाता बनाएं' : 'Sign In / Create Account'),
+                          child: Text('${l10n.signIn} / ${l10n.signUp}'),
                         ),
                       ),
                     ],
@@ -997,7 +996,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                         onPressed: () => _showUploadDialog(),
                         icon: const Icon(Icons.add_rounded, color: AppColors.indianTeal),
                         label: Text(
-                          isHi ? 'पहला दस्तावेज़ जोड़ें' : 'Add First Document',
+                          l10n.uploadDocument,
                           style: const TextStyle(color: AppColors.indianTeal, fontWeight: FontWeight.bold),
                         ),
                         style: OutlinedButton.styleFrom(
@@ -1077,7 +1076,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                                       borderRadius: BorderRadius.circular(4),
                                     ),
                                     child: Text(
-                                      isHi ? 'वॉल्ट में सुरक्षित' : 'In Vault',
+                                      l10n.inVault,
                                       style: AppTextStyles.caption.copyWith(
                                         color: AppColors.forestGreen,
                                         fontWeight: FontWeight.bold,
@@ -1096,11 +1095,11 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                           icon: const Icon(Icons.more_vert_rounded, color: AppColors.deepNavy),
                           onSelected: (val) {
                             if (val == 'preview') {
-                              _showDocumentPreview(doc, isHi);
+                              _showDocumentPreview(doc, l10n);
                             } else if (val == 'replace') {
-                              _confirmReplaceDocument(doc, isHi);
+                              _confirmReplaceDocument(doc, l10n);
                             } else if (val == 'delete') {
-                              _confirmDeleteDocument(doc, isHi);
+                              _confirmDeleteDocument(doc, l10n);
                             }
                           },
                           itemBuilder: (ctx) => [
@@ -1110,7 +1109,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                                 children: [
                                   const Icon(Icons.visibility_outlined, size: 18, color: AppColors.indianTeal),
                                   const SizedBox(width: 8),
-                                  Text(isHi ? 'पूर्वावलोकन देखें' : 'Preview / Info'),
+                                  Text(l10n.previewInfo),
                                 ],
                               ),
                             ),
@@ -1120,7 +1119,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                                 children: [
                                   const Icon(Icons.sync_rounded, size: 18, color: AppColors.deepNavy),
                                   const SizedBox(width: 8),
-                                  Text(isHi ? 'दस्तावेज़ बदलें' : 'Replace File'),
+                                  Text(l10n.replaceFile),
                                 ],
                               ),
                             ),
@@ -1131,7 +1130,7 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                                   const Icon(Icons.delete_outline_rounded, size: 18, color: AppColors.mutedCoral),
                                   const SizedBox(width: 8),
                                   Text(
-                                    isHi ? 'हटाएं' : 'Delete',
+                                    l10n.delete,
                                     style: const TextStyle(color: AppColors.mutedCoral),
                                   ),
                                 ],

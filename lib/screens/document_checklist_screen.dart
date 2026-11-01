@@ -181,11 +181,7 @@ class _DocumentChecklistScreenState extends State<DocumentChecklistScreen> {
       }
     }
 
-    final screenTitle = currentLang == 'hi'
-        ? 'आवश्यक दस्तावेज'
-        : (l10n.requiredDocuments.isNotEmpty && l10n.requiredDocuments != 'requiredDocuments'
-            ? l10n.requiredDocuments
-            : 'Documents Needed');
+    final screenTitle = l10n.checklistTitle;
 
     return Scaffold(
       backgroundColor: AppColors.warmIvory,
@@ -365,7 +361,7 @@ class _DocumentChecklistScreenState extends State<DocumentChecklistScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    scheme.name,
+                                    scheme.getLocalizedName(currentLang),
                                     style: AppTextStyles.heading3.copyWith(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
@@ -455,8 +451,8 @@ class _DocumentChecklistScreenState extends State<DocumentChecklistScreen> {
                                         const SizedBox(width: 4),
                                         Text(
                                           isInVault
-                                              ? (currentLang == 'hi' ? 'वॉल्ट में' : 'In Vault')
-                                              : (currentLang == 'hi' ? 'नहीं है' : 'Missing'),
+                                              ? l10n.inVault
+                                              : l10n.missing,
                                           style: AppTextStyles.caption.copyWith(
                                             fontSize: 9.5,
                                             fontWeight: FontWeight.w700,
