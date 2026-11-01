@@ -179,79 +179,90 @@ class _VoiceInputButtonState extends State<VoiceInputButton>
     final buttonColor = _isListening ? AppColors.softSaffron : AppColors.indianTeal;
     final iconColor = _isListening ? AppColors.deepNavy : Colors.white;
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Stack(
-          alignment: Alignment.center,
-          children: [
-            // Outer Pulsing Ripple (active only when listening)
-            if (_isListening)
-              AnimatedBuilder(
-                animation: _pulseController,
-                builder: (context, child) {
-                  return Container(
-                    width: widget.size * _rippleAnimation.value,
-                    height: widget.size * _rippleAnimation.value,
+    final Widget buttonStack = SizedBox(
+      width: widget.size,
+      height: widget.size,
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.center,
+        children: [
+          // Outer Pulsing Ripple (active only when listening)
+          if (_isListening)
+            AnimatedBuilder(
+              animation: _pulseController,
+              builder: (context, child) {
+                return Transform.scale(
+                  scale: _rippleAnimation.value,
+                  child: Container(
+                    width: widget.size,
+                    height: widget.size,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: AppColors.softSaffron.withValues(
                         alpha: (1.0 - _pulseController.value) * 0.45,
                       ),
                     ),
-                  );
-                },
-              ),
-
-            // Inner Pulsing Button
-            AnimatedBuilder(
-              animation: _pulseController,
-              builder: (context, child) {
-                final scale = _isListening ? _scaleAnimation.value : 1.0;
-                return Transform.scale(
-                  scale: scale,
-                  child: Material(
-                    color: buttonColor,
-                    shape: const CircleBorder(),
-                    elevation: _isListening ? 6 : 3,
-                    shadowColor: buttonColor.withValues(alpha: 0.4),
-                    child: InkWell(
-                      customBorder: const CircleBorder(),
-                      onTap: _toggleListening,
-                      child: Container(
-                        width: widget.size,
-                        height: widget.size,
-                        alignment: Alignment.center,
-                        child: Icon(
-                          _isListening ? Icons.mic_rounded : Icons.mic_none_rounded,
-                          size: widget.size * 0.52,
-                          color: iconColor,
-                        ),
-                      ),
-                    ),
                   ),
                 );
               },
             ),
-          ],
-        ),
 
-        if (widget.showLabel) ...[
-          const SizedBox(height: 8),
-          AnimatedDefaultTextStyle(
-            duration: const Duration(milliseconds: 200),
-            style: AppTextStyles.caption.copyWith(
-              color: _isListening ? AppColors.mutedAmber : AppColors.deepNavy,
-              fontWeight: _isListening ? FontWeight.w700 : FontWeight.w500,
-              fontSize: 12,
-            ),
-            child: Text(
-              label,
-              textAlign: TextAlign.center,
-            ),
+          // Inner Pulsing Button
+          AnimatedBuilder(
+            animation: _pulseController,
+            builder: (context, child) {
+              final scale = _isListening ? _scaleAnimation.value : 1.0;
+              return Transform.scale(
+                scale: scale,
+                child: Material(
+                  color: buttonColor,
+                  shape: const CircleBorder(),
+                  elevation: _isListening ? 6 : 3,
+                  shadowColor: buttonColor.withValues(alpha: 0.4),
+                  child: InkWell(
+                    customBorder: const CircleBorder(),
+                    onTap: _toggleListening,
+                    child: Container(
+                      width: widget.size,
+                      height: widget.size,
+                      alignment: Alignment.center,
+                      child: Icon(
+                        _isListening ? Icons.mic_rounded : Icons.mic_none_rounded,
+                        size: widget.size * 0.52,
+                        color: iconColor,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
           ),
         ],
+      ),
+    );
+
+    if (!widget.showLabel) {
+      return Center(child: buttonStack);
+    }
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        buttonStack,
+        const SizedBox(height: 8),
+        AnimatedDefaultTextStyle(
+          duration: const Duration(milliseconds: 200),
+          style: AppTextStyles.caption.copyWith(
+            color: _isListening ? AppColors.mutedAmber : AppColors.deepNavy,
+            fontWeight: _isListening ? FontWeight.w700 : FontWeight.w500,
+            fontSize: 12,
+          ),
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+          ),
+        ),
       ],
     );
   }

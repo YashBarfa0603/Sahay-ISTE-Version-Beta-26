@@ -654,6 +654,80 @@ class QuestionEngine {
     return true;
   }
 
+  /// Maps a canonical eligibility rule field name to its corresponding QuestionItem identifier.
+  String mapFieldToQuestionId(String field) {
+    const aliasMap = {
+      'annualFamilyIncome': 'annualIncome',
+      'ownsCultivableLand': 'landOwnership',
+      'isDependentOfExServiceman': 'isExServiceman',
+      'hasAadhaarOrIdProof': 'hasBankAccount',
+      'isVulnerableCategory': 'casteCategory',
+      'ownsFourWheeler': 'hasFourWheeler',
+      'hasMotorizedVehicle': 'hasMotorizedVehicle',
+      'bplCard': 'hasPriorityRationCard',
+    };
+    return aliasMap[field] ?? field;
+  }
+
+  /// Retrieves the QuestionItem corresponding to a field or its canonical alias.
+  QuestionItem? getQuestionForField(String field) {
+    final targetId = mapFieldToQuestionId(field);
+    for (final q in allQuestions) {
+      if (q.id == targetId) return q;
+    }
+    return null;
+  }
+
+  /// Returns the exact list of missing questions required for a specific scheme
+  /// that have not yet been answered in [existingAnswers].
+  List<QuestionItem> getMissingQuestionsForScheme(
+    SchemeModel scheme,
+    Map<String, dynamic> existingAnswers, {
+    EligibilityModel? assessment,
+  }) {
+    final eval = assessment ?? _eligibilityEngine.evaluateScheme(scheme, existingAnswers);
+    final pendingConditions = eval.conditionResults
+        .where((c) => c.status == ConditionStatus.pending && c.isMandatory)
+        .toList();
+
+    final missingQuestions = <QuestionItem>[];
+    final seenIds = <String>{};
+
+    for (final cond in pendingConditions) {
+      final questionId = mapFieldToQuestionId(cond.field);
+
+      // Skip if this question is already answered in existing answers
+      if (existingAnswers.containsKey(questionId) &&
+          existingAnswers[questionId] != null &&
+          existingAnswers[questionId].toString().trim().isNotEmpty) {
+        continue;
+      }
+      if (existingAnswers.containsKey(cond.field) &&
+          existingAnswers[cond.field] != null &&
+          existingAnswers[cond.field].toString().trim().isNotEmpty) {
+        continue;
+      }
+
+      if (seenIds.contains(questionId)) continue;
+      seenIds.add(questionId);
+
+      final questionItem = getQuestionForField(cond.field) ??
+          QuestionItem(
+            id: cond.field,
+            type: cond.expectedValue is bool
+                ? 'boolean'
+                : (cond.expectedValue is num ? 'number' : 'text'),
+            label: cond.label ?? cond.field,
+            labelHindi: cond.labelHindi,
+            helperText: cond.requiredDescription,
+          );
+
+      missingQuestions.add(questionItem);
+    }
+
+    return missingQuestions;
+  }
+
   num? _parseNum(dynamic v) {
     if (v == null) return null;
     if (v is num) return v;

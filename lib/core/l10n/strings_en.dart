@@ -225,6 +225,14 @@ const Map<String, String> stringsEn = {
       'You do not qualify based on one or more mandatory eligibility requirements.',
   'missingInformation':
       'Additional information is required to confirm full eligibility.',
+  'provideAdditionalInfo': 'Provide Additional Information',
+  'additionalInfoRequired': 'Additional Information Required',
+  'missingInfoDesc':
+      'Provide the following specific details to verify your eligibility for this scheme.',
+  'submitAndCheckEligibility': 'Submit & Check Eligibility',
+  'allInformationProvided':
+      'All required information has been provided for this scheme.',
+  'pleaseFillAllFields': 'Please provide answers for the required fields.',
   'borderlineWarning':
       'Your entered values are close to the eligibility thresholds. Final determination lies with the implementing authority.',
   'verifyWithOfficial':

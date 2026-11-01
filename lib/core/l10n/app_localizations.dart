@@ -283,6 +283,12 @@ class SahayLocalizations {
   String get youMayQualifyBecause => getString('youMayQualifyBecause');
   String get youDoNotQualifyBecause => getString('youDoNotQualifyBecause');
   String get missingInformation => getString('missingInformation');
+  String get provideAdditionalInfo => getString('provideAdditionalInfo');
+  String get additionalInfoRequired => getString('additionalInfoRequired');
+  String get missingInfoDesc => getString('missingInfoDesc');
+  String get submitAndCheckEligibility => getString('submitAndCheckEligibility');
+  String get allInformationProvided => getString('allInformationProvided');
+  String get pleaseFillAllFields => getString('pleaseFillAllFields');
   String get borderlineWarning => getString('borderlineWarning');
   String get verifyWithOfficial => getString('verifyWithOfficial');
   String get disclaimerText => getString('disclaimerText');

@@ -6,6 +6,7 @@ import 'package:sahay/core/theme/app_text_styles.dart';
 import 'package:sahay/models/eligibility_model.dart';
 import 'package:sahay/models/scheme_model.dart';
 import 'package:sahay/providers/locale_provider.dart';
+import 'package:sahay/screens/scheme_missing_info_screen.dart';
 import 'package:sahay/widgets/confidence_badge.dart';
 
 class EligibilityCard extends StatelessWidget {
@@ -338,6 +339,41 @@ class EligibilityCard extends StatelessWidget {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
+
+                                // Direct action: Provide Additional Information
+                                if (eligibility.result == EligibilityResult.needsMoreInformation) ...[
+                                  const SizedBox(height: 10),
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: OutlinedButton.icon(
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (_) => SchemeMissingInfoScreen(
+                                              scheme: scheme,
+                                              eligibility: eligibility,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      icon: const Icon(Icons.edit_note_rounded, size: 18),
+                                      label: Text(
+                                        l10n.provideAdditionalInfo.isNotEmpty
+                                            ? l10n.provideAdditionalInfo
+                                            : 'Provide Additional Information',
+                                        style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
+                                      ),
+                                      style: OutlinedButton.styleFrom(
+                                        foregroundColor: AppColors.steelBlue,
+                                        side: const BorderSide(color: AppColors.steelBlue, width: 1.2),
+                                        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ],
                             );
                           },

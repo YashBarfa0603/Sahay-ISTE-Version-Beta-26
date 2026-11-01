@@ -225,6 +225,12 @@ const Map<String, String> stringsGu = {
       'ફરજિયાત પાત્રતા શરતોમાંથી એક કે તેથી વધુ પૂર્ણ ન કરવાને કારણે તમે પાત્ર નથી.',
   'missingInformation':
       'સંપૂર્ણ પાત્રતા સુનિશ્ચિત કરવા માટે વધારાની માહિતી જરૂરી છે.',
+  'provideAdditionalInfo': 'વધારાની માહિતી આપો',
+  'additionalInfoRequired': 'વધારાની માહિતી જરૂરી છે',
+  'missingInfoDesc': 'આ યોજના માટે તમારી યોગ્યતા ચકાસવા નીચેની વિગતો પ્રદાન કરો.',
+  'submitAndCheckEligibility': 'સબમિટ કરો અને યોગ્યતા ચકાસો',
+  'allInformationProvided': 'આ યોજના માટેની તમામ જરૂરી માહિતી પહેલાથી પૂરી પાડવામાં આવી છે.',
+  'pleaseFillAllFields': 'કૃપા કરીને બધી જરૂરી વિગતો ભરો.',
   'borderlineWarning':
       'તમારી નોંધાયેલ વિગતો પાત્રતા મર્યાદાની નજીક છે. અંતિમ નિર્ણય અમલીકરણ અધિકારીનો રહેશે.',
   'verifyWithOfficial':

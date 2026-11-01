@@ -52,6 +52,7 @@ class _CscLocatorScreenState extends State<CscLocatorScreen> {
   }
 
   Future<void> _searchCentres() async {
+    FocusScope.of(context).unfocus();
     setState(() {
       _isLoading = true;
       _errorMessage = null;
@@ -108,8 +109,11 @@ class _CscLocatorScreenState extends State<CscLocatorScreen> {
         showLanguageToggle: true,
       ),
       body: SafeArea(
-        child: Column(
-          children: [
+        child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Column(
+            children: [
             // Search Filters Header
             Container(
               padding: const EdgeInsets.all(16),
@@ -287,6 +291,7 @@ class _CscLocatorScreenState extends State<CscLocatorScreen> {
                               ),
                             )
                           : ListView.separated(
+                              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                               padding: const EdgeInsets.all(16),
                               itemCount: _centres.length,
                               separatorBuilder: (_, __) => const SizedBox(height: 14),
@@ -299,8 +304,9 @@ class _CscLocatorScreenState extends State<CscLocatorScreen> {
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildCscCard(CscCentreModel centre, SahayLocalizations l10n) {
     return Container(

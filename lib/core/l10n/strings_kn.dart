@@ -360,4 +360,10 @@ const Map<String, String> stringsKn = {
   'clearedPointAnswers': 'ಪ್ರಶ್ನಾವಳಿ ಉತ್ತರಗಳು ಮತ್ತು ಆದಾಯದ ಅಂದಾಜುಗಳು',
   'clearedPointResults': 'ಯೋಜನೆ ಫಲಿತಾಂಶಗಳು ಮತ್ತು ಅರ್ಹತಾ ವಿವರಗಳು',
   'clearedPointChecklists': 'ಸಕ್ರಿಯ ದಾಖಲೆ ಪರಿಶೀಲನಾ ಪಟ್ಟಿಗಳು',
+  'provideAdditionalInfo': 'ಹೆಚ್ಚುವರಿ ಮಾಹಿತಿಯನ್ನು ಒದಗಿಸಿ',
+  'additionalInfoRequired': 'ಹೆಚ್ಚುವರಿ ಮಾಹಿತಿ ಅಗತ್ಯವಿದೆ',
+  'missingInfoDesc': 'ಈ ಯೋಜನೆಗೆ ನಿಮ್ಮ ಅರ್ಹತೆಯನ್ನು ಪರಿಶೀಲಿಸಲು ಕೆಳಗಿನ ವಿವರಗಳನ್ನು ಒದಗಿಸಿ.',
+  'submitAndCheckEligibility': 'ಸಲ್ಲಿಸಿ ಮತ್ತು ಅರ್ಹತೆಯನ್ನು ಪರಿಶೀಲಿಸಿ',
+  'allInformationProvided': 'ಈ ಯೋಜನೆಗೆ ಅಗತ್ಯವಿರುವ ಎಲ್ಲಾ ಮಾಹಿತಿಯನ್ನು ಈಗಾಗಲೇ ಒದಗಿಸಲಾಗಿದೆ.',
+  'pleaseFillAllFields': 'ದಯವಿಟ್ಟು ಅಗತ್ಯವಿರುವ ಎಲ್ಲಾ ವಿವರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ.',
 };

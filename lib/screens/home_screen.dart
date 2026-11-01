@@ -43,6 +43,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentNavIndex = 0;
   final TextEditingController _searchController = TextEditingController();
+  final FocusNode _searchFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -63,11 +64,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
+    _searchFocusNode.dispose();
     _searchController.dispose();
     super.dispose();
   }
 
   void _handleVoiceResult(String text) {
+    _searchFocusNode.unfocus();
     if (text.trim().isNotEmpty) {
       _searchController.text = text;
       Navigator.of(context).push(
@@ -1328,9 +1331,13 @@ class _HomeScreenState extends State<HomeScreen> {
         showLanguageToggle: true,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
+        child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            physics: const BouncingScrollPhysics(),
+            child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Greeting and Subheader
@@ -1434,19 +1441,34 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: Row(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 14.0),
-                        child: Icon(
+                      IconButton(
+                        icon: const Icon(
                           Icons.search_rounded,
                           color: AppColors.deepNavy,
                           size: 24,
                         ),
+                        tooltip: 'Search',
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
+                        onPressed: () {
+                          _searchFocusNode.unfocus();
+                          final query = _searchController.text.trim();
+                          if (query.isNotEmpty) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => SchemesScreen(initialQuery: query),
+                              ),
+                            );
+                          }
+                        },
                       ),
                       Expanded(
                         child: TextField(
                           controller: _searchController,
+                          focusNode: _searchFocusNode,
                           textInputAction: TextInputAction.search,
                           onSubmitted: (query) {
+                            _searchFocusNode.unfocus();
                             if (query.trim().isNotEmpty) {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
@@ -1474,10 +1496,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: SizedBox(
                           width: 44,
                           height: 44,
-                          child: VoiceInputButton(
-                            size: 40,
-                            showLabel: false,
-                            onResult: _handleVoiceResult,
+                          child: Center(
+                            child: VoiceInputButton(
+                              size: 38,
+                              showLabel: false,
+                              onResult: _handleVoiceResult,
+                            ),
                           ),
                         ),
                       ),
@@ -1708,6 +1732,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
+    ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: AppColors.deepNavy,

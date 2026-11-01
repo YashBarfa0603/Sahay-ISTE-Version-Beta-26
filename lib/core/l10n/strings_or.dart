@@ -360,4 +360,10 @@ const Map<String, String> stringsOr = {
   'clearedPointAnswers': 'ପ୍ରଶ୍ନାବଳୀର ଉତ୍ତର ଏବଂ ଆୟ ଆକଳନ',
   'clearedPointResults': 'ଯୋଜନା ଫଳାଫଳ ଏବଂ ଯୋଗ୍ୟତା ବିବରଣୀ',
   'clearedPointChecklists': 'ସକ୍ରିୟ ଦଲିଲ ଯାଞ୍ଚ ତାଲିକା',
+  'provideAdditionalInfo': 'ଅତିରିକ୍ତ ସୂଚନା ପ୍ରଦାନ କରନ୍ତୁ',
+  'additionalInfoRequired': 'ଅତିରିକ୍ତ ସୂଚନା ଆବଶ୍ୟକ',
+  'missingInfoDesc': 'ଏହି ଯୋଜନା ପାଇଁ ଆପଣଙ୍କ ଯୋଗ୍ୟତା ଯାଞ୍ଚ କରିବାକୁ ନିମ୍ନଲିଖିତ ବିବରଣୀ ପ୍ରଦାନ କରନ୍ତୁ।',
+  'submitAndCheckEligibility': 'ଦାଖଲ କରନ୍ତୁ ଏବଂ ଯୋଗ୍ୟତା ଯାଞ୍ଚ କରନ୍ତୁ',
+  'allInformationProvided': 'ଏହି ଯୋଜନା ପାଇଁ ସମସ୍ତ ଆବଶ୍ୟକୀୟ ସୂଚନା ପୂର୍ବରୁ ପ୍ରଦାନ କରାଯାଇଛି।',
+  'pleaseFillAllFields': 'ଦୟାକରି ସମସ୍ତ ଆବଶ୍ୟକୀୟ କ୍ଷେତ୍ର ପୂରଣ କରନ୍ତୁ।',
 };

@@ -225,6 +225,12 @@ const Map<String, String> stringsHi = {
       'आप एक या अधिक अनिवार्य पात्रता शर्तों को पूरा नहीं करते हैं।',
   'missingInformation':
       'पूर्ण पात्रता की पुष्टि के लिए कुछ अतिरिक्त जानकारी की आवश्यकता है।',
+  'provideAdditionalInfo': 'अतिरिक्त जानकारी दें',
+  'additionalInfoRequired': 'अतिरिक्त जानकारी आवश्यक है',
+  'missingInfoDesc': 'इस योजना के लिए अपनी पात्रता जांचने हेतु निम्नलिखित विवरण प्रदान करें।',
+  'submitAndCheckEligibility': 'जमा करें और पात्रता जांचें',
+  'allInformationProvided': 'इस योजना के लिए सभी आवश्यक जानकारी पहले से प्रदान की गई है।',
+  'pleaseFillAllFields': 'कृपया आवश्यक फ़ील्ड्स के उत्तर भरें।',
   'borderlineWarning':
       'आपके दर्ज किए गए विवरण पात्रता सीमा के निकट हैं। अंतिम निर्णय संबंधित प्रशासनिक प्राधिकारी का होगा।',
   'verifyWithOfficial':

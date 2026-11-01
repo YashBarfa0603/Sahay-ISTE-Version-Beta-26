@@ -11,6 +11,7 @@ import 'package:sahay/screens/csc_locator_screen.dart';
 import 'package:sahay/screens/document_checklist_screen.dart';
 import 'package:sahay/screens/my_documents_screen.dart';
 import 'package:sahay/screens/questionnaire_screen.dart';
+import 'package:sahay/screens/scheme_missing_info_screen.dart';
 import 'package:sahay/providers/user_document_provider.dart';
 import 'package:sahay/services/document_catalogue_service.dart';
 import 'package:sahay/services/scheme_notes_service.dart';
@@ -154,9 +155,9 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
     final currentLang = localeProvider.languageCode;
     final eligibilityProvider = context.watch<EligibilityProvider>();
 
-    // Retrieve active eligibility assessment if provided or from provider cache
-    final assessment = widget.eligibility ??
-        eligibilityProvider.getResultForScheme(widget.scheme.schemeId);
+    // Retrieve active eligibility assessment: check provider cache first for any freshly updated assessment
+    final assessment = eligibilityProvider.getResultForScheme(widget.scheme.schemeId) ??
+        widget.eligibility;
 
     final isCentral = widget.scheme.governmentLevel == GovernmentLevel.central;
     final levelBadgeColor = isCentral ? AppColors.softSaffron : AppColors.indianTeal;
@@ -613,11 +614,20 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
                 child: ElevatedButton.icon(
                   onPressed: () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const QuestionnaireScreen()),
+                      MaterialPageRoute(
+                        builder: (_) => SchemeMissingInfoScreen(
+                          scheme: widget.scheme,
+                          eligibility: assessment,
+                        ),
+                      ),
                     );
                   },
                   icon: const Icon(Icons.edit_note_rounded),
-                  label: const Text('Provide Missing Information'),
+                  label: Text(
+                    l10n.provideAdditionalInfo.isNotEmpty
+                        ? l10n.provideAdditionalInfo
+                        : 'Provide Missing Information',
+                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.steelBlue,
                     foregroundColor: Colors.white,

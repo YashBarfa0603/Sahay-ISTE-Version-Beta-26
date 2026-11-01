@@ -31,6 +31,7 @@ class SchemesScreen extends StatefulWidget {
 
 class _SchemesScreenState extends State<SchemesScreen> {
   late final TextEditingController _searchController;
+  final FocusNode _searchFocusNode = FocusNode();
   Timer? _debounceTimer;
   GovernmentLevel? _selectedLevel;
   String? _selectedCategory;
@@ -193,6 +194,7 @@ class _SchemesScreenState extends State<SchemesScreen> {
   @override
   void dispose() {
     _debounceTimer?.cancel();
+    _searchFocusNode.dispose();
     _searchController.dispose();
     super.dispose();
   }
@@ -247,72 +249,93 @@ class _SchemesScreenState extends State<SchemesScreen> {
         showLanguageToggle: true,
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            // Search Input Field Container
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-              child: Container(
-                height: 50,
-                decoration: BoxDecoration(
-                  color: AppColors.paleSage,
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(
-                    color: AppColors.indianTeal.withValues(alpha: 0.25),
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Icon(
-                        Icons.search_rounded,
-                        color: AppColors.deepNavy,
-                        size: 22,
-                      ),
+        child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Column(
+            children: [
+              // Search Input Field Container
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                child: Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: AppColors.paleSage,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(
+                      color: AppColors.indianTeal.withValues(alpha: 0.25),
                     ),
-                    Expanded(
-                      child: TextField(
-                        controller: _searchController,
-                        onChanged: _onSearchChanged,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: l10n.searchHint.isNotEmpty && l10n.searchHint != 'searchHint'
-                              ? l10n.searchHint
-                              : 'Search schemes by name or keyword...',
-                          hintStyle: AppTextStyles.bodyMedium.copyWith(
-                            color: AppColors.deepNavy.withValues(alpha: 0.5),
+                  ),
+                  child: Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(
+                          Icons.search_rounded,
+                          color: AppColors.deepNavy,
+                          size: 22,
+                        ),
+                        tooltip: 'Search',
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        constraints: const BoxConstraints(minWidth: 42, minHeight: 42),
+                        onPressed: () {
+                          _debounceTimer?.cancel();
+                          context.read<SchemeProvider>().searchSchemes(_searchController.text);
+                          _searchFocusNode.unfocus();
+                        },
+                      ),
+                      Expanded(
+                        child: TextField(
+                          controller: _searchController,
+                          focusNode: _searchFocusNode,
+                          textInputAction: TextInputAction.search,
+                          onSubmitted: (query) {
+                            _debounceTimer?.cancel();
+                            context.read<SchemeProvider>().searchSchemes(query);
+                            _searchFocusNode.unfocus();
+                          },
+                          onChanged: _onSearchChanged,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: l10n.searchHint.isNotEmpty && l10n.searchHint != 'searchHint'
+                                ? l10n.searchHint
+                                : 'Search schemes by name or keyword...',
+                            hintStyle: AppTextStyles.bodyMedium.copyWith(
+                              color: AppColors.deepNavy.withValues(alpha: 0.5),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    if (_searchController.text.isNotEmpty)
-                      IconButton(
-                        icon: const Icon(Icons.clear_rounded, size: 20, color: AppColors.deepNavy),
-                        onPressed: () {
-                          _searchController.clear();
-                          _onSearchChanged('');
-                        },
-                      ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 6.0),
-                      child: SizedBox(
-                        width: 38,
-                        height: 38,
-                        child: VoiceInputButton(
-                          size: 36,
-                          showLabel: false,
-                          onResult: (text) {
-                            _searchController.text = text;
-                            _onSearchChanged(text);
+                      if (_searchController.text.isNotEmpty)
+                        IconButton(
+                          icon: const Icon(Icons.clear_rounded, size: 20, color: AppColors.deepNavy),
+                          onPressed: () {
+                            _searchController.clear();
+                            _onSearchChanged('');
+                            _searchFocusNode.unfocus();
                           },
                         ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 6.0),
+                        child: SizedBox(
+                          width: 38,
+                          height: 38,
+                          child: Center(
+                            child: VoiceInputButton(
+                              size: 34,
+                              showLabel: false,
+                              onResult: (text) {
+                                _searchController.text = text;
+                                _onSearchChanged(text);
+                                _searchFocusNode.unfocus();
+                              },
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
 
             // Horizontal Filter Chips (Government Level & Categories)
             SizedBox(
@@ -444,6 +467,7 @@ class _SchemesScreenState extends State<SchemesScreen> {
                             await context.read<SchemeProvider>().loadFullCatalogue(SchemeDataService());
                           },
                           child: ListView.separated(
+                            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                             padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
                             physics: const AlwaysScrollableScrollPhysics(
                               parent: BouncingScrollPhysics(),
@@ -456,6 +480,7 @@ class _SchemesScreenState extends State<SchemesScreen> {
                                 scheme: scheme,
                                 langCode: currentLang,
                                 onTap: () {
+                                  FocusScope.of(context).unfocus();
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (_) => SchemeDetailScreen(scheme: scheme),
@@ -470,8 +495,9 @@ class _SchemesScreenState extends State<SchemesScreen> {
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildCategoryBanner(
     BuildContext context,
