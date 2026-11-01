@@ -392,11 +392,13 @@ class _SchemeDetailScreenState extends State<SchemeDetailScreen>
                       size: 22,
                     ),
                     const SizedBox(width: 8),
-                    Text(
-                      'Scheme Entitlements & Benefits',
-                      style: AppTextStyles.heading3.copyWith(
-                        color: AppColors.forestGreen,
-                        fontSize: 16,
+                    Expanded(
+                      child: Text(
+                        'Scheme Entitlements & Benefits',
+                        style: AppTextStyles.heading3.copyWith(
+                          color: AppColors.forestGreen,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ],

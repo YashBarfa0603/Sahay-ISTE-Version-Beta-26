@@ -98,23 +98,32 @@ class SchemeSourceInfo extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Header: Source Title & Verification Dot
-          Row(
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 8,
+            runSpacing: 4,
             children: [
-              const Icon(
-                Icons.verified_outlined,
-                size: 18,
-                color: AppColors.forestGreen,
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  l10n.officialSource,
-                  style: AppTextStyles.label.copyWith(
-                    color: AppColors.deepNavy,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 13,
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.verified_outlined,
+                    size: 18,
+                    color: AppColors.forestGreen,
                   ),
-                ),
+                  const SizedBox(width: 8),
+                  Flexible(
+                    child: Text(
+                      l10n.officialSource,
+                      style: AppTextStyles.label.copyWith(
+                        color: AppColors.deepNavy,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               // Staleness Dot & Label
               Row(
@@ -136,12 +145,14 @@ class SchemeSourceInfo extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 6),
-                  Text(
-                    stalenessLabel,
-                    style: AppTextStyles.caption.copyWith(
-                      color: dotColor,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 11,
+                  Flexible(
+                    child: Text(
+                      stalenessLabel,
+                      style: AppTextStyles.caption.copyWith(
+                        color: dotColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 11,
+                      ),
                     ),
                   ),
                 ],

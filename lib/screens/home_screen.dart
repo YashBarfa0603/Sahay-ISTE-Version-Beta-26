@@ -1232,25 +1232,28 @@ class _HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      l10n.checkEligibilityNow.isNotEmpty && l10n.checkEligibilityNow != 'checkEligibilityNow'
-                          ? l10n.checkEligibilityNow
-                          : l10n.checkEligibilityNow,
-                      style: AppTextStyles.buttonText.copyWith(
-                        color: AppColors.deepNavy,
-                        fontWeight: FontWeight.w700,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        l10n.checkEligibilityNow.isNotEmpty && l10n.checkEligibilityNow != 'checkEligibilityNow'
+                            ? l10n.checkEligibilityNow
+                            : l10n.checkEligibilityNow,
+                        style: AppTextStyles.buttonText.copyWith(
+                          color: AppColors.deepNavy,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 8),
-                    const Icon(
-                      Icons.arrow_forward_rounded,
-                      color: AppColors.deepNavy,
-                      size: 18,
-                    ),
-                  ],
+                      const SizedBox(width: 8),
+                      const Icon(
+                        Icons.arrow_forward_rounded,
+                        color: AppColors.deepNavy,
+                        size: 18,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

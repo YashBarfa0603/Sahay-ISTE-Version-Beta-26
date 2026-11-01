@@ -1,13 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
+import 'package:sahay/core/l10n/app_localizations.dart';
 import 'package:sahay/core/theme/app_colors.dart';
 import 'package:sahay/core/theme/app_text_styles.dart';
+import 'package:sahay/providers/auth_provider.dart';
+import 'package:sahay/providers/eligibility_provider.dart';
+import 'package:sahay/providers/locale_provider.dart';
+import 'package:sahay/providers/scheme_provider.dart';
+import 'package:sahay/providers/user_document_provider.dart';
+import 'package:sahay/providers/user_profile_provider.dart';
+import 'package:sahay/screens/document_checklist_screen.dart';
+import 'package:sahay/screens/home_screen.dart';
+import 'package:sahay/screens/my_documents_screen.dart';
+import 'package:sahay/screens/questionnaire_screen.dart';
+import 'package:sahay/screens/results_screen.dart';
+import 'package:sahay/screens/scheme_detail_screen.dart';
+import 'package:sahay/screens/welcome_screen.dart';
 import 'package:sahay/services/document_catalogue_service.dart';
+import 'package:sahay/services/scheme_data_service.dart';
 import 'package:sahay/widgets/document_specimen_viewer.dart';
 import 'package:sahay/widgets/expandable_document_card.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+
+  Widget buildApp(Widget child, Locale locale) {
+    final auth = AuthProvider();
+    auth.enterGuestMode();
+
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => LocaleProvider()..setLocale(locale)),
+        ChangeNotifierProvider.value(value: auth),
+        ChangeNotifierProvider(create: (_) => SchemeProvider()),
+        ChangeNotifierProvider(create: (_) => UserProfileProvider()),
+        ChangeNotifierProvider(create: (_) => EligibilityProvider()),
+        ChangeNotifierProvider(create: (_) => UserDocumentProvider()),
+      ],
+      child: MaterialApp(
+        locale: locale,
+        localizationsDelegates: const [
+          SahayLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: SahayLocalizations.supportedLocales,
+        home: child,
+      ),
+    );
+  }
 
   group('RenderFlex Overflow Regression Tests', () {
     testWidgets('Document Vault Card and Recommended Header in 360px width renders without overflow', (tester) async {
@@ -211,5 +255,62 @@ void main() {
       expect(find.byType(DocumentSpecimenViewer), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
+
+    const screenSizes = [
+      Size(360, 640),
+      Size(375, 667),
+      Size(390, 844),
+      Size(412, 915),
+    ];
+    const keyLocales = ['en', 'hi', 'ta', 'mr'];
+
+    for (final size in screenSizes) {
+      for (final lang in keyLocales) {
+        testWidgets('Responsive Screen Overflow Verification on ${size.width}x${size.height} in $lang', (tester) async {
+          tester.view.physicalSize = size;
+          tester.view.devicePixelRatio = 1.0;
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          // Test Welcome Screen
+          await tester.pumpWidget(buildApp(const WelcomeScreen(), Locale(lang)));
+          await tester.pumpAndSettle();
+          expect(tester.takeException(), isNull);
+
+          // Test Home Screen
+          await tester.pumpWidget(buildApp(const HomeScreen(), Locale(lang)));
+          await tester.pumpAndSettle();
+          expect(tester.takeException(), isNull);
+
+          // Test Results Screen
+          await tester.pumpWidget(buildApp(const ResultsScreen(), Locale(lang)));
+          await tester.pumpAndSettle();
+          expect(tester.takeException(), isNull);
+
+          // Test My Documents Screen
+          await tester.pumpWidget(buildApp(const MyDocumentsScreen(), Locale(lang)));
+          await tester.pumpAndSettle();
+          expect(tester.takeException(), isNull);
+
+          // Test Questionnaire Screen
+          await tester.pumpWidget(buildApp(const QuestionnaireScreen(), Locale(lang)));
+          await tester.pumpAndSettle();
+          expect(tester.takeException(), isNull);
+
+          // Test Scheme Detail Screen
+          final schemes = await const SchemeDataService().getAllSchemes();
+          await tester.pumpWidget(buildApp(SchemeDetailScreen(scheme: schemes.first), Locale(lang)));
+          await tester.pumpAndSettle();
+          expect(tester.takeException(), isNull);
+
+          // Test Document Checklist Screen
+          await tester.pumpWidget(buildApp(const DocumentChecklistScreen(), Locale(lang)));
+          await tester.pumpAndSettle();
+          expect(tester.takeException(), isNull);
+        });
+      }
+    }
   });
 }

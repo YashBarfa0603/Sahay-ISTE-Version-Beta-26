@@ -527,11 +527,14 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                                 child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
                               )
                             : const Icon(Icons.check_rounded, color: Colors.white),
-                        label: Text(
-                          existingDoc != null
-                              ? l10n.updateDocument
-                              : l10n.saveToVault,
-                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                        label: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            existingDoc != null
+                                ? l10n.updateDocument
+                                : l10n.saveToVault,
+                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                          ),
                         ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.indianTeal,
@@ -852,7 +855,10 @@ class _MyDocumentsScreenState extends State<MyDocumentsScreen> {
                             backgroundColor: AppColors.indianTeal,
                             foregroundColor: Colors.white,
                           ),
-                          child: Text('${l10n.signIn} / ${l10n.signUp}'),
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text('${l10n.signIn} / ${l10n.signUp}'),
+                          ),
                         ),
                       ),
                     ],

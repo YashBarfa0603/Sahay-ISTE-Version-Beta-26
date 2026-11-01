@@ -204,13 +204,18 @@ class _ResultsScreenState extends State<ResultsScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            l10n.assessmentResults,
-                            style: AppTextStyles.heading3.copyWith(
-                              fontSize: 16,
-                              color: AppColors.deepNavy,
+                          Expanded(
+                            child: Text(
+                              l10n.assessmentResults,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTextStyles.heading3.copyWith(
+                                fontSize: 16,
+                                color: AppColors.deepNavy,
+                              ),
                             ),
                           ),
+                          const SizedBox(width: 8),
                           // Read Results Aloud TTS Button
                           TextButton.icon(
                             onPressed: () => _readResultsAloud(
@@ -387,11 +392,14 @@ class _ResultsScreenState extends State<ResultsScreen> {
                           );
                         },
                         icon: const Icon(Icons.picture_as_pdf_rounded, color: Colors.white),
-                        label: Text(
-                          l10n.downloadChecklist.isNotEmpty && l10n.downloadChecklist != 'downloadChecklist'
-                              ? l10n.downloadChecklist
-                              : 'Download Document Checklist (PDF)',
-                          style: AppTextStyles.buttonText.copyWith(fontWeight: FontWeight.w700),
+                        label: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            l10n.downloadChecklist.isNotEmpty && l10n.downloadChecklist != 'downloadChecklist'
+                                ? l10n.downloadChecklist
+                                : 'Download Document Checklist (PDF)',
+                            style: AppTextStyles.buttonText.copyWith(fontWeight: FontWeight.w700),
+                          ),
                         ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.indianTeal,
@@ -412,9 +420,12 @@ class _ResultsScreenState extends State<ResultsScreen> {
                       child: OutlinedButton.icon(
                         onPressed: () => _confirmStartOver(context, l10n),
                         icon: const Icon(Icons.refresh_rounded, color: AppColors.deepNavy),
-                        label: Text(
-                          'Start Over (Clear Session)',
-                          style: AppTextStyles.label.copyWith(color: AppColors.deepNavy),
+                        label: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            'Start Over (Clear Session)',
+                            style: AppTextStyles.label.copyWith(color: AppColors.deepNavy),
+                          ),
                         ),
                         style: OutlinedButton.styleFrom(
                           side: const BorderSide(color: AppColors.border),

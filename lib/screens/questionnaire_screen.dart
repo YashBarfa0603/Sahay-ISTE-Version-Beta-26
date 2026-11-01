@@ -358,9 +358,12 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
                               OutlinedButton.icon(
                                 onPressed: _onBack,
                                 icon: const Icon(Icons.arrow_back_rounded, size: 18),
-                                label: Text(
-                                  l10n.back.isNotEmpty && l10n.back != 'back' ? l10n.back : 'Back',
-                                  style: AppTextStyles.label.copyWith(color: AppColors.deepNavy),
+                                label: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(
+                                    l10n.back.isNotEmpty && l10n.back != 'back' ? l10n.back : 'Back',
+                                    style: AppTextStyles.label.copyWith(color: AppColors.deepNavy),
+                                  ),
                                 ),
                                 style: OutlinedButton.styleFrom(
                                   side: const BorderSide(color: AppColors.border),
@@ -399,19 +402,22 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
                                 ),
                                 padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 13),
                               ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    l10n.next.isNotEmpty && l10n.next != 'next' ? l10n.next : 'Next',
-                                    style: AppTextStyles.buttonText.copyWith(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 15,
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      l10n.next.isNotEmpty && l10n.next != 'next' ? l10n.next : 'Next',
+                                      style: AppTextStyles.buttonText.copyWith(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 15,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 6),
-                                  const Icon(Icons.arrow_forward_rounded, size: 18),
-                                ],
+                                    const SizedBox(width: 6),
+                                    const Icon(Icons.arrow_forward_rounded, size: 18),
+                                  ],
+                                ),
                               ),
                             ),
                           ],

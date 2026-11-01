@@ -44,48 +44,50 @@ class PrivacyDialog {
             ),
           ],
         ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              isHi
-                  ? 'क्या आप इस डिवाइस से अपना सारा अस्थायी डेटा हटाना चाहते हैं?'
-                  : 'Are you using a shared phone or public device?',
-              style: AppTextStyles.bodyMedium.copyWith(
-                color: AppColors.deepNavy,
-                fontWeight: FontWeight.w600,
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                isHi
+                    ? 'क्या आप इस डिवाइस से अपना सारा अस्थायी डेटा हटाना चाहते हैं?'
+                    : 'Are you using a shared phone or public device?',
+                style: AppTextStyles.bodyMedium.copyWith(
+                  color: AppColors.deepNavy,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: AppColors.paleSage,
-                borderRadius: BorderRadius.circular(12),
+              const SizedBox(height: 10),
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AppColors.paleSage,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.dataClearedPointsHeading,
+                      style: AppTextStyles.caption.copyWith(fontWeight: FontWeight.bold, color: AppColors.forestGreen),
+                    ),
+                    const SizedBox(height: 6),
+                    Text('• ${l10n.clearedPointAnswers}', style: AppTextStyles.caption),
+                    Text('• ${l10n.clearedPointResults}', style: AppTextStyles.caption),
+                    Text('• ${l10n.clearedPointChecklists}', style: AppTextStyles.caption),
+                  ],
+                ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    l10n.dataClearedPointsHeading,
-                    style: AppTextStyles.caption.copyWith(fontWeight: FontWeight.bold, color: AppColors.forestGreen),
-                  ),
-                  const SizedBox(height: 6),
-                  Text('• ${l10n.clearedPointAnswers}', style: AppTextStyles.caption),
-                  Text('• ${l10n.clearedPointResults}', style: AppTextStyles.caption),
-                  Text('• ${l10n.clearedPointChecklists}', style: AppTextStyles.caption),
-                ],
+              const SizedBox(height: 10),
+              Text(
+                isHi
+                    ? 'नोट: आपका खाता एवं स्थायी प्रोफाइल सुरक्षित रहेगा।'
+                    : 'Note: Your login account and permanent profile will remain safe.',
+                style: AppTextStyles.caption.copyWith(color: AppColors.textSecondary, fontStyle: FontStyle.italic),
               ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              isHi
-                  ? 'नोट: आपका खाता एवं स्थायी प्रोफाइल सुरक्षित रहेगा।'
-                  : 'Note: Your login account and permanent profile will remain safe.',
-              style: AppTextStyles.caption.copyWith(color: AppColors.textSecondary, fontStyle: FontStyle.italic),
-            ),
-          ],
+            ],
+          ),
         ),
         actions: [
           TextButton(
