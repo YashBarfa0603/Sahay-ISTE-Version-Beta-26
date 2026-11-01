@@ -57,15 +57,23 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     if (auth.isAuthenticated && auth.currentUser != null) {
       userProfile.populateFromUser(auth.currentUser!);
     }
-    final schemes = schemeProvider.schemes;
+    final schemes = (widget.targetSchemeId != null &&
+            schemeProvider.schemes.any((s) => s.schemeId == widget.targetSchemeId))
+        ? schemeProvider.schemes.where((s) => s.schemeId == widget.targetSchemeId).toList()
+        : schemeProvider.schemes;
 
-    // Pick first question from engine based on existing answers or first baseline
-    final next = _questionEngine.getNextQuestion(userProfile.answers, schemes) ??
-        _questionEngine.allQuestions.first;
+    // Pick first question from engine based on existing answers
+    final next = _questionEngine.getNextQuestion(userProfile.answers, schemes);
+    if (next == null && userProfile.hasAnswers) {
+      await _evaluateAndFinish();
+      return;
+    }
+
+    final initialQuestion = next ?? _questionEngine.allQuestions.first;
 
     setState(() {
-      _currentQuestion = next;
-      _currentAnswer = userProfile.getAnswer(next.id);
+      _currentQuestion = initialQuestion;
+      _currentAnswer = userProfile.getAnswer(initialQuestion.id);
     });
   }
 
@@ -93,13 +101,16 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
       userProfile.setAnswer(_currentQuestion!.id, _currentAnswer);
     }
 
-    final schemes = schemeProvider.schemes;
+    final schemes = (widget.targetSchemeId != null &&
+            schemeProvider.schemes.any((s) => s.schemeId == widget.targetSchemeId))
+        ? schemeProvider.schemes.where((s) => s.schemeId == widget.targetSchemeId).toList()
+        : schemeProvider.schemes;
     final nextQuestion = _questionEngine.getNextQuestion(
       userProfile.answers,
       schemes,
     );
 
-    if (nextQuestion == null || _questionHistory.contains(nextQuestion)) {
+    if (nextQuestion == null || _questionHistory.any((q) => q.id == nextQuestion.id)) {
       // No more impactful questions needed or all relevant schemes determined
       _evaluateAndFinish();
     } else {
@@ -118,13 +129,16 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     final userProfile = context.read<UserProfileProvider>();
     final schemeProvider = context.read<SchemeProvider>();
 
-    final schemes = schemeProvider.schemes;
+    final schemes = (widget.targetSchemeId != null &&
+            schemeProvider.schemes.any((s) => s.schemeId == widget.targetSchemeId))
+        ? schemeProvider.schemes.where((s) => s.schemeId == widget.targetSchemeId).toList()
+        : schemeProvider.schemes;
     final nextQuestion = _questionEngine.getNextQuestion(
       userProfile.answers,
       schemes,
     );
 
-    if (nextQuestion == null) {
+    if (nextQuestion == null || _questionHistory.any((q) => q.id == nextQuestion.id)) {
       _evaluateAndFinish();
     } else {
       setState(() {
