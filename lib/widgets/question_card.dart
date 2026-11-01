@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sahay/core/l10n/app_localizations.dart';
@@ -40,6 +41,18 @@ class _QuestionCardState extends State<QuestionCard>
   late final Animation<double> _fadeAnimation;
   late final Animation<Offset> _slideAnimation;
   late final TextEditingController _textController;
+  Timer? _advanceTimer;
+
+  void _handleOptionSelected(dynamic value) {
+    _advanceTimer?.cancel();
+    widget.onAnswerChanged(value);
+    // Give brief visual feedback so user sees their selection, then auto-transfer to next question
+    _advanceTimer = Timer(const Duration(milliseconds: 260), () {
+      if (mounted) {
+        widget.onNext();
+      }
+    });
+  }
 
   @override
   void initState() {
@@ -72,6 +85,7 @@ class _QuestionCardState extends State<QuestionCard>
   @override
   void didUpdateWidget(QuestionCard oldWidget) {
     super.didUpdateWidget(oldWidget);
+    _advanceTimer?.cancel();
     if (oldWidget.question.id != widget.question.id) {
       _animController.reset();
       _textController.text =
@@ -88,6 +102,7 @@ class _QuestionCardState extends State<QuestionCard>
 
   @override
   void dispose() {
+    _advanceTimer?.cancel();
     _animController.dispose();
     _textController.dispose();
     super.dispose();
@@ -114,13 +129,13 @@ class _QuestionCardState extends State<QuestionCard>
             clean.contains('हा') ||
             clean.contains('true') ||
             clean.contains('sahi')) {
-          widget.onAnswerChanged(true);
+          _handleOptionSelected(true);
         } else if (clean.contains('no') ||
             clean.contains('नहीं') ||
             clean.contains('nahi') ||
             clean.contains('false') ||
             clean.contains('galat')) {
-          widget.onAnswerChanged(false);
+          _handleOptionSelected(false);
         }
         break;
 
@@ -128,7 +143,7 @@ class _QuestionCardState extends State<QuestionCard>
         final options = widget.question.options ?? [];
         for (final opt in options) {
           if (clean.contains(opt.toLowerCase())) {
-            widget.onAnswerChanged(opt);
+            _handleOptionSelected(opt);
             return;
           }
         }
@@ -393,7 +408,7 @@ class _QuestionCardState extends State<QuestionCard>
             borderRadius: BorderRadius.circular(16),
             child: InkWell(
               borderRadius: BorderRadius.circular(16),
-              onTap: () => widget.onAnswerChanged(true),
+              onTap: () => _handleOptionSelected(true),
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 decoration: BoxDecoration(
@@ -443,7 +458,7 @@ class _QuestionCardState extends State<QuestionCard>
             borderRadius: BorderRadius.circular(16),
             child: InkWell(
               borderRadius: BorderRadius.circular(16),
-              onTap: () => widget.onAnswerChanged(false),
+              onTap: () => _handleOptionSelected(false),
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 decoration: BoxDecoration(
@@ -529,7 +544,7 @@ class _QuestionCardState extends State<QuestionCard>
             }).toList(),
             onChanged: (val) {
               if (val != null) {
-                widget.onAnswerChanged(val);
+                _handleOptionSelected(val);
               }
             },
           ),
@@ -547,7 +562,7 @@ class _QuestionCardState extends State<QuestionCard>
           borderRadius: BorderRadius.circular(14),
           child: InkWell(
             borderRadius: BorderRadius.circular(14),
-            onTap: () => widget.onAnswerChanged(option),
+            onTap: () => _handleOptionSelected(option),
             child: Container(
               padding: const EdgeInsets.symmetric(
                 horizontal: 16,
@@ -616,6 +631,12 @@ class _QuestionCardState extends State<QuestionCard>
     final textField = TextField(
       controller: _textController,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      textInputAction: TextInputAction.next,
+      onSubmitted: (_) {
+        if (widget.currentAnswer != null) {
+          widget.onNext();
+        }
+      },
       style: AppTextStyles.heading3.copyWith(
         color: AppColors.deepNavy,
         fontWeight: FontWeight.w600,
@@ -670,7 +691,7 @@ class _QuestionCardState extends State<QuestionCard>
               onEstimateApplied: (estimate) {
                 final intVal = estimate.toInt();
                 _textController.text = intVal.toString();
-                widget.onAnswerChanged(intVal);
+                _handleOptionSelected(intVal);
               },
             );
           },
@@ -707,6 +728,12 @@ class _QuestionCardState extends State<QuestionCard>
     return TextField(
       controller: _textController,
       keyboardType: TextInputType.text,
+      textInputAction: TextInputAction.next,
+      onSubmitted: (_) {
+        if (widget.currentAnswer != null) {
+          widget.onNext();
+        }
+      },
       style: AppTextStyles.bodyLarge.copyWith(
         color: AppColors.deepNavy,
       ),

@@ -35,6 +35,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   dynamic _currentAnswer;
   bool _isEvaluating = false;
   bool _slideForward = true;
+  bool _isTransitioning = false;
 
   @override
   void initState() {
@@ -78,7 +79,11 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   }
 
   void _onNext() {
-    if (_currentQuestion == null) return;
+    if (_currentQuestion == null || _isEvaluating || _isTransitioning) return;
+    _isTransitioning = true;
+    Future.delayed(const Duration(milliseconds: 320), () {
+      if (mounted) _isTransitioning = false;
+    });
 
     final userProfile = context.read<UserProfileProvider>();
     final schemeProvider = context.read<SchemeProvider>();
