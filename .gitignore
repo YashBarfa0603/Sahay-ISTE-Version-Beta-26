@@ -66,6 +66,7 @@ lib/firebase_options.dart
 !**/GoogleService-Info.plist.example
 firestore.rules
 firestore.indexes.json
+storage.rules
 
 # Firebase Admin SDK Service Account Keys (NEVER commit these)
 *-firebase-adminsdk-*.json
